@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,6 +15,7 @@ namespace Mimmi20Test\MonologFactory;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Mimmi20\MonologFactory\MonologProcessorPluginManagerFactory;
+use Monolog\Processor\PsrLogMessageProcessor;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -30,7 +31,7 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
      */
     public function testInvoke1(): void
     {
-        $requestedName = PsrPlaceholder::class;
+        $requestedName = PsrLogMessageProcessor::class;
         $options       = ['abc' => 'xyz'];
 
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -54,7 +55,7 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
      */
     public function testInvoke2(): void
     {
-        $requestedName = PsrPlaceholder::class;
+        $requestedName = PsrLogMessageProcessor::class;
         $options       = ['abc' => 'xyz'];
 
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -77,7 +78,7 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
      */
     public function testInvoke3(): void
     {
-        $requestedName = PsrPlaceholder::class;
+        $requestedName = PsrLogMessageProcessor::class;
         $options       = ['abc' => 'xyz'];
 
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -107,7 +108,7 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
      */
     public function testInvoke4(): void
     {
-        $requestedName = PsrPlaceholder::class;
+        $requestedName = PsrLogMessageProcessor::class;
         $options       = ['abc' => 'xyz'];
         $config        = [];
 
@@ -134,7 +135,7 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
      */
     public function testInvoke5(): void
     {
-        $requestedName = PsrPlaceholder::class;
+        $requestedName = PsrLogMessageProcessor::class;
         $options       = ['abc' => 'xyz'];
         $config        = ['monolog_processors' => 'test'];
 
@@ -161,7 +162,7 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
      */
     public function testInvoke6(): void
     {
-        $requestedName = PsrPlaceholder::class;
+        $requestedName = PsrLogMessageProcessor::class;
         $options       = ['abc' => 'xyz'];
         $config        = ['monolog_processors' => []];
 

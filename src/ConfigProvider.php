@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,6 +18,7 @@ use CMDISP\MonologMicrosoftTeams\TeamsLogHandler;
 use Elastic\Elasticsearch\Client as V8Client;
 use Elasticsearch\Client as V7Client;
 use JK\Monolog\Processor\RequestHeaderProcessor;
+use Mimmi20\Monolog\Formatter\StreamFormatter;
 use Mimmi20\MonologFactory\Client\ElasticsearchV7Factory;
 use Mimmi20\MonologFactory\Client\ElasticsearchV8Factory;
 use Mimmi20\MonologFactory\Formatter\ChromePHPFormatterFactory;
@@ -109,7 +110,6 @@ use Mimmi20\MonologFactory\Processor\RequestHeaderProcessorFactory;
 use Mimmi20\MonologFactory\Processor\TagProcessorFactory;
 use Mimmi20\MonologFactory\Processor\UidProcessorFactory;
 use Mimmi20\MonologFactory\Processor\WebProcessorFactory;
-use Mimmi20\Monolog\Formatter\StreamFormatter;
 use Monolog\Formatter\ChromePHPFormatter;
 use Monolog\Formatter\ElasticaFormatter;
 use Monolog\Formatter\ElasticsearchFormatter;
@@ -483,7 +483,7 @@ final class ConfigProvider
     {
         return [
             'factories' => [
-                \Monolog\Logger::class => MonologFactory::class,
+                Logger::class => MonologFactory::class,
             ],
         ];
     }

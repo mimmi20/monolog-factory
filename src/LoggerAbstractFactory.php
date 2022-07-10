@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,7 +12,6 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory;
 
-use DateTimeZone;
 use Interop\Container\Exception\ContainerException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
@@ -57,7 +56,8 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
         $logConfig = [];
 
         if (
-            array_key_exists('monolog', $config)
+            is_array($config)
+            && array_key_exists('monolog', $config)
             && is_array($config['monolog'])
             && array_key_exists($requestedName, $config['monolog'])
             && is_array($config['monolog'][$requestedName])
@@ -95,7 +95,8 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
             return false;
         }
 
-        return array_key_exists('monolog', $config)
+        return is_array($config)
+            && array_key_exists('monolog', $config)
             && is_array($config['monolog'])
             && array_key_exists($requestedName, $config['monolog']);
     }

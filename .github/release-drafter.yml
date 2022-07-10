@@ -32,7 +32,7 @@ categories:
   - title: '**🧹 Maintenance:**'
     labels:
       - 'maintenance'
-  # other Labels to mimmi20/template
+  # other Labels to mimmi20/monolog-factory
   #- title: '**📦 new Useragents:**'
   #  labels:
   #    - 'new useragents'

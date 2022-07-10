@@ -1,5 +1,5 @@
 parameters:
-  level: max
+  level: 8
   parallel:
     maximumNumberOfProcesses: 1
     processTimeout: 200.0
@@ -21,5 +21,15 @@ parameters:
     check:
       missingCheckedExceptionInThrows: true
       tooWideThrowType: true
-#  ignoreErrors:
-#    - '~MockObject~'
+  ignoreErrors:
+    - '~Dead catch~'
+    - '~Call to an undefined method Laminas\\ModuleManager\\ModuleManagerInterface::getEvent~'
+    - '~MongoDB\\Client~'
+    - '~Call to deprecated method getType\(\) of class Monolog\\Formatter\\ElasticaFormatter~'
+    - '~Parameter #1 \$stream of class Monolog\\Handler\\StreamHandler constructor expects~'
+    - '~Parameter #2 \$level of class CMDISP\\MonologMicrosoftTeams\\TeamsLogHandler constructor expects~'
+    - '~Parameter #2 \$channelToActionLevel of class Monolog\\Handler\\FingersCrossed\\ChannelLevelActivationStrategy constructor expects~'
+    - '~overridden property~'
+    - '~Elastic\\Elasticsearch\\Client(Builder)?~'
+    - '~Elastic\\\\Elasticsearch\\\\Client~'
+    - '~deprecated class Monolog\\Handler\\SwiftMailerHandler~'

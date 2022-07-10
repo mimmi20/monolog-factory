@@ -1,6 +1,6 @@
 {
-  "name": "mimmi20/template",
-  "description": "Provides a GitHub repository template for a PHP library, using GitHub actions.",
+  "name": "mimmi20/monolog-factory",
+  "description": "Provides a Factory to build a Monolog Logger.",
   "license": "MIT",
   "type": "library",
   "authors": [
@@ -8,37 +8,97 @@
       "name": "Thomas Müller",
       "homepage": "https://github.com/mimmi20",
       "role": "Developer"
-    },
-    {
-      "name": "Contributors",
-      "homepage": "https://github.com/mimmi20/template/graphs/contributors"
     }
   ],
-  "homepage": "https://github.com/mimmi20/template",
+  "homepage": "https://github.com/mimmi20/monolog-factory",
   "support": {
-    "issues": "https://github.com/mimmi20/template/issues",
-    "source": "https://github.com/mimmi20/template"
+    "issues": "https://github.com/mimmi20/monolog-factory/issues",
+    "source": "https://github.com/mimmi20/monolog-factory"
   },
   "require": {
     "php": "^8.1.0",
-    "ext-mbstring": "*"
+    "ext-mbstring": "*",
+    "monolog/monolog": "^2.7.0"
   },
   "require-dev": {
+    "actived/microsoft-teams-notifier": "^1.2.0",
+    "aws/aws-sdk-php": "^3.231.2",
+    "bartlett/monolog-callbackfilterhandler": "^2.0.0",
+    "cmdisp/monolog-microsoft-teams": "^1.2.0",
+    "doctrine/couchdb": "1.0.0-beta4",
+    "elasticsearch/elasticsearch": "^v7.17.0 || ^v8.3.2",
+    "graylog2/gelf-php": "^1.7.1",
+    "guzzlehttp/guzzle": "^7.4.5",
+    "guzzlehttp/psr7": "^2.4.0",
+    "jk/monolog-request-header-processor": "^1.0.0",
+    "laminas/laminas-config": "^3.7.0",
+    "laminas/laminas-dependency-plugin": "^2.2.0",
+    "laminas/laminas-modulemanager": "^2.11.0",
+    "laminas/laminas-servicemanager": "^3.14.0",
+    "mikey179/vfsstream": "^1.6.10",
     "mimmi20/coding-standard": "^3.0.0",
+    "mimmi20/monolog-streamformatter": "^1.0.0",
+    "php-amqplib/php-amqplib": "^3.2.0",
+    "php-console/php-console": "^3.1.8",
     "phpstan/extension-installer": "^1.1.0",
     "phpstan/phpstan": "^1.8.0",
     "phpstan/phpstan-deprecation-rules": "^1.0.0",
     "phpstan/phpstan-phpunit": "^1.1.1",
-    "phpunit/phpunit": "^9.5.21"
+    "phpunit/phpunit": "^9.5.21",
+    "predis/predis": "^1.1.10 || ^2.0.0",
+    "rollbar/rollbar": "^v2.1.0 || ^v3.1.3",
+    "ruflin/elastica": "^7.1.5",
+    "swiftmailer/swiftmailer": "^6.3.0",
+    "symfony/mailer": "^v6.1.2",
+    "symfony/mime": "^v6.1.1"
+  },
+  "suggest": {
+    "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+    "ext-json": "Allow sending log messages to the ChromePHP Handler",
+    "ext-mongodb": "Allow sending log messages to a MongoDB server (via driver)",
+    "ext-sockets": "Allow sending log messages to a Syslog server (via UDP driver)",
+    "actived/microsoft-teams-notifier": "Allow sending log messages to Microsoft Teams",
+    "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
+    "bartlett/monolog-callbackfilterhandler": "Allow filtering log messages based on a callback function",
+    "cmdisp/monolog-microsoft-teams": "Allow sending log messages to Microsoft Teams",
+    "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
+    "elasticsearch/elasticsearch": "Allow sending log messages to an Elasticsearch server via official client",
+    "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
+    "jk/monolog-request-header-processor": "Allow to add request headers to the log message",
+    "laminas/laminas-modulemanager": "Required for the module configuration",
+    "laminas/laminas-servicemanager": "Required for the Factories",
+    "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
+    "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
+    "php-console/php-console": "Allow sending log messages to Google Chrome",
+    "rollbar/rollbar": "Allow sending log messages to Rollbar (only 2.1+ supported, but not 3.x)",
+    "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
+    "swiftmailer/swiftmailer": "Allow sending log messages to Email clients"
   },
   "minimum-stability": "stable",
   "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Mimmi20\\MonologFactory\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Mimmi20Test\\MonologFactory\\": "tests/"
+    }
+  },
   "config": {
     "preferred-install": "dist",
     "sort-packages": true,
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
+      "laminas/laminas-dependency-plugin": true,
       "phpstan/extension-installer": true
+    }
+  },
+  "extra": {
+    "laminas": {
+      "component": "Mimmi20\\MonologFactory",
+      "config-provider": "Mimmi20\\MonologFactory\\ConfigProvider"
     }
   }
 }

@@ -35,6 +35,9 @@ use function assert;
 use function class_exists;
 use function sprintf;
 
+/**
+ * @requires PHP < 8.1
+ */
 final class RollbarHandlerFactoryTest extends TestCase
 {
     /**
@@ -91,8 +94,6 @@ final class RollbarHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     *
-     * @requires PHP < 8.1
      */
     public function testInvokeWithTooShortToken(): void
     {
@@ -123,8 +124,6 @@ final class RollbarHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
-     *
-     * @requires PHP < 8.1
      */
     public function testInvokeWithConfig(): void
     {

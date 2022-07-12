@@ -118,12 +118,10 @@ final class FlowdockHandlerFactoryTest extends TestCase
         self::assertFalse($handler->isPersistent());
 
         $at = new ReflectionProperty($handler, 'apiToken');
-        $at->setAccessible(true);
 
         self::assertSame($apiToken, $at->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -172,12 +170,10 @@ final class FlowdockHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $at = new ReflectionProperty($handler, 'apiToken');
-        $at->setAccessible(true);
 
         self::assertSame($apiToken, $at->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -314,14 +310,12 @@ final class FlowdockHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $at = new ReflectionProperty($handler, 'apiToken');
-        $at->setAccessible(true);
 
         self::assertSame($apiToken, $at->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -384,14 +378,12 @@ final class FlowdockHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $at = new ReflectionProperty($handler, 'apiToken');
-        $at->setAccessible(true);
 
         self::assertSame($apiToken, $at->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

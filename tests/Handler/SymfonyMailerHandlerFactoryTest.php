@@ -224,14 +224,12 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $mailerP = new ReflectionProperty($handler, 'mailer');
-        $mailerP->setAccessible(true);
 
         self::assertSame($mailer, $mailerP->getValue($handler));
 
         self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -378,19 +376,16 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $mailerP = new ReflectionProperty($handler, 'mailer');
-        $mailerP->setAccessible(true);
 
         self::assertSame($mailer, $mailerP->getValue($handler));
 
         $mt = new ReflectionProperty($handler, 'emailTemplate');
-        $mt->setAccessible(true);
 
         self::assertSame($emailTemplate, $mt->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

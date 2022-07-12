@@ -260,39 +260,32 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
         self::assertInstanceOf(FingersCrossedHandler::class, $handler);
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $as = new ReflectionProperty($handler, 'activationStrategy');
-        $as->setAccessible(true);
 
         self::assertInstanceOf(ErrorLevelActivationStrategy::class, $as->getValue($handler));
 
         $bs = new ReflectionProperty($handler, 'bufferSize');
-        $bs->setAccessible(true);
 
         self::assertSame(0, $bs->getValue($handler));
 
         $b = new ReflectionProperty($handler, 'bubble');
-        $b->setAccessible(true);
 
         self::assertTrue($b->getValue($handler));
 
         $sb = new ReflectionProperty($handler, 'stopBuffering');
-        $sb->setAccessible(true);
 
         self::assertTrue($sb->getValue($handler));
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
-        $ptl->setAccessible(true);
 
         self::assertNull($ptl->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -348,39 +341,32 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
         self::assertInstanceOf(FingersCrossedHandler::class, $handler);
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $as = new ReflectionProperty($handler, 'activationStrategy');
-        $as->setAccessible(true);
 
         self::assertInstanceOf(ErrorLevelActivationStrategy::class, $as->getValue($handler));
 
         $bs = new ReflectionProperty($handler, 'bufferSize');
-        $bs->setAccessible(true);
 
         self::assertSame(42, $bs->getValue($handler));
 
         $b = new ReflectionProperty($handler, 'bubble');
-        $b->setAccessible(true);
 
         self::assertFalse($b->getValue($handler));
 
         $sb = new ReflectionProperty($handler, 'stopBuffering');
-        $sb->setAccessible(true);
 
         self::assertFalse($sb->getValue($handler));
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
-        $ptl->setAccessible(true);
 
         self::assertSame(Logger::WARNING, $ptl->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -436,39 +422,32 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
         self::assertInstanceOf(FingersCrossedHandler::class, $handler);
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $as = new ReflectionProperty($handler, 'activationStrategy');
-        $as->setAccessible(true);
 
         self::assertInstanceOf(ErrorLevelActivationStrategy::class, $as->getValue($handler));
 
         $bs = new ReflectionProperty($handler, 'bufferSize');
-        $bs->setAccessible(true);
 
         self::assertSame(42, $bs->getValue($handler));
 
         $b = new ReflectionProperty($handler, 'bubble');
-        $b->setAccessible(true);
 
         self::assertFalse($b->getValue($handler));
 
         $sb = new ReflectionProperty($handler, 'stopBuffering');
-        $sb->setAccessible(true);
 
         self::assertFalse($sb->getValue($handler));
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
-        $ptl->setAccessible(true);
 
         self::assertSame(Logger::WARNING, $ptl->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -527,39 +506,32 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
         self::assertInstanceOf(FingersCrossedHandler::class, $handler);
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $as = new ReflectionProperty($handler, 'activationStrategy');
-        $as->setAccessible(true);
 
         self::assertSame($strategy, $as->getValue($handler));
 
         $bs = new ReflectionProperty($handler, 'bufferSize');
-        $bs->setAccessible(true);
 
         self::assertSame(42, $bs->getValue($handler));
 
         $b = new ReflectionProperty($handler, 'bubble');
-        $b->setAccessible(true);
 
         self::assertFalse($b->getValue($handler));
 
         $sb = new ReflectionProperty($handler, 'stopBuffering');
-        $sb->setAccessible(true);
 
         self::assertFalse($sb->getValue($handler));
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
-        $ptl->setAccessible(true);
 
         self::assertSame(Logger::WARNING, $ptl->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -625,39 +597,32 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
         self::assertInstanceOf(FingersCrossedHandler::class, $handler);
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $as = new ReflectionProperty($handler, 'activationStrategy');
-        $as->setAccessible(true);
 
         self::assertInstanceOf(ErrorLevelActivationStrategy::class, $as->getValue($handler));
 
         $bs = new ReflectionProperty($handler, 'bufferSize');
-        $bs->setAccessible(true);
 
         self::assertSame(42, $bs->getValue($handler));
 
         $b = new ReflectionProperty($handler, 'bubble');
-        $b->setAccessible(true);
 
         self::assertFalse($b->getValue($handler));
 
         $sb = new ReflectionProperty($handler, 'stopBuffering');
-        $sb->setAccessible(true);
 
         self::assertFalse($sb->getValue($handler));
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
-        $ptl->setAccessible(true);
 
         self::assertSame(Logger::WARNING, $ptl->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -729,39 +694,32 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
         self::assertInstanceOf(FingersCrossedHandler::class, $handler);
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $as = new ReflectionProperty($handler, 'activationStrategy');
-        $as->setAccessible(true);
 
         self::assertSame($strategyClass, $as->getValue($handler));
 
         $bs = new ReflectionProperty($handler, 'bufferSize');
-        $bs->setAccessible(true);
 
         self::assertSame(42, $bs->getValue($handler));
 
         $b = new ReflectionProperty($handler, 'bubble');
-        $b->setAccessible(true);
 
         self::assertFalse($b->getValue($handler));
 
         $sb = new ReflectionProperty($handler, 'stopBuffering');
-        $sb->setAccessible(true);
 
         self::assertFalse($sb->getValue($handler));
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
-        $ptl->setAccessible(true);
 
         self::assertSame(Logger::WARNING, $ptl->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -950,39 +908,32 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
         self::assertInstanceOf(FingersCrossedHandler::class, $handler);
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $as = new ReflectionProperty($handler, 'activationStrategy');
-        $as->setAccessible(true);
 
         self::assertSame($strategyClass, $as->getValue($handler));
 
         $bs = new ReflectionProperty($handler, 'bufferSize');
-        $bs->setAccessible(true);
 
         self::assertSame(42, $bs->getValue($handler));
 
         $b = new ReflectionProperty($handler, 'bubble');
-        $b->setAccessible(true);
 
         self::assertFalse($b->getValue($handler));
 
         $sb = new ReflectionProperty($handler, 'stopBuffering');
-        $sb->setAccessible(true);
 
         self::assertFalse($sb->getValue($handler));
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
-        $ptl->setAccessible(true);
 
         self::assertSame(Logger::WARNING, $ptl->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -1420,39 +1371,32 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
         self::assertInstanceOf(FingersCrossedHandler::class, $handler);
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $as = new ReflectionProperty($handler, 'activationStrategy');
-        $as->setAccessible(true);
 
         self::assertSame($strategyClass, $as->getValue($handler));
 
         $bs = new ReflectionProperty($handler, 'bufferSize');
-        $bs->setAccessible(true);
 
         self::assertSame(42, $bs->getValue($handler));
 
         $b = new ReflectionProperty($handler, 'bubble');
-        $b->setAccessible(true);
 
         self::assertFalse($b->getValue($handler));
 
         $sb = new ReflectionProperty($handler, 'stopBuffering');
-        $sb->setAccessible(true);
 
         self::assertFalse($sb->getValue($handler));
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
-        $ptl->setAccessible(true);
 
         self::assertSame(Logger::WARNING, $ptl->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -1599,39 +1543,32 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
         self::assertInstanceOf(FingersCrossedHandler::class, $handler);
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $as = new ReflectionProperty($handler, 'activationStrategy');
-        $as->setAccessible(true);
 
         self::assertSame($strategyClass, $as->getValue($handler));
 
         $bs = new ReflectionProperty($handler, 'bufferSize');
-        $bs->setAccessible(true);
 
         self::assertSame(42, $bs->getValue($handler));
 
         $b = new ReflectionProperty($handler, 'bubble');
-        $b->setAccessible(true);
 
         self::assertFalse($b->getValue($handler));
 
         $sb = new ReflectionProperty($handler, 'stopBuffering');
-        $sb->setAccessible(true);
 
         self::assertFalse($sb->getValue($handler));
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
-        $ptl->setAccessible(true);
 
         self::assertSame(Logger::WARNING, $ptl->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

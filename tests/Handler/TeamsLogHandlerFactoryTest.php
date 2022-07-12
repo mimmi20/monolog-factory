@@ -123,14 +123,12 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $urlP = new ReflectionProperty($handler, 'url');
-        $urlP->setAccessible(true);
 
         self::assertSame($url, $urlP->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -171,14 +169,12 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $urlP = new ReflectionProperty($handler, 'url');
-        $urlP->setAccessible(true);
 
         self::assertSame($url, $urlP->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -302,14 +298,12 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $urlP = new ReflectionProperty($handler, 'url');
-        $urlP->setAccessible(true);
 
         self::assertSame($url, $urlP->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

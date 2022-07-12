@@ -345,7 +345,6 @@ final class SamplingHandlerFactoryTest extends TestCase
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -403,7 +402,6 @@ final class SamplingHandlerFactoryTest extends TestCase
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -621,7 +619,6 @@ final class SamplingHandlerFactoryTest extends TestCase
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -688,7 +685,6 @@ final class SamplingHandlerFactoryTest extends TestCase
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

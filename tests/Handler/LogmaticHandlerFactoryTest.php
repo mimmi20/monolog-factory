@@ -118,24 +118,20 @@ final class LogmaticHandlerFactoryTest extends TestCase
         self::assertFalse($handler->isPersistent());
 
         $lt = new ReflectionProperty($handler, 'logToken');
-        $lt->setAccessible(true);
 
         self::assertSame($token, $lt->getValue($handler));
 
         $hn = new ReflectionProperty($handler, 'hostname');
-        $hn->setAccessible(true);
 
         self::assertSame('', $hn->getValue($handler));
 
         $an = new ReflectionProperty($handler, 'appname');
-        $an->setAccessible(true);
 
         self::assertSame('', $an->getValue($handler));
 
         self::assertInstanceOf(LogmaticFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -184,24 +180,20 @@ final class LogmaticHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $lt = new ReflectionProperty($handler, 'logToken');
-        $lt->setAccessible(true);
 
         self::assertSame($token, $lt->getValue($handler));
 
         $hn = new ReflectionProperty($handler, 'hostname');
-        $hn->setAccessible(true);
 
         self::assertSame($hostname, $hn->getValue($handler));
 
         $an = new ReflectionProperty($handler, 'appname');
-        $an->setAccessible(true);
 
         self::assertSame($appname, $an->getValue($handler));
 
         self::assertInstanceOf(LogmaticFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -374,24 +366,20 @@ final class LogmaticHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $lt = new ReflectionProperty($handler, 'logToken');
-        $lt->setAccessible(true);
 
         self::assertSame($token, $lt->getValue($handler));
 
         $hn = new ReflectionProperty($handler, 'hostname');
-        $hn->setAccessible(true);
 
         self::assertSame($hostname, $hn->getValue($handler));
 
         $an = new ReflectionProperty($handler, 'appname');
-        $an->setAccessible(true);
 
         self::assertSame($appname, $an->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -454,24 +442,20 @@ final class LogmaticHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $lt = new ReflectionProperty($handler, 'logToken');
-        $lt->setAccessible(true);
 
         self::assertSame($token, $lt->getValue($handler));
 
         $hn = new ReflectionProperty($handler, 'hostname');
-        $hn->setAccessible(true);
 
         self::assertSame($hostname, $hn->getValue($handler));
 
         $an = new ReflectionProperty($handler, 'appname');
-        $an->setAccessible(true);
 
         self::assertSame($appname, $an->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

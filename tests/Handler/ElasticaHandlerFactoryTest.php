@@ -181,12 +181,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($client, $clientP->getValue($handler));
 
         $optionsP = new ReflectionProperty($handler, 'options');
-        $optionsP->setAccessible(true);
 
         $optionsArray = $optionsP->getValue($handler);
 
@@ -199,7 +197,6 @@ final class ElasticaHandlerFactoryTest extends TestCase
         self::assertInstanceOf(ElasticaFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -241,12 +238,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($clientClass, $clientP->getValue($handler));
 
         $optionsP = new ReflectionProperty($handler, 'options');
-        $optionsP->setAccessible(true);
 
         $optionsArray = $optionsP->getValue($handler);
 
@@ -259,7 +254,6 @@ final class ElasticaHandlerFactoryTest extends TestCase
         self::assertInstanceOf(ElasticaFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -390,12 +384,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($clientClass, $clientP->getValue($handler));
 
         $optionsP = new ReflectionProperty($handler, 'options');
-        $optionsP->setAccessible(true);
 
         $optionsArray = $optionsP->getValue($handler);
 
@@ -408,7 +400,6 @@ final class ElasticaHandlerFactoryTest extends TestCase
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

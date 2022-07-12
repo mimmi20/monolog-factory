@@ -112,14 +112,12 @@ final class LogglyHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $tokenP = new ReflectionProperty($handler, 'token');
-        $tokenP->setAccessible(true);
 
         self::assertSame($token, $tokenP->getValue($handler));
 
         self::assertInstanceOf(LogglyFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -156,14 +154,12 @@ final class LogglyHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $tokenP = new ReflectionProperty($handler, 'token');
-        $tokenP->setAccessible(true);
 
         self::assertSame($token, $tokenP->getValue($handler));
 
         self::assertInstanceOf(LogglyFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -275,14 +271,12 @@ final class LogglyHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $tokenP = new ReflectionProperty($handler, 'token');
-        $tokenP->setAccessible(true);
 
         self::assertSame($token, $tokenP->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

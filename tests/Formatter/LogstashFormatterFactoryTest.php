@@ -94,22 +94,18 @@ final class LogstashFormatterFactoryTest extends TestCase
         self::assertInstanceOf(LogstashFormatter::class, $formatter);
 
         $appname = new ReflectionProperty($formatter, 'applicationName');
-        $appname->setAccessible(true);
 
         self::assertSame($applicationName, $appname->getValue($formatter));
 
         $sys = new ReflectionProperty($formatter, 'systemName');
-        $sys->setAccessible(true);
 
         self::assertSame((string) gethostname(), $sys->getValue($formatter));
 
         $ex = new ReflectionProperty($formatter, 'extraKey');
-        $ex->setAccessible(true);
 
         self::assertSame('extra', $ex->getValue($formatter));
 
         $ctk = new ReflectionProperty($formatter, 'contextKey');
-        $ctk->setAccessible(true);
 
         self::assertSame('context', $ctk->getValue($formatter));
     }
@@ -141,22 +137,18 @@ final class LogstashFormatterFactoryTest extends TestCase
         self::assertInstanceOf(LogstashFormatter::class, $formatter);
 
         $appname = new ReflectionProperty($formatter, 'applicationName');
-        $appname->setAccessible(true);
 
         self::assertSame($applicationName, $appname->getValue($formatter));
 
         $sys = new ReflectionProperty($formatter, 'systemName');
-        $sys->setAccessible(true);
 
         self::assertSame($systemName, $sys->getValue($formatter));
 
         $ex = new ReflectionProperty($formatter, 'extraKey');
-        $ex->setAccessible(true);
 
         self::assertSame($extraKey, $ex->getValue($formatter));
 
         $ctk = new ReflectionProperty($formatter, 'contextKey');
-        $ctk->setAccessible(true);
 
         self::assertSame($contextKey, $ctk->getValue($formatter));
     }

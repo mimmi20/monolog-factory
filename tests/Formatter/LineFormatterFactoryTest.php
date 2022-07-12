@@ -50,22 +50,18 @@ final class LineFormatterFactoryTest extends TestCase
         self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
 
         $ailb = new ReflectionProperty($formatter, 'allowInlineLineBreaks');
-        $ailb->setAccessible(true);
 
         self::assertFalse($ailb->getValue($formatter));
 
         $format = new ReflectionProperty($formatter, 'format');
-        $format->setAccessible(true);
 
         self::assertSame(LineFormatter::SIMPLE_FORMAT, $format->getValue($formatter));
 
         $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
-        $ig->setAccessible(true);
 
         self::assertFalse($ig->getValue($formatter));
 
         $st = new ReflectionProperty($formatter, 'includeStacktraces');
-        $st->setAccessible(true);
 
         self::assertFalse($st->getValue($formatter));
     }
@@ -95,22 +91,18 @@ final class LineFormatterFactoryTest extends TestCase
         self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
 
         $ailb = new ReflectionProperty($formatter, 'allowInlineLineBreaks');
-        $ailb->setAccessible(true);
 
         self::assertFalse($ailb->getValue($formatter));
 
         $format = new ReflectionProperty($formatter, 'format');
-        $format->setAccessible(true);
 
         self::assertSame(LineFormatter::SIMPLE_FORMAT, $format->getValue($formatter));
 
         $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
-        $ig->setAccessible(true);
 
         self::assertFalse($ig->getValue($formatter));
 
         $st = new ReflectionProperty($formatter, 'includeStacktraces');
-        $st->setAccessible(true);
 
         self::assertFalse($st->getValue($formatter));
     }
@@ -148,22 +140,18 @@ final class LineFormatterFactoryTest extends TestCase
         self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
 
         $ailb = new ReflectionProperty($formatter, 'allowInlineLineBreaks');
-        $ailb->setAccessible(true);
 
         self::assertTrue($ailb->getValue($formatter));
 
         $formatP = new ReflectionProperty($formatter, 'format');
-        $formatP->setAccessible(true);
 
         self::assertSame($format, $formatP->getValue($formatter));
 
         $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
-        $ig->setAccessible(true);
 
         self::assertTrue($ig->getValue($formatter));
 
         $st = new ReflectionProperty($formatter, 'includeStacktraces');
-        $st->setAccessible(true);
 
         self::assertTrue($st->getValue($formatter));
     }

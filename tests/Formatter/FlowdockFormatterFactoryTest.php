@@ -117,12 +117,10 @@ final class FlowdockFormatterFactoryTest extends TestCase
         self::assertInstanceOf(FlowdockFormatter::class, $formatter);
 
         $s = new ReflectionProperty($formatter, 'source');
-        $s->setAccessible(true);
 
         self::assertSame($source, $s->getValue($formatter));
 
         $se = new ReflectionProperty($formatter, 'sourceEmail');
-        $se->setAccessible(true);
 
         self::assertSame($sourceEmail, $se->getValue($formatter));
     }

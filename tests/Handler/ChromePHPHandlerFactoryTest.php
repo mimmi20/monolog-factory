@@ -61,7 +61,6 @@ final class ChromePHPHandlerFactoryTest extends TestCase
         self::assertInstanceOf(ChromePHPFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -96,7 +95,6 @@ final class ChromePHPHandlerFactoryTest extends TestCase
         self::assertInstanceOf(ChromePHPFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -131,7 +129,6 @@ final class ChromePHPHandlerFactoryTest extends TestCase
         self::assertInstanceOf(ChromePHPFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -236,7 +233,6 @@ final class ChromePHPHandlerFactoryTest extends TestCase
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

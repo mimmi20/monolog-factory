@@ -186,24 +186,20 @@ final class RedisHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');
-        $rc->setAccessible(true);
 
         self::assertSame($client, $rc->getValue($handler));
 
         $ck = new ReflectionProperty($handler, 'redisKey');
-        $ck->setAccessible(true);
 
         self::assertSame('', $ck->getValue($handler));
 
         $cs = new ReflectionProperty($handler, 'capSize');
-        $cs->setAccessible(true);
 
         self::assertSame(0, $cs->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -247,24 +243,20 @@ final class RedisHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');
-        $rc->setAccessible(true);
 
         self::assertSame($client, $rc->getValue($handler));
 
         $ck = new ReflectionProperty($handler, 'redisKey');
-        $ck->setAccessible(true);
 
         self::assertSame($key, $ck->getValue($handler));
 
         $cs = new ReflectionProperty($handler, 'capSize');
-        $cs->setAccessible(true);
 
         self::assertSame($capSize, $cs->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -301,24 +293,20 @@ final class RedisHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');
-        $rc->setAccessible(true);
 
         self::assertSame($client, $rc->getValue($handler));
 
         $ck = new ReflectionProperty($handler, 'redisKey');
-        $ck->setAccessible(true);
 
         self::assertSame('', $ck->getValue($handler));
 
         $cs = new ReflectionProperty($handler, 'capSize');
-        $cs->setAccessible(true);
 
         self::assertSame(0, $cs->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -359,24 +347,20 @@ final class RedisHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');
-        $rc->setAccessible(true);
 
         self::assertSame($client, $rc->getValue($handler));
 
         $ck = new ReflectionProperty($handler, 'redisKey');
-        $ck->setAccessible(true);
 
         self::assertSame($key, $ck->getValue($handler));
 
         $cs = new ReflectionProperty($handler, 'capSize');
-        $cs->setAccessible(true);
 
         self::assertSame($capSize, $cs->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -526,24 +510,20 @@ final class RedisHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');
-        $rc->setAccessible(true);
 
         self::assertSame($client, $rc->getValue($handler));
 
         $ck = new ReflectionProperty($handler, 'redisKey');
-        $ck->setAccessible(true);
 
         self::assertSame($key, $ck->getValue($handler));
 
         $cs = new ReflectionProperty($handler, 'capSize');
-        $cs->setAccessible(true);
 
         self::assertSame($capSize, $cs->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

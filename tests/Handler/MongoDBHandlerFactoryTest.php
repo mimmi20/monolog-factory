@@ -225,7 +225,6 @@ final class MongoDBHandlerFactoryTest extends TestCase
         self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -270,7 +269,6 @@ final class MongoDBHandlerFactoryTest extends TestCase
         self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -318,7 +316,6 @@ final class MongoDBHandlerFactoryTest extends TestCase
         self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -363,7 +360,6 @@ final class MongoDBHandlerFactoryTest extends TestCase
         self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -414,7 +410,6 @@ final class MongoDBHandlerFactoryTest extends TestCase
         self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -462,7 +457,6 @@ final class MongoDBHandlerFactoryTest extends TestCase
         self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -513,7 +507,6 @@ final class MongoDBHandlerFactoryTest extends TestCase
         self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -561,7 +554,6 @@ final class MongoDBHandlerFactoryTest extends TestCase
         self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -730,7 +722,6 @@ final class MongoDBHandlerFactoryTest extends TestCase
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

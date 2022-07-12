@@ -161,14 +161,12 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($client, $clientP->getValue($handler));
 
         self::assertInstanceOf(NormalizerFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -208,14 +206,12 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($client, $clientP->getValue($handler));
 
         self::assertInstanceOf(NormalizerFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -252,14 +248,12 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($client, $clientP->getValue($handler));
 
         self::assertInstanceOf(NormalizerFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -296,14 +290,12 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($client, $clientP->getValue($handler));
 
         self::assertInstanceOf(NormalizerFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -441,14 +433,12 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($client, $clientP->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

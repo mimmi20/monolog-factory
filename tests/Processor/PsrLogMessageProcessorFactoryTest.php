@@ -45,12 +45,10 @@ final class PsrLogMessageProcessorFactoryTest extends TestCase
         self::assertInstanceOf(PsrLogMessageProcessor::class, $processor);
 
         $dateFormatP = new ReflectionProperty($processor, 'dateFormat');
-        $dateFormatP->setAccessible(true);
 
         self::assertNull($dateFormatP->getValue($processor));
 
         $rucf = new ReflectionProperty($processor, 'removeUsedContextFields');
-        $rucf->setAccessible(true);
 
         self::assertFalse($rucf->getValue($processor));
     }
@@ -77,12 +75,10 @@ final class PsrLogMessageProcessorFactoryTest extends TestCase
         self::assertInstanceOf(PsrLogMessageProcessor::class, $processor);
 
         $dateFormatP = new ReflectionProperty($processor, 'dateFormat');
-        $dateFormatP->setAccessible(true);
 
         self::assertNull($dateFormatP->getValue($processor));
 
         $rucf = new ReflectionProperty($processor, 'removeUsedContextFields');
-        $rucf->setAccessible(true);
 
         self::assertFalse($rucf->getValue($processor));
     }
@@ -111,12 +107,10 @@ final class PsrLogMessageProcessorFactoryTest extends TestCase
         self::assertInstanceOf(PsrLogMessageProcessor::class, $processor);
 
         $dateFormatP = new ReflectionProperty($processor, 'dateFormat');
-        $dateFormatP->setAccessible(true);
 
         self::assertSame($dateFormat, $dateFormatP->getValue($processor));
 
         $rucf = new ReflectionProperty($processor, 'removeUsedContextFields');
-        $rucf->setAccessible(true);
 
         self::assertTrue($rucf->getValue($processor));
     }

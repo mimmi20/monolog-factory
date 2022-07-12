@@ -63,12 +63,10 @@ final class WebProcessorFactoryTest extends TestCase
         self::assertInstanceOf(WebProcessor::class, $processor);
 
         $sd = new ReflectionProperty($processor, 'serverData');
-        $sd->setAccessible(true);
 
         self::assertSame($_SERVER, $sd->getValue($processor));
 
         $xf = new ReflectionProperty($processor, 'extraFields');
-        $xf->setAccessible(true);
 
         self::assertSame(
             [
@@ -106,12 +104,10 @@ final class WebProcessorFactoryTest extends TestCase
         self::assertInstanceOf(WebProcessor::class, $processor);
 
         $sd = new ReflectionProperty($processor, 'serverData');
-        $sd->setAccessible(true);
 
         self::assertSame($_SERVER, $sd->getValue($processor));
 
         $xf = new ReflectionProperty($processor, 'extraFields');
-        $xf->setAccessible(true);
 
         self::assertSame(
             [
@@ -149,12 +145,10 @@ final class WebProcessorFactoryTest extends TestCase
         self::assertInstanceOf(WebProcessor::class, $processor);
 
         $sd = new ReflectionProperty($processor, 'serverData');
-        $sd->setAccessible(true);
 
         self::assertSame($_SERVER, $sd->getValue($processor));
 
         $xf = new ReflectionProperty($processor, 'extraFields');
-        $xf->setAccessible(true);
 
         self::assertSame(
             [
@@ -192,12 +186,10 @@ final class WebProcessorFactoryTest extends TestCase
         self::assertInstanceOf(WebProcessor::class, $processor);
 
         $sd = new ReflectionProperty($processor, 'serverData');
-        $sd->setAccessible(true);
 
         self::assertSame($serverData, $sd->getValue($processor));
 
         $xf = new ReflectionProperty($processor, 'extraFields');
-        $xf->setAccessible(true);
 
         self::assertSame(
             [
@@ -235,12 +227,10 @@ final class WebProcessorFactoryTest extends TestCase
         self::assertInstanceOf(WebProcessor::class, $processor);
 
         $sd = new ReflectionProperty($processor, 'serverData');
-        $sd->setAccessible(true);
 
         self::assertSame($serverData, $sd->getValue($processor));
 
         $xf = new ReflectionProperty($processor, 'extraFields');
-        $xf->setAccessible(true);
 
         self::assertSame(
             [
@@ -333,12 +323,10 @@ final class WebProcessorFactoryTest extends TestCase
         self::assertInstanceOf(WebProcessor::class, $processor);
 
         $sd = new ReflectionProperty($processor, 'serverData');
-        $sd->setAccessible(true);
 
         self::assertSame($serverDataObject, $sd->getValue($processor));
 
         $xf = new ReflectionProperty($processor, 'extraFields');
-        $xf->setAccessible(true);
 
         self::assertSame(
             [
@@ -410,12 +398,10 @@ final class WebProcessorFactoryTest extends TestCase
         self::assertInstanceOf(WebProcessor::class, $processor);
 
         $sd = new ReflectionProperty($processor, 'serverData');
-        $sd->setAccessible(true);
 
         self::assertSame($serverDataObject, $sd->getValue($processor));
 
         $xf = new ReflectionProperty($processor, 'extraFields');
-        $xf->setAccessible(true);
 
         self::assertSame(
             $extraFields,
@@ -453,12 +439,10 @@ final class WebProcessorFactoryTest extends TestCase
         self::assertInstanceOf(WebProcessor::class, $processor);
 
         $sd = new ReflectionProperty($processor, 'serverData');
-        $sd->setAccessible(true);
 
         self::assertSame($serverDataObject, $sd->getValue($processor));
 
         $xf = new ReflectionProperty($processor, 'extraFields');
-        $xf->setAccessible(true);
 
         self::assertSame(
             ['url' => 'REQUEST_URI'],

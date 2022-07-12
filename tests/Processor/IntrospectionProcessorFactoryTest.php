@@ -47,17 +47,14 @@ final class IntrospectionProcessorFactoryTest extends TestCase
         self::assertInstanceOf(IntrospectionProcessor::class, $processor);
 
         $lvl = new ReflectionProperty($processor, 'level');
-        $lvl->setAccessible(true);
 
         self::assertSame(Logger::DEBUG, $lvl->getValue($processor));
 
         $scp = new ReflectionProperty($processor, 'skipClassesPartials');
-        $scp->setAccessible(true);
 
         self::assertSame(['Monolog\\'], $scp->getValue($processor));
 
         $ssfc = new ReflectionProperty($processor, 'skipStackFramesCount');
-        $ssfc->setAccessible(true);
 
         self::assertSame(0, $ssfc->getValue($processor));
     }
@@ -84,17 +81,14 @@ final class IntrospectionProcessorFactoryTest extends TestCase
         self::assertInstanceOf(IntrospectionProcessor::class, $processor);
 
         $lvl = new ReflectionProperty($processor, 'level');
-        $lvl->setAccessible(true);
 
         self::assertSame(Logger::DEBUG, $lvl->getValue($processor));
 
         $scp = new ReflectionProperty($processor, 'skipClassesPartials');
-        $scp->setAccessible(true);
 
         self::assertSame(['Monolog\\'], $scp->getValue($processor));
 
         $ssfc = new ReflectionProperty($processor, 'skipStackFramesCount');
-        $ssfc->setAccessible(true);
 
         self::assertSame(0, $ssfc->getValue($processor));
     }
@@ -125,17 +119,14 @@ final class IntrospectionProcessorFactoryTest extends TestCase
         self::assertInstanceOf(IntrospectionProcessor::class, $processor);
 
         $lvl = new ReflectionProperty($processor, 'level');
-        $lvl->setAccessible(true);
 
         self::assertSame(Logger::ALERT, $lvl->getValue($processor));
 
         $scp = new ReflectionProperty($processor, 'skipClassesPartials');
-        $scp->setAccessible(true);
 
         self::assertSame(['Monolog\\', 'Laminas\\'], $scp->getValue($processor));
 
         $ssfc = new ReflectionProperty($processor, 'skipStackFramesCount');
-        $ssfc->setAccessible(true);
 
         self::assertSame($skipStackFramesCount, $ssfc->getValue($processor));
     }
@@ -166,17 +157,14 @@ final class IntrospectionProcessorFactoryTest extends TestCase
         self::assertInstanceOf(IntrospectionProcessor::class, $processor);
 
         $lvl = new ReflectionProperty($processor, 'level');
-        $lvl->setAccessible(true);
 
         self::assertSame(Logger::ALERT, $lvl->getValue($processor));
 
         $scp = new ReflectionProperty($processor, 'skipClassesPartials');
-        $scp->setAccessible(true);
 
         self::assertSame(['Monolog\\', 'Laminas\\'], $scp->getValue($processor));
 
         $ssfc = new ReflectionProperty($processor, 'skipStackFramesCount');
-        $ssfc->setAccessible(true);
 
         self::assertSame($skipStackFramesCount, $ssfc->getValue($processor));
     }

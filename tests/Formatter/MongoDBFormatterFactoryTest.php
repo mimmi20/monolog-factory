@@ -45,12 +45,10 @@ final class MongoDBFormatterFactoryTest extends TestCase
         self::assertInstanceOf(MongoDBFormatter::class, $formatter);
 
         $mnl = new ReflectionProperty($formatter, 'maxNestingLevel');
-        $mnl->setAccessible(true);
 
         self::assertSame(MongoDBFormatterFactory::DEFAULT_NESTING_LEVEL, $mnl->getValue($formatter));
 
         $ts = new ReflectionProperty($formatter, 'exceptionTraceAsString');
-        $ts->setAccessible(true);
 
         self::assertTrue($ts->getValue($formatter));
     }
@@ -77,12 +75,10 @@ final class MongoDBFormatterFactoryTest extends TestCase
         self::assertInstanceOf(MongoDBFormatter::class, $formatter);
 
         $mnl = new ReflectionProperty($formatter, 'maxNestingLevel');
-        $mnl->setAccessible(true);
 
         self::assertSame(MongoDBFormatterFactory::DEFAULT_NESTING_LEVEL, $mnl->getValue($formatter));
 
         $ts = new ReflectionProperty($formatter, 'exceptionTraceAsString');
-        $ts->setAccessible(true);
 
         self::assertTrue($ts->getValue($formatter));
     }
@@ -112,12 +108,10 @@ final class MongoDBFormatterFactoryTest extends TestCase
         self::assertInstanceOf(MongoDBFormatter::class, $formatter);
 
         $mnl = new ReflectionProperty($formatter, 'maxNestingLevel');
-        $mnl->setAccessible(true);
 
         self::assertSame($maxNestingLevel, $mnl->getValue($formatter));
 
         $ts = new ReflectionProperty($formatter, 'exceptionTraceAsString');
-        $ts->setAccessible(true);
 
         self::assertFalse($ts->getValue($formatter));
     }
@@ -147,12 +141,10 @@ final class MongoDBFormatterFactoryTest extends TestCase
         self::assertInstanceOf(MongoDBFormatter::class, $formatter);
 
         $mnl = new ReflectionProperty($formatter, 'maxNestingLevel');
-        $mnl->setAccessible(true);
 
         self::assertSame(0, $mnl->getValue($formatter));
 
         $ts = new ReflectionProperty($formatter, 'exceptionTraceAsString');
-        $ts->setAccessible(true);
 
         self::assertTrue($ts->getValue($formatter));
     }

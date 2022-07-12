@@ -45,12 +45,10 @@ final class MemoryPeakUsageProcessorFactoryTest extends TestCase
         self::assertInstanceOf(MemoryPeakUsageProcessor::class, $processor);
 
         $realUsage = new ReflectionProperty($processor, 'realUsage');
-        $realUsage->setAccessible(true);
 
         self::assertTrue($realUsage->getValue($processor));
 
         $useFormatting = new ReflectionProperty($processor, 'useFormatting');
-        $useFormatting->setAccessible(true);
 
         self::assertTrue($useFormatting->getValue($processor));
     }
@@ -77,12 +75,10 @@ final class MemoryPeakUsageProcessorFactoryTest extends TestCase
         self::assertInstanceOf(MemoryPeakUsageProcessor::class, $processor);
 
         $realUsage = new ReflectionProperty($processor, 'realUsage');
-        $realUsage->setAccessible(true);
 
         self::assertTrue($realUsage->getValue($processor));
 
         $useFormatting = new ReflectionProperty($processor, 'useFormatting');
-        $useFormatting->setAccessible(true);
 
         self::assertTrue($useFormatting->getValue($processor));
     }
@@ -109,12 +105,10 @@ final class MemoryPeakUsageProcessorFactoryTest extends TestCase
         self::assertInstanceOf(MemoryPeakUsageProcessor::class, $processor);
 
         $realUsage = new ReflectionProperty($processor, 'realUsage');
-        $realUsage->setAccessible(true);
 
         self::assertFalse($realUsage->getValue($processor));
 
         $useFormatting = new ReflectionProperty($processor, 'useFormatting');
-        $useFormatting->setAccessible(true);
 
         self::assertFalse($useFormatting->getValue($processor));
     }

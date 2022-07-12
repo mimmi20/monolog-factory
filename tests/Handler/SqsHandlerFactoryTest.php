@@ -160,19 +160,16 @@ final class SqsHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($sqsClientClass, $clientP->getValue($handler));
 
         $qu = new ReflectionProperty($handler, 'queueUrl');
-        $qu->setAccessible(true);
 
         self::assertSame('', $qu->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -213,19 +210,16 @@ final class SqsHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($sqsClientClass, $clientP->getValue($handler));
 
         $qu = new ReflectionProperty($handler, 'queueUrl');
-        $qu->setAccessible(true);
 
         self::assertSame($queueUrl, $qu->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -262,19 +256,16 @@ final class SqsHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($sqsClientClass, $clientP->getValue($handler));
 
         $qu = new ReflectionProperty($handler, 'queueUrl');
-        $qu->setAccessible(true);
 
         self::assertSame('', $qu->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -312,19 +303,16 @@ final class SqsHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($sqsClientClass, $clientP->getValue($handler));
 
         $qu = new ReflectionProperty($handler, 'queueUrl');
-        $qu->setAccessible(true);
 
         self::assertSame($queueUrl, $qu->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -465,19 +453,16 @@ final class SqsHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($sqsClientClass, $clientP->getValue($handler));
 
         $qu = new ReflectionProperty($handler, 'queueUrl');
-        $qu->setAccessible(true);
 
         self::assertSame($queueUrl, $qu->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

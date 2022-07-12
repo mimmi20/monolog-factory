@@ -47,12 +47,10 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
         self::assertInstanceOf(ChannelLevelActivationStrategy::class, $strategy);
 
         $dal = new ReflectionProperty($strategy, 'defaultActionLevel');
-        $dal->setAccessible(true);
 
         self::assertSame(Logger::DEBUG, $dal->getValue($strategy));
 
         $ctal = new ReflectionProperty($strategy, 'channelToActionLevel');
-        $ctal->setAccessible(true);
 
         self::assertSame([], $ctal->getValue($strategy));
     }
@@ -79,12 +77,10 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
         self::assertInstanceOf(ChannelLevelActivationStrategy::class, $strategy);
 
         $dal = new ReflectionProperty($strategy, 'defaultActionLevel');
-        $dal->setAccessible(true);
 
         self::assertSame(Logger::DEBUG, $dal->getValue($strategy));
 
         $ctal = new ReflectionProperty($strategy, 'channelToActionLevel');
-        $ctal->setAccessible(true);
 
         self::assertSame([], $ctal->getValue($strategy));
     }
@@ -111,12 +107,10 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
         self::assertInstanceOf(ChannelLevelActivationStrategy::class, $strategy);
 
         $dal = new ReflectionProperty($strategy, 'defaultActionLevel');
-        $dal->setAccessible(true);
 
         self::assertSame(Logger::ALERT, $dal->getValue($strategy));
 
         $ctal = new ReflectionProperty($strategy, 'channelToActionLevel');
-        $ctal->setAccessible(true);
 
         self::assertSame([], $ctal->getValue($strategy));
     }
@@ -143,12 +137,10 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
         self::assertInstanceOf(ChannelLevelActivationStrategy::class, $strategy);
 
         $dal = new ReflectionProperty($strategy, 'defaultActionLevel');
-        $dal->setAccessible(true);
 
         self::assertSame(Logger::ALERT, $dal->getValue($strategy));
 
         $ctal = new ReflectionProperty($strategy, 'channelToActionLevel');
-        $ctal->setAccessible(true);
 
         self::assertSame(['abc' => Logger::CRITICAL, 'xyz' => Logger::WARNING], $ctal->getValue($strategy));
     }

@@ -117,14 +117,12 @@ final class FleepHookHandlerFactoryTest extends TestCase
         self::assertFalse($handler->isPersistent());
 
         $at = new ReflectionProperty($handler, 'token');
-        $at->setAccessible(true);
 
         self::assertSame($token, $at->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -173,14 +171,12 @@ final class FleepHookHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $at = new ReflectionProperty($handler, 'token');
-        $at->setAccessible(true);
 
         self::assertSame($token, $at->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -317,14 +313,12 @@ final class FleepHookHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $at = new ReflectionProperty($handler, 'token');
-        $at->setAccessible(true);
 
         self::assertSame($token, $at->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -387,14 +381,12 @@ final class FleepHookHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $at = new ReflectionProperty($handler, 'token');
-        $at->setAccessible(true);
 
         self::assertSame($token, $at->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

@@ -45,7 +45,6 @@ final class TagProcessorFactoryTest extends TestCase
         self::assertInstanceOf(TagProcessor::class, $processor);
 
         $tags = new ReflectionProperty($processor, 'tags');
-        $tags->setAccessible(true);
 
         self::assertSame([], $tags->getValue($processor));
     }
@@ -72,7 +71,6 @@ final class TagProcessorFactoryTest extends TestCase
         self::assertInstanceOf(TagProcessor::class, $processor);
 
         $tags = new ReflectionProperty($processor, 'tags');
-        $tags->setAccessible(true);
 
         self::assertSame([], $tags->getValue($processor));
     }
@@ -101,7 +99,6 @@ final class TagProcessorFactoryTest extends TestCase
         self::assertInstanceOf(TagProcessor::class, $processor);
 
         $tagsP = new ReflectionProperty($processor, 'tags');
-        $tagsP->setAccessible(true);
 
         self::assertSame($tags, $tagsP->getValue($processor));
     }
@@ -130,7 +127,6 @@ final class TagProcessorFactoryTest extends TestCase
         self::assertInstanceOf(TagProcessor::class, $processor);
 
         $tagsP = new ReflectionProperty($processor, 'tags');
-        $tagsP->setAccessible(true);
 
         self::assertSame((array) $tags, $tagsP->getValue($processor));
     }

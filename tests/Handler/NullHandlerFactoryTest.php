@@ -47,7 +47,6 @@ final class NullHandlerFactoryTest extends TestCase
         self::assertInstanceOf(NullHandler::class, $handler);
 
         $lvl = new ReflectionProperty($handler, 'level');
-        $lvl->setAccessible(true);
 
         self::assertSame(Logger::DEBUG, $lvl->getValue($handler));
     }
@@ -74,7 +73,6 @@ final class NullHandlerFactoryTest extends TestCase
         self::assertInstanceOf(NullHandler::class, $handler);
 
         $lvl = new ReflectionProperty($handler, 'level');
-        $lvl->setAccessible(true);
 
         self::assertSame(Logger::DEBUG, $lvl->getValue($handler));
     }
@@ -101,7 +99,6 @@ final class NullHandlerFactoryTest extends TestCase
         self::assertInstanceOf(NullHandler::class, $handler);
 
         $lvl = new ReflectionProperty($handler, 'level');
-        $lvl->setAccessible(true);
 
         self::assertSame(Logger::ALERT, $lvl->getValue($handler));
     }

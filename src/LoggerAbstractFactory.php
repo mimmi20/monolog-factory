@@ -12,7 +12,6 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory;
 
-use Interop\Container\Exception\ContainerException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
@@ -21,7 +20,6 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
-use function assert;
 use function is_array;
 use function sprintf;
 
@@ -38,7 +36,6 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerException         if any other error occurs
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
@@ -51,18 +48,16 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
             throw new ServiceNotFoundException(sprintf('Could not find service %s', 'config'), 0, $e);
         }
 
-        assert(is_array($config));
-
         $logConfig = [];
 
         if (
             is_array($config)
-            && array_key_exists('monolog', $config)
-            && is_array($config['monolog'])
-            && array_key_exists($requestedName, $config['monolog'])
-            && is_array($config['monolog'][$requestedName])
+            && array_key_exists('log', $config)
+            && is_array($config['log'])
+            && array_key_exists($requestedName, $config['log'])
+            && is_array($config['log'][$requestedName])
         ) {
-            $logConfig = $config['monolog'][$requestedName];
+            $logConfig = $config['log'][$requestedName];
         }
 
         try {
@@ -96,8 +91,9 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
         }
 
         return is_array($config)
-            && array_key_exists('monolog', $config)
-            && is_array($config['monolog'])
-            && array_key_exists($requestedName, $config['monolog']);
+            && array_key_exists('log', $config)
+            && is_array($config['log'])
+            && array_key_exists($requestedName, $config['log'])
+            && is_array($config['log'][$requestedName]);
     }
 }

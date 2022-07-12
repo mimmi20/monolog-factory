@@ -160,7 +160,6 @@ final class PsrHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $loggerP = new ReflectionProperty($handler, 'logger');
-        $loggerP->setAccessible(true);
 
         self::assertSame($logger, $loggerP->getValue($handler));
     }
@@ -197,7 +196,6 @@ final class PsrHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $loggerP = new ReflectionProperty($handler, 'logger');
-        $loggerP->setAccessible(true);
 
         self::assertSame($logger, $loggerP->getValue($handler));
     }
@@ -231,7 +229,6 @@ final class PsrHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $loggerP = new ReflectionProperty($handler, 'logger');
-        $loggerP->setAccessible(true);
 
         self::assertSame($logger, $loggerP->getValue($handler));
     }
@@ -265,7 +262,6 @@ final class PsrHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $loggerP = new ReflectionProperty($handler, 'logger');
-        $loggerP->setAccessible(true);
 
         self::assertSame($logger, $loggerP->getValue($handler));
     }
@@ -400,7 +396,6 @@ final class PsrHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $loggerP = new ReflectionProperty($handler, 'logger');
-        $loggerP->setAccessible(true);
 
         self::assertSame($logger, $loggerP->getValue($handler));
 
@@ -437,7 +432,6 @@ final class PsrHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $loggerP = new ReflectionProperty($handler, 'logger');
-        $loggerP->setAccessible(true);
 
         self::assertSame($logger, $loggerP->getValue($handler));
     }

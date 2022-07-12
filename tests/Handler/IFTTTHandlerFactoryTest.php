@@ -138,19 +138,16 @@ final class IFTTTHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $en = new ReflectionProperty($handler, 'eventName');
-        $en->setAccessible(true);
 
         self::assertSame($eventName, $en->getValue($handler));
 
         $sk = new ReflectionProperty($handler, 'secretKey');
-        $sk->setAccessible(true);
 
         self::assertSame($secretKey, $sk->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -188,19 +185,16 @@ final class IFTTTHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $en = new ReflectionProperty($handler, 'eventName');
-        $en->setAccessible(true);
 
         self::assertSame($eventName, $en->getValue($handler));
 
         $sk = new ReflectionProperty($handler, 'secretKey');
-        $sk->setAccessible(true);
 
         self::assertSame($secretKey, $sk->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -315,19 +309,16 @@ final class IFTTTHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $en = new ReflectionProperty($handler, 'eventName');
-        $en->setAccessible(true);
 
         self::assertSame($eventName, $en->getValue($handler));
 
         $sk = new ReflectionProperty($handler, 'secretKey');
-        $sk->setAccessible(true);
 
         self::assertSame($secretKey, $sk->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

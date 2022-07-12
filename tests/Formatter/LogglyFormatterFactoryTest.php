@@ -53,12 +53,10 @@ final class LogglyFormatterFactoryTest extends TestCase
         self::assertTrue($formatter->isAppendingNewlines());
 
         $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
-        $ig->setAccessible(true);
 
         self::assertFalse($ig->getValue($formatter));
 
         $st = new ReflectionProperty($formatter, 'includeStacktraces');
-        $st->setAccessible(true);
 
         self::assertFalse($st->getValue($formatter));
     }
@@ -90,12 +88,10 @@ final class LogglyFormatterFactoryTest extends TestCase
         self::assertTrue($formatter->isAppendingNewlines());
 
         $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
-        $ig->setAccessible(true);
 
         self::assertFalse($ig->getValue($formatter));
 
         $st = new ReflectionProperty($formatter, 'includeStacktraces');
-        $st->setAccessible(true);
 
         self::assertFalse($st->getValue($formatter));
     }
@@ -134,12 +130,10 @@ final class LogglyFormatterFactoryTest extends TestCase
         self::assertFalse($formatter->isAppendingNewlines());
 
         $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
-        $ig->setAccessible(true);
 
         self::assertFalse($ig->getValue($formatter));
 
         $st = new ReflectionProperty($formatter, 'includeStacktraces');
-        $st->setAccessible(true);
 
         self::assertTrue($st->getValue($formatter));
     }
@@ -178,12 +172,10 @@ final class LogglyFormatterFactoryTest extends TestCase
         self::assertFalse($formatter->isAppendingNewlines());
 
         $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
-        $ig->setAccessible(true);
 
         self::assertFalse($ig->getValue($formatter));
 
         $st = new ReflectionProperty($formatter, 'includeStacktraces');
-        $st->setAccessible(true);
 
         self::assertTrue($st->getValue($formatter));
     }

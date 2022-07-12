@@ -152,24 +152,20 @@ final class CubeHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $scheme = new ReflectionProperty($handler, 'scheme');
-        $scheme->setAccessible(true);
 
         self::assertSame('http', $scheme->getValue($handler));
 
         $host = new ReflectionProperty($handler, 'host');
-        $host->setAccessible(true);
 
         self::assertSame('test.uri', $host->getValue($handler));
 
         $port = new ReflectionProperty($handler, 'port');
-        $port->setAccessible(true);
 
         self::assertSame(80, $port->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -204,24 +200,20 @@ final class CubeHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $scheme = new ReflectionProperty($handler, 'scheme');
-        $scheme->setAccessible(true);
 
         self::assertSame('http', $scheme->getValue($handler));
 
         $host = new ReflectionProperty($handler, 'host');
-        $host->setAccessible(true);
 
         self::assertSame('test.uri', $host->getValue($handler));
 
         $port = new ReflectionProperty($handler, 'port');
-        $port->setAccessible(true);
 
         self::assertSame(80, $port->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -327,24 +319,20 @@ final class CubeHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $scheme = new ReflectionProperty($handler, 'scheme');
-        $scheme->setAccessible(true);
 
         self::assertSame('http', $scheme->getValue($handler));
 
         $host = new ReflectionProperty($handler, 'host');
-        $host->setAccessible(true);
 
         self::assertSame('test.uri', $host->getValue($handler));
 
         $port = new ReflectionProperty($handler, 'port');
-        $port->setAccessible(true);
 
         self::assertSame(80, $port->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

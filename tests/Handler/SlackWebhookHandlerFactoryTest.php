@@ -140,44 +140,36 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $slackRecord = $handler->getSlackRecord();
 
         $ch = new ReflectionProperty($slackRecord, 'channel');
-        $ch->setAccessible(true);
 
         self::assertSame($channel, $ch->getValue($slackRecord));
 
         $un = new ReflectionProperty($slackRecord, 'username');
-        $un->setAccessible(true);
 
         self::assertNull($un->getValue($slackRecord));
 
         $ua = new ReflectionProperty($slackRecord, 'useAttachment');
-        $ua->setAccessible(true);
 
         self::assertTrue($ua->getValue($slackRecord));
 
         $ui = new ReflectionProperty($slackRecord, 'userIcon');
-        $ui->setAccessible(true);
 
         self::assertNull($ui->getValue($slackRecord));
 
         $usa = new ReflectionProperty($slackRecord, 'useShortAttachment');
-        $usa->setAccessible(true);
 
         self::assertFalse($usa->getValue($slackRecord));
 
         $ice = new ReflectionProperty($slackRecord, 'includeContextAndExtra');
-        $ice->setAccessible(true);
 
         self::assertFalse($ice->getValue($slackRecord));
 
         $ef = new ReflectionProperty($slackRecord, 'excludeFields');
-        $ef->setAccessible(true);
 
         self::assertSame([], $ef->getValue($slackRecord));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -220,44 +212,36 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $slackRecord = $handler->getSlackRecord();
 
         $ch = new ReflectionProperty($slackRecord, 'channel');
-        $ch->setAccessible(true);
 
         self::assertSame($channel, $ch->getValue($slackRecord));
 
         $un = new ReflectionProperty($slackRecord, 'username');
-        $un->setAccessible(true);
 
         self::assertSame($userName, $un->getValue($slackRecord));
 
         $ua = new ReflectionProperty($slackRecord, 'useAttachment');
-        $ua->setAccessible(true);
 
         self::assertFalse($ua->getValue($slackRecord));
 
         $ui = new ReflectionProperty($slackRecord, 'userIcon');
-        $ui->setAccessible(true);
 
         self::assertSame($iconEmoji, $ui->getValue($slackRecord));
 
         $usa = new ReflectionProperty($slackRecord, 'useShortAttachment');
-        $usa->setAccessible(true);
 
         self::assertTrue($usa->getValue($slackRecord));
 
         $ice = new ReflectionProperty($slackRecord, 'includeContextAndExtra');
-        $ice->setAccessible(true);
 
         self::assertTrue($ice->getValue($slackRecord));
 
         $ef = new ReflectionProperty($slackRecord, 'excludeFields');
-        $ef->setAccessible(true);
 
         self::assertSame($excludeFields, $ef->getValue($slackRecord));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -383,44 +367,36 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $slackRecord = $handler->getSlackRecord();
 
         $ch = new ReflectionProperty($slackRecord, 'channel');
-        $ch->setAccessible(true);
 
         self::assertSame($channel, $ch->getValue($slackRecord));
 
         $un = new ReflectionProperty($slackRecord, 'username');
-        $un->setAccessible(true);
 
         self::assertSame($userName, $un->getValue($slackRecord));
 
         $ua = new ReflectionProperty($slackRecord, 'useAttachment');
-        $ua->setAccessible(true);
 
         self::assertFalse($ua->getValue($slackRecord));
 
         $ui = new ReflectionProperty($slackRecord, 'userIcon');
-        $ui->setAccessible(true);
 
         self::assertSame($iconEmoji, $ui->getValue($slackRecord));
 
         $usa = new ReflectionProperty($slackRecord, 'useShortAttachment');
-        $usa->setAccessible(true);
 
         self::assertTrue($usa->getValue($slackRecord));
 
         $ice = new ReflectionProperty($slackRecord, 'includeContextAndExtra');
-        $ice->setAccessible(true);
 
         self::assertTrue($ice->getValue($slackRecord));
 
         $ef = new ReflectionProperty($slackRecord, 'excludeFields');
-        $ef->setAccessible(true);
 
         self::assertSame($excludeFields, $ef->getValue($slackRecord));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

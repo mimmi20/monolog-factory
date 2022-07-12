@@ -35,9 +35,6 @@ use function assert;
 use function class_exists;
 use function sprintf;
 
-/**
- * @requires PHP < 8.1
- */
 final class RollbarHandlerFactoryTest extends TestCase
 {
     /**
@@ -151,13 +148,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $rollbarloggerP = new ReflectionProperty($handler, 'rollbarLogger');
-        $rollbarloggerP->setAccessible(true);
 
         $rollbarlogger = $rollbarloggerP->getValue($handler);
         assert($rollbarlogger instanceof RollbarLogger);
 
         $rollbarConfigP = new ReflectionProperty($rollbarlogger, 'config');
-        $rollbarConfigP->setAccessible(true);
 
         $rollbarConfig = $rollbarConfigP->getValue($rollbarlogger);
         assert($rollbarConfig instanceof Config);
@@ -172,7 +167,6 @@ final class RollbarHandlerFactoryTest extends TestCase
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -214,13 +208,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $rollbarloggerP = new ReflectionProperty($handler, 'rollbarLogger');
-        $rollbarloggerP->setAccessible(true);
 
         $rollbarlogger = $rollbarloggerP->getValue($handler);
         assert($rollbarlogger instanceof RollbarLogger);
 
         $rollbarConfigP = new ReflectionProperty($rollbarlogger, 'config');
-        $rollbarConfigP->setAccessible(true);
 
         $rollbarConfig = $rollbarConfigP->getValue($rollbarlogger);
         assert($rollbarConfig instanceof Config);
@@ -235,7 +227,6 @@ final class RollbarHandlerFactoryTest extends TestCase
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -362,13 +353,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $rollbarloggerP = new ReflectionProperty($handler, 'rollbarLogger');
-        $rollbarloggerP->setAccessible(true);
 
         $rollbarlogger = $rollbarloggerP->getValue($handler);
         assert($rollbarlogger instanceof RollbarLogger);
 
         $rollbarConfigP = new ReflectionProperty($rollbarlogger, 'config');
-        $rollbarConfigP->setAccessible(true);
 
         $rollbarConfig = $rollbarConfigP->getValue($rollbarlogger);
         assert($rollbarConfig instanceof Config);
@@ -383,7 +372,6 @@ final class RollbarHandlerFactoryTest extends TestCase
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

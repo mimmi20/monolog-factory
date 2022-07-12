@@ -117,14 +117,12 @@ final class LogEntriesHandlerFactoryTest extends TestCase
         self::assertFalse($handler->isPersistent());
 
         $lt = new ReflectionProperty($handler, 'logToken');
-        $lt->setAccessible(true);
 
         self::assertSame($token, $lt->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -171,14 +169,12 @@ final class LogEntriesHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $lt = new ReflectionProperty($handler, 'logToken');
-        $lt->setAccessible(true);
 
         self::assertSame($token, $lt->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -343,14 +339,12 @@ final class LogEntriesHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $lt = new ReflectionProperty($handler, 'logToken');
-        $lt->setAccessible(true);
 
         self::assertSame($token, $lt->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -411,14 +405,12 @@ final class LogEntriesHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $lt = new ReflectionProperty($handler, 'logToken');
-        $lt->setAccessible(true);
 
         self::assertSame($token, $lt->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

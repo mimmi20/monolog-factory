@@ -47,7 +47,6 @@ final class ErrorLevelActivationStrategyFactoryTest extends TestCase
         self::assertInstanceOf(ErrorLevelActivationStrategy::class, $strategy);
 
         $al = new ReflectionProperty($strategy, 'actionLevel');
-        $al->setAccessible(true);
 
         self::assertSame(Logger::DEBUG, $al->getValue($strategy));
     }
@@ -74,7 +73,6 @@ final class ErrorLevelActivationStrategyFactoryTest extends TestCase
         self::assertInstanceOf(ErrorLevelActivationStrategy::class, $strategy);
 
         $al = new ReflectionProperty($strategy, 'actionLevel');
-        $al->setAccessible(true);
 
         self::assertSame(Logger::DEBUG, $al->getValue($strategy));
     }
@@ -101,7 +99,6 @@ final class ErrorLevelActivationStrategyFactoryTest extends TestCase
         self::assertInstanceOf(ErrorLevelActivationStrategy::class, $strategy);
 
         $al = new ReflectionProperty($strategy, 'actionLevel');
-        $al->setAccessible(true);
 
         self::assertSame(Logger::ALERT, $al->getValue($strategy));
     }

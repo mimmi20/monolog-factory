@@ -226,34 +226,28 @@ final class SendGridHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $apiUserP = new ReflectionProperty($handler, 'apiUser');
-        $apiUserP->setAccessible(true);
 
         self::assertSame($apiUser, $apiUserP->getValue($handler));
 
         $apiKeyP = new ReflectionProperty($handler, 'apiKey');
-        $apiKeyP->setAccessible(true);
 
         self::assertSame($apiKey, $apiKeyP->getValue($handler));
 
         $fromP = new ReflectionProperty($handler, 'from');
-        $fromP->setAccessible(true);
 
         self::assertSame($from, $fromP->getValue($handler));
 
         $toP = new ReflectionProperty($handler, 'to');
-        $toP->setAccessible(true);
 
         self::assertSame((array) $to, $toP->getValue($handler));
 
         $subjectP = new ReflectionProperty($handler, 'subject');
-        $subjectP->setAccessible(true);
 
         self::assertSame($subject, $subjectP->getValue($handler));
 
         self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -296,34 +290,28 @@ final class SendGridHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $apiUserP = new ReflectionProperty($handler, 'apiUser');
-        $apiUserP->setAccessible(true);
 
         self::assertSame($apiUser, $apiUserP->getValue($handler));
 
         $apiKeyP = new ReflectionProperty($handler, 'apiKey');
-        $apiKeyP->setAccessible(true);
 
         self::assertSame($apiKey, $apiKeyP->getValue($handler));
 
         $fromP = new ReflectionProperty($handler, 'from');
-        $fromP->setAccessible(true);
 
         self::assertSame($from, $fromP->getValue($handler));
 
         $toP = new ReflectionProperty($handler, 'to');
-        $toP->setAccessible(true);
 
         self::assertSame((array) $to, $toP->getValue($handler));
 
         $subjectP = new ReflectionProperty($handler, 'subject');
-        $subjectP->setAccessible(true);
 
         self::assertSame($subject, $subjectP->getValue($handler));
 
         self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -487,34 +475,28 @@ final class SendGridHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $apiUserP = new ReflectionProperty($handler, 'apiUser');
-        $apiUserP->setAccessible(true);
 
         self::assertSame($apiUser, $apiUserP->getValue($handler));
 
         $apiKeyP = new ReflectionProperty($handler, 'apiKey');
-        $apiKeyP->setAccessible(true);
 
         self::assertSame($apiKey, $apiKeyP->getValue($handler));
 
         $fromP = new ReflectionProperty($handler, 'from');
-        $fromP->setAccessible(true);
 
         self::assertSame($from, $fromP->getValue($handler));
 
         $toP = new ReflectionProperty($handler, 'to');
-        $toP->setAccessible(true);
 
         self::assertSame((array) $to, $toP->getValue($handler));
 
         $subjectP = new ReflectionProperty($handler, 'subject');
-        $subjectP->setAccessible(true);
 
         self::assertSame($subject, $subjectP->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

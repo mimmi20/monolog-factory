@@ -51,22 +51,18 @@ final class GelfMessageFormatterFactoryTest extends TestCase
         self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
 
         $s = new ReflectionProperty($formatter, 'systemName');
-        $s->setAccessible(true);
 
         self::assertSame((string) gethostname(), $s->getValue($formatter));
 
         $ep = new ReflectionProperty($formatter, 'extraPrefix');
-        $ep->setAccessible(true);
 
         self::assertSame('', $ep->getValue($formatter));
 
         $cp = new ReflectionProperty($formatter, 'contextPrefix');
-        $cp->setAccessible(true);
 
         self::assertSame('ctxt_', $cp->getValue($formatter));
 
         $ml = new ReflectionProperty($formatter, 'maxLength');
-        $ml->setAccessible(true);
 
         self::assertSame(32766, $ml->getValue($formatter));
     }
@@ -96,22 +92,18 @@ final class GelfMessageFormatterFactoryTest extends TestCase
         self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
 
         $s = new ReflectionProperty($formatter, 'systemName');
-        $s->setAccessible(true);
 
         self::assertSame((string) gethostname(), $s->getValue($formatter));
 
         $ep = new ReflectionProperty($formatter, 'extraPrefix');
-        $ep->setAccessible(true);
 
         self::assertSame('', $ep->getValue($formatter));
 
         $cp = new ReflectionProperty($formatter, 'contextPrefix');
-        $cp->setAccessible(true);
 
         self::assertSame('ctxt_', $cp->getValue($formatter));
 
         $ml = new ReflectionProperty($formatter, 'maxLength');
-        $ml->setAccessible(true);
 
         self::assertSame(32766, $ml->getValue($formatter));
     }
@@ -148,22 +140,18 @@ final class GelfMessageFormatterFactoryTest extends TestCase
         self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
 
         $s = new ReflectionProperty($formatter, 'systemName');
-        $s->setAccessible(true);
 
         self::assertSame($systemName, $s->getValue($formatter));
 
         $ep = new ReflectionProperty($formatter, 'extraPrefix');
-        $ep->setAccessible(true);
 
         self::assertSame($extraPrefix, $ep->getValue($formatter));
 
         $cp = new ReflectionProperty($formatter, 'contextPrefix');
-        $cp->setAccessible(true);
 
         self::assertSame($contextPrefix, $cp->getValue($formatter));
 
         $ml = new ReflectionProperty($formatter, 'maxLength');
-        $ml->setAccessible(true);
 
         self::assertSame($maxLength, $ml->getValue($formatter));
     }

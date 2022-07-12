@@ -163,19 +163,16 @@ final class AmqpHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
-        $ec->setAccessible(true);
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
 
         $ecn = new ReflectionProperty($handler, 'exchangeName');
-        $ecn->setAccessible(true);
 
         self::assertNull($ecn->getValue($handler));
 
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -219,19 +216,16 @@ final class AmqpHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
-        $ec->setAccessible(true);
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
 
         $ecn = new ReflectionProperty($handler, 'exchangeName');
-        $ecn->setAccessible(true);
 
         self::assertNull($ecn->getValue($handler));
 
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -272,19 +266,16 @@ final class AmqpHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
-        $ec->setAccessible(true);
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
 
         $ecn = new ReflectionProperty($handler, 'exchangeName');
-        $ecn->setAccessible(true);
 
         self::assertNull($ecn->getValue($handler));
 
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -325,19 +316,16 @@ final class AmqpHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
-        $ec->setAccessible(true);
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
 
         $ecn = new ReflectionProperty($handler, 'exchangeName');
-        $ecn->setAccessible(true);
 
         self::assertNull($ecn->getValue($handler));
 
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -381,19 +369,16 @@ final class AmqpHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
-        $ec->setAccessible(true);
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
 
         $ecn = new ReflectionProperty($handler, 'exchangeName');
-        $ecn->setAccessible(true);
 
         self::assertSame('log', $ecn->getValue($handler));
 
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -438,19 +423,16 @@ final class AmqpHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
-        $ec->setAccessible(true);
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
 
         $ecn = new ReflectionProperty($handler, 'exchangeName');
-        $ecn->setAccessible(true);
 
         self::assertSame($exchangeName, $ecn->getValue($handler));
 
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -491,19 +473,16 @@ final class AmqpHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
-        $ec->setAccessible(true);
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
 
         $ecn = new ReflectionProperty($handler, 'exchangeName');
-        $ecn->setAccessible(true);
 
         self::assertSame('log', $ecn->getValue($handler));
 
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -545,19 +524,16 @@ final class AmqpHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
-        $ec->setAccessible(true);
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
 
         $ecn = new ReflectionProperty($handler, 'exchangeName');
-        $ecn->setAccessible(true);
 
         self::assertSame($exchangeName, $ecn->getValue($handler));
 
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

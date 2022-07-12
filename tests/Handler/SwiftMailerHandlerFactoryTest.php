@@ -269,19 +269,16 @@ final class SwiftMailerHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $mailerP = new ReflectionProperty($handler, 'mailer');
-        $mailerP->setAccessible(true);
 
         self::assertSame($mailer, $mailerP->getValue($handler));
 
         $mt = new ReflectionProperty($handler, 'messageTemplate');
-        $mt->setAccessible(true);
 
         self::assertSame($message, $mt->getValue($handler));
 
         self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -327,19 +324,16 @@ final class SwiftMailerHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $mailerP = new ReflectionProperty($handler, 'mailer');
-        $mailerP->setAccessible(true);
 
         self::assertSame($mailer, $mailerP->getValue($handler));
 
         $mt = new ReflectionProperty($handler, 'messageTemplate');
-        $mt->setAccessible(true);
 
         self::assertSame($message, $mt->getValue($handler));
 
         self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -379,19 +373,16 @@ final class SwiftMailerHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $mailerP = new ReflectionProperty($handler, 'mailer');
-        $mailerP->setAccessible(true);
 
         self::assertSame($mailer, $mailerP->getValue($handler));
 
         $mt = new ReflectionProperty($handler, 'messageTemplate');
-        $mt->setAccessible(true);
 
         self::assertSame($message, $mt->getValue($handler));
 
         self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -431,19 +422,16 @@ final class SwiftMailerHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $mailerP = new ReflectionProperty($handler, 'mailer');
-        $mailerP->setAccessible(true);
 
         self::assertSame($mailer, $mailerP->getValue($handler));
 
         $mt = new ReflectionProperty($handler, 'messageTemplate');
-        $mt->setAccessible(true);
 
         self::assertSame($message, $mt->getValue($handler));
 
         self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -482,19 +470,16 @@ final class SwiftMailerHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $mailerP = new ReflectionProperty($handler, 'mailer');
-        $mailerP->setAccessible(true);
 
         self::assertSame($mailer, $mailerP->getValue($handler));
 
         $mt = new ReflectionProperty($handler, 'messageTemplate');
-        $mt->setAccessible(true);
 
         self::assertSame($message, $mt->getValue($handler));
 
         self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -533,19 +518,16 @@ final class SwiftMailerHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $mailerP = new ReflectionProperty($handler, 'mailer');
-        $mailerP->setAccessible(true);
 
         self::assertSame($mailer, $mailerP->getValue($handler));
 
         $mt = new ReflectionProperty($handler, 'messageTemplate');
-        $mt->setAccessible(true);
 
         self::assertSame($message, $mt->getValue($handler));
 
         self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -689,19 +671,16 @@ final class SwiftMailerHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $mailerP = new ReflectionProperty($handler, 'mailer');
-        $mailerP->setAccessible(true);
 
         self::assertSame($mailer, $mailerP->getValue($handler));
 
         $mt = new ReflectionProperty($handler, 'messageTemplate');
-        $mt->setAccessible(true);
 
         self::assertSame($message, $mt->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

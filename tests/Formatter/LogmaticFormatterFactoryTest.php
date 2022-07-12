@@ -53,22 +53,18 @@ final class LogmaticFormatterFactoryTest extends TestCase
         self::assertTrue($formatter->isAppendingNewlines());
 
         $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
-        $ig->setAccessible(true);
 
         self::assertFalse($ig->getValue($formatter));
 
         $st = new ReflectionProperty($formatter, 'includeStacktraces');
-        $st->setAccessible(true);
 
         self::assertFalse($st->getValue($formatter));
 
         $h = new ReflectionProperty($formatter, 'hostname');
-        $h->setAccessible(true);
 
         self::assertSame('', $h->getValue($formatter));
 
         $a = new ReflectionProperty($formatter, 'appname');
-        $a->setAccessible(true);
 
         self::assertSame('', $a->getValue($formatter));
     }
@@ -100,22 +96,18 @@ final class LogmaticFormatterFactoryTest extends TestCase
         self::assertTrue($formatter->isAppendingNewlines());
 
         $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
-        $ig->setAccessible(true);
 
         self::assertFalse($ig->getValue($formatter));
 
         $st = new ReflectionProperty($formatter, 'includeStacktraces');
-        $st->setAccessible(true);
 
         self::assertFalse($st->getValue($formatter));
 
         $h = new ReflectionProperty($formatter, 'hostname');
-        $h->setAccessible(true);
 
         self::assertSame('', $h->getValue($formatter));
 
         $a = new ReflectionProperty($formatter, 'appname');
-        $a->setAccessible(true);
 
         self::assertSame('', $a->getValue($formatter));
     }
@@ -156,22 +148,18 @@ final class LogmaticFormatterFactoryTest extends TestCase
         self::assertFalse($formatter->isAppendingNewlines());
 
         $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
-        $ig->setAccessible(true);
 
         self::assertFalse($ig->getValue($formatter));
 
         $st = new ReflectionProperty($formatter, 'includeStacktraces');
-        $st->setAccessible(true);
 
         self::assertTrue($st->getValue($formatter));
 
         $h = new ReflectionProperty($formatter, 'hostname');
-        $h->setAccessible(true);
 
         self::assertSame($hostname, $h->getValue($formatter));
 
         $a = new ReflectionProperty($formatter, 'appname');
-        $a->setAccessible(true);
 
         self::assertSame($appname, $a->getValue($formatter));
     }
@@ -212,22 +200,18 @@ final class LogmaticFormatterFactoryTest extends TestCase
         self::assertFalse($formatter->isAppendingNewlines());
 
         $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
-        $ig->setAccessible(true);
 
         self::assertTrue($ig->getValue($formatter));
 
         $st = new ReflectionProperty($formatter, 'includeStacktraces');
-        $st->setAccessible(true);
 
         self::assertTrue($st->getValue($formatter));
 
         $h = new ReflectionProperty($formatter, 'hostname');
-        $h->setAccessible(true);
 
         self::assertSame($hostname, $h->getValue($formatter));
 
         $a = new ReflectionProperty($formatter, 'appname');
-        $a->setAccessible(true);
 
         self::assertSame($appname, $a->getValue($formatter));
     }

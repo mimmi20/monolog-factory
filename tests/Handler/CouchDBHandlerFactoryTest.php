@@ -59,7 +59,6 @@ final class CouchDBHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $optionsP = new ReflectionProperty($handler, 'options');
-        $optionsP->setAccessible(true);
 
         $options = $optionsP->getValue($handler);
 
@@ -72,7 +71,6 @@ final class CouchDBHandlerFactoryTest extends TestCase
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -105,7 +103,6 @@ final class CouchDBHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $optionsP = new ReflectionProperty($handler, 'options');
-        $optionsP->setAccessible(true);
 
         $options = $optionsP->getValue($handler);
 
@@ -118,7 +115,6 @@ final class CouchDBHandlerFactoryTest extends TestCase
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -158,7 +154,6 @@ final class CouchDBHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $optionsP = new ReflectionProperty($handler, 'options');
-        $optionsP->setAccessible(true);
 
         $options = $optionsP->getValue($handler);
 
@@ -171,7 +166,6 @@ final class CouchDBHandlerFactoryTest extends TestCase
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -292,7 +286,6 @@ final class CouchDBHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $optionsP = new ReflectionProperty($handler, 'options');
-        $optionsP->setAccessible(true);
 
         $options = $optionsP->getValue($handler);
 
@@ -305,7 +298,6 @@ final class CouchDBHandlerFactoryTest extends TestCase
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

@@ -50,7 +50,6 @@ final class NormalizerFormatterFactoryTest extends TestCase
         self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
 
         $jeo = new ReflectionProperty($formatter, 'jsonEncodeOptions');
-        $jeo->setAccessible(true);
 
         $jsonEncodeOptions = $jeo->getValue($formatter);
 
@@ -82,7 +81,6 @@ final class NormalizerFormatterFactoryTest extends TestCase
         self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
 
         $jeo = new ReflectionProperty($formatter, 'jsonEncodeOptions');
-        $jeo->setAccessible(true);
 
         $jsonEncodeOptions = $jeo->getValue($formatter);
 
@@ -118,7 +116,6 @@ final class NormalizerFormatterFactoryTest extends TestCase
         self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
 
         $jeo = new ReflectionProperty($formatter, 'jsonEncodeOptions');
-        $jeo->setAccessible(true);
 
         $jsonEncodeOptions = $jeo->getValue($formatter);
 

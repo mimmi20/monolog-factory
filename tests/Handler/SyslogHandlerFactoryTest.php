@@ -109,24 +109,20 @@ final class SyslogHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $identP = new ReflectionProperty($handler, 'ident');
-        $identP->setAccessible(true);
 
         self::assertSame($ident, $identP->getValue($handler));
 
         $lo = new ReflectionProperty($handler, 'logopts');
-        $lo->setAccessible(true);
 
         self::assertSame(LOG_PID, $lo->getValue($handler));
 
         $fa = new ReflectionProperty($handler, 'facility');
-        $fa->setAccessible(true);
 
         self::assertSame(LOG_USER, $fa->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -163,24 +159,20 @@ final class SyslogHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $identP = new ReflectionProperty($handler, 'ident');
-        $identP->setAccessible(true);
 
         self::assertSame($ident, $identP->getValue($handler));
 
         $lo = new ReflectionProperty($handler, 'logopts');
-        $lo->setAccessible(true);
 
         self::assertSame($logOpts, $lo->getValue($handler));
 
         $fa = new ReflectionProperty($handler, 'facility');
-        $fa->setAccessible(true);
 
         self::assertSame($facility, $fa->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -292,24 +284,20 @@ final class SyslogHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $identP = new ReflectionProperty($handler, 'ident');
-        $identP->setAccessible(true);
 
         self::assertSame($ident, $identP->getValue($handler));
 
         $lo = new ReflectionProperty($handler, 'logopts');
-        $lo->setAccessible(true);
 
         self::assertSame($logOpts, $lo->getValue($handler));
 
         $fa = new ReflectionProperty($handler, 'facility');
-        $fa->setAccessible(true);
 
         self::assertSame($facility, $fa->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

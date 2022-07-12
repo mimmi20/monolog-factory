@@ -161,14 +161,12 @@ final class GelfHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $publisherP = new ReflectionProperty($handler, 'publisher');
-        $publisherP->setAccessible(true);
 
         self::assertSame($publisher, $publisherP->getValue($handler));
 
         self::assertInstanceOf(GelfMessageFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -208,14 +206,12 @@ final class GelfHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $publisherP = new ReflectionProperty($handler, 'publisher');
-        $publisherP->setAccessible(true);
 
         self::assertSame($publisher, $publisherP->getValue($handler));
 
         self::assertInstanceOf(GelfMessageFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -252,14 +248,12 @@ final class GelfHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $publisherP = new ReflectionProperty($handler, 'publisher');
-        $publisherP->setAccessible(true);
 
         self::assertSame($publisher, $publisherP->getValue($handler));
 
         self::assertInstanceOf(GelfMessageFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -296,14 +290,12 @@ final class GelfHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $publisherP = new ReflectionProperty($handler, 'publisher');
-        $publisherP->setAccessible(true);
 
         self::assertSame($publisher, $publisherP->getValue($handler));
 
         self::assertInstanceOf(GelfMessageFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -441,14 +433,12 @@ final class GelfHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $publisherP = new ReflectionProperty($handler, 'publisher');
-        $publisherP->setAccessible(true);
 
         self::assertSame($publisher, $publisherP->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

@@ -47,7 +47,6 @@ final class MercurialProcessorFactoryTest extends TestCase
         self::assertInstanceOf(MercurialProcessor::class, $processor);
 
         $lvl = new ReflectionProperty($processor, 'level');
-        $lvl->setAccessible(true);
 
         self::assertSame(Logger::DEBUG, $lvl->getValue($processor));
     }
@@ -74,7 +73,6 @@ final class MercurialProcessorFactoryTest extends TestCase
         self::assertInstanceOf(MercurialProcessor::class, $processor);
 
         $lvl = new ReflectionProperty($processor, 'level');
-        $lvl->setAccessible(true);
 
         self::assertSame(Logger::DEBUG, $lvl->getValue($processor));
     }
@@ -103,7 +101,6 @@ final class MercurialProcessorFactoryTest extends TestCase
         self::assertInstanceOf(MercurialProcessor::class, $processor);
 
         $lvl = new ReflectionProperty($processor, 'level');
-        $lvl->setAccessible(true);
 
         self::assertSame(Logger::ALERT, $lvl->getValue($processor));
     }

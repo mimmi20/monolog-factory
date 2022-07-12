@@ -123,6 +123,8 @@ final class RollbarHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     *
+     * @requires PHP < 8.1
      */
     public function testInvokeWithConfig(): void
     {

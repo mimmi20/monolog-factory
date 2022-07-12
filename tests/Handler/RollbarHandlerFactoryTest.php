@@ -91,6 +91,8 @@ final class RollbarHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     *
+     * @requires PHP < 8.1
      */
     public function testInvokeWithTooShortToken(): void
     {

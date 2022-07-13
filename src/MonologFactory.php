@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -29,7 +29,6 @@ use Throwable;
 use function array_key_exists;
 use function array_reverse;
 use function assert;
-use function get_class;
 use function gettype;
 use function is_array;
 use function is_iterable;
@@ -92,7 +91,7 @@ final class MonologFactory implements FactoryInterface
                     sprintf(
                         '$monologHandlerPluginManager should be an Instance of %s, but was %s',
                         AbstractPluginManager::class,
-                        is_object($monologHandlerPluginManager) ? get_class($monologHandlerPluginManager) : gettype($monologHandlerPluginManager)
+                        is_object($monologHandlerPluginManager) ? $monologHandlerPluginManager::class : gettype($monologHandlerPluginManager)
                     )
                 );
             } catch (ContainerExceptionInterface $e) {

@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -45,12 +45,10 @@ final class MemoryUsageProcessorFactoryTest extends TestCase
         self::assertInstanceOf(MemoryUsageProcessor::class, $processor);
 
         $realUsage = new ReflectionProperty($processor, 'realUsage');
-        $realUsage->setAccessible(true);
 
         self::assertTrue($realUsage->getValue($processor));
 
         $useFormatting = new ReflectionProperty($processor, 'useFormatting');
-        $useFormatting->setAccessible(true);
 
         self::assertTrue($useFormatting->getValue($processor));
     }
@@ -77,12 +75,10 @@ final class MemoryUsageProcessorFactoryTest extends TestCase
         self::assertInstanceOf(MemoryUsageProcessor::class, $processor);
 
         $realUsage = new ReflectionProperty($processor, 'realUsage');
-        $realUsage->setAccessible(true);
 
         self::assertTrue($realUsage->getValue($processor));
 
         $useFormatting = new ReflectionProperty($processor, 'useFormatting');
-        $useFormatting->setAccessible(true);
 
         self::assertTrue($useFormatting->getValue($processor));
     }
@@ -109,12 +105,10 @@ final class MemoryUsageProcessorFactoryTest extends TestCase
         self::assertInstanceOf(MemoryUsageProcessor::class, $processor);
 
         $realUsage = new ReflectionProperty($processor, 'realUsage');
-        $realUsage->setAccessible(true);
 
         self::assertFalse($realUsage->getValue($processor));
 
         $useFormatting = new ReflectionProperty($processor, 'useFormatting');
-        $useFormatting->setAccessible(true);
 
         self::assertFalse($useFormatting->getValue($processor));
     }

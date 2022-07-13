@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -401,7 +401,6 @@ final class GroupHandlerFactoryTest extends TestCase
         self::assertInstanceOf(GroupHandler::class, $handler);
 
         $fp = new ReflectionProperty($handler, 'handlers');
-        $fp->setAccessible(true);
 
         $handlerClasses = $fp->getValue($handler);
 
@@ -412,12 +411,10 @@ final class GroupHandlerFactoryTest extends TestCase
         self::assertSame($handler3, $handlerClasses[2]);
 
         $bubble = new ReflectionProperty($handler, 'bubble');
-        $bubble->setAccessible(true);
 
         self::assertTrue($bubble->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -500,7 +497,6 @@ final class GroupHandlerFactoryTest extends TestCase
         self::assertInstanceOf(GroupHandler::class, $handler);
 
         $fp = new ReflectionProperty($handler, 'handlers');
-        $fp->setAccessible(true);
 
         $handlerClasses = $fp->getValue($handler);
 
@@ -511,12 +507,10 @@ final class GroupHandlerFactoryTest extends TestCase
         self::assertSame($handler3, $handlerClasses[2]);
 
         $bubble = new ReflectionProperty($handler, 'bubble');
-        $bubble->setAccessible(true);
 
         self::assertFalse($bubble->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -600,7 +594,6 @@ final class GroupHandlerFactoryTest extends TestCase
         self::assertInstanceOf(GroupHandler::class, $handler);
 
         $fp = new ReflectionProperty($handler, 'handlers');
-        $fp->setAccessible(true);
 
         $handlerClasses = $fp->getValue($handler);
 
@@ -611,12 +604,10 @@ final class GroupHandlerFactoryTest extends TestCase
         self::assertSame($handler3, $handlerClasses[2]);
 
         $bubble = new ReflectionProperty($handler, 'bubble');
-        $bubble->setAccessible(true);
 
         self::assertFalse($bubble->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -702,7 +693,6 @@ final class GroupHandlerFactoryTest extends TestCase
         self::assertInstanceOf(GroupHandler::class, $handler);
 
         $fp = new ReflectionProperty($handler, 'handlers');
-        $fp->setAccessible(true);
 
         $handlerClasses = $fp->getValue($handler);
 
@@ -713,12 +703,10 @@ final class GroupHandlerFactoryTest extends TestCase
         self::assertSame($handler3, $handlerClasses[2]);
 
         $bubble = new ReflectionProperty($handler, 'bubble');
-        $bubble->setAccessible(true);
 
         self::assertFalse($bubble->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -804,7 +792,6 @@ final class GroupHandlerFactoryTest extends TestCase
         self::assertInstanceOf(GroupHandler::class, $handler);
 
         $fp = new ReflectionProperty($handler, 'handlers');
-        $fp->setAccessible(true);
 
         $handlerClasses = $fp->getValue($handler);
 
@@ -815,12 +802,10 @@ final class GroupHandlerFactoryTest extends TestCase
         self::assertSame($handler3, $handlerClasses[2]);
 
         $bubble = new ReflectionProperty($handler, 'bubble');
-        $bubble->setAccessible(true);
 
         self::assertFalse($bubble->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

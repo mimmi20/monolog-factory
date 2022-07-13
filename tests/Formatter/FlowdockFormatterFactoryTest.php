@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -117,12 +117,10 @@ final class FlowdockFormatterFactoryTest extends TestCase
         self::assertInstanceOf(FlowdockFormatter::class, $formatter);
 
         $s = new ReflectionProperty($formatter, 'source');
-        $s->setAccessible(true);
 
         self::assertSame($source, $s->getValue($formatter));
 
         $se = new ReflectionProperty($formatter, 'sourceEmail');
-        $se->setAccessible(true);
 
         self::assertSame($sourceEmail, $se->getValue($formatter));
     }

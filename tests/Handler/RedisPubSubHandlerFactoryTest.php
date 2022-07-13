@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -186,19 +186,16 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');
-        $rc->setAccessible(true);
 
         self::assertSame($client, $rc->getValue($handler));
 
         $ck = new ReflectionProperty($handler, 'channelKey');
-        $ck->setAccessible(true);
 
         self::assertSame('', $ck->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -241,19 +238,16 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');
-        $rc->setAccessible(true);
 
         self::assertSame($client, $rc->getValue($handler));
 
         $ck = new ReflectionProperty($handler, 'channelKey');
-        $ck->setAccessible(true);
 
         self::assertSame($key, $ck->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -290,19 +284,16 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');
-        $rc->setAccessible(true);
 
         self::assertSame($client, $rc->getValue($handler));
 
         $ck = new ReflectionProperty($handler, 'channelKey');
-        $ck->setAccessible(true);
 
         self::assertSame('', $ck->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -342,19 +333,16 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');
-        $rc->setAccessible(true);
 
         self::assertSame($client, $rc->getValue($handler));
 
         $ck = new ReflectionProperty($handler, 'channelKey');
-        $ck->setAccessible(true);
 
         self::assertSame($key, $ck->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -504,19 +492,16 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');
-        $rc->setAccessible(true);
 
         self::assertSame($client, $rc->getValue($handler));
 
         $ck = new ReflectionProperty($handler, 'channelKey');
-        $ck->setAccessible(true);
 
         self::assertSame($key, $ck->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

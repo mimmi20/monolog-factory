@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -58,19 +58,16 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $mt = new ReflectionProperty($handler, 'messageType');
-        $mt->setAccessible(true);
 
         self::assertSame(ErrorLogHandler::OPERATING_SYSTEM, $mt->getValue($handler));
 
         $en = new ReflectionProperty($handler, 'expandNewlines');
-        $en->setAccessible(true);
 
         self::assertFalse($en->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -103,19 +100,16 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $mt = new ReflectionProperty($handler, 'messageType');
-        $mt->setAccessible(true);
 
         self::assertSame(ErrorLogHandler::OPERATING_SYSTEM, $mt->getValue($handler));
 
         $en = new ReflectionProperty($handler, 'expandNewlines');
-        $en->setAccessible(true);
 
         self::assertFalse($en->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -150,19 +144,16 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $mt = new ReflectionProperty($handler, 'messageType');
-        $mt->setAccessible(true);
 
         self::assertSame($messageType, $mt->getValue($handler));
 
         $en = new ReflectionProperty($handler, 'expandNewlines');
-        $en->setAccessible(true);
 
         self::assertTrue($en->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -268,19 +259,16 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $mt = new ReflectionProperty($handler, 'messageType');
-        $mt->setAccessible(true);
 
         self::assertSame($messageType, $mt->getValue($handler));
 
         $en = new ReflectionProperty($handler, 'expandNewlines');
-        $en->setAccessible(true);
 
         self::assertTrue($en->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

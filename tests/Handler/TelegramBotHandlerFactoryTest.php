@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -138,34 +138,28 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $ak = new ReflectionProperty($handler, 'apiKey');
-        $ak->setAccessible(true);
 
         self::assertSame($apiKey, $ak->getValue($handler));
 
         $ch = new ReflectionProperty($handler, 'channel');
-        $ch->setAccessible(true);
 
         self::assertSame($channel, $ch->getValue($handler));
 
         $pm = new ReflectionProperty($handler, 'parseMode');
-        $pm->setAccessible(true);
 
         self::assertNull($pm->getValue($handler));
 
         $dwpp = new ReflectionProperty($handler, 'disableWebPagePreview');
-        $dwpp->setAccessible(true);
 
         self::assertNull($dwpp->getValue($handler));
 
         $dn = new ReflectionProperty($handler, 'disableNotification');
-        $dn->setAccessible(true);
 
         self::assertNull($dn->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -204,34 +198,28 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $ak = new ReflectionProperty($handler, 'apiKey');
-        $ak->setAccessible(true);
 
         self::assertSame($apiKey, $ak->getValue($handler));
 
         $ch = new ReflectionProperty($handler, 'channel');
-        $ch->setAccessible(true);
 
         self::assertSame($channel, $ch->getValue($handler));
 
         $pm = new ReflectionProperty($handler, 'parseMode');
-        $pm->setAccessible(true);
 
         self::assertSame($parseMode, $pm->getValue($handler));
 
         $dwpp = new ReflectionProperty($handler, 'disableWebPagePreview');
-        $dwpp->setAccessible(true);
 
         self::assertTrue($dwpp->getValue($handler));
 
         $dn = new ReflectionProperty($handler, 'disableNotification');
-        $dn->setAccessible(true);
 
         self::assertFalse($dn->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -347,34 +335,28 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $ak = new ReflectionProperty($handler, 'apiKey');
-        $ak->setAccessible(true);
 
         self::assertSame($apiKey, $ak->getValue($handler));
 
         $ch = new ReflectionProperty($handler, 'channel');
-        $ch->setAccessible(true);
 
         self::assertSame($channel, $ch->getValue($handler));
 
         $pm = new ReflectionProperty($handler, 'parseMode');
-        $pm->setAccessible(true);
 
         self::assertSame($parseMode, $pm->getValue($handler));
 
         $dwpp = new ReflectionProperty($handler, 'disableWebPagePreview');
-        $dwpp->setAccessible(true);
 
         self::assertTrue($dwpp->getValue($handler));
 
         $dn = new ReflectionProperty($handler, 'disableNotification');
-        $dn->setAccessible(true);
 
         self::assertFalse($dn->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

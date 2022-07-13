@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -161,19 +161,16 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($client, $clientP->getValue($handler));
 
         $tableP = new ReflectionProperty($handler, 'table');
-        $tableP->setAccessible(true);
 
         self::assertSame('', $tableP->getValue($handler));
 
         self::assertInstanceOf(ScalarFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -214,19 +211,16 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($client, $clientP->getValue($handler));
 
         $tableP = new ReflectionProperty($handler, 'table');
-        $tableP->setAccessible(true);
 
         self::assertSame($table, $tableP->getValue($handler));
 
         self::assertInstanceOf(ScalarFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -263,19 +257,16 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($client, $clientP->getValue($handler));
 
         $tableP = new ReflectionProperty($handler, 'table');
-        $tableP->setAccessible(true);
 
         self::assertSame('', $tableP->getValue($handler));
 
         self::assertInstanceOf(ScalarFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -313,19 +304,16 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($client, $clientP->getValue($handler));
 
         $tableP = new ReflectionProperty($handler, 'table');
-        $tableP->setAccessible(true);
 
         self::assertSame($table, $tableP->getValue($handler));
 
         self::assertInstanceOf(ScalarFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -466,19 +454,16 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
-        $clientP->setAccessible(true);
 
         self::assertSame($client, $clientP->getValue($handler));
 
         $tableP = new ReflectionProperty($handler, 'table');
-        $tableP->setAccessible(true);
 
         self::assertSame($table, $tableP->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

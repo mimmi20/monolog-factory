@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -59,24 +59,20 @@ final class NewRelicHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $an = new ReflectionProperty($handler, 'appName');
-        $an->setAccessible(true);
 
         self::assertNull($an->getValue($handler));
 
         $ea = new ReflectionProperty($handler, 'explodeArrays');
-        $ea->setAccessible(true);
 
         self::assertFalse($ea->getValue($handler));
 
         $tn = new ReflectionProperty($handler, 'transactionName');
-        $tn->setAccessible(true);
 
         self::assertNull($tn->getValue($handler));
 
         self::assertInstanceOf(NormalizerFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -109,24 +105,20 @@ final class NewRelicHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $an = new ReflectionProperty($handler, 'appName');
-        $an->setAccessible(true);
 
         self::assertNull($an->getValue($handler));
 
         $ea = new ReflectionProperty($handler, 'explodeArrays');
-        $ea->setAccessible(true);
 
         self::assertFalse($ea->getValue($handler));
 
         $tn = new ReflectionProperty($handler, 'transactionName');
-        $tn->setAccessible(true);
 
         self::assertNull($tn->getValue($handler));
 
         self::assertInstanceOf(NormalizerFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -162,24 +154,20 @@ final class NewRelicHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $an = new ReflectionProperty($handler, 'appName');
-        $an->setAccessible(true);
 
         self::assertSame($appName, $an->getValue($handler));
 
         $ea = new ReflectionProperty($handler, 'explodeArrays');
-        $ea->setAccessible(true);
 
         self::assertTrue($ea->getValue($handler));
 
         $tn = new ReflectionProperty($handler, 'transactionName');
-        $tn->setAccessible(true);
 
         self::assertSame($transactionName, $tn->getValue($handler));
 
         self::assertInstanceOf(NormalizerFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -288,24 +276,20 @@ final class NewRelicHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $an = new ReflectionProperty($handler, 'appName');
-        $an->setAccessible(true);
 
         self::assertSame($appName, $an->getValue($handler));
 
         $ea = new ReflectionProperty($handler, 'explodeArrays');
-        $ea->setAccessible(true);
 
         self::assertTrue($ea->getValue($handler));
 
         $tn = new ReflectionProperty($handler, 'transactionName');
-        $tn->setAccessible(true);
 
         self::assertSame($transactionName, $tn->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

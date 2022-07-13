@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -268,24 +268,20 @@ final class FilterHandlerFactoryTest extends TestCase
         self::assertInstanceOf(FilterHandler::class, $handler);
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $bb = new ReflectionProperty($handler, 'bubble');
-        $bb->setAccessible(true);
 
         self::assertTrue($bb->getValue($handler));
 
         $al = new ReflectionProperty($handler, 'acceptedLevels');
-        $al->setAccessible(true);
 
         self::assertSame($levels, $al->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -346,24 +342,20 @@ final class FilterHandlerFactoryTest extends TestCase
         self::assertInstanceOf(FilterHandler::class, $handler);
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $bb = new ReflectionProperty($handler, 'bubble');
-        $bb->setAccessible(true);
 
         self::assertFalse($bb->getValue($handler));
 
         $al = new ReflectionProperty($handler, 'acceptedLevels');
-        $al->setAccessible(true);
 
         self::assertSame($levels, $al->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -426,24 +418,20 @@ final class FilterHandlerFactoryTest extends TestCase
         self::assertInstanceOf(FilterHandler::class, $handler);
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $bb = new ReflectionProperty($handler, 'bubble');
-        $bb->setAccessible(true);
 
         self::assertTrue($bb->getValue($handler));
 
         $al = new ReflectionProperty($handler, 'acceptedLevels');
-        $al->setAccessible(true);
 
         self::assertSame(array_flip($levels), $al->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -687,24 +675,20 @@ final class FilterHandlerFactoryTest extends TestCase
         self::assertInstanceOf(FilterHandler::class, $handler);
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $bb = new ReflectionProperty($handler, 'bubble');
-        $bb->setAccessible(true);
 
         self::assertTrue($bb->getValue($handler));
 
         $al = new ReflectionProperty($handler, 'acceptedLevels');
-        $al->setAccessible(true);
 
         self::assertSame(array_flip($levels), $al->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -840,24 +824,20 @@ final class FilterHandlerFactoryTest extends TestCase
         self::assertInstanceOf(FilterHandler::class, $handler);
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $bb = new ReflectionProperty($handler, 'bubble');
-        $bb->setAccessible(true);
 
         self::assertTrue($bb->getValue($handler));
 
         $al = new ReflectionProperty($handler, 'acceptedLevels');
-        $al->setAccessible(true);
 
         self::assertSame(array_flip($levels), $al->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

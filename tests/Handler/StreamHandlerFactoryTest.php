@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -109,19 +109,16 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
-        $fp->setAccessible(true);
 
         self::assertSame(0644, $fp->getValue($handler));
 
         $ul = new ReflectionProperty($handler, 'useLocking');
-        $ul->setAccessible(true);
 
         self::assertTrue($ul->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -183,19 +180,16 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
-        $fp->setAccessible(true);
 
         self::assertSame(0644, $fp->getValue($handler));
 
         $ul = new ReflectionProperty($handler, 'useLocking');
-        $ul->setAccessible(true);
 
         self::assertTrue($ul->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -236,19 +230,16 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
-        $fp->setAccessible(true);
 
         self::assertSame(0644, $fp->getValue($handler));
 
         $ul = new ReflectionProperty($handler, 'useLocking');
-        $ul->setAccessible(true);
 
         self::assertTrue($ul->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -321,19 +312,16 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
-        $fp->setAccessible(true);
 
         self::assertSame($filePermission, $fp->getValue($handler));
 
         $ul = new ReflectionProperty($handler, 'useLocking');
-        $ul->setAccessible(true);
 
         self::assertFalse($ul->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -471,19 +459,16 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
-        $fp->setAccessible(true);
 
         self::assertSame($filePermission, $fp->getValue($handler));
 
         $ul = new ReflectionProperty($handler, 'useLocking');
-        $ul->setAccessible(true);
 
         self::assertFalse($ul->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -545,19 +530,16 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
-        $fp->setAccessible(true);
 
         self::assertSame($filePermission, $fp->getValue($handler));
 
         $ul = new ReflectionProperty($handler, 'useLocking');
-        $ul->setAccessible(true);
 
         self::assertFalse($ul->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -675,19 +657,16 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
-        $fp->setAccessible(true);
 
         self::assertSame($filePermission, $fp->getValue($handler));
 
         $ul = new ReflectionProperty($handler, 'useLocking');
-        $ul->setAccessible(true);
 
         self::assertFalse($ul->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -756,19 +735,16 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
-        $fp->setAccessible(true);
 
         self::assertSame($filePermission, $fp->getValue($handler));
 
         $ul = new ReflectionProperty($handler, 'useLocking');
-        $ul->setAccessible(true);
 
         self::assertFalse($ul->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -1055,19 +1031,16 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
-        $fp->setAccessible(true);
 
         self::assertSame($filePermission, $fp->getValue($handler));
 
         $ul = new ReflectionProperty($handler, 'useLocking');
-        $ul->setAccessible(true);
 
         self::assertFalse($ul->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

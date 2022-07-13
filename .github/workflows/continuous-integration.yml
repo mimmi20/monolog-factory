@@ -39,7 +39,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.19.1"
+        uses: "shivammathur/setup-php@2.20.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -109,7 +109,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.19.1"
+        uses: "shivammathur/setup-php@2.20.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -157,7 +157,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.19.1"
+        uses: "shivammathur/setup-php@2.20.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -174,7 +174,7 @@ jobs:
       - name: "Linter"
         # You can override Mega-Linter flavor used to have faster performances
         # More info at https://nvuillam.github.io/mega-linter/flavors/
-        uses: "nvuillam/mega-linter/flavors/php@v5"
+        uses: "nvuillam/mega-linter/flavors/php@v6.0.3"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -206,7 +206,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.19.1"
+        uses: "shivammathur/setup-php@2.20.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -250,7 +250,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.19.1"
+        uses: "shivammathur/setup-php@2.20.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -300,7 +300,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.19.1"
+        uses: "shivammathur/setup-php@2.20.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -348,7 +348,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.19.1"
+        uses: "shivammathur/setup-php@2.20.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -399,7 +399,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.19.1"
+        uses: "shivammathur/setup-php@2.20.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -451,7 +451,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.19.1"
+        uses: "shivammathur/setup-php@2.20.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "${{ env.PHP_EXTENSIONS }}"
@@ -516,7 +516,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.19.1"
+        uses: "shivammathur/setup-php@2.20.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, mbstring, dom, simplexml, xml, tokenizer, xmlwriter, openssl, sockets, curl, ctype, intl"
@@ -587,7 +587,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.19.1"
+        uses: "shivammathur/setup-php@2.20.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, mbstring, dom, simplexml, xml, tokenizer, xmlwriter, openssl, mongodb, amqp, :sockets, curl, ctype, intl"
@@ -655,7 +655,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.19.1"
+        uses: "shivammathur/setup-php@2.20.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, mbstring, dom, simplexml, xml, tokenizer, xmlwriter, openssl, mongodb, amqp, sockets, :curl, ctype, intl"
@@ -723,7 +723,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.19.1"
+        uses: "shivammathur/setup-php@2.20.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, mbstring, dom, simplexml, xml, tokenizer, xmlwriter, openssl, :mongodb, amqp, sockets, curl, ctype, intl"
@@ -788,7 +788,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.19.1"
+        uses: "shivammathur/setup-php@2.20.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, mbstring, dom, simplexml, xml, tokenizer, xmlwriter, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
@@ -816,4 +816,4 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection -s --min-covered-msi=91 --min-msi=91 --coverage=.build/coverage --only-covered --logger-github"
+        run: "infection -s --min-covered-msi=90 --min-msi=90 --coverage=.build/coverage --only-covered --logger-github"

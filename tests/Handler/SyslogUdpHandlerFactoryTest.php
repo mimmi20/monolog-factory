@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -114,39 +114,32 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $identP = new ReflectionProperty($handler, 'ident');
-        $identP->setAccessible(true);
 
         self::assertSame('php', $identP->getValue($handler));
 
         $rfcP = new ReflectionProperty($handler, 'rfc');
-        $rfcP->setAccessible(true);
 
         self::assertSame(SyslogUdpHandler::RFC5424, $rfcP->getValue($handler));
 
         $fa = new ReflectionProperty($handler, 'facility');
-        $fa->setAccessible(true);
 
         self::assertSame(LOG_USER, $fa->getValue($handler));
 
         $socketP = new ReflectionProperty($handler, 'socket');
-        $socketP->setAccessible(true);
 
         $socket = $socketP->getValue($handler);
 
         $ipP = new ReflectionProperty($socket, 'ip');
-        $ipP->setAccessible(true);
 
         self::assertSame($host, $ipP->getValue($socket));
 
         $portP = new ReflectionProperty($socket, 'port');
-        $portP->setAccessible(true);
 
         self::assertSame(514, $portP->getValue($socket));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -187,39 +180,32 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $identP = new ReflectionProperty($handler, 'ident');
-        $identP->setAccessible(true);
 
         self::assertSame($ident, $identP->getValue($handler));
 
         $rfcP = new ReflectionProperty($handler, 'rfc');
-        $rfcP->setAccessible(true);
 
         self::assertSame($rfc, $rfcP->getValue($handler));
 
         $fa = new ReflectionProperty($handler, 'facility');
-        $fa->setAccessible(true);
 
         self::assertSame($facility, $fa->getValue($handler));
 
         $socketP = new ReflectionProperty($handler, 'socket');
-        $socketP->setAccessible(true);
 
         $socket = $socketP->getValue($handler);
 
         $ipP = new ReflectionProperty($socket, 'ip');
-        $ipP->setAccessible(true);
 
         self::assertSame($host, $ipP->getValue($socket));
 
         $portP = new ReflectionProperty($socket, 'port');
-        $portP->setAccessible(true);
 
         self::assertSame($port, $portP->getValue($socket));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -343,39 +329,32 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $identP = new ReflectionProperty($handler, 'ident');
-        $identP->setAccessible(true);
 
         self::assertSame($ident, $identP->getValue($handler));
 
         $rfcP = new ReflectionProperty($handler, 'rfc');
-        $rfcP->setAccessible(true);
 
         self::assertSame($rfc, $rfcP->getValue($handler));
 
         $fa = new ReflectionProperty($handler, 'facility');
-        $fa->setAccessible(true);
 
         self::assertSame($facility, $fa->getValue($handler));
 
         $socketP = new ReflectionProperty($handler, 'socket');
-        $socketP->setAccessible(true);
 
         $socket = $socketP->getValue($handler);
 
         $ipP = new ReflectionProperty($socket, 'ip');
-        $ipP->setAccessible(true);
 
         self::assertSame($host, $ipP->getValue($socket));
 
         $portP = new ReflectionProperty($socket, 'port');
-        $portP->setAccessible(true);
 
         self::assertSame($port, $portP->getValue($socket));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -256,22 +256,18 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $bb = new ReflectionProperty($handler, 'bubble');
-        $bb->setAccessible(true);
 
         self::assertTrue($bb->getValue($handler));
 
         $filtersP = new ReflectionProperty($handler, 'filters');
-        $filtersP->setAccessible(true);
 
         self::assertSame([], $filtersP->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -328,22 +324,18 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $bb = new ReflectionProperty($handler, 'bubble');
-        $bb->setAccessible(true);
 
         self::assertFalse($bb->getValue($handler));
 
         $filtersP = new ReflectionProperty($handler, 'filters');
-        $filtersP->setAccessible(true);
 
         self::assertSame([$filter], $filtersP->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -402,22 +394,18 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $bb = new ReflectionProperty($handler, 'bubble');
-        $bb->setAccessible(true);
 
         self::assertFalse($bb->getValue($handler));
 
         $filtersP = new ReflectionProperty($handler, 'filters');
-        $filtersP->setAccessible(true);
 
         self::assertSame([$filter1, $filter2], $filtersP->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -477,22 +465,18 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $bb = new ReflectionProperty($handler, 'bubble');
-        $bb->setAccessible(true);
 
         self::assertFalse($bb->getValue($handler));
 
         $filtersP = new ReflectionProperty($handler, 'filters');
-        $filtersP->setAccessible(true);
 
         self::assertSame([$filter1, $filter2], $filtersP->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -605,22 +589,18 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $bb = new ReflectionProperty($handler, 'bubble');
-        $bb->setAccessible(true);
 
         self::assertFalse($bb->getValue($handler));
 
         $filtersP = new ReflectionProperty($handler, 'filters');
-        $filtersP->setAccessible(true);
 
         self::assertSame([$filter1, $filter2], $filtersP->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -691,22 +671,18 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $bb = new ReflectionProperty($handler, 'bubble');
-        $bb->setAccessible(true);
 
         self::assertFalse($bb->getValue($handler));
 
         $filtersP = new ReflectionProperty($handler, 'filters');
-        $filtersP->setAccessible(true);
 
         self::assertSame([$filter1, $filter2], $filtersP->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

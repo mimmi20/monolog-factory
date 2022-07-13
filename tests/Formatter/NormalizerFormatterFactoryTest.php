@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -50,7 +50,6 @@ final class NormalizerFormatterFactoryTest extends TestCase
         self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
 
         $jeo = new ReflectionProperty($formatter, 'jsonEncodeOptions');
-        $jeo->setAccessible(true);
 
         $jsonEncodeOptions = $jeo->getValue($formatter);
 
@@ -82,7 +81,6 @@ final class NormalizerFormatterFactoryTest extends TestCase
         self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
 
         $jeo = new ReflectionProperty($formatter, 'jsonEncodeOptions');
-        $jeo->setAccessible(true);
 
         $jsonEncodeOptions = $jeo->getValue($formatter);
 
@@ -118,7 +116,6 @@ final class NormalizerFormatterFactoryTest extends TestCase
         self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
 
         $jeo = new ReflectionProperty($formatter, 'jsonEncodeOptions');
-        $jeo->setAccessible(true);
 
         $jsonEncodeOptions = $jeo->getValue($formatter);
 

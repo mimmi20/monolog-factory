@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -109,17 +109,14 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $urlP = new ReflectionProperty($handler, 'webhookDsn');
-        $urlP->setAccessible(true);
 
         self::assertSame($url, $urlP->getValue($handler));
 
         $formatP = new ReflectionProperty($handler, 'format');
-        $formatP->setAccessible(true);
 
         self::assertSame('%message%', $formatP->getValue($handler));
 
         $microsoftTeamsRecord = new ReflectionProperty($handler, 'microsoftTeamsRecord');
-        $microsoftTeamsRecord->setAccessible(true);
 
         $mtr = $microsoftTeamsRecord->getValue($handler);
         assert($mtr instanceof MicrosoftTeamsRecord);
@@ -128,19 +125,16 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         self::assertSame('Date', $mtr->getSubject());
 
         $emojiP = new ReflectionProperty($mtr, 'emoji');
-        $emojiP->setAccessible(true);
 
         self::assertNull($emojiP->getValue($mtr));
 
         $colorP = new ReflectionProperty($mtr, 'color');
-        $colorP->setAccessible(true);
 
         self::assertNull($colorP->getValue($mtr));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -180,17 +174,14 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $urlP = new ReflectionProperty($handler, 'webhookDsn');
-        $urlP->setAccessible(true);
 
         self::assertSame($url, $urlP->getValue($handler));
 
         $formatP = new ReflectionProperty($handler, 'format');
-        $formatP->setAccessible(true);
 
         self::assertSame($format, $formatP->getValue($handler));
 
         $microsoftTeamsRecord = new ReflectionProperty($handler, 'microsoftTeamsRecord');
-        $microsoftTeamsRecord->setAccessible(true);
 
         $mtr = $microsoftTeamsRecord->getValue($handler);
         assert($mtr instanceof MicrosoftTeamsRecord);
@@ -199,19 +190,16 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         self::assertSame($subject, $mtr->getSubject());
 
         $emojiP = new ReflectionProperty($mtr, 'emoji');
-        $emojiP->setAccessible(true);
 
         self::assertSame($emoji, $emojiP->getValue($mtr));
 
         $colorP = new ReflectionProperty($mtr, 'color');
-        $colorP->setAccessible(true);
 
         self::assertSame($color, $colorP->getValue($mtr));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -317,17 +305,14 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $urlP = new ReflectionProperty($handler, 'webhookDsn');
-        $urlP->setAccessible(true);
 
         self::assertSame($url, $urlP->getValue($handler));
 
         $formatP = new ReflectionProperty($handler, 'format');
-        $formatP->setAccessible(true);
 
         self::assertSame('%message%', $formatP->getValue($handler));
 
         $microsoftTeamsRecord = new ReflectionProperty($handler, 'microsoftTeamsRecord');
-        $microsoftTeamsRecord->setAccessible(true);
 
         $mtr = $microsoftTeamsRecord->getValue($handler);
         assert($mtr instanceof MicrosoftTeamsRecord);
@@ -336,19 +321,16 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         self::assertSame('Date', $mtr->getSubject());
 
         $emojiP = new ReflectionProperty($mtr, 'emoji');
-        $emojiP->setAccessible(true);
 
         self::assertNull($emojiP->getValue($mtr));
 
         $colorP = new ReflectionProperty($mtr, 'color');
-        $colorP->setAccessible(true);
 
         self::assertNull($colorP->getValue($mtr));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

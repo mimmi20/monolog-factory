@@ -139,7 +139,7 @@ config/autoload/logger.config.php
 ```php
 <?php
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'name' => 'name',
             'errorLevelMap' => false, // optional: map of php errors to monolog levels, use an empty array if the default map should be used, defaults to false which disables the error handling
@@ -183,7 +183,7 @@ when you wire up the default logger.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'name' => 'name',
             'handlers' => [
@@ -207,7 +207,7 @@ return [
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'name' => 'name',
             'handlers' => [
@@ -268,7 +268,7 @@ Logs records into any PHP stream, use this for log files.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -303,7 +303,7 @@ this is just meant as a quick and dirty solution.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -339,7 +339,7 @@ Logs records to the syslog.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -373,7 +373,7 @@ Logs records to PHP's [error_log()](http://docs.php.net/manual/en/function.error
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -406,7 +406,7 @@ specified by a command.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -440,7 +440,7 @@ Sends emails using PHP's [mail()](http://php.net/manual/en/function.mail.php) fu
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -476,7 +476,7 @@ Sends emails using a [Swift_Mailer](http://swiftmailer.org/) instance.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [ 
             'handlers' => [
                 'myHandlerName' => [
@@ -508,7 +508,7 @@ Sends emails using a [symfony/mailer](https://symfony.com/doc/current/mailer.htm
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [ 
             'handlers' => [
                 'myHandlerName' => [
@@ -540,7 +540,7 @@ Sends mobile notifications via the [Pushover](https://www.pushover.net/) API. Re
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -582,7 +582,7 @@ Logs records to a [Flowdock](https://www.flowdock.com/) account. Requires the op
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -617,7 +617,7 @@ Logs records to a [Slack](https://www.slack.com/) account using Slack Webhooks. 
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -656,7 +656,7 @@ openssl and sockets Extensions.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -698,7 +698,7 @@ Sends emails via the SendGrid API. Requires the curl Excension.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -734,7 +734,7 @@ Requires the curl Excension.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -766,7 +766,7 @@ Logs records to a [Fleep](https://fleep.io/) conversation using Webhooks. Requir
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -801,7 +801,7 @@ IFTTTHandler uses cURL to trigger IFTTT Maker actions. Requires the curl Extensi
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -833,7 +833,7 @@ Logs records to a [Telegram](https://core.telegram.org/bots/api) bot account. Re
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -871,7 +871,7 @@ an [example](https://github.com/Seldaek/monolog/blob/master/doc/sockets.md). Req
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -908,7 +908,7 @@ the [php-amqplib](https://github.com/php-amqplib/php-amqplib) library.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -941,7 +941,7 @@ package [graylog2/gelf-php](https://github.com/bzikarsky/gelf-php).
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -977,7 +977,7 @@ internally for over a year._
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1008,7 +1008,7 @@ Logs records to the Zend Monitor present in [Zend Server](http://www.zend.com/en
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1038,7 +1038,7 @@ Logs records to a [NewRelic](http://newrelic.com/) application. Requires the new
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1071,7 +1071,7 @@ Logs records to a [Loggly](http://www.loggly.com/) account. Requires the curl Ex
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1112,7 +1112,7 @@ Logs records to a remote [Syslogd](http://www.rsyslog.com/) server. Requires the
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1147,7 +1147,7 @@ Logs records to a [LogEntries](http://logentries.com/) account. Requires the ope
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1185,7 +1185,7 @@ Extensions.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1222,7 +1222,7 @@ Logs records to a [Logmatic](http://logmatic.io/) account. Requires the openssl 
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1260,7 +1260,7 @@ Logs records to an [AWS SQS](http://docs.aws.amazon.com/aws-sdk-php/v2/guide/ser
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1297,7 +1297,7 @@ _Note: The Firebug extension isn't being developed or maintained any longer._
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1328,7 +1328,7 @@ Extension.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1359,7 +1359,7 @@ console API are supported.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1391,7 +1391,7 @@ package [barbushin/php-console](https://github.com/barbushin/php-console#install
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1426,7 +1426,7 @@ extension or the [Predis](https://github.com/nrk/predis) library.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1460,7 +1460,7 @@ extension or the [Predis](https://github.com/nrk/predis) library.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1493,7 +1493,7 @@ connection.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1526,7 +1526,7 @@ Logs records to a CouchDB server.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1561,7 +1561,7 @@ Logs records to a CouchDB server via the Doctrine CouchDB ODM.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1594,7 +1594,7 @@ _Note: The version of the client should match the server version, but there is a
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1631,7 +1631,7 @@ _Note: The version of the client should match the server version._
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1667,7 +1667,7 @@ Logs records to a DynamoDB table with the [AWS SDK](https://github.com/aws/aws-s
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1707,7 +1707,7 @@ need it.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1748,7 +1748,7 @@ to a manageable level.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1782,7 +1782,7 @@ do not want your entire application to crash and may wish to continue to log to 
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1814,7 +1814,7 @@ attempt log to other handlers, until one does not throw.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1845,7 +1845,7 @@ every log record.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1877,7 +1877,7 @@ This handler groups other handlers. Every record received is sent to all the han
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1905,7 +1905,7 @@ Simple handler wrapper that filters records based on a list of levels
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1942,7 +1942,7 @@ tend to be close to this ratio with a large number of attempts.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1973,7 +1973,7 @@ disable a handler when overriding a configuration.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -1997,7 +1997,7 @@ to put on top of an existing stack to override it temporarily.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -2022,7 +2022,7 @@ Can be used to forward log records to an existing PSR-3 logger
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -2051,7 +2051,7 @@ Used for testing, it records everything that is sent to it and has accessors to 
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -2084,7 +2084,7 @@ significant failures instead of minor, single erroneous events.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -2127,7 +2127,7 @@ package [actived/microsoft-teams-notifier](https://github.com/actived/microsoft-
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -2162,7 +2162,7 @@ package [cmdisp/monolog-microsoft-teams](https://github.com/cmdisp/monolog-micro
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -2192,7 +2192,7 @@ Requires [bartlett/monolog-callbackfilterhandler](https://github.com/llaville/mo
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'handlers' => [
                 'myHandlerName' => [
@@ -2223,7 +2223,7 @@ Formats a log record into a one-line string.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2255,7 +2255,7 @@ Used to format log records into a human readable html table, mainly suitable for
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2283,7 +2283,7 @@ Normalizes objects/resources down to strings so a record can easily be serialize
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2311,7 +2311,7 @@ Used to format log records into an associative array of scalar values.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2339,7 +2339,7 @@ Encodes a log record into json.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2371,7 +2371,7 @@ Used to format log records into the Wildfire/FirePHP protocol, only useful for t
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2399,7 +2399,7 @@ Used to format log records into the ChromePHP format, only useful for the Chrome
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2422,7 +2422,7 @@ Used to format log records into Gelf message instances, only useful for the Gelf
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2453,7 +2453,7 @@ Used to format log records into logstash event json, useful for any handler list
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2484,7 +2484,7 @@ Used to format log records into an Elastica Document.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'ElasticaFormatter' => [
@@ -2513,7 +2513,7 @@ Used to format log records into an Elasticsearch Document.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'ElasticsearchFormatter' => [
@@ -2542,7 +2542,7 @@ Used to format log records into Loggly messages, only useful for the LogglyHandl
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2573,7 +2573,7 @@ Used to format log records into Flowdock messages, only useful for the FlowdockH
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2599,7 +2599,7 @@ Converts \DateTime instances to \MongoDate and objects recursively to arrays, on
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2626,7 +2626,7 @@ LogmaticHandler.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2658,7 +2658,7 @@ Serializes a log message to Fluentd unix socket protocol. Requires the json Exte
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2684,7 +2684,7 @@ Requires [StreamFormatter](https://github.com/mimmi20/monolog-streamformatter).
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'formatters' => [
                 'myFormatterName' => [
@@ -2716,7 +2716,7 @@ Processes a log record's message according to PSR-3 rules, replacing {foo} with 
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'processors' => [
                 'myProcessorsName' => [
@@ -2742,7 +2742,7 @@ Adds the line/file/class/method from which the log call originated.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'processors' => [
                 'myProcessorsName' => [
@@ -2769,7 +2769,7 @@ Adds the current request URI, request method and client IP to a log record.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'processors' => [
                 'myProcessorsName' => [
@@ -2795,7 +2795,7 @@ Adds the current memory usage to a log record.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'processors' => [
                 'myProcessorsName' => [
@@ -2821,7 +2821,7 @@ Adds the peak memory usage to a log record.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'processors' => [
                 'myProcessorsName' => [
@@ -2847,7 +2847,7 @@ Adds the process id to a log record.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'processors' => [
                 'myProcessorsName' => [
@@ -2870,7 +2870,7 @@ Adds a unique identifier to a log record.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'processors' => [
                 'myProcessorsName' => [
@@ -2897,7 +2897,7 @@ _Note:  Only works if the git executable is in your working path._
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'processors' => [
                 'myProcessorsName' => [
@@ -2924,7 +2924,7 @@ _Note:  Only works if the hg executable is in your working path._
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'processors' => [
                 'myProcessorsName' => [
@@ -2949,7 +2949,7 @@ Adds an array of predefined tags to a log record.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'processors' => [
                 'myProcessorsName' => [
@@ -2974,7 +2974,7 @@ Adds the current hostname to a log record.
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'processors' => [
                 'myProcessorsName' => [
@@ -2998,7 +2998,7 @@ Requires [jk/monolog-request-header-processor](https://github.com/jk/monolog-req
 <?php
 
 return [
-    'monolog' => [
+    'log' => [
         'default' => [
             'processors' => [
                 'myProcessorsName' => [

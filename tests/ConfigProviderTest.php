@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -44,7 +44,7 @@ final class ConfigProviderTest extends TestCase
     {
         $dependencyConfig = $this->provider->getDependencyConfig();
         self::assertIsArray($dependencyConfig);
-        self::assertCount(3, $dependencyConfig);
+        self::assertCount(1, $dependencyConfig);
 
         self::assertArrayNotHasKey('delegators', $dependencyConfig);
         self::assertArrayNotHasKey('initializers', $dependencyConfig);
@@ -52,26 +52,19 @@ final class ConfigProviderTest extends TestCase
         self::assertArrayNotHasKey('services', $dependencyConfig);
         self::assertArrayNotHasKey('shared', $dependencyConfig);
 
-        self::assertArrayHasKey('abstract_factories', $dependencyConfig);
-        $abstractFactories = $dependencyConfig['abstract_factories'];
-        self::assertIsArray($abstractFactories);
-        self::assertContains(LoggerAbstractFactory::class, $abstractFactories);
+        self::assertArrayNotHasKey('abstract_factories', $dependencyConfig);
 
         self::assertArrayHasKey('factories', $dependencyConfig);
         $factories = $dependencyConfig['factories'];
         self::assertIsArray($factories);
-        self::assertCount(6, $factories);
+        self::assertCount(5, $factories);
         self::assertArrayHasKey(MonologPluginManager::class, $factories);
         self::assertArrayHasKey(MonologHandlerPluginManager::class, $factories);
         self::assertArrayHasKey(MonologProcessorPluginManager::class, $factories);
         self::assertArrayHasKey(MonologFormatterPluginManager::class, $factories);
         self::assertArrayHasKey(ActivationStrategyPluginManager::class, $factories);
 
-        self::assertArrayHasKey('aliases', $dependencyConfig);
-        $aliases = $dependencyConfig['aliases'];
-        self::assertIsArray($aliases);
-        self::assertCount(1, $aliases);
-        self::assertArrayHasKey(LoggerInterface::class, $aliases);
+        self::assertArrayNotHasKey('aliases', $dependencyConfig);
     }
 
     /**
@@ -166,9 +159,13 @@ final class ConfigProviderTest extends TestCase
     {
         $monologConfig = $this->provider->getMonologConfig();
         self::assertIsArray($monologConfig);
-        self::assertCount(1, $monologConfig);
+        self::assertCount(3, $monologConfig);
 
-        self::assertArrayNotHasKey('abstract_factories', $monologConfig);
+        self::assertArrayHasKey('abstract_factories', $monologConfig);
+        $abstractFactories = $monologConfig['abstract_factories'];
+        self::assertIsArray($abstractFactories);
+        self::assertContains(LoggerAbstractFactory::class, $abstractFactories);
+
         self::assertArrayNotHasKey('delegators', $monologConfig);
         self::assertArrayNotHasKey('initializers', $monologConfig);
         self::assertArrayNotHasKey('invokables', $monologConfig);
@@ -181,7 +178,11 @@ final class ConfigProviderTest extends TestCase
         self::assertCount(1, $factories);
         self::assertArrayHasKey(Logger::class, $factories);
 
-        self::assertArrayNotHasKey('aliases', $monologConfig);
+        self::assertArrayHasKey('aliases', $monologConfig);
+        $aliases = $monologConfig['aliases'];
+        self::assertIsArray($aliases);
+        self::assertCount(1, $aliases);
+        self::assertArrayHasKey(LoggerInterface::class, $aliases);
     }
 
     /**

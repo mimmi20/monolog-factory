@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -158,29 +158,24 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         self::assertSame('utf-8', $handler->getEncoding());
 
         $toP = new ReflectionProperty($handler, 'to');
-        $toP->setAccessible(true);
 
         self::assertSame([$to], $toP->getValue($handler));
 
         $subjectP = new ReflectionProperty($handler, 'subject');
-        $subjectP->setAccessible(true);
 
         self::assertSame($subject, $subjectP->getValue($handler));
 
         $mcw = new ReflectionProperty($handler, 'maxColumnWidth');
-        $mcw->setAccessible(true);
 
         self::assertSame(70, $mcw->getValue($handler));
 
         $headersP = new ReflectionProperty($handler, 'headers');
-        $headersP->setAccessible(true);
 
         self::assertSame(['From: ' . $from], $headersP->getValue($handler));
 
         self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -222,29 +217,24 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         self::assertSame($encoding, $handler->getEncoding());
 
         $toP = new ReflectionProperty($handler, 'to');
-        $toP->setAccessible(true);
 
         self::assertSame([$to], $toP->getValue($handler));
 
         $subjectP = new ReflectionProperty($handler, 'subject');
-        $subjectP->setAccessible(true);
 
         self::assertSame($subject, $subjectP->getValue($handler));
 
         $mcw = new ReflectionProperty($handler, 'maxColumnWidth');
-        $mcw->setAccessible(true);
 
         self::assertSame($maxColumnWidth, $mcw->getValue($handler));
 
         $headersP = new ReflectionProperty($handler, 'headers');
-        $headersP->setAccessible(true);
 
         self::assertSame(['From: ' . $from], $headersP->getValue($handler));
 
         self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -367,29 +357,24 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         self::assertSame($encoding, $handler->getEncoding());
 
         $toP = new ReflectionProperty($handler, 'to');
-        $toP->setAccessible(true);
 
         self::assertSame([$to], $toP->getValue($handler));
 
         $subjectP = new ReflectionProperty($handler, 'subject');
-        $subjectP->setAccessible(true);
 
         self::assertSame($subject, $subjectP->getValue($handler));
 
         $mcw = new ReflectionProperty($handler, 'maxColumnWidth');
-        $mcw->setAccessible(true);
 
         self::assertSame($maxColumnWidth, $mcw->getValue($handler));
 
         $headersP = new ReflectionProperty($handler, 'headers');
-        $headersP->setAccessible(true);
 
         self::assertSame(['From: ' . $from], $headersP->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

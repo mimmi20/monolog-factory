@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,9 +12,9 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Formatter;
 
+use Mimmi20\Monolog\Formatter\StreamFormatter;
 use Mimmi20\MonologFactory\Formatter\NormalizerFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\StreamFormatterFactory;
-use Mimmi20\Monolog\Formatter\StreamFormatter;
 use Monolog\Formatter\NormalizerFormatter;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
@@ -50,22 +50,18 @@ final class StreamFormatterFactoryTest extends TestCase
         self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
 
         $ailb = new ReflectionProperty($formatter, 'allowInlineLineBreaks');
-        $ailb->setAccessible(true);
 
         self::assertFalse($ailb->getValue($formatter));
 
         $format = new ReflectionProperty($formatter, 'format');
-        $format->setAccessible(true);
 
         self::assertSame(StreamFormatter::SIMPLE_FORMAT, $format->getValue($formatter));
 
         $st = new ReflectionProperty($formatter, 'includeStacktraces');
-        $st->setAccessible(true);
 
         self::assertFalse($st->getValue($formatter));
 
         $ts = new ReflectionProperty($formatter, 'tableStyle');
-        $ts->setAccessible(true);
 
         self::assertSame(StreamFormatter::BOX_STYLE, $ts->getValue($formatter));
     }
@@ -95,22 +91,18 @@ final class StreamFormatterFactoryTest extends TestCase
         self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
 
         $ailb = new ReflectionProperty($formatter, 'allowInlineLineBreaks');
-        $ailb->setAccessible(true);
 
         self::assertFalse($ailb->getValue($formatter));
 
         $format = new ReflectionProperty($formatter, 'format');
-        $format->setAccessible(true);
 
         self::assertSame(StreamFormatter::SIMPLE_FORMAT, $format->getValue($formatter));
 
         $st = new ReflectionProperty($formatter, 'includeStacktraces');
-        $st->setAccessible(true);
 
         self::assertFalse($st->getValue($formatter));
 
         $ts = new ReflectionProperty($formatter, 'tableStyle');
-        $ts->setAccessible(true);
 
         self::assertSame(StreamFormatter::BOX_STYLE, $ts->getValue($formatter));
     }
@@ -148,22 +140,18 @@ final class StreamFormatterFactoryTest extends TestCase
         self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
 
         $ailb = new ReflectionProperty($formatter, 'allowInlineLineBreaks');
-        $ailb->setAccessible(true);
 
         self::assertTrue($ailb->getValue($formatter));
 
         $formatP = new ReflectionProperty($formatter, 'format');
-        $formatP->setAccessible(true);
 
         self::assertSame($format, $formatP->getValue($formatter));
 
         $st = new ReflectionProperty($formatter, 'includeStacktraces');
-        $st->setAccessible(true);
 
         self::assertTrue($st->getValue($formatter));
 
         $ts = new ReflectionProperty($formatter, 'tableStyle');
-        $ts->setAccessible(true);
 
         self::assertSame($tableStyle, $ts->getValue($formatter));
     }

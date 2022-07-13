@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -270,12 +270,10 @@ final class OverflowHandlerFactoryTest extends TestCase
         self::assertTrue($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $thm = new ReflectionProperty($handler, 'thresholdMap');
-        $thm->setAccessible(true);
 
         self::assertSame($thresholdMapExpected, $thm->getValue($handler));
 
@@ -354,12 +352,10 @@ final class OverflowHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $thm = new ReflectionProperty($handler, 'thresholdMap');
-        $thm->setAccessible(true);
 
         self::assertSame($thresholdMapExpected, $thm->getValue($handler));
 
@@ -631,12 +627,10 @@ final class OverflowHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $thm = new ReflectionProperty($handler, 'thresholdMap');
-        $thm->setAccessible(true);
 
         self::assertSame($thresholdMapExpected, $thm->getValue($handler));
 
@@ -792,12 +786,10 @@ final class OverflowHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $thm = new ReflectionProperty($handler, 'thresholdMap');
-        $thm->setAccessible(true);
 
         self::assertSame($thresholdMapExpected, $thm->getValue($handler));
 
@@ -873,12 +865,10 @@ final class OverflowHandlerFactoryTest extends TestCase
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
-        $handlerP->setAccessible(true);
 
         self::assertSame($handler2, $handlerP->getValue($handler));
 
         $thm = new ReflectionProperty($handler, 'thresholdMap');
-        $thm->setAccessible(true);
 
         self::assertSame($thresholdMapExpected, $thm->getValue($handler));
     }

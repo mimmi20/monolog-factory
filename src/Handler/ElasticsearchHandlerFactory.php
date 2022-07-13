@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -32,7 +32,6 @@ use function array_key_exists;
 use function assert;
 use function class_exists;
 use function date;
-use function get_class;
 use function gettype;
 use function in_array;
 use function is_array;
@@ -101,7 +100,7 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
                 sprintf(
                     '$monologConfigPluginManager should be an Instance of %s, but was %s',
                     AbstractPluginManager::class,
-                    is_object($monologClientPluginManager) ? get_class($monologClientPluginManager) : gettype($monologClientPluginManager)
+                    is_object($monologClientPluginManager) ? $monologClientPluginManager::class : gettype($monologClientPluginManager)
                 )
             );
 

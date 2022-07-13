@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -47,7 +47,6 @@ final class ErrorLevelActivationStrategyFactoryTest extends TestCase
         self::assertInstanceOf(ErrorLevelActivationStrategy::class, $strategy);
 
         $al = new ReflectionProperty($strategy, 'actionLevel');
-        $al->setAccessible(true);
 
         self::assertSame(Logger::DEBUG, $al->getValue($strategy));
     }
@@ -74,7 +73,6 @@ final class ErrorLevelActivationStrategyFactoryTest extends TestCase
         self::assertInstanceOf(ErrorLevelActivationStrategy::class, $strategy);
 
         $al = new ReflectionProperty($strategy, 'actionLevel');
-        $al->setAccessible(true);
 
         self::assertSame(Logger::DEBUG, $al->getValue($strategy));
     }
@@ -101,7 +99,6 @@ final class ErrorLevelActivationStrategyFactoryTest extends TestCase
         self::assertInstanceOf(ErrorLevelActivationStrategy::class, $strategy);
 
         $al = new ReflectionProperty($strategy, 'actionLevel');
-        $al->setAccessible(true);
 
         self::assertSame(Logger::ALERT, $al->getValue($strategy));
     }

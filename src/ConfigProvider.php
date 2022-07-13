@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,6 +18,7 @@ use CMDISP\MonologMicrosoftTeams\TeamsLogHandler;
 use Elastic\Elasticsearch\Client as V8Client;
 use Elasticsearch\Client as V7Client;
 use JK\Monolog\Processor\RequestHeaderProcessor;
+use Mimmi20\Monolog\Formatter\StreamFormatter;
 use Mimmi20\MonologFactory\Client\ElasticsearchV7Factory;
 use Mimmi20\MonologFactory\Client\ElasticsearchV8Factory;
 use Mimmi20\MonologFactory\Formatter\ChromePHPFormatterFactory;
@@ -109,7 +110,6 @@ use Mimmi20\MonologFactory\Processor\RequestHeaderProcessorFactory;
 use Mimmi20\MonologFactory\Processor\TagProcessorFactory;
 use Mimmi20\MonologFactory\Processor\UidProcessorFactory;
 use Mimmi20\MonologFactory\Processor\WebProcessorFactory;
-use Mimmi20\Monolog\Formatter\StreamFormatter;
 use Monolog\Formatter\ChromePHPFormatter;
 use Monolog\Formatter\ElasticaFormatter;
 use Monolog\Formatter\ElasticsearchFormatter;
@@ -201,7 +201,7 @@ final class ConfigProvider
      * Return general-purpose laminas-navigation configuration.
      *
      * @return array<string, array<string, array<int|string, string>>>
-     * @phpstan-return array{dependencies: array{aliases: array<string|class-string, class-string>, abstract_factories: array<int, class-string>, factories: array<class-string, class-string>}, monolog_handlers: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog_processors: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog_formatters: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog: array{factories: array<class-string, class-string>}, monolog_service_clients:array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}}
+     * @phpstan-return array{dependencies: array{factories: array<class-string, class-string>}, monolog_handlers: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog_processors: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog_formatters: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog: array{abstract_factories: array<int, class-string>, aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog_service_clients:array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}}
      */
     public function __invoke(): array
     {
@@ -219,20 +219,13 @@ final class ConfigProvider
      * Return application-level dependency configuration.
      *
      * @return array<string, array<int|string, string>>
-     * @phpstan-return array{aliases: array<string|class-string, class-string>, abstract_factories: array<int, class-string>, factories: array<class-string, class-string>}
+     * @phpstan-return array{factories: array<class-string, class-string>}
      */
     public function getDependencyConfig(): array
     {
         return [
-            'aliases' => [
-                LoggerInterface::class => Logger::class,
-            ],
-            'abstract_factories' => [
-                LoggerAbstractFactory::class,
-            ],
             'factories' => [
                 ActivationStrategyPluginManager::class => ActivationStrategyPluginManagerFactory::class,
-                Logger::class => LoggerAbstractFactory::class,
                 MonologPluginManager::class => MonologPluginManagerFactory::class,
                 MonologHandlerPluginManager::class => MonologHandlerPluginManagerFactory::class,
                 MonologProcessorPluginManager::class => MonologProcessorPluginManagerFactory::class,
@@ -477,13 +470,19 @@ final class ConfigProvider
 
     /**
      * @return array<string, array<string, string>>
-     * @phpstan-return array{factories: array<class-string, class-string>}
+     * @phpstan-return array{abstract_factories: array<int, class-string>, aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}
      */
     public function getMonologConfig(): array
     {
         return [
+            'abstract_factories' => [
+                LoggerAbstractFactory::class,
+            ],
+            'aliases' => [
+                LoggerInterface::class => Logger::class,
+            ],
             'factories' => [
-                \Monolog\Logger::class => MonologFactory::class,
+                Logger::class => MonologFactory::class,
             ],
         ];
     }

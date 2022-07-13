@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2021-2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -144,44 +144,36 @@ final class PushoverHandlerFactoryTest extends TestCase
         self::assertFalse($handler->isPersistent());
 
         $tk = new ReflectionProperty($handler, 'token');
-        $tk->setAccessible(true);
 
         self::assertSame($token, $tk->getValue($handler));
 
         $us = new ReflectionProperty($handler, 'users');
-        $us->setAccessible(true);
 
         self::assertSame([$users], $us->getValue($handler));
 
         $ti = new ReflectionProperty($handler, 'title');
-        $ti->setAccessible(true);
 
         self::assertSame((string) gethostname(), $ti->getValue($handler));
 
         $hpl = new ReflectionProperty($handler, 'highPriorityLevel');
-        $hpl->setAccessible(true);
 
         self::assertSame(Logger::CRITICAL, $hpl->getValue($handler));
 
         $el = new ReflectionProperty($handler, 'emergencyLevel');
-        $el->setAccessible(true);
 
         self::assertSame(Logger::EMERGENCY, $el->getValue($handler));
 
         $re = new ReflectionProperty($handler, 'retry');
-        $re->setAccessible(true);
 
         self::assertSame(30, $re->getValue($handler));
 
         $ex = new ReflectionProperty($handler, 'expire');
-        $ex->setAccessible(true);
 
         self::assertSame(25200, $ex->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -232,44 +224,36 @@ final class PushoverHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $tk = new ReflectionProperty($handler, 'token');
-        $tk->setAccessible(true);
 
         self::assertSame($token, $tk->getValue($handler));
 
         $us = new ReflectionProperty($handler, 'users');
-        $us->setAccessible(true);
 
         self::assertSame($users, $us->getValue($handler));
 
         $ti = new ReflectionProperty($handler, 'title');
-        $ti->setAccessible(true);
 
         self::assertSame($title, $ti->getValue($handler));
 
         $hpl = new ReflectionProperty($handler, 'highPriorityLevel');
-        $hpl->setAccessible(true);
 
         self::assertSame(Logger::ERROR, $hpl->getValue($handler));
 
         $el = new ReflectionProperty($handler, 'emergencyLevel');
-        $el->setAccessible(true);
 
         self::assertSame(Logger::ALERT, $el->getValue($handler));
 
         $re = new ReflectionProperty($handler, 'retry');
-        $re->setAccessible(true);
 
         self::assertSame($retry, $re->getValue($handler));
 
         $ex = new ReflectionProperty($handler, 'expire');
-        $ex->setAccessible(true);
 
         self::assertSame($expire, $ex->getValue($handler));
 
         self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -411,44 +395,36 @@ final class PushoverHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $tk = new ReflectionProperty($handler, 'token');
-        $tk->setAccessible(true);
 
         self::assertSame($token, $tk->getValue($handler));
 
         $us = new ReflectionProperty($handler, 'users');
-        $us->setAccessible(true);
 
         self::assertSame($users, $us->getValue($handler));
 
         $ti = new ReflectionProperty($handler, 'title');
-        $ti->setAccessible(true);
 
         self::assertSame($title, $ti->getValue($handler));
 
         $hpl = new ReflectionProperty($handler, 'highPriorityLevel');
-        $hpl->setAccessible(true);
 
         self::assertSame(Logger::ERROR, $hpl->getValue($handler));
 
         $el = new ReflectionProperty($handler, 'emergencyLevel');
-        $el->setAccessible(true);
 
         self::assertSame(Logger::ALERT, $el->getValue($handler));
 
         $re = new ReflectionProperty($handler, 'retry');
-        $re->setAccessible(true);
 
         self::assertSame($retry, $re->getValue($handler));
 
         $ex = new ReflectionProperty($handler, 'expire');
-        $ex->setAccessible(true);
 
         self::assertSame($expire, $ex->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 
@@ -515,44 +491,36 @@ final class PushoverHandlerFactoryTest extends TestCase
         self::assertTrue($handler->isPersistent());
 
         $tk = new ReflectionProperty($handler, 'token');
-        $tk->setAccessible(true);
 
         self::assertSame($token, $tk->getValue($handler));
 
         $us = new ReflectionProperty($handler, 'users');
-        $us->setAccessible(true);
 
         self::assertSame($users, $us->getValue($handler));
 
         $ti = new ReflectionProperty($handler, 'title');
-        $ti->setAccessible(true);
 
         self::assertSame($title, $ti->getValue($handler));
 
         $hpl = new ReflectionProperty($handler, 'highPriorityLevel');
-        $hpl->setAccessible(true);
 
         self::assertSame(Logger::ERROR, $hpl->getValue($handler));
 
         $el = new ReflectionProperty($handler, 'emergencyLevel');
-        $el->setAccessible(true);
 
         self::assertSame(Logger::ALERT, $el->getValue($handler));
 
         $re = new ReflectionProperty($handler, 'retry');
-        $re->setAccessible(true);
 
         self::assertSame($retry, $re->getValue($handler));
 
         $ex = new ReflectionProperty($handler, 'expire');
-        $ex->setAccessible(true);
 
         self::assertSame($expire, $ex->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
-        $proc->setAccessible(true);
 
         $processors = $proc->getValue($handler);
 

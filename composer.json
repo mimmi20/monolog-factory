@@ -22,7 +22,7 @@
   },
   "require-dev": {
     "actived/microsoft-teams-notifier": "^1.2.0",
-    "aws/aws-sdk-php": "^3.231.6",
+    "aws/aws-sdk-php": "^3.231.8",
     "bartlett/monolog-callbackfilterhandler": "^2.1.0",
     "cmdisp/monolog-microsoft-teams": "^1.2.0",
     "doctrine/couchdb": "1.0.0-beta4",

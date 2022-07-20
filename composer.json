@@ -34,7 +34,7 @@
     "laminas/laminas-config": "^3.7.0",
     "laminas/laminas-dependency-plugin": "^2.2.0",
     "laminas/laminas-modulemanager": "^2.11.0",
-    "laminas/laminas-servicemanager": "^3.15.0",
+    "laminas/laminas-servicemanager": "^3.15.1",
     "mikey179/vfsstream": "^1.6.10",
     "mimmi20/coding-standard": "^3.0.1",
     "mimmi20/monolog-streamformatter": "^1.0.0",

@@ -32,4 +32,4 @@ parameters:
     - '~overridden property~'
     - '~Elastic\\Elasticsearch\\Client(Builder)?~'
     - '~Elastic\\\\Elasticsearch\\\\Client~'
-    - '~deprecated class Monolog\\Handler\\SwiftMailerHandler~'
+    - '~deprecated class Monolog\\Handler\\(Cube|PHPConsole|SwiftMailer)Handler~'

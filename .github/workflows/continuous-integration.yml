@@ -414,7 +414,7 @@ jobs:
           composer-options: "${{ env.COMPOSER_OPTIONS }}"
 
       - name: "Run unit tests with phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --verbose --no-coverage"
+        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
 
   code-coverage-with-all-extensions:
     name: "Code Coverage with PHPUnit with all Extensions"

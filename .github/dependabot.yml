@@ -28,6 +28,9 @@ updates:
       - dependency-name: "elasticsearch/elasticsearch"
         versions:
           - ">= 8"
+      - dependency-name: "laminas/laminas-dependency-plugin"
+        versions:
+          - ">= 2.3.0"
 #      - dependency-name: phpunit/phpunit
 #        versions:
 #          - ">= 0"

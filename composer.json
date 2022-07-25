@@ -70,10 +70,8 @@
     "laminas/laminas-servicemanager": "Required for the Factories",
     "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
     "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
-    "php-console/php-console": "Allow sending log messages to Google Chrome",
     "rollbar/rollbar": "Allow sending log messages to Rollbar (only 2.1+ supported, but not 3.x)",
-    "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
-    "swiftmailer/swiftmailer": "Allow sending log messages to Email clients"
+    "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
   },
   "minimum-stability": "stable",
   "prefer-stable": true,

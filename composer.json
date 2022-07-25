@@ -18,11 +18,11 @@
   "require": {
     "php": "^8.1.0",
     "ext-mbstring": "*",
-    "monolog/monolog": "^2.7.0"
+    "monolog/monolog": "^2.8.0"
   },
   "require-dev": {
     "actived/microsoft-teams-notifier": "^1.2.0",
-    "aws/aws-sdk-php": "^3.231.11",
+    "aws/aws-sdk-php": "^3.231.12",
     "bartlett/monolog-callbackfilterhandler": "^2.1.0",
     "cmdisp/monolog-microsoft-teams": "^1.2.0",
     "doctrine/couchdb": "1.0.0-beta4",
@@ -32,12 +32,13 @@
     "guzzlehttp/psr7": "^2.4.0",
     "jk/monolog-request-header-processor": "^1.0.0",
     "laminas/laminas-config": "^3.7.0",
-    "laminas/laminas-dependency-plugin": "^2.2.0",
+    "laminas/laminas-dependency-plugin": "^2.3.0",
+    "laminas/laminas-eventmanager": "^3.5.0",
     "laminas/laminas-modulemanager": "^2.11.0",
     "laminas/laminas-servicemanager": "^3.15.1",
     "mikey179/vfsstream": "^1.6.10",
-    "mimmi20/coding-standard": "^3.0.1",
-    "mimmi20/monolog-streamformatter": "^1.0.0",
+    "mimmi20/coding-standard": "^3.0.2",
+    "mimmi20/monolog-streamformatter": "^1.0.0 || ^2.0.0",
     "php-amqplib/php-amqplib": "^3.2.0",
     "php-console/php-console": "^3.1.8",
     "phpstan/extension-installer": "^1.1.0",
@@ -88,6 +89,7 @@
   },
   "config": {
     "preferred-install": "dist",
+    "lock": false,
     "sort-packages": true,
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,

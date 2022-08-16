@@ -576,7 +576,7 @@ Monolog Docs: [PushoverHandler](https://github.com/Seldaek/monolog/blob/master/s
 
 #### FlowdockHandler
 
-Logs records to a [Flowdock](https://www.flowdock.com/) account. Requires the openssl and sockets Extensions.
+Logs records to a Flowdock account. Requires the openssl and sockets Extensions.
 
 ```php
 <?php

@@ -934,7 +934,7 @@ Monolog Docs: [AmqpHandler](https://github.com/Seldaek/monolog/blob/master/src/M
 
 #### GelfHandler
 
-Logs records to a [Graylog2](http://www.graylog2.org) server. Requires
+Logs records to a [Graylog](https://www.graylog.org) server. Requires
 package [graylog2/gelf-php](https://github.com/bzikarsky/gelf-php).
 
 ```php

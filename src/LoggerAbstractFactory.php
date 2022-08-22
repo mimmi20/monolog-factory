@@ -50,13 +50,7 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
 
         $logConfig = [];
 
-        if (
-            is_array($config)
-            && array_key_exists('log', $config)
-            && is_array($config['log'])
-            && array_key_exists($requestedName, $config['log'])
-            && is_array($config['log'][$requestedName])
-        ) {
+        if (is_array($config) && array_key_exists('log', $config) && is_array($config['log']) && array_key_exists($requestedName, $config['log']) && is_array($config['log'][$requestedName])) {
             $logConfig = $config['log'][$requestedName];
         }
 

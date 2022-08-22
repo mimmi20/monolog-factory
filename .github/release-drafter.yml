@@ -38,4 +38,5 @@ categories:
   #    - 'new useragents'
 
 commitish: master
+target_commitish: master
 filter-by-commitish: true

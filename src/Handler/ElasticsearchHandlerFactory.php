@@ -151,17 +151,11 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
             $index = $options['index'];
         }
 
-        if (
-            array_key_exists('dateFormat', $options)
-            && in_array($options['dateFormat'], [self::INDEX_PER_DAY, self::INDEX_PER_MONTH, self::INDEX_PER_YEAR], true)
-        ) {
+        if (array_key_exists('dateFormat', $options) && in_array($options['dateFormat'], [self::INDEX_PER_DAY, self::INDEX_PER_MONTH, self::INDEX_PER_YEAR], true)) {
             $dateFormat = $options['dateFormat'];
         }
 
-        if (
-            array_key_exists('indexNameFormat', $options)
-            && false !== mb_strpos($options['indexNameFormat'], '{indexname}')
-        ) {
+        if (array_key_exists('indexNameFormat', $options) && false !== mb_strpos($options['indexNameFormat'], '{indexname}')) {
             $indexNameFormat = $options['indexNameFormat'];
         }
 

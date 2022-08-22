@@ -73,10 +73,7 @@ final class WebProcessorFactory implements FactoryInterface
             return null;
         }
 
-        if (
-            is_array($serverData)
-            || $serverData instanceof ArrayAccess
-        ) {
+        if (is_array($serverData) || $serverData instanceof ArrayAccess) {
             return $serverData;
         }
 

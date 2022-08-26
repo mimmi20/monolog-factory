@@ -50,7 +50,7 @@
     "rollbar/rollbar": "^v2.1.0 || ^v3.1.3",
     "ruflin/elastica": "^7.2.0",
     "swiftmailer/swiftmailer": "^6.3.0",
-    "symfony/mailer": "^v6.1.3",
+    "symfony/mailer": "^v6.1.4",
     "symfony/mime": "^v6.1.3"
   },
   "suggest": {

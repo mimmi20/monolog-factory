@@ -37,7 +37,7 @@
     "laminas/laminas-modulemanager": "^2.11.0",
     "laminas/laminas-servicemanager": "^3.16.0",
     "mikey179/vfsstream": "^1.6.11",
-    "mimmi20/coding-standard": "^3.0.5",
+    "mimmi20/coding-standard": "^3.0.8",
     "mimmi20/monolog-streamformatter": "^1.0.0 || ^2.0.0",
     "php-amqplib/php-amqplib": "^3.2.0",
     "php-console/php-console": "^3.1.8",

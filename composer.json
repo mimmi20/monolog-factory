@@ -29,7 +29,7 @@
     "elasticsearch/elasticsearch": "^v7.17.0 || ^v8.3.2",
     "graylog2/gelf-php": "^1.7.1",
     "guzzlehttp/guzzle": "^7.4.5",
-    "guzzlehttp/psr7": "^2.4.0",
+    "guzzlehttp/psr7": "^2.4.1",
     "jk/monolog-request-header-processor": "^1.0.0",
     "laminas/laminas-config": "^3.7.0",
     "laminas/laminas-dependency-plugin": "^2.2.0",

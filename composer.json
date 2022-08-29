@@ -28,7 +28,7 @@
     "doctrine/couchdb": "1.0.0-beta4",
     "elasticsearch/elasticsearch": "^v7.17.0 || ^v8.3.2",
     "graylog2/gelf-php": "^1.7.1",
-    "guzzlehttp/guzzle": "^7.4.5",
+    "guzzlehttp/guzzle": "^7.5.0",
     "guzzlehttp/psr7": "^2.4.0",
     "jk/monolog-request-header-processor": "^1.0.0",
     "laminas/laminas-config": "^3.7.0",

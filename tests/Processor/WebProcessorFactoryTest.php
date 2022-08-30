@@ -27,7 +27,7 @@ use SebastianBergmann\RecursionContext\InvalidArgumentException;
 final class WebProcessorFactoryTest extends TestCase
 {
     /** @var array<string, string>|null */
-    private ?array $serverVar = null;
+    private array | null $serverVar = null;
 
     protected function setUp(): void
     {
@@ -76,7 +76,7 @@ final class WebProcessorFactoryTest extends TestCase
                 'server' => 'SERVER_NAME',
                 'referrer' => 'HTTP_REFERER',
             ],
-            $xf->getValue($processor)
+            $xf->getValue($processor),
         );
     }
 
@@ -117,7 +117,7 @@ final class WebProcessorFactoryTest extends TestCase
                 'server' => 'SERVER_NAME',
                 'referrer' => 'HTTP_REFERER',
             ],
-            $xf->getValue($processor)
+            $xf->getValue($processor),
         );
     }
 
@@ -158,7 +158,7 @@ final class WebProcessorFactoryTest extends TestCase
                 'server' => 'SERVER_NAME',
                 'referrer' => 'HTTP_REFERER',
             ],
-            $xf->getValue($processor)
+            $xf->getValue($processor),
         );
     }
 
@@ -199,7 +199,7 @@ final class WebProcessorFactoryTest extends TestCase
                 'server' => 'SERVER_NAME',
                 'referrer' => 'HTTP_REFERER',
             ],
-            $xf->getValue($processor)
+            $xf->getValue($processor),
         );
     }
 
@@ -240,13 +240,11 @@ final class WebProcessorFactoryTest extends TestCase
                 'server' => 'SERVER_NAME',
                 'referrer' => 'HTTP_REFERER',
             ],
-            $xf->getValue($processor)
+            $xf->getValue($processor),
         );
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithServerdataInt(): void
     {
         $serverData = 42;
@@ -268,9 +266,7 @@ final class WebProcessorFactoryTest extends TestCase
         $factory($container, '', ['serverData' => $serverData]);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithServerdataString(): void
     {
         $serverData = 'xyz';
@@ -336,13 +332,11 @@ final class WebProcessorFactoryTest extends TestCase
                 'server' => 'SERVER_NAME',
                 'referrer' => 'HTTP_REFERER',
             ],
-            $xf->getValue($processor)
+            $xf->getValue($processor),
         );
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithServerdataString3(): void
     {
         $serverData = 'xyz';
@@ -405,7 +399,7 @@ final class WebProcessorFactoryTest extends TestCase
 
         self::assertSame(
             $extraFields,
-            $xf->getValue($processor)
+            $xf->getValue($processor),
         );
     }
 
@@ -446,7 +440,7 @@ final class WebProcessorFactoryTest extends TestCase
 
         self::assertSame(
             ['url' => 'REQUEST_URI'],
-            $xf->getValue($processor)
+            $xf->getValue($processor),
         );
     }
 

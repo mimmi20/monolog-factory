@@ -53,7 +53,7 @@ final class RedisHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): RedisHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): RedisHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -74,13 +74,13 @@ final class RedisHandlerFactory implements FactoryInterface
                 throw new ServiceNotFoundException(
                     sprintf('Could not load client class for %s class', RedisHandler::class),
                     0,
-                    $e
+                    $e,
                 );
             }
 
             if (!$client instanceof Client && !$client instanceof Redis) {
                 throw new ServiceNotCreatedException(
-                    sprintf('Could not create %s', RedisHandler::class)
+                    sprintf('Could not create %s', RedisHandler::class),
                 );
             }
         }
@@ -112,13 +112,13 @@ final class RedisHandlerFactory implements FactoryInterface
                 $key,
                 $level,
                 $bubble,
-                $capSize
+                $capSize,
             );
         } catch (InvalidArgumentException $e) {
             throw new ServiceNotFoundException(
                 sprintf('Could not load class %s', RedisHandler::class),
                 0,
-                $e
+                $e,
             );
         }
 

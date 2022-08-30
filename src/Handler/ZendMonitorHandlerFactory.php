@@ -49,7 +49,7 @@ final class ZendMonitorHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): ZendMonitorHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): ZendMonitorHandler
     {
         $level  = LogLevel::DEBUG;
         $bubble = true;
@@ -67,13 +67,13 @@ final class ZendMonitorHandlerFactory implements FactoryInterface
         try {
             $handler = new ZendMonitorHandler(
                 $level,
-                $bubble
+                $bubble,
             );
         } catch (MissingExtensionException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', ZendMonitorHandler::class),
                 0,
-                $e
+                $e,
             );
         }
 

@@ -51,7 +51,7 @@ final class PsrHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): PsrHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): PsrHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -74,7 +74,7 @@ final class PsrHandlerFactory implements FactoryInterface
 
             if (!$logger instanceof LoggerInterface) {
                 throw new ServiceNotCreatedException(
-                    sprintf('Could not create %s', PsrHandler::class)
+                    sprintf('Could not create %s', PsrHandler::class),
                 );
             }
         }
@@ -93,7 +93,7 @@ final class PsrHandlerFactory implements FactoryInterface
         $handler = new PsrHandler(
             $logger,
             $level,
-            $bubble
+            $bubble,
         );
 
         $this->addFormatter($container, $handler, $options);

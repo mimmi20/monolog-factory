@@ -51,7 +51,7 @@ final class MandrillHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): MandrillHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): MandrillHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -80,13 +80,13 @@ final class MandrillHandlerFactory implements FactoryInterface
                 $apiKey,
                 $message,
                 $level,
-                $bubble
+                $bubble,
             );
         } catch (InvalidArgumentException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', MandrillHandler::class),
                 0,
-                $e
+                $e,
             );
         }
 

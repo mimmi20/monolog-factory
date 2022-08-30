@@ -51,7 +51,7 @@ final class DoctrineCouchDBHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): DoctrineCouchDBHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): DoctrineCouchDBHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -72,13 +72,13 @@ final class DoctrineCouchDBHandlerFactory implements FactoryInterface
                 throw new ServiceNotFoundException(
                     sprintf('Could not load client class for %s class', DoctrineCouchDBHandler::class),
                     0,
-                    $e
+                    $e,
                 );
             }
 
             if (!$client instanceof CouchDBClient) {
                 throw new ServiceNotCreatedException(
-                    sprintf('Could not create %s', DoctrineCouchDBHandler::class)
+                    sprintf('Could not create %s', DoctrineCouchDBHandler::class),
                 );
             }
         }
@@ -97,7 +97,7 @@ final class DoctrineCouchDBHandlerFactory implements FactoryInterface
         $handler = new DoctrineCouchDBHandler(
             $client,
             $level,
-            $bubble
+            $bubble,
         );
 
         $this->addFormatter($container, $handler, $options);

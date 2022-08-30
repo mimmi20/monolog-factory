@@ -47,7 +47,7 @@ final class TestHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): TestHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): TestHandler
     {
         $level  = LogLevel::DEBUG;
         $bubble = true;
@@ -64,7 +64,7 @@ final class TestHandlerFactory implements FactoryInterface
 
         $handler = new TestHandler(
             $level,
-            $bubble
+            $bubble,
         );
 
         $this->addFormatter($container, $handler, $options);

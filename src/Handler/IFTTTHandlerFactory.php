@@ -49,7 +49,7 @@ final class IFTTTHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): IFTTTHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): IFTTTHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -81,13 +81,13 @@ final class IFTTTHandlerFactory implements FactoryInterface
                 $eventName,
                 $secretKey,
                 $level,
-                $bubble
+                $bubble,
             );
         } catch (MissingExtensionException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', IFTTTHandler::class),
                 0,
-                $e
+                $e,
             );
         }
 

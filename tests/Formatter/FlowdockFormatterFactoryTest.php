@@ -24,9 +24,7 @@ use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class FlowdockFormatterFactoryTest extends TestCase
 {
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -46,9 +44,7 @@ final class FlowdockFormatterFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutSource(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -68,9 +64,7 @@ final class FlowdockFormatterFactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutSourceEmail(): void
     {
         $source = 'abc';

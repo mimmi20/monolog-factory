@@ -51,7 +51,7 @@ final class SqsHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): SqsHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): SqsHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -74,7 +74,7 @@ final class SqsHandlerFactory implements FactoryInterface
 
             if (!$sqsClient instanceof SqsClient) {
                 throw new ServiceNotCreatedException(
-                    sprintf('Could not create %s', SqsHandler::class)
+                    sprintf('Could not create %s', SqsHandler::class),
                 );
             }
         }

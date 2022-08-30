@@ -32,14 +32,10 @@ use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function sprintf;
 
-/**
- * @requires PHP < 8.0
- */
+/** @requires PHP < 8.0 */
 final class PHPConsoleHandlerFactoryTest extends TestCase
 {
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -59,9 +55,7 @@ final class PHPConsoleHandlerFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -81,9 +75,7 @@ final class PHPConsoleHandlerFactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -103,9 +95,7 @@ final class PHPConsoleHandlerFactoryTest extends TestCase
         $factory($container, '', ['connector' => true]);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeConfig2(): void
     {
         $connector = 'abc';
@@ -219,9 +209,7 @@ final class PHPConsoleHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeConfig5(): void
     {
         $connectorName = 'abc';
@@ -334,9 +322,7 @@ final class PHPConsoleHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeConfig8(): void
     {
         $connector = 'abc';
@@ -360,9 +346,7 @@ final class PHPConsoleHandlerFactoryTest extends TestCase
         $factory($container, '', ['connector' => $connector]);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $connector = $this->getMockBuilder(Connector::class)
@@ -385,15 +369,13 @@ final class PHPConsoleHandlerFactoryTest extends TestCase
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(
-            sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class)
+            sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
         $factory($container, '', ['connector' => $connector, 'level' => $level, 'bubble' => $bubble, 'options' => ['enabled' => false], 'formatter' => $formatter]);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithConfigAndFormatter(): void
     {
         $connector = $this->getMockBuilder(Connector::class)
@@ -420,7 +402,7 @@ final class PHPConsoleHandlerFactoryTest extends TestCase
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(
-            sprintf('Could not find service %s', MonologFormatterPluginManager::class)
+            sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
         $factory($container, '', ['connector' => $connector, 'level' => $level, 'bubble' => $bubble, 'options' => ['enabled' => false], 'formatter' => $formatter]);
@@ -482,9 +464,7 @@ final class PHPConsoleHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $connector  = $this->getMockBuilder(Connector::class)

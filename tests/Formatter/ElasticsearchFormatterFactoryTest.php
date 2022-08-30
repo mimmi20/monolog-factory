@@ -24,9 +24,7 @@ use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class ElasticsearchFormatterFactoryTest extends TestCase
 {
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -46,9 +44,7 @@ final class ElasticsearchFormatterFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutIndex(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)

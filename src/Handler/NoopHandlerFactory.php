@@ -27,7 +27,7 @@ final class NoopHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): NoopHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): NoopHandler
     {
         return new NoopHandler();
     }

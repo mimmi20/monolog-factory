@@ -33,3 +33,4 @@ parameters:
     - '~Elastic\\Elasticsearch\\Client(Builder)?~'
     - '~Elastic\\\\Elasticsearch\\\\Client~'
     - '~deprecated class Monolog\\Handler\\(Cube|PHPConsole|SwiftMailer)Handler~'
+    - '~PHPDoc tag @throws with type .* is not subtype of Throwable~'

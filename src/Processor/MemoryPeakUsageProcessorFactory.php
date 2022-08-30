@@ -31,7 +31,7 @@ final class MemoryPeakUsageProcessorFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): MemoryPeakUsageProcessor
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): MemoryPeakUsageProcessor
     {
         $realUsage     = true;
         $useFormatting = true;

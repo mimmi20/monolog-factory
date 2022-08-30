@@ -31,7 +31,7 @@ final class FluentdFormatterFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): FluentdFormatter
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): FluentdFormatter
     {
         $levelTag = false;
 

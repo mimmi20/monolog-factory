@@ -49,11 +49,11 @@ final class MicrosoftTeamsHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): MicrosoftTeamsHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): MicrosoftTeamsHandler
     {
         if (!extension_loaded('curl')) {
             throw new ServiceNotCreatedException(
-                sprintf('The curl extension is needed to use the %s', MicrosoftTeamsHandler::class)
+                sprintf('The curl extension is needed to use the %s', MicrosoftTeamsHandler::class),
             );
         }
 
@@ -110,7 +110,7 @@ final class MicrosoftTeamsHandlerFactory implements FactoryInterface
             $emoji,
             $color,
             $format,
-            $bubble
+            $bubble,
         );
 
         $this->addFormatter($container, $handler, $options);

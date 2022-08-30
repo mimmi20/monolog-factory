@@ -50,7 +50,7 @@ final class CubeHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): CubeHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): CubeHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -80,13 +80,13 @@ final class CubeHandlerFactory implements FactoryInterface
             $handler = new CubeHandler(
                 $url,
                 $level,
-                $bubble
+                $bubble,
             );
         } catch (UnexpectedValueException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', CubeHandler::class),
                 0,
-                $e
+                $e,
             );
         }
 

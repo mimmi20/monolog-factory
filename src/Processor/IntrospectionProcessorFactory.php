@@ -37,7 +37,7 @@ final class IntrospectionProcessorFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): IntrospectionProcessor
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): IntrospectionProcessor
     {
         $level          = LogLevel::DEBUG;
         $skipPartials   = [];
@@ -60,7 +60,7 @@ final class IntrospectionProcessorFactory implements FactoryInterface
         return new IntrospectionProcessor(
             $level,
             $skipPartials,
-            $skipFrameCount
+            $skipFrameCount,
         );
     }
 }

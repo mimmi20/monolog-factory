@@ -49,7 +49,7 @@ final class BufferHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): BufferHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): BufferHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -95,7 +95,7 @@ final class BufferHandlerFactory implements FactoryInterface
             $bufferLimit,
             $level,
             $bubble,
-            $flushOnOverflow
+            $flushOnOverflow,
         );
 
         $this->addFormatter($container, $handler, $options);

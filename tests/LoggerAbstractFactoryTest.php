@@ -25,9 +25,7 @@ use function sprintf;
 
 final class LoggerAbstractFactoryTest extends TestCase
 {
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithConfigException(): void
     {
         $requestedName = Logger::class;
@@ -56,9 +54,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         }
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithManagerException(): void
     {
         $requestedName = Logger::class;
@@ -80,7 +76,7 @@ final class LoggerAbstractFactoryTest extends TestCase
                     }
 
                     throw $exception;
-                }
+                },
             );
 
         $factory = new LoggerAbstractFactory();
@@ -96,9 +92,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         }
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithLoggerException(): void
     {
         $requestedName = Logger::class;
@@ -139,9 +133,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         }
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig(): void
     {
         $requestedName = Logger::class;
@@ -175,9 +167,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertSame($logger, $factory($container, $requestedName));
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig2(): void
     {
         $requestedName = Logger::class;
@@ -211,9 +201,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertSame($logger, $factory($container, $requestedName));
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig3(): void
     {
         $requestedName = Logger::class;
@@ -247,9 +235,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertSame($logger, $factory($container, $requestedName));
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig4(): void
     {
         $requestedName = Logger::class;
@@ -283,9 +269,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertSame($logger, $factory($container, $requestedName));
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig5(): void
     {
         $requestedName = Logger::class;
@@ -319,9 +303,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertSame($logger, $factory($container, $requestedName));
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig6(): void
     {
         $requestedName = Logger::class;
@@ -355,9 +337,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertSame($logger, $factory($container, $requestedName));
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig7(): void
     {
         $requestedName = Logger::class;
@@ -391,9 +371,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertSame($logger, $factory($container, $requestedName));
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testCanCreateWithConfigException(): void
     {
         $requestedName = Logger::class;
@@ -415,9 +393,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertFalse($cando);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testCanCreateWithoutConfig(): void
     {
         $requestedName = Logger::class;
@@ -440,9 +416,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertFalse($cando);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testCanCreateWithEmptyConfig(): void
     {
         $requestedName = Logger::class;
@@ -465,9 +439,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertFalse($cando);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testCanCreateWithConfig(): void
     {
         $requestedName = Logger::class;
@@ -490,9 +462,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertFalse($cando);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testCanCreateWithConfig2(): void
     {
         $requestedName = Logger::class;
@@ -517,9 +487,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertFalse($cando);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testCanCreateWithConfig3(): void
     {
         $requestedName = Logger::class;
@@ -544,9 +512,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertFalse($cando);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testCanCreateWithConfig4(): void
     {
         $requestedName = Logger::class;

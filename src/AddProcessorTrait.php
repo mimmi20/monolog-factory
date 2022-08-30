@@ -40,7 +40,7 @@ trait AddProcessorTrait
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException
      */
-    private function addProcessor(ContainerInterface $container, HandlerInterface $handler, ?array $options = null): void
+    private function addProcessor(ContainerInterface $container, HandlerInterface $handler, array | null $options = null): void
     {
         if (!$handler instanceof ProcessableHandlerInterface || !is_array($options) || !array_key_exists('processors', $options)) {
             return;
@@ -61,8 +61,8 @@ trait AddProcessorTrait
             sprintf(
                 '$monologProcessorPluginManager should be an Instance of %s, but was %s',
                 AbstractPluginManager::class,
-                is_object($monologProcessorPluginManager) ? $monologProcessorPluginManager::class : gettype($monologProcessorPluginManager)
-            )
+                is_object($monologProcessorPluginManager) ? $monologProcessorPluginManager::class : gettype($monologProcessorPluginManager),
+            ),
         );
 
         foreach (array_reverse($options['processors']) as $processorConfig) {

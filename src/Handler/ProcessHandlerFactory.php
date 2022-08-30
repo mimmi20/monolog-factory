@@ -49,7 +49,7 @@ final class ProcessHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): ProcessHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): ProcessHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -81,13 +81,13 @@ final class ProcessHandlerFactory implements FactoryInterface
                 $command,
                 $level,
                 $bubble,
-                $cwd
+                $cwd,
             );
         } catch (InvalidArgumentException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', ProcessHandler::class),
                 0,
-                $e
+                $e,
             );
         }
 

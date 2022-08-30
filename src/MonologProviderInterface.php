@@ -22,5 +22,5 @@ interface MonologProviderInterface
      *
      * @return array<string, array<string, string>>|Config
      */
-    public function getMonologConfig();
+    public function getMonologConfig(): array | Config;
 }

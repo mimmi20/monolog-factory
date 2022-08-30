@@ -23,9 +23,7 @@ use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class ElasticaFormatterFactoryTest extends TestCase
 {
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -45,9 +43,7 @@ final class ElasticaFormatterFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutIndex(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)

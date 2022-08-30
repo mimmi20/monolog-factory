@@ -51,7 +51,7 @@ final class GelfHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): GelfHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): GelfHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -74,7 +74,7 @@ final class GelfHandlerFactory implements FactoryInterface
 
             if (!$publisher instanceof PublisherInterface) {
                 throw new ServiceNotCreatedException(
-                    sprintf('Could not create %s', GelfHandler::class)
+                    sprintf('Could not create %s', GelfHandler::class),
                 );
             }
         }
@@ -93,7 +93,7 @@ final class GelfHandlerFactory implements FactoryInterface
         $handler = new GelfHandler(
             $publisher,
             $level,
-            $bubble
+            $bubble,
         );
 
         $this->addFormatter($container, $handler, $options);

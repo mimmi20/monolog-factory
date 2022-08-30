@@ -52,7 +52,7 @@ final class AmqpHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): AmqpHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): AmqpHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -75,7 +75,7 @@ final class AmqpHandlerFactory implements FactoryInterface
 
             if (!$exchange instanceof AMQPExchange && !$exchange instanceof AMQPChannel) {
                 throw new ServiceNotCreatedException(
-                    sprintf('Could not create %s', AmqpHandler::class)
+                    sprintf('Could not create %s', AmqpHandler::class),
                 );
             }
         }
@@ -104,7 +104,7 @@ final class AmqpHandlerFactory implements FactoryInterface
             $exchange,
             $exchangeName,
             $level,
-            $bubble
+            $bubble,
         );
 
         $this->addFormatter($container, $handler, $options);

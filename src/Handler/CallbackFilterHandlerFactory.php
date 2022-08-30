@@ -49,7 +49,7 @@ final class CallbackFilterHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): CallbackFilterHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): CallbackFilterHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -89,7 +89,7 @@ final class CallbackFilterHandlerFactory implements FactoryInterface
             $handler,
             $filters,
             $level,
-            $bubble
+            $bubble,
         );
 
         $this->addProcessor($container, $handler, $options);

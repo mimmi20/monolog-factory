@@ -32,7 +32,7 @@ final class LogmaticFormatterFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): LogmaticFormatter
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): LogmaticFormatter
     {
         $batchMode                  = JsonFormatter::BATCH_MODE_JSON;
         $appendNewline              = true;

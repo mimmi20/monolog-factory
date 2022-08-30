@@ -56,7 +56,7 @@ final class SymfonyMailerHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): SymfonyMailerHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): SymfonyMailerHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -79,7 +79,7 @@ final class SymfonyMailerHandlerFactory implements FactoryInterface
 
             if (!$mailer instanceof MailerInterface && !$mailer instanceof TransportInterface) {
                 throw new ServiceNotCreatedException(
-                    sprintf('Could not create %s', SymfonyMailerHandler::class)
+                    sprintf('Could not create %s', SymfonyMailerHandler::class),
                 );
             }
         }

@@ -53,9 +53,7 @@ final class ModuleTest extends TestCase
         self::assertArrayHasKey('monolog_service_clients', $config);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInit(): void
     {
         $serviceListener = $this->getMockBuilder(ServiceListenerInterface::class)
@@ -93,7 +91,7 @@ final class ModuleTest extends TestCase
                     'monolog_service_clients',
                     ClientProviderInterface::class,
                     'getMonologClientConfig',
-                ]
+                ],
             );
 
         $container = $this->getMockBuilder(ContainerInterface::class)

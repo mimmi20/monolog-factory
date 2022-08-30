@@ -62,7 +62,7 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): FingersCrossedHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): FingersCrossedHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -114,7 +114,7 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
             $bufferSize,
             $bubble,
             $stopBuffering,
-            $passthruLevel
+            $passthruLevel,
         );
 
         $this->addFormatter($container, $handler, $options);
@@ -127,14 +127,13 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
      * @param ActivationStrategyInterface|array<string, array<mixed>|string>|int|string $activationStrategy
      * @phpstan-param (Level|LevelName|LogLevel::*|ActivationStrategyInterface|array{type?: string, options?: array<mixed>}|string|null) $activationStrategy
      *
-     * @return ActivationStrategyInterface|int|string|null
      * @phpstan-return (Level|ActivationStrategyInterface|null)
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      * @throws InvalidServiceException
      */
-    private function getActivationStrategy(ContainerInterface $container, $activationStrategy)
+    private function getActivationStrategy(ContainerInterface $container, ActivationStrategyInterface | array | int | string | null $activationStrategy): ActivationStrategyInterface | int | null
     {
         if (null === $activationStrategy) {
             return null;
@@ -150,7 +149,7 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
             throw new ServiceNotFoundException(
                 sprintf('Could not load service %s', ActivationStrategyPluginManager::class),
                 0,
-                $e
+                $e,
             );
         }
 
@@ -159,8 +158,8 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
             sprintf(
                 '$monologHandlerPluginManager should be an Instance of %s, but was %s',
                 AbstractPluginManager::class,
-                is_object($activationStrategyPluginManager) ? $activationStrategyPluginManager::class : gettype($activationStrategyPluginManager)
-            )
+                is_object($activationStrategyPluginManager) ? $activationStrategyPluginManager::class : gettype($activationStrategyPluginManager),
+            ),
         );
 
         if (is_array($activationStrategy)) {
@@ -194,7 +193,7 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
         try {
             /* @phpstan-ignore-next-line */
             return Logger::toMonologLevel($activationStrategy);
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             // do nothing here
         }
 

@@ -54,7 +54,7 @@ final class MonologFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): Logger
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): Logger
     {
         if (!is_array($options) || !array_key_exists('name', $options)) {
             throw new ServiceNotCreatedException('The name for the monolog logger is missing');
@@ -91,8 +91,8 @@ final class MonologFactory implements FactoryInterface
                     sprintf(
                         '$monologHandlerPluginManager should be an Instance of %s, but was %s',
                         AbstractPluginManager::class,
-                        is_object($monologHandlerPluginManager) ? $monologHandlerPluginManager::class : gettype($monologHandlerPluginManager)
-                    )
+                        is_object($monologHandlerPluginManager) ? $monologHandlerPluginManager::class : gettype($monologHandlerPluginManager),
+                    ),
                 );
             } catch (ContainerExceptionInterface $e) {
                 throw new ServiceNotFoundException(sprintf('Could not find service %s', MonologHandlerPluginManager::class), 0, $e);
@@ -120,7 +120,7 @@ final class MonologFactory implements FactoryInterface
                 try {
                     $handler = $monologHandlerPluginManager->get(
                         $handlerArray['type'],
-                        $handlerArray['options'] ?? []
+                        $handlerArray['options'] ?? [],
                     );
                 } catch (ContainerExceptionInterface $e) {
                     throw new ServiceNotFoundException(sprintf('Could not find service %s', $handlerArray['type']), 0, $e);
@@ -158,7 +158,7 @@ final class MonologFactory implements FactoryInterface
             $monolog,
             $options['errorLevelMap'] ?? false,
             $options['exceptionLevelMap'] ?? false,
-            $options['fatalLevel'] ?? false
+            $options['fatalLevel'] ?? false,
         );
 
         return $monolog;

@@ -53,7 +53,7 @@ final class SwiftMailerHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): SwiftMailerHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): SwiftMailerHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -76,7 +76,7 @@ final class SwiftMailerHandlerFactory implements FactoryInterface
 
             if (!$mailer instanceof Swift_Mailer) {
                 throw new ServiceNotCreatedException(
-                    sprintf('Could not create %s', SwiftMailerHandler::class)
+                    sprintf('Could not create %s', SwiftMailerHandler::class),
                 );
             }
         }

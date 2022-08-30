@@ -47,7 +47,7 @@ final class ChromePHPHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): ChromePHPHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): ChromePHPHandler
     {
         $level  = LogLevel::DEBUG;
         $bubble = true;
@@ -64,7 +64,7 @@ final class ChromePHPHandlerFactory implements FactoryInterface
 
         $handler = new ChromePHPHandler(
             $level,
-            $bubble
+            $bubble,
         );
 
         $this->addFormatter($container, $handler, $options);

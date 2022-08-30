@@ -32,7 +32,7 @@ final class LogglyFormatterFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): LogglyFormatter
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): LogglyFormatter
     {
         $batchMode             = LogglyFormatter::BATCH_MODE_NEWLINES;
         $appendNewline         = true;

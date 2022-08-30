@@ -7,9 +7,7 @@
     <arg name="encoding" value="utf-8"/>
 
     <!-- inherit rules from: -->
-    <rule ref="mimmi20-cs">
-        <exclude name="SlevomatCodingStandard.Classes.ModernClassNameReference.ClassNameReferencedViaFunctionCall"/>
-    </rule>
+    <rule ref="mimmi20-cs"/>
 
     <!-- Paths to check -->
     <file>src</file>

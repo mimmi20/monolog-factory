@@ -32,7 +32,7 @@ trait CreateProcessorTrait
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException
      */
-    private function createProcessor($processorConfig, AbstractPluginManager $monologProcessorPluginManager): ?callable
+    private function createProcessor(array | callable $processorConfig, AbstractPluginManager $monologProcessorPluginManager): callable | null
     {
         if (is_callable($processorConfig)) {
             return $processorConfig;
@@ -53,13 +53,13 @@ trait CreateProcessorTrait
         try {
             $processor = $monologProcessorPluginManager->get(
                 $processorConfig['type'],
-                $processorConfig['options'] ?? []
+                $processorConfig['options'] ?? [],
             );
         } catch (ContainerExceptionInterface $e) {
             throw new ServiceNotFoundException(
                 sprintf('Could not find service %s', $processorConfig['type']),
                 0,
-                $e
+                $e,
             );
         }
 

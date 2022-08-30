@@ -26,7 +26,7 @@ final class ActivationStrategyPluginManagerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): ActivationStrategyPluginManager
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): ActivationStrategyPluginManager
     {
         return new ActivationStrategyPluginManager($container, $options ?: []);
     }

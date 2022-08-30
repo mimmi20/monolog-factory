@@ -35,7 +35,7 @@ final class MonologFormatterPluginManagerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): MonologFormatterPluginManager
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): MonologFormatterPluginManager
     {
         $pluginManager = new MonologFormatterPluginManager($container, $options ?: []);
 

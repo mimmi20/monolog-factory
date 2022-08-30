@@ -33,7 +33,7 @@ final class MongoDBFormatterFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): MongoDBFormatter
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): MongoDBFormatter
     {
         $maxNestingLevel        = self::DEFAULT_NESTING_LEVEL;
         $exceptionTraceAsString = true;

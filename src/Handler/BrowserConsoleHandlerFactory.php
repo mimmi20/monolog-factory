@@ -47,7 +47,7 @@ final class BrowserConsoleHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): BrowserConsoleHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): BrowserConsoleHandler
     {
         $level  = LogLevel::DEBUG;
         $bubble = true;
@@ -64,7 +64,7 @@ final class BrowserConsoleHandlerFactory implements FactoryInterface
 
         $handler = new BrowserConsoleHandler(
             $level,
-            $bubble
+            $bubble,
         );
 
         $this->addFormatter($container, $handler, $options);

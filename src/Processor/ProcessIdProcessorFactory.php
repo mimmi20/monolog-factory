@@ -27,7 +27,7 @@ final class ProcessIdProcessorFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): ProcessIdProcessor
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): ProcessIdProcessor
     {
         return new ProcessIdProcessor();
     }

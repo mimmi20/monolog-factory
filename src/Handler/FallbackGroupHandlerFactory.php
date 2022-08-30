@@ -41,7 +41,7 @@ final class FallbackGroupHandlerFactory
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): FallbackGroupHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): FallbackGroupHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -57,7 +57,7 @@ final class FallbackGroupHandlerFactory
 
         $handler = new FallbackGroupHandler(
             $handlers,
-            $bubble
+            $bubble,
         );
 
         $this->addProcessor($container, $handler, $options);

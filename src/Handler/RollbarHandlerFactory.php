@@ -51,7 +51,7 @@ final class RollbarHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): RollbarHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): RollbarHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -107,20 +107,20 @@ final class RollbarHandlerFactory implements FactoryInterface
                     'log_payload' => $logPayload,
                     'verbose' => $verbose,
                     'environment' => $environment,
-                ]
+                ],
             );
         } catch (InvalidArgumentException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create service %s', RollbarLogger::class),
                 0,
-                $e
+                $e,
             );
         }
 
         $handler = new RollbarHandler(
             $rollbarLogger,
             $level,
-            $bubble
+            $bubble,
         );
 
         $this->addFormatter($container, $handler, $options);

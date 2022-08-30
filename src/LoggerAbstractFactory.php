@@ -40,7 +40,7 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): Logger
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): Logger
     {
         try {
             $config = $container->get('config');
@@ -80,7 +80,7 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
     {
         try {
             $config = $container->get('config');
-        } catch (ContainerExceptionInterface $e) {
+        } catch (ContainerExceptionInterface) {
             return false;
         }
 

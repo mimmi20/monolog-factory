@@ -33,7 +33,7 @@ final class UidProcessorFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): UidProcessor
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): UidProcessor
     {
         $length = self::DEFAULT_LENGTH;
 

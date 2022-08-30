@@ -49,7 +49,7 @@ final class SlackWebhookHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): SlackWebhookHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): SlackWebhookHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -117,13 +117,13 @@ final class SlackWebhookHandlerFactory implements FactoryInterface
                 $includeContext,
                 $level,
                 $bubble,
-                $excludeFields
+                $excludeFields,
             );
         } catch (MissingExtensionException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', SlackWebhookHandler::class),
                 0,
-                $e
+                $e,
             );
         }
 

@@ -73,9 +73,7 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
         self::assertInstanceOf(MonologHandlerPluginManager::class, $factory($container, $requestedName, $options));
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvoke3(): void
     {
         $requestedName = HtmlFormatter::class;

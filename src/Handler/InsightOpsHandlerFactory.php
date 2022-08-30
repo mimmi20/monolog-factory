@@ -49,7 +49,7 @@ final class InsightOpsHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): InsightOpsHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): InsightOpsHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -80,13 +80,13 @@ final class InsightOpsHandlerFactory implements FactoryInterface
                 $timeout,
                 $writingTimeout,
                 $connectionTimeout,
-                $chunkSize
+                $chunkSize,
             );
         } catch (MissingExtensionException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', InsightOpsHandler::class),
                 0,
-                $e
+                $e,
             );
         }
 

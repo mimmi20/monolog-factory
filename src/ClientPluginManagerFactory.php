@@ -35,7 +35,7 @@ final class ClientPluginManagerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): ClientPluginManager
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): ClientPluginManager
     {
         $pluginManager = new ClientPluginManager($container, $options ?: []);
 

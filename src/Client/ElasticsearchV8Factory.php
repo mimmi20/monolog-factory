@@ -43,7 +43,7 @@ final class ElasticsearchV8Factory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): V8Client
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): V8Client
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -63,11 +63,9 @@ final class ElasticsearchV8Factory implements FactoryInterface
         $builder->setHosts(
             array_filter(
                 $options['hosts'],
-                /**
-                 * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-                 */
-                static fn (string $host): bool => true
-            )
+                /** @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter */
+                static fn (string $host): bool => true,
+            ),
         );
 
         if (array_key_exists('retries', $options)) {

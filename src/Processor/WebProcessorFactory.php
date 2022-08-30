@@ -39,7 +39,7 @@ final class WebProcessorFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): WebProcessor
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): WebProcessor
     {
         $serverData  = null;
         $extraFields = null;
@@ -54,7 +54,7 @@ final class WebProcessorFactory implements FactoryInterface
 
         return new WebProcessor(
             $serverData,
-            $extraFields
+            $extraFields,
         );
     }
 
@@ -67,7 +67,7 @@ final class WebProcessorFactory implements FactoryInterface
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      */
-    public function getServerDataService(ContainerInterface $container, $serverData)
+    public function getServerDataService(ContainerInterface $container, array | ArrayAccess | int | string $serverData): array | ArrayAccess | null
     {
         if (empty($serverData)) {
             return null;
@@ -79,7 +79,7 @@ final class WebProcessorFactory implements FactoryInterface
 
         if (!is_string($serverData) || !$container->has($serverData)) {
             throw new ServiceNotFoundException(
-                'No serverData service found'
+                'No serverData service found',
             );
         }
 

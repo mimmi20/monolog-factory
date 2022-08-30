@@ -53,7 +53,7 @@ final class PHPConsoleHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): PHPConsoleHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): PHPConsoleHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -76,7 +76,7 @@ final class PHPConsoleHandlerFactory implements FactoryInterface
 
             if (!$connector instanceof Connector) {
                 throw new ServiceNotCreatedException(
-                    sprintf('Could not create %s', PHPConsoleHandler::class)
+                    sprintf('Could not create %s', PHPConsoleHandler::class),
                 );
             }
         }
@@ -102,13 +102,13 @@ final class PHPConsoleHandlerFactory implements FactoryInterface
                 $consoleOptions,
                 $connector,
                 $level,
-                $bubble
+                $bubble,
             );
         } catch (RuntimeException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', PHPConsoleHandler::class),
                 0,
-                $e
+                $e,
             );
         }
 

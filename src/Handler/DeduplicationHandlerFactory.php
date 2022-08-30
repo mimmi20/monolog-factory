@@ -49,7 +49,7 @@ final class DeduplicationHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): DeduplicationHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): DeduplicationHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -95,7 +95,7 @@ final class DeduplicationHandlerFactory implements FactoryInterface
             $deduplicationStore,
             $deduplicationLevel,
             $time,
-            $bubble
+            $bubble,
         );
 
         $this->addFormatter($container, $handler, $options);

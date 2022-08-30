@@ -23,9 +23,7 @@ use function class_exists;
 
 final class ElasticsearchV8FactoryTest extends TestCase
 {
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig(): void
     {
         if (!class_exists(V8Client::class)) {
@@ -49,9 +47,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)

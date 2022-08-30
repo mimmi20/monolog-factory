@@ -73,9 +73,7 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
         self::assertInstanceOf(MonologProcessorPluginManager::class, $factory($container, $requestedName, $options));
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvoke3(): void
     {
         $requestedName = PsrLogMessageProcessor::class;

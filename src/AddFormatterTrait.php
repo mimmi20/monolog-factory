@@ -40,7 +40,7 @@ trait AddFormatterTrait
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException
      */
-    private function addFormatter(ContainerInterface $container, HandlerInterface $handler, ?array $options = null): void
+    private function addFormatter(ContainerInterface $container, HandlerInterface $handler, array | null $options = null): void
     {
         if (!$handler instanceof FormattableHandlerInterface || !is_array($options) || !array_key_exists('formatter', $options)) {
             return;
@@ -48,7 +48,7 @@ trait AddFormatterTrait
 
         if (!is_array($options['formatter']) && !$options['formatter'] instanceof FormatterInterface) {
             throw new ServiceNotCreatedException(
-                sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class)
+                sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
             );
         }
 
@@ -58,7 +58,7 @@ trait AddFormatterTrait
             throw new ServiceNotFoundException(
                 sprintf('Could not find service %s', MonologFormatterPluginManager::class),
                 0,
-                $e
+                $e,
             );
         }
 
@@ -67,8 +67,8 @@ trait AddFormatterTrait
             sprintf(
                 '$monologFormatterPluginManager should be an Instance of %s, but was %s',
                 AbstractPluginManager::class,
-                is_object($monologFormatterPluginManager) ? $monologFormatterPluginManager::class : gettype($monologFormatterPluginManager)
-            )
+                is_object($monologFormatterPluginManager) ? $monologFormatterPluginManager::class : gettype($monologFormatterPluginManager),
+            ),
         );
 
         $formatter = $this->createFormatter($options['formatter'], $monologFormatterPluginManager);

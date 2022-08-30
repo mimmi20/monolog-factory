@@ -45,7 +45,7 @@ final class ElasticsearchV7Factory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): V7Client
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): V7Client
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -65,17 +65,15 @@ final class ElasticsearchV7Factory implements FactoryInterface
         $builder->setHosts(
             array_filter(
                 $options['hosts'],
-                /**
-                 * @param array|int|string $host
-                 */
+                /** @param array|int|string $host */
                 static function ($host): bool {
                     if (is_string($host)) {
                         return true;
                     }
 
                     return is_array($host) && array_key_exists('host', $host);
-                }
-            )
+                },
+            ),
         );
 
         if (array_key_exists('retries', $options)) {

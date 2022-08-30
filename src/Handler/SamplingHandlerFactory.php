@@ -43,7 +43,7 @@ final class SamplingHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): SamplingHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): SamplingHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -71,13 +71,13 @@ final class SamplingHandlerFactory implements FactoryInterface
 
         if (null === $factor || 1 > $factor) {
             throw new ServiceNotCreatedException(
-                'Factor is missing or is less then 1'
+                'Factor is missing or is less then 1',
             );
         }
 
         $handler = new SamplingHandler(
             $handler,
-            $factor
+            $factor,
         );
 
         $this->addFormatter($container, $handler, $options);

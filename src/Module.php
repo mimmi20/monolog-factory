@@ -56,35 +56,35 @@ final class Module implements ConfigProviderInterface, InitProviderInterface
             MonologPluginManager::class,
             'monolog',
             MonologProviderInterface::class,
-            'getMonologConfig'
+            'getMonologConfig',
         );
 
         $serviceListener->addServiceManager(
             MonologHandlerPluginManager::class,
             'monolog_handlers',
             MonologHandlerProviderInterface::class,
-            'getMonologHandlerConfig'
+            'getMonologHandlerConfig',
         );
 
         $serviceListener->addServiceManager(
             MonologProcessorPluginManager::class,
             'monolog_processors',
             MonologProcessorProviderInterface::class,
-            'getMonologProcessorConfig'
+            'getMonologProcessorConfig',
         );
 
         $serviceListener->addServiceManager(
             MonologFormatterPluginManager::class,
             'monolog_formatters',
             MonologFormatterProviderInterface::class,
-            'getMonologFormatterConfig'
+            'getMonologFormatterConfig',
         );
 
         $serviceListener->addServiceManager(
             ClientPluginManager::class,
             'monolog_service_clients',
             ClientProviderInterface::class,
-            'getMonologClientConfig'
+            'getMonologClientConfig',
         );
     }
 }

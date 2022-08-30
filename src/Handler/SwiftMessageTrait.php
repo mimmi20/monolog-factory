@@ -24,18 +24,14 @@ use function sprintf;
 trait SwiftMessageTrait
 {
     /**
-     * @param callable|string|Swift_Message $message
-     *
-     * @return callable|Swift_Message
-     *
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException
      */
-    private function getSwiftMessage(ContainerInterface $container, $message)
+    private function getSwiftMessage(ContainerInterface $container, callable | string | Swift_Message $message): callable | Swift_Message
     {
         if (empty($message)) {
             throw new ServiceNotCreatedException(
-                'No message service name or callback provided'
+                'No message service name or callback provided',
             );
         }
 
@@ -45,7 +41,7 @@ trait SwiftMessageTrait
 
         if (!$container->has($message)) {
             throw new ServiceNotFoundException(
-                'No Message service found'
+                'No Message service found',
             );
         }
 
@@ -55,7 +51,7 @@ trait SwiftMessageTrait
             throw new ServiceNotFoundException(
                 sprintf('Could not load service %s', $message),
                 0,
-                $e
+                $e,
             );
         }
     }

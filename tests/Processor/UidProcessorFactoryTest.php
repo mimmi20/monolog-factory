@@ -84,9 +84,7 @@ final class UidProcessorFactoryTest extends TestCase
         self::assertInstanceOf(UidProcessor::class, $processor);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithLengthTooShort(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -106,9 +104,7 @@ final class UidProcessorFactoryTest extends TestCase
         $factory($container, '', ['length' => 0]);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithLengthTooLong(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)

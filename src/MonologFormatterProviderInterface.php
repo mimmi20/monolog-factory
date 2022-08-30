@@ -22,5 +22,5 @@ interface MonologFormatterProviderInterface
      *
      * @return array<string, array<int, string>>|Config
      */
-    public function getMonologFormatterConfig();
+    public function getMonologFormatterConfig(): array | Config;
 }

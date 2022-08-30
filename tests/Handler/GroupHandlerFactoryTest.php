@@ -35,9 +35,7 @@ use function sprintf;
 
 final class GroupHandlerFactoryTest extends TestCase
 {
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -57,9 +55,7 @@ final class GroupHandlerFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -79,9 +75,7 @@ final class GroupHandlerFactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithEmptyConfig2(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -101,9 +95,7 @@ final class GroupHandlerFactoryTest extends TestCase
         $factory($container, '', ['handlers' => true]);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithoutHandlers(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -123,9 +115,7 @@ final class GroupHandlerFactoryTest extends TestCase
         $factory($container, '', ['handlers' => []]);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithStringHandlers(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -145,9 +135,7 @@ final class GroupHandlerFactoryTest extends TestCase
         $factory($container, '', ['handlers' => ['test']]);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithHandlerWithoutType(): void
     {
         $handlers = [[]];
@@ -169,9 +157,7 @@ final class GroupHandlerFactoryTest extends TestCase
         $factory($container, '', ['handlers' => $handlers]);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithHandlerWithType(): void
     {
         $handlers = [
@@ -226,7 +212,7 @@ final class GroupHandlerFactoryTest extends TestCase
                     }
 
                     throw new ServiceNotFoundException();
-                }
+                },
             );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -248,9 +234,7 @@ final class GroupHandlerFactoryTest extends TestCase
         $factory($container, '', ['handlers' => $handlers]);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithHandlerWithType2(): void
     {
         $handlers = [
@@ -314,7 +298,7 @@ final class GroupHandlerFactoryTest extends TestCase
                     }
 
                     throw new ServiceNotFoundException();
-                }
+                },
             );
 
         $factory = new GroupHandlerFactory();
@@ -813,9 +797,7 @@ final class GroupHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $handlers   = [

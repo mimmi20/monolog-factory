@@ -34,7 +34,7 @@ final class ElasticaFormatterFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): ElasticaFormatter
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): ElasticaFormatter
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');

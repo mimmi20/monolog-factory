@@ -31,7 +31,7 @@ final class TagProcessorFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): TagProcessor
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): TagProcessor
     {
         $tags = [];
 

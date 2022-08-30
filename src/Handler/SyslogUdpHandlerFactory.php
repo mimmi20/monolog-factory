@@ -53,7 +53,7 @@ final class SyslogUdpHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): SyslogUdpHandler
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): SyslogUdpHandler
     {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
@@ -103,13 +103,13 @@ final class SyslogUdpHandlerFactory implements FactoryInterface
                 $level,
                 $bubble,
                 $ident,
-                $rfc
+                $rfc,
             );
         } catch (MissingExtensionException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', SyslogUdpHandler::class),
                 0,
-                $e
+                $e,
             );
         }
 

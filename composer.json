@@ -51,7 +51,7 @@
     "ruflin/elastica": "^7.2.0",
     "swiftmailer/swiftmailer": "^6.3.0",
     "symfony/mailer": "^v6.1.4",
-    "symfony/mime": "^v6.1.4"
+    "symfony/mime": "^v6.1.5"
   },
   "suggest": {
     "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",

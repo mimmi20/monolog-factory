@@ -22,6 +22,7 @@
 
 # files/folders to ignore
 /.*                       export-ignore
+.github/CODEOWNERS        export-ignore text eol=lf
 .editorconfig             export-ignore text eol=lf
 .gitattributes            export-ignore text eol=lf
 .gitignore                export-ignore text eol=lf

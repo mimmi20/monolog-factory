@@ -21,6 +21,12 @@
     "monolog/monolog": "^2.8.0"
   },
   "require-dev": {
+    "ext-ctype": "*",
+    "ext-dom": "*",
+    "ext-simplexml": "*",
+    "ext-tokenizer": "*",
+    "ext-xml": "*",
+    "ext-xmlwriter": "*",
     "actived/microsoft-teams-notifier": "^1.2.0",
     "aws/aws-sdk-php": "^3.237.0",
     "bartlett/monolog-callbackfilterhandler": "^2.1.0",

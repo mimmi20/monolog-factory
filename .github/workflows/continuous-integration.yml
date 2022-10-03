@@ -51,6 +51,8 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          lfs: false
+          persist-credentials: false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.21.2"
@@ -101,6 +103,8 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          lfs: false
+          persist-credentials: false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.21.2"
@@ -164,13 +168,15 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          lfs: false
+          persist-credentials: false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.21.2"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, ${{ env.PHP_EXTENSIONS }}"
-          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0""opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2, infection:0.26.6"
 
@@ -233,6 +239,8 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          lfs: false
+          persist-credentials: false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.21.2"
@@ -299,6 +307,8 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          lfs: false
+          persist-credentials: false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.21.2"
@@ -365,6 +375,8 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          lfs: false
+          persist-credentials: false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.21.2"
@@ -428,6 +440,8 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          lfs: false
+          persist-credentials: false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.21.2"

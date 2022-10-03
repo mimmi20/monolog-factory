@@ -1,6 +1,6 @@
 # https://help.github.com/en/categories/automating-your-workflow-with-github-actions
 
-name: "CI"
+name: "Continuous Integration"
 
 on:
   - pull_request

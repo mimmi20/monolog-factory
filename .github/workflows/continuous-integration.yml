@@ -142,7 +142,6 @@ jobs:
 
     needs:
       - "ci"
-      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -417,7 +416,6 @@ jobs:
 
     needs:
       - "ci"
-      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -485,7 +483,6 @@ jobs:
 
     needs:
       - "ci"
-      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -553,7 +550,6 @@ jobs:
 
     needs:
       - "ci"
-      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -618,7 +614,6 @@ jobs:
 
     needs:
       - "ci"
-      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 

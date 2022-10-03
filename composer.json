@@ -61,8 +61,10 @@
   },
   "suggest": {
     "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+    "ext-curl": "Allow sending log messages to some handlers",
     "ext-json": "Allow sending log messages to the ChromePHP Handler",
     "ext-mongodb": "Allow sending log messages to a MongoDB server (via driver)",
+    "ext-openssl": "Allow sending log messages to some handlers",
     "ext-sockets": "Allow sending log messages to a Syslog server (via UDP driver)",
     "actived/microsoft-teams-notifier": "Allow sending log messages to Microsoft Teams",
     "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",

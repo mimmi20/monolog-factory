@@ -1,10 +1,5 @@
 # https://help.github.com/en/categories/automating-your-workflow-with-github-actions
 
-env:
-  PHP_INI_VALUES: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
-  COMPOSER_OPTIONS: "--optimize-autoloader --prefer-dist --prefer-stable -v"
-  TOOLS: "composer:v2"
-
 name: "CI"
 
 on:
@@ -23,17 +18,127 @@ jobs:
       extensions: "openssl, mongodb, amqp, sockets, curl, intl"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
       composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
-      min-covered-msi: 90
-      min-msi: 87
       composer-outdated-option: ""
     secrets:
       envPAT: "${{ secrets.GITHUB_TOKEN }}"
+
+  tests:
+    name: "UnitTests with PHPUnit"
+
+    needs: "ci"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-20.04"
+          # - "ubuntu-22.04"
+
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
+
+        dependencies:
+          - "highest"
+          - "lowest"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.21.2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "${{ env.PHP_EXTENSIONS }}"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
+          coverage: "none"
+          tools: "composer:v2"
+
+      - name: "Update dependencies with composer"
+        uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+
+      - name: "Run unit tests with phpunit/phpunit"
+        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
+
+  code-coverage-with-all-extensions:
+    name: "Code Coverage with PHPUnit with all Extensions"
+
+    needs:
+      - "ci"
+      - "tests"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-20.04"
+          # - "ubuntu-22.04"
+
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
+
+        dependencies:
+          - "highest"
+          - "lowest"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.21.2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "${{ env.PHP_EXTENSIONS }}"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
+          coverage: "xdebug"
+          tools: "composer:v2, infection"
+
+      - name: "Update dependencies with composer"
+        uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+
+      - name: "Create cache directory for phpunit/phpunit"
+        run: "mkdir -p .build/coverage"
+
+      - name: "Collect code coverage with Xdebug and phpunit/phpunit"
+        run: "vendor/bin/phpunit -c phpunit.xml --verbose --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+
+      - name: "Upload coverage to Codecov"
+        uses: "codecov/codecov-action@v3.1.1"
+        with:
+          file: ".build/coverage/clover.xml"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-all-extensions"
+          verbose: false
+
+      - name: "Run mutation tests with infection/infection"
+        run: "infection -s --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
 
   code-coverage-with-all-extensions-for-elaticsearch8:
     name: "Code Coverage with PHPUnit for Elasticsearch 8"
 
     needs:
       - "ci"
+      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -65,9 +170,9 @@ jobs:
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, sockets, curl, intl"
-          ini-values: "${{ env.PHP_INI_VALUES }}, xdebug.mode=coverage"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0""opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
-          tools: "${{ env.TOOLS }}, infection:0.26.6"
+          tools: "composer:v2, infection:0.26.6"
 
       - name: "remove ruflin/elastica"
         run: "composer remove --no-update --dev ruflin/elastica"
@@ -79,7 +184,7 @@ jobs:
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Create cache directory for phpunit/phpunit"
         run: "mkdir -p .build/coverage"
@@ -102,6 +207,7 @@ jobs:
 
     needs:
       - "ci"
+      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -133,9 +239,9 @@ jobs:
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, :sockets, curl, intl"
-          ini-values: "${{ env.PHP_INI_VALUES }}, xdebug.mode=coverage"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
-          tools: "${{ env.TOOLS }}, infection:0.26.6"
+          tools: "composer:v2, infection:0.26.6"
 
       - name: "Update dependencies with composer"
         run: "composer remove --no-update --dev php-amqplib/php-amqplib"
@@ -144,7 +250,7 @@ jobs:
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Create cache directory for phpunit/phpunit"
         run: "mkdir -p .build/coverage"
@@ -167,6 +273,7 @@ jobs:
 
     needs:
       - "ci"
+      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -198,9 +305,9 @@ jobs:
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, sockets, :curl, intl"
-          ini-values: "${{ env.PHP_INI_VALUES }}, xdebug.mode=coverage"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
-          tools: "${{ env.TOOLS }}, infection:0.26.6"
+          tools: "composer:v2, infection:0.26.6"
 
       - name: "Update dependencies with composer"
         run: "composer remove --no-update --dev cmdisp/monolog-microsoft-teams rollbar/rollbar actived/microsoft-teams-notifier"
@@ -209,7 +316,7 @@ jobs:
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Create cache directory for phpunit/phpunit"
         run: "mkdir -p .build/coverage"
@@ -232,6 +339,7 @@ jobs:
 
     needs:
       - "ci"
+      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -263,15 +371,15 @@ jobs:
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, amqp, sockets, curl, intl"
-          ini-values: "${{ env.PHP_INI_VALUES }}, xdebug.mode=coverage"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
-          tools: "${{ env.TOOLS }}, infection:0.26.6"
+          tools: "composer:v2, infection:0.26.6"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Create cache directory for phpunit/phpunit"
         run: "mkdir -p .build/coverage"
@@ -294,6 +402,7 @@ jobs:
 
     needs:
       - "ci"
+      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -325,15 +434,15 @@ jobs:
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, intl"
-          ini-values: "${{ env.PHP_INI_VALUES }}, xdebug.mode=coverage"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
-          tools: "${{ env.TOOLS }}, infection:0.26.6"
+          tools: "composer:v2, infection:0.26.6"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Create cache directory for phpunit/phpunit"
         run: "mkdir -p .build/coverage"

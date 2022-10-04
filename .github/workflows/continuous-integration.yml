@@ -1,376 +1,31 @@
 # https://help.github.com/en/categories/automating-your-workflow-with-github-actions
 
+name: "Continuous Integration"
+
 on:
   - pull_request
   - push
 
-name: "Continuous Integration"
-
-env:
-  PHP_EXTENSIONS: "none, phar, json, opcache, mbstring, dom, simplexml, xml, tokenizer, xmlwriter, openssl, mongodb, amqp, sockets, curl, ctype, intl"
-  PHP_INI_VALUES: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
-  COMPOSER_OPTIONS: "--ansi --optimize-autoloader --prefer-dist --prefer-stable -v"
-  TOOLS: "composer:v2"
+permissions:
+  contents: read
 
 jobs:
-  validate:
-    name: "Validate composer"
-
-    runs-on: "${{ matrix.operating-system }}"
-
-    continue-on-error: false
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        operating-system:
-          - "ubuntu-20.04"
-          - "ubuntu-22.04"
-
-        php-version:
-          - "8.1"
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "${{ env.PHP_EXTENSIONS }}"
-          ini-values: "${{ env.PHP_INI_VALUES }}"
-          coverage: "none"
-          tools: "${{ env.TOOLS }}"
-
-      - name: "Validate composer.json"
-        run: "composer validate --strict"
-
-  install:
-    name: "Install dependencies"
-
-    needs: "validate"
-
-    runs-on: "${{ matrix.operating-system }}"
-
-    continue-on-error: ${{ matrix.experimental }}
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        operating-system:
-          - "ubuntu-20.04"
-          - "ubuntu-22.04"
-
-        php-version:
-          - "8.1"
-
-        dependencies:
-          - "highest"
-          - "lowest"
-
-        experimental: [false]
-
-        composer-options:
-          - ""
-
-        include:
-          - operating-system: "ubuntu-20.04"
-            php-version: "8.2"
-            dependencies: "highest"
-            experimental: true
-            composer-options: " --ignore-platform-reqs"
-          - operating-system: "ubuntu-20.04"
-            php-version: "8.2"
-            dependencies: "lowest"
-            experimental: true
-            composer-options: " --ignore-platform-reqs"
-          - operating-system: "ubuntu-22.04"
-            php-version: "8.2"
-            dependencies: "highest"
-            experimental: true
-            composer-options: " --ignore-platform-reqs"
-          - operating-system: "ubuntu-22.04"
-            php-version: "8.2"
-            dependencies: "lowest"
-            experimental: true
-            composer-options: " --ignore-platform-reqs"
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "${{ env.PHP_EXTENSIONS }}"
-          ini-values: "${{ env.PHP_INI_VALUES }}"
-          coverage: "none"
-          tools: "${{ env.TOOLS }}"
-
-      - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}${{ matrix.composer-options }}"
-
-      - name: "Check dependencies with composer"
-        run: "composer outdated --direct"
-
-  mega-lint:
-    name: "Linting with nvuillam/mega-linter"
-
-    needs: "install"
-
-    runs-on: "${{ matrix.operating-system }}"
-
-    continue-on-error: false
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        operating-system:
-          - "ubuntu-20.04"
-          - "ubuntu-22.04"
-
-        php-version:
-          - "8.1"
-
-        dependencies:
-          - "highest"
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "${{ env.PHP_EXTENSIONS }}"
-          ini-values: "${{ env.PHP_INI_VALUES }}"
-          coverage: "none"
-          tools: "${{ env.TOOLS }}"
-
-      - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
-
-      - name: "Linter"
-        # You can override Mega-Linter flavor used to have faster performances
-        # More info at https://nvuillam.github.io/mega-linter/flavors/
-        uses: "nvuillam/mega-linter/flavors/php@v6.10.0"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  php-lint:
-    name: "Linting with overtrue/phplint"
-
-    needs: "install"
-
-    runs-on: "${{ matrix.operating-system }}"
-
-    continue-on-error: false
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        operating-system:
-          - "ubuntu-20.04"
-          - "ubuntu-22.04"
-
-        php-version:
-          - "8.1"
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "${{ env.PHP_EXTENSIONS }}"
-          ini-values: "${{ env.PHP_INI_VALUES }}"
-          coverage: "none"
-          tools: "${{ env.TOOLS }}"
-
-      - name: "Lint PHP"
-        uses: "overtrue/phplint@8.1"
-
-  php-cs-fixer:
-    name: "Check Coding Standards with PHP-CS-Fixer"
-
-    needs:
-      - "mega-lint"
-      - "php-lint"
-
-    runs-on: "${{ matrix.operating-system }}"
-
-    continue-on-error: false
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        operating-system:
-          - "ubuntu-20.04"
-          - "ubuntu-22.04"
-
-        php-version:
-          - "8.1"
-
-        dependencies:
-          - "highest"
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "${{ env.PHP_EXTENSIONS }}"
-          ini-values: "${{ env.PHP_INI_VALUES }}"
-          coverage: "none"
-          tools: "${{ env.TOOLS }}, cs2pr"
-
-      - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
-
-      - name: "Run friendsofphp/php-cs-fixer"
-        run: "vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle | cs2pr"
-
-  phpcs:
-    name: "Check Coding Standards with PHPCS"
-
-    needs:
-      - "mega-lint"
-      - "php-lint"
-
-    runs-on: "${{ matrix.operating-system }}"
-
-    continue-on-error: false
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        operating-system:
-          - "ubuntu-20.04"
-          - "ubuntu-22.04"
-
-        php-version:
-          - "8.1"
-
-        dependencies:
-          - "highest"
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "${{ env.PHP_EXTENSIONS }}"
-          ini-values: "${{ env.PHP_INI_VALUES }}"
-          coverage: "none"
-          tools: "${{ env.TOOLS }}, cs2pr"
-
-      - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
-
-      - name: "Run squizlabs/php_codesniffer"
-        run: "vendor/bin/phpcs --report=checkstyle -q | cs2pr"
-
-  static-code-analysis:
-    name: "Static Code Analysis with PHPStan"
-
-    needs:
-      - "mega-lint"
-      - "php-lint"
-
-    runs-on: "${{ matrix.operating-system }}"
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        operating-system:
-          - "ubuntu-20.04"
-          - "ubuntu-22.04"
-
-        php-version:
-          - "8.1"
-
-        dependencies:
-          - "highest"
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "${{ env.PHP_EXTENSIONS }}"
-          ini-values: "${{ env.PHP_INI_VALUES }}"
-          coverage: "none"
-          tools: "${{ env.TOOLS }}"
-
-      - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
-
-      - name: "Run phpstan/phpstan"
-        run: "vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=768M --no-progress"
+  ci:
+    name: "Run CI"
+
+    uses: "mimmi20/template/.github/workflows/ci.yml@updates"
+    with:
+      extensions: "openssl, mongodb, amqp, sockets, curl, intl"
+      ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
+      composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+      composer-outdated-option: ""
+    secrets:
+      envPAT: "${{ secrets.GITHUB_TOKEN }}"
 
   tests:
     name: "UnitTests with PHPUnit"
 
-    needs:
-      - "mega-lint"
-      - "php-lint"
+    needs: "ci"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -384,8 +39,7 @@ jobs:
           - "ubuntu-20.04"
           # - "ubuntu-22.04"
 
-        php-version:
-          - "8.1"
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
@@ -397,21 +51,23 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          lfs: false
+          persist-credentials: false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.21.2"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "${{ env.PHP_EXTENSIONS }}"
-          ini-values: "${{ env.PHP_INI_VALUES }}"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, sockets, curl, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
-          tools: "${{ env.TOOLS }}"
+          tools: "composer:v2"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Run unit tests with phpunit/phpunit"
         run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
@@ -419,7 +75,9 @@ jobs:
   code-coverage-with-all-extensions:
     name: "Code Coverage with PHPUnit with all Extensions"
 
-    needs: "tests"
+    needs:
+      - "ci"
+      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -433,15 +91,11 @@ jobs:
           - "ubuntu-20.04"
           # - "ubuntu-22.04"
 
-        php-version:
-          - "8.1"
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
           - "lowest"
-
-        coverage-drivers:
-          - "xdebug"
 
     steps:
       - name: "Checkout"
@@ -449,21 +103,23 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          lfs: false
+          persist-credentials: false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.21.2"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "${{ env.PHP_EXTENSIONS }}"
-          ini-values: "${{ env.PHP_INI_VALUES }}"
-          coverage: "${{ matrix.coverage-drivers }}"
-          tools: "${{ env.TOOLS }}, infection"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, sockets, curl, ctype, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
+          coverage: "xdebug"
+          tools: "composer:v2, infection"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Create cache directory for phpunit/phpunit"
         run: "mkdir -p .build/coverage"
@@ -475,7 +131,7 @@ jobs:
         uses: "codecov/codecov-action@v3.1.1"
         with:
           file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.coverage-drivers }},${{ matrix.php-version }},${{ matrix.operating-system }},with-all-extensions"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-all-extensions"
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
@@ -484,7 +140,9 @@ jobs:
   code-coverage-with-all-extensions-for-elaticsearch8:
     name: "Code Coverage with PHPUnit for Elasticsearch 8"
 
-    needs: "tests"
+    needs:
+      - "ci"
+      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -498,15 +156,11 @@ jobs:
           - "ubuntu-20.04"
           # - "ubuntu-22.04"
 
-        php-version:
-          - "8.1"
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
           - "lowest"
-
-        coverage-drivers:
-          - "xdebug"
 
     steps:
       - name: "Checkout"
@@ -514,15 +168,17 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          lfs: false
+          persist-credentials: false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.21.2"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, mbstring, dom, simplexml, xml, tokenizer, xmlwriter, openssl, sockets, curl, ctype, intl"
-          ini-values: "${{ env.PHP_INI_VALUES }}, xdebug.mode=coverage"
-          coverage: "${{ matrix.coverage-drivers }}"
-          tools: "${{ env.TOOLS }}, infection:0.26.6"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, sockets, curl, ctype, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
+          coverage: "xdebug"
+          tools: "composer:v2, infection:0.26.6"
 
       - name: "remove ruflin/elastica"
         run: "composer remove --no-update --dev ruflin/elastica"
@@ -534,7 +190,7 @@ jobs:
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Create cache directory for phpunit/phpunit"
         run: "mkdir -p .build/coverage"
@@ -546,7 +202,7 @@ jobs:
         uses: "codecov/codecov-action@v3.1.1"
         with:
           file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.coverage-drivers }},${{ matrix.php-version }},${{ matrix.operating-system }},elasticsearch-8"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},elasticsearch-8"
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
@@ -555,7 +211,9 @@ jobs:
   code-coverage-without-sockets:
     name: "Code Coverage with PHPUnit without sockets"
 
-    needs: "tests"
+    needs:
+      - "ci"
+      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -569,15 +227,11 @@ jobs:
           - "ubuntu-20.04"
           # - "ubuntu-22.04"
 
-        php-version:
-          - "8.1"
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
           - "lowest"
-
-        coverage-drivers:
-          - "xdebug"
 
     steps:
       - name: "Checkout"
@@ -585,15 +239,17 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          lfs: false
+          persist-credentials: false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.21.2"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, mbstring, dom, simplexml, xml, tokenizer, xmlwriter, openssl, mongodb, amqp, :sockets, curl, ctype, intl"
-          ini-values: "${{ env.PHP_INI_VALUES }}, xdebug.mode=coverage"
-          coverage: "${{ matrix.coverage-drivers }}"
-          tools: "${{ env.TOOLS }}, infection:0.26.6"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, :sockets, curl, ctype, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
+          coverage: "xdebug"
+          tools: "composer:v2, infection:0.26.6"
 
       - name: "Update dependencies with composer"
         run: "composer remove --no-update --dev php-amqplib/php-amqplib"
@@ -602,7 +258,7 @@ jobs:
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Create cache directory for phpunit/phpunit"
         run: "mkdir -p .build/coverage"
@@ -614,7 +270,7 @@ jobs:
         uses: "codecov/codecov-action@v3.1.1"
         with:
           file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.coverage-drivers }},${{ matrix.php-version }},${{ matrix.operating-system }},without-sockets"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},without-sockets"
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
@@ -623,7 +279,9 @@ jobs:
   code-coverage-without-curl:
     name: "Code Coverage with PHPUnit without curl"
 
-    needs: "tests"
+    needs:
+      - "ci"
+      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -637,15 +295,11 @@ jobs:
           - "ubuntu-20.04"
           # - "ubuntu-22.04"
 
-        php-version:
-          - "8.1"
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
           - "lowest"
-
-        coverage-drivers:
-          - "xdebug"
 
     steps:
       - name: "Checkout"
@@ -653,15 +307,17 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          lfs: false
+          persist-credentials: false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.21.2"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, mbstring, dom, simplexml, xml, tokenizer, xmlwriter, openssl, mongodb, amqp, sockets, :curl, ctype, intl"
-          ini-values: "${{ env.PHP_INI_VALUES }}, xdebug.mode=coverage"
-          coverage: "${{ matrix.coverage-drivers }}"
-          tools: "${{ env.TOOLS }}, infection:0.26.6"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, sockets, :curl, ctype, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
+          coverage: "xdebug"
+          tools: "composer:v2, infection:0.26.6"
 
       - name: "Update dependencies with composer"
         run: "composer remove --no-update --dev cmdisp/monolog-microsoft-teams rollbar/rollbar actived/microsoft-teams-notifier"
@@ -670,7 +326,7 @@ jobs:
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Create cache directory for phpunit/phpunit"
         run: "mkdir -p .build/coverage"
@@ -682,7 +338,7 @@ jobs:
         uses: "codecov/codecov-action@v3.1.1"
         with:
           file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.coverage-drivers }},${{ matrix.php-version }},${{ matrix.operating-system }},without-curl"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},without-curl"
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
@@ -691,7 +347,9 @@ jobs:
   code-coverage-without-mongodb:
     name: "Code Coverage with PHPUnit without mongodb"
 
-    needs: "tests"
+    needs:
+      - "ci"
+      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -705,15 +363,11 @@ jobs:
           - "ubuntu-20.04"
           # - "ubuntu-22.04"
 
-        php-version:
-          - "8.1"
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
           - "lowest"
-
-        coverage-drivers:
-          - "xdebug"
 
     steps:
       - name: "Checkout"
@@ -721,21 +375,23 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          lfs: false
+          persist-credentials: false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.21.2"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, mbstring, dom, simplexml, xml, tokenizer, xmlwriter, openssl, :mongodb, amqp, sockets, curl, ctype, intl"
-          ini-values: "${{ env.PHP_INI_VALUES }}, xdebug.mode=coverage"
-          coverage: "${{ matrix.coverage-drivers }}"
-          tools: "${{ env.TOOLS }}, infection:0.26.6"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, amqp, sockets, curl, ctype, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
+          coverage: "xdebug"
+          tools: "composer:v2, infection:0.26.6"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Create cache directory for phpunit/phpunit"
         run: "mkdir -p .build/coverage"
@@ -747,7 +403,7 @@ jobs:
         uses: "codecov/codecov-action@v3.1.1"
         with:
           file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.coverage-drivers }},${{ matrix.php-version }},${{ matrix.operating-system }},without-mongodb"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},without-mongodb"
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
@@ -756,7 +412,9 @@ jobs:
   code-coverage-without-amqp:
     name: "Code Coverage with PHPUnit without amqp"
 
-    needs: "tests"
+    needs:
+      - "ci"
+      - "tests"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -770,15 +428,11 @@ jobs:
           - "ubuntu-20.04"
           # - "ubuntu-22.04"
 
-        php-version:
-          - "8.1"
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
           - "lowest"
-
-        coverage-drivers:
-          - "xdebug"
 
     steps:
       - name: "Checkout"
@@ -786,21 +440,23 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          lfs: false
+          persist-credentials: false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.21.2"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, mbstring, dom, simplexml, xml, tokenizer, xmlwriter, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
-          ini-values: "${{ env.PHP_INI_VALUES }}, xdebug.mode=coverage"
-          coverage: "${{ matrix.coverage-drivers }}"
-          tools: "${{ env.TOOLS }}, infection:0.26.6"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
+          coverage: "xdebug"
+          tools: "composer:v2, infection:0.26.6"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "${{ env.COMPOSER_OPTIONS }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Create cache directory for phpunit/phpunit"
         run: "mkdir -p .build/coverage"
@@ -812,7 +468,7 @@ jobs:
         uses: "codecov/codecov-action@v3.1.1"
         with:
           file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.coverage-drivers }},${{ matrix.php-version }},${{ matrix.operating-system }},without-amqp"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},without-amqp"
           verbose: false
 
       - name: "Run mutation tests with infection/infection"

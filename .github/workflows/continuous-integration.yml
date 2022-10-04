@@ -13,7 +13,7 @@ jobs:
   ci:
     name: "Run CI"
 
-    uses: "mimmi20/template/.github/workflows/ci.yml@updates"
+    uses: "mimmi20/template/.github/workflows/ci.yml@master"
     with:
       extensions: "openssl, mongodb, amqp, sockets, curl, intl"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
@@ -135,7 +135,7 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection -s --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
+        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
 
   code-coverage-with-all-extensions-for-elaticsearch8:
     name: "Code Coverage with PHPUnit for Elasticsearch 8"
@@ -206,7 +206,7 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection -s --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
+        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
 
   code-coverage-without-sockets:
     name: "Code Coverage with PHPUnit without sockets"
@@ -274,7 +274,7 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection -s --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
+        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
 
   code-coverage-without-curl:
     name: "Code Coverage with PHPUnit without curl"
@@ -342,7 +342,7 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection -s --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
+        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
 
   code-coverage-without-mongodb:
     name: "Code Coverage with PHPUnit without mongodb"
@@ -407,7 +407,7 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection -s --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
+        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
 
   code-coverage-without-amqp:
     name: "Code Coverage with PHPUnit without amqp"
@@ -472,4 +472,4 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection -s --min-covered-msi=90 --min-msi=90 --coverage=.build/coverage --only-covered --logger-github"
+        run: "infection --show-mutations --min-covered-msi=90 --min-msi=90 --coverage=.build/coverage --only-covered --logger-github"

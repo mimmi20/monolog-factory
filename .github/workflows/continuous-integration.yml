@@ -58,7 +58,7 @@ jobs:
         uses: "shivammathur/setup-php@2.21.2"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, sockets, curl, intl"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, intl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
@@ -110,7 +110,7 @@ jobs:
         uses: "shivammathur/setup-php@2.21.2"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, sockets, curl, ctype, intl"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "xdebug"
           tools: "composer:v2, infection"
@@ -175,7 +175,7 @@ jobs:
         uses: "shivammathur/setup-php@2.21.2"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, sockets, curl, ctype, intl"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2, infection:0.26.6"
@@ -203,6 +203,210 @@ jobs:
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},elasticsearch-8"
+          verbose: false
+
+      - name: "Run mutation tests with infection/infection"
+        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
+
+  code-coverage-with-all-extensions-for-php-amqplib:
+    name: "Code Coverage with PHPUnit for php-amqplib/php-amqplib"
+
+    needs:
+      - "ci"
+      - "tests"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-20.04"
+          # - "ubuntu-22.04"
+
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
+
+        dependencies:
+          - "highest"
+          - "lowest"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.21.2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, sockets, curl, ctype, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
+          coverage: "xdebug"
+          tools: "composer:v2, infection:0.26.6"
+
+      - name: "Require php-amqplib/php-amqplib:^3.3.1"
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"php-amqplib/php-amqplib:^3.3.1\""
+
+      - name: "Update dependencies with composer"
+        uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+
+      - name: "Create cache directory for phpunit/phpunit"
+        run: "mkdir -p .build/coverage"
+
+      - name: "Collect code coverage with Xdebug and phpunit/phpunit"
+        run: "vendor/bin/phpunit -c phpunit.xml --verbose --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+
+      - name: "Upload coverage to Codecov"
+        uses: "codecov/codecov-action@v3.1.1"
+        with:
+          file: ".build/coverage/clover.xml"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},php-amqplib"
+          verbose: false
+
+      - name: "Run mutation tests with infection/infection"
+        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
+
+  code-coverage-with-all-extensions-for-swiftmailer:
+    name: "Code Coverage with PHPUnit for swiftmailer"
+
+    needs:
+      - "ci"
+      - "tests"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-20.04"
+          # - "ubuntu-22.04"
+
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
+
+        dependencies:
+          - "highest"
+          - "lowest"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.21.2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
+          coverage: "xdebug"
+          tools: "composer:v2, infection:0.26.6"
+
+      - name: "Require swiftmailer/swiftmailer:6.3.0"
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"swiftmailer/swiftmailer:6.3.0\""
+
+      - name: "Update dependencies with composer"
+        uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+
+      - name: "Create cache directory for phpunit/phpunit"
+        run: "mkdir -p .build/coverage"
+
+      - name: "Collect code coverage with Xdebug and phpunit/phpunit"
+        run: "vendor/bin/phpunit -c phpunit.xml --verbose --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+
+      - name: "Upload coverage to Codecov"
+        uses: "codecov/codecov-action@v3.1.1"
+        with:
+          file: ".build/coverage/clover.xml"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},swiftmailer"
+          verbose: false
+
+      - name: "Run mutation tests with infection/infection"
+        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
+
+  code-coverage-with-all-extensions-for-cmdisp-monolog-microsoft-teams:
+    name: "Code Coverage with PHPUnit for cmdisp/monolog-microsoft-teams"
+
+    needs:
+      - "ci"
+      - "tests"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-20.04"
+          # - "ubuntu-22.04"
+
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
+
+        dependencies:
+          - "highest"
+          - "lowest"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.21.2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
+          coverage: "xdebug"
+          tools: "composer:v2, infection:0.26.6"
+
+      - name: "Require cmdisp/monolog-microsoft-teams:^1.2.0"
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"cmdisp/monolog-microsoft-teams:^1.2.0\""
+
+      - name: "Update dependencies with composer"
+        uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+
+      - name: "Create cache directory for phpunit/phpunit"
+        run: "mkdir -p .build/coverage"
+
+      - name: "Collect code coverage with Xdebug and phpunit/phpunit"
+        run: "vendor/bin/phpunit -c phpunit.xml --verbose --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+
+      - name: "Upload coverage to Codecov"
+        uses: "codecov/codecov-action@v3.1.1"
+        with:
+          file: ".build/coverage/clover.xml"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},cmdisp-monolog-microsoft-teams"
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
@@ -246,7 +450,7 @@ jobs:
         uses: "shivammathur/setup-php@2.21.2"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, :sockets, curl, ctype, intl"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, :sockets, curl, ctype, intl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2, infection:0.26.6"
@@ -314,7 +518,7 @@ jobs:
         uses: "shivammathur/setup-php@2.21.2"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, sockets, :curl, ctype, intl"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, :curl, ctype, intl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2, infection:0.26.6"
@@ -382,7 +586,7 @@ jobs:
         uses: "shivammathur/setup-php@2.21.2"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, amqp, sockets, curl, ctype, intl"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, sockets, curl, ctype, intl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2, infection:0.26.6"

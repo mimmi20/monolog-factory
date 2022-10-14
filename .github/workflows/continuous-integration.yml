@@ -406,7 +406,7 @@ jobs:
         uses: "codecov/codecov-action@v3.1.1"
         with:
           file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},cmdisp/monolog-microsoft-teams"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},cmdisp-monolog-microsoft-teams"
           verbose: false
 
       - name: "Run mutation tests with infection/infection"

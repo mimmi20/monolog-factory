@@ -35,7 +35,7 @@
     "guzzlehttp/guzzle": "^7.5.0",
     "guzzlehttp/psr7": "^2.4.1",
     "jk/monolog-request-header-processor": "^1.0.0",
-    "laminas/laminas-config": "^3.7.0",
+    "laminas/laminas-config": "^3.8.0",
     "laminas/laminas-dependency-plugin": "^2.2.0",
     "laminas/laminas-eventmanager": "^3.6.0",
     "laminas/laminas-modulemanager": "^2.12.0",

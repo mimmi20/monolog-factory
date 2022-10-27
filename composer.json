@@ -27,7 +27,7 @@
     "ext-xml": "*",
     "ext-xmlwriter": "*",
     "actived/microsoft-teams-notifier": "^1.2.0",
-    "aws/aws-sdk-php": "^3.240.1",
+    "aws/aws-sdk-php": "^3.240.3",
     "bartlett/monolog-callbackfilterhandler": "^2.1.0",
     "doctrine/couchdb": "1.0.0-beta4",
     "elasticsearch/elasticsearch": "^v7.17.0 || ^v8.4.1",

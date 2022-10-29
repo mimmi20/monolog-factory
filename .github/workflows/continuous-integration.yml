@@ -55,7 +55,7 @@ jobs:
           persist-credentials: false
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
+        uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, intl"
@@ -107,7 +107,7 @@ jobs:
           persist-credentials: false
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
+        uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
@@ -172,7 +172,7 @@ jobs:
           persist-credentials: false
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
+        uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
@@ -243,7 +243,7 @@ jobs:
           persist-credentials: false
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
+        uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, sockets, curl, ctype, intl"
@@ -311,7 +311,7 @@ jobs:
           persist-credentials: false
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
+        uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
@@ -379,7 +379,7 @@ jobs:
           persist-credentials: false
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
+        uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
@@ -447,7 +447,7 @@ jobs:
           persist-credentials: false
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
+        uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, :sockets, curl, ctype, intl"
@@ -515,7 +515,7 @@ jobs:
           persist-credentials: false
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
+        uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, :curl, ctype, intl"
@@ -583,7 +583,7 @@ jobs:
           persist-credentials: false
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
+        uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, sockets, curl, ctype, intl"
@@ -648,7 +648,7 @@ jobs:
           persist-credentials: false
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.21.2"
+        uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"

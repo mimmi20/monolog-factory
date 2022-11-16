@@ -23,7 +23,7 @@ jobs:
       envPAT: "${{ secrets.GITHUB_TOKEN }}"
 
   tests-monolog2:
-    name: "UnitTests with PHPUnit"
+    name: "UnitTests with PHPUnit for monolog/monolog 2"
 
     needs: "ci"
 
@@ -100,7 +100,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
 
   tests-monolog3:
-    name: "UnitTests with PHPUnit"
+    name: "UnitTests with PHPUnit for monolog/monolog 3"
 
     needs: "ci"
 

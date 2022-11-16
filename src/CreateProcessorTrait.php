@@ -19,7 +19,6 @@ use Psr\Container\ContainerExceptionInterface;
 
 use function array_key_exists;
 use function assert;
-use function is_array;
 use function is_callable;
 use function sprintf;
 

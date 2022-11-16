@@ -38,10 +38,6 @@ trait CreateProcessorTrait
             return $processorConfig;
         }
 
-        if (!is_array($processorConfig)) {
-            throw new ServiceNotCreatedException('ProcessorConfig must be an Array');
-        }
-
         if (array_key_exists('enabled', $processorConfig) && !$processorConfig['enabled']) {
             return null;
         }

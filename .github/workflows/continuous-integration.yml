@@ -46,7 +46,6 @@ jobs:
           - "lowest"
 
         psr-log-version:
-          - "1"
           - "2"
           - "3"
 
@@ -91,7 +90,7 @@ jobs:
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
 
       - name: "Require monolog/monolog ${{ matrix.monolog-version }}"
-        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable \"monolog/monolog:${{ matrix.monolog-version }}\""
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable \"monolog/monolog:${{ matrix.monolog-version }}.*\""
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"

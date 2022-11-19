@@ -413,6 +413,13 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
@@ -424,6 +431,9 @@ jobs:
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
 
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"
@@ -468,7 +478,7 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          # - "ubuntu-22.04"
+          - "ubuntu-22.04"
 
         php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
@@ -489,6 +499,13 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
@@ -500,6 +517,9 @@ jobs:
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
 
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"
@@ -550,7 +570,7 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          # - "ubuntu-22.04"
+          - "ubuntu-22.04"
 
         php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
@@ -571,6 +591,13 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
@@ -582,6 +609,9 @@ jobs:
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
 
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"
@@ -629,7 +659,7 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          # - "ubuntu-22.04"
+          - "ubuntu-22.04"
 
         php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
@@ -650,6 +680,13 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
@@ -661,6 +698,9 @@ jobs:
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
 
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"
@@ -729,6 +769,13 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
@@ -740,6 +787,9 @@ jobs:
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
 
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"
@@ -808,6 +858,13 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
@@ -819,6 +876,9 @@ jobs:
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
 
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"
@@ -886,6 +946,13 @@ jobs:
           fetch-depth: 0
           lfs: false
           persist-credentials: false
+
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
@@ -965,6 +1032,13 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
@@ -976,6 +1050,9 @@ jobs:
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
 
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"
@@ -1041,6 +1118,13 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
@@ -1052,6 +1136,9 @@ jobs:
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
 
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"

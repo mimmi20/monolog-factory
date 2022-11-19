@@ -14,7 +14,7 @@ namespace Mimmi20Test\MonologFactory\Processor;
 
 use JK\Monolog\Processor\RequestHeaderProcessor;
 use Mimmi20\MonologFactory\Processor\RequestHeaderProcessorFactory;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -48,7 +48,7 @@ final class RequestHeaderProcessorFactoryTest extends TestCase
 
         $lvl = new ReflectionProperty($processor, 'level');
 
-        self::assertSame(Logger::DEBUG, $lvl->getValue($processor));
+        self::assertSame(Level::Debug, $lvl->getValue($processor));
     }
 
     /**
@@ -74,7 +74,7 @@ final class RequestHeaderProcessorFactoryTest extends TestCase
 
         $lvl = new ReflectionProperty($processor, 'level');
 
-        self::assertSame(Logger::DEBUG, $lvl->getValue($processor));
+        self::assertSame(Level::Debug, $lvl->getValue($processor));
     }
 
     /**
@@ -102,6 +102,6 @@ final class RequestHeaderProcessorFactoryTest extends TestCase
 
         $lvl = new ReflectionProperty($processor, 'level');
 
-        self::assertSame(Logger::ALERT, $lvl->getValue($processor));
+        self::assertSame(Level::Alert, $lvl->getValue($processor));
     }
 }

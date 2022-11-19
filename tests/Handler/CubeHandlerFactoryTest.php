@@ -20,7 +20,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\CubeHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -140,7 +140,7 @@ final class CubeHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(CubeHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $scheme = new ReflectionProperty($handler, 'scheme');
@@ -188,7 +188,7 @@ final class CubeHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(CubeHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $scheme = new ReflectionProperty($handler, 'scheme');
@@ -303,7 +303,7 @@ final class CubeHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(CubeHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $scheme = new ReflectionProperty($handler, 'scheme');

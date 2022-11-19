@@ -20,7 +20,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\PushoverHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -135,7 +135,7 @@ final class PushoverHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PushoverHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
         self::assertSame('ssl://api.pushover.net:443', $handler->getConnectionString());
         self::assertSame(0.0, $handler->getTimeout());
@@ -157,11 +157,11 @@ final class PushoverHandlerFactoryTest extends TestCase
 
         $hpl = new ReflectionProperty($handler, 'highPriorityLevel');
 
-        self::assertSame(Logger::CRITICAL, $hpl->getValue($handler));
+        self::assertSame(Level::Critical, $hpl->getValue($handler));
 
         $el = new ReflectionProperty($handler, 'emergencyLevel');
 
-        self::assertSame(Logger::EMERGENCY, $el->getValue($handler));
+        self::assertSame(Level::Emergency, $el->getValue($handler));
 
         $re = new ReflectionProperty($handler, 'retry');
 
@@ -214,7 +214,7 @@ final class PushoverHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PushoverHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('api.pushover.net:80', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());
@@ -237,11 +237,11 @@ final class PushoverHandlerFactoryTest extends TestCase
 
         $hpl = new ReflectionProperty($handler, 'highPriorityLevel');
 
-        self::assertSame(Logger::ERROR, $hpl->getValue($handler));
+        self::assertSame(Level::Error, $hpl->getValue($handler));
 
         $el = new ReflectionProperty($handler, 'emergencyLevel');
 
-        self::assertSame(Logger::ALERT, $el->getValue($handler));
+        self::assertSame(Level::Alert, $el->getValue($handler));
 
         $re = new ReflectionProperty($handler, 'retry');
 
@@ -385,7 +385,7 @@ final class PushoverHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PushoverHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('api.pushover.net:80', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());
@@ -408,11 +408,11 @@ final class PushoverHandlerFactoryTest extends TestCase
 
         $hpl = new ReflectionProperty($handler, 'highPriorityLevel');
 
-        self::assertSame(Logger::ERROR, $hpl->getValue($handler));
+        self::assertSame(Level::Error, $hpl->getValue($handler));
 
         $el = new ReflectionProperty($handler, 'emergencyLevel');
 
-        self::assertSame(Logger::ALERT, $el->getValue($handler));
+        self::assertSame(Level::Alert, $el->getValue($handler));
 
         $re = new ReflectionProperty($handler, 'retry');
 
@@ -481,7 +481,7 @@ final class PushoverHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PushoverHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('api.pushover.net:80', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());
@@ -504,11 +504,11 @@ final class PushoverHandlerFactoryTest extends TestCase
 
         $hpl = new ReflectionProperty($handler, 'highPriorityLevel');
 
-        self::assertSame(Logger::ERROR, $hpl->getValue($handler));
+        self::assertSame(Level::Error, $hpl->getValue($handler));
 
         $el = new ReflectionProperty($handler, 'emergencyLevel');
 
-        self::assertSame(Logger::ALERT, $el->getValue($handler));
+        self::assertSame(Level::Alert, $el->getValue($handler));
 
         $re = new ReflectionProperty($handler, 'retry');
 

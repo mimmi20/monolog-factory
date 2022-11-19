@@ -20,7 +20,7 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\MandrillHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use Swift_Message;
@@ -29,10 +29,6 @@ use function array_key_exists;
 use function is_array;
 use function sprintf;
 
-/**
- * @phpstan-import-type Level from Logger
- * @phpstan-import-type LevelName from Logger
- */
 final class MandrillHandlerFactory implements FactoryInterface
 {
     use AddFormatterTrait;
@@ -42,7 +38,7 @@ final class MandrillHandlerFactory implements FactoryInterface
     /**
      * @param string                                         $requestedName
      * @param array<string, (string|callable|int|bool)>|null $options
-     * @phpstan-param array{message?: (string|callable|Swift_Message), apiKey?: string, level?: (Level|LevelName|LogLevel::*), bubble?: bool}|null $options
+     * @phpstan-param array{message?: (string|callable|Swift_Message), apiKey?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service

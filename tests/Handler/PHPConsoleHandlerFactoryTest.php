@@ -20,7 +20,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\PHPConsoleHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PhpConsole\Connector;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
@@ -147,7 +147,7 @@ final class PHPConsoleHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PHPConsoleHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
         self::assertSame($connector, $handler->getConnector());
         self::assertIsArray($handler->getOptions());
@@ -193,7 +193,7 @@ final class PHPConsoleHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PHPConsoleHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame($connector, $handler->getConnector());
         self::assertIsArray($handler->getOptions());
@@ -263,7 +263,7 @@ final class PHPConsoleHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PHPConsoleHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
         self::assertSame($connector, $handler->getConnector());
         self::assertIsArray($handler->getOptions());
@@ -306,7 +306,7 @@ final class PHPConsoleHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PHPConsoleHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame($connector, $handler->getConnector());
         self::assertIsArray($handler->getOptions());
@@ -448,7 +448,7 @@ final class PHPConsoleHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PHPConsoleHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame($connector, $handler->getConnector());
         self::assertIsArray($handler->getOptions());

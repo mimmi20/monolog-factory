@@ -24,6 +24,7 @@ use Mimmi20\MonologFactory\Handler\FingersCrossed\ActivationStrategyPluginManage
 use Monolog\Handler\FingersCrossed\ActivationStrategyInterface;
 use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Handler\HandlerInterface;
+use Monolog\Level;
 use Monolog\Logger;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -34,15 +35,10 @@ use function array_key_exists;
 use function assert;
 use function gettype;
 use function is_array;
-use function is_int;
 use function is_object;
 use function is_string;
 use function sprintf;
 
-/**
- * @phpstan-import-type Level from Logger
- * @phpstan-import-type LevelName from Logger
- */
 final class FingersCrossedHandlerFactory implements FactoryInterface
 {
     use AddFormatterTrait;
@@ -52,7 +48,7 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
     /**
      * @param string                                                       $requestedName
      * @param array<string, (int|string|ActivationStrategyInterface)>|null $options
-     * @phpstan-param array{handler?: bool|array{type?: string, enabled?: bool, options?: array<mixed>}, activationStrategy?: (null|Level|LevelName|LogLevel::*|ActivationStrategyInterface|array{type?: string, options?: array<mixed>}|string), bufferSize?: int, bubble?: bool, stopBuffering?: bool, passthruLevel?: (Level|LevelName|LogLevel::*)}|null $options
+     * @phpstan-param array{handler?: bool|array{type?: string, enabled?: bool, options?: array<mixed>}, activationStrategy?: (null|value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*|ActivationStrategyInterface|array{type?: string, options?: array<mixed>}|string), bufferSize?: int, bubble?: bool, stopBuffering?: bool, passthruLevel?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*)}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
@@ -124,8 +120,8 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
     }
 
     /**
-     * @param ActivationStrategyInterface|array<string, array<mixed>|string>|int|string $activationStrategy
-     * @phpstan-param (Level|LevelName|LogLevel::*|ActivationStrategyInterface|array{type?: string, options?: array<mixed>}|string|null) $activationStrategy
+     * @param ActivationStrategyInterface|array<string, array<mixed>|string>|string $activationStrategy
+     * @phpstan-param (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*|ActivationStrategyInterface|array{type?: string, options?: array<mixed>}|string|null) $activationStrategy
      *
      * @phpstan-return (Level|ActivationStrategyInterface|null)
      *
@@ -133,13 +129,13 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      * @throws InvalidServiceException
      */
-    private function getActivationStrategy(ContainerInterface $container, ActivationStrategyInterface | array | int | string | null $activationStrategy): ActivationStrategyInterface | int | null
+    private function getActivationStrategy(ContainerInterface $container, ActivationStrategyInterface | Level | int | array | string | null $activationStrategy): ActivationStrategyInterface | Level | null
     {
         if (null === $activationStrategy) {
             return null;
         }
 
-        if (is_int($activationStrategy) || $activationStrategy instanceof ActivationStrategyInterface) {
+        if ($activationStrategy instanceof ActivationStrategyInterface || $activationStrategy instanceof Level) {
             return $activationStrategy;
         }
 

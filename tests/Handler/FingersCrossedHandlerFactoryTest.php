@@ -25,7 +25,7 @@ use Monolog\Handler\ChromePHPHandler;
 use Monolog\Handler\FingersCrossed\ChannelLevelActivationStrategy;
 use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
 use Monolog\Handler\FingersCrossedHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -348,7 +348,7 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
 
-        self::assertSame(Logger::WARNING, $ptl->getValue($handler));
+        self::assertSame(Level::Warning, $ptl->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
@@ -403,7 +403,7 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
 
         $factory = new FingersCrossedHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => Logger::WARNING, 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
+        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => Level::Warning, 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
 
         self::assertInstanceOf(FingersCrossedHandler::class, $handler);
 
@@ -429,7 +429,7 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
 
-        self::assertSame(Logger::WARNING, $ptl->getValue($handler));
+        self::assertSame(Level::Warning, $ptl->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
@@ -513,7 +513,7 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
 
-        self::assertSame(Logger::WARNING, $ptl->getValue($handler));
+        self::assertSame(Level::Warning, $ptl->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
@@ -604,7 +604,7 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
 
-        self::assertSame(Logger::WARNING, $ptl->getValue($handler));
+        self::assertSame(Level::Warning, $ptl->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
@@ -701,7 +701,7 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
 
-        self::assertSame(Logger::WARNING, $ptl->getValue($handler));
+        self::assertSame(Level::Warning, $ptl->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
@@ -911,7 +911,7 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
 
-        self::assertSame(Logger::WARNING, $ptl->getValue($handler));
+        self::assertSame(Level::Warning, $ptl->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
@@ -1362,7 +1362,7 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
 
-        self::assertSame(Logger::WARNING, $ptl->getValue($handler));
+        self::assertSame(Level::Warning, $ptl->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 
@@ -1532,7 +1532,7 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
 
         $ptl = new ReflectionProperty($handler, 'passthruLevel');
 
-        self::assertSame(Logger::WARNING, $ptl->getValue($handler));
+        self::assertSame(Level::Warning, $ptl->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
 

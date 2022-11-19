@@ -12,17 +12,17 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Handler;
 
-use Bartlett\Monolog\Handler\CallbackFilterHandler;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
+use Mimmi20\Monolog\Handler\CallbackFilterHandler;
 use Mimmi20\MonologFactory\Handler\CallbackFilterHandlerFactory;
 use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Mimmi20\MonologFactory\MonologHandlerPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ChromePHPHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -238,7 +238,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(CallbackFilterHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -306,7 +306,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(CallbackFilterHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -376,7 +376,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(CallbackFilterHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -447,7 +447,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(CallbackFilterHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -569,7 +569,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(CallbackFilterHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -651,7 +651,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(CallbackFilterHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');

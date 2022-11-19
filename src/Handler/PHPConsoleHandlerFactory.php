@@ -19,7 +19,7 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\PHPConsoleHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PhpConsole\Connector;
 use PhpConsole\Storage;
 use Psr\Container\ContainerExceptionInterface;
@@ -32,10 +32,6 @@ use function is_array;
 use function is_string;
 use function sprintf;
 
-/**
- * @phpstan-import-type Level from Logger
- * @phpstan-import-type LevelName from Logger
- */
 final class PHPConsoleHandlerFactory implements FactoryInterface
 {
     use AddFormatterTrait;
@@ -44,7 +40,7 @@ final class PHPConsoleHandlerFactory implements FactoryInterface
     /**
      * @param string                                          $requestedName
      * @param array<string, (string|int|bool|Connector)>|null $options
-     * @phpstan-param array{connector?: (bool|string|Connector), options?: array{enabled?: bool, classesPartialsTraceIgnore?: array<string>, debugTagsKeysInContext?: array<(int|string)>, useOwnErrorsHandler?: bool, useOwnExceptionsHandler?: bool, sourcesBasePath?: string, registerHelper?: bool, serverEncoding?: string, headersLimit?: int, password?: string, enableSslOnlyMode?: bool, ipMasks?: array<mixed>, enableEvalListener?: bool, dumperDetectCallbacks?: bool, dumperLevelLimit?: int, dumperItemsCountLimit?: int, dumperItemSizeLimit?: int, dumperDumpSizeLimit?: int, detectDumpTraceAndSource?: bool, dataStorage?: Storage}, level?: (Level|LevelName|LogLevel::*), bubble?: bool}|null $options
+     * @phpstan-param array{connector?: (bool|string|Connector), options?: array{enabled?: bool, classesPartialsTraceIgnore?: array<string>, debugTagsKeysInContext?: array<(int|string)>, useOwnErrorsHandler?: bool, useOwnExceptionsHandler?: bool, sourcesBasePath?: string, registerHelper?: bool, serverEncoding?: string, headersLimit?: int, password?: string, enableSslOnlyMode?: bool, ipMasks?: array<mixed>, enableEvalListener?: bool, dumperDetectCallbacks?: bool, dumperLevelLimit?: int, dumperItemsCountLimit?: int, dumperItemSizeLimit?: int, dumperDumpSizeLimit?: int, detectDumpTraceAndSource?: bool, dataStorage?: Storage}, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service

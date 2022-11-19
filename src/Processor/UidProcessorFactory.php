@@ -26,7 +26,7 @@ final class UidProcessorFactory implements FactoryInterface
     /**
      * @param string                  $requestedName
      * @param array<string, int>|null $options
-     * @phpstan-param array{length?: int}|null $options
+     * @phpstan-param array{length?: int<1, 32>}|null $options
      *
      * @throws void
      *

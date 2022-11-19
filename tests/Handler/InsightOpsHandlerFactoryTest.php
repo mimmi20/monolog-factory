@@ -20,7 +20,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\InsightOpsHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -107,7 +107,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(InsightOpsHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
         self::assertSame('ssl://us.data.logs.insight.rapid7.com:443', $handler->getConnectionString());
         self::assertSame(0.0, $handler->getTimeout());
@@ -158,7 +158,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(InsightOpsHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('eu.data.logs.insight.rapid7.com:80', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());
@@ -331,7 +331,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(InsightOpsHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('ssl://us.data.logs.insight.rapid7.com:443', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());
@@ -395,7 +395,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(InsightOpsHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('ssl://us.data.logs.insight.rapid7.com:443', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());

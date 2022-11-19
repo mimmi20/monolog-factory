@@ -21,7 +21,7 @@ use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Formatter\WildfireFormatter;
 use Monolog\Handler\FirePHPHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -55,7 +55,7 @@ final class FirePHPHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(FirePHPHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         self::assertInstanceOf(WildfireFormatter::class, $handler->getFormatter());
@@ -89,7 +89,7 @@ final class FirePHPHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(FirePHPHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         self::assertInstanceOf(WildfireFormatter::class, $handler->getFormatter());
@@ -123,7 +123,7 @@ final class FirePHPHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(FirePHPHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         self::assertInstanceOf(WildfireFormatter::class, $handler->getFormatter());
@@ -223,7 +223,7 @@ final class FirePHPHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(FirePHPHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         self::assertSame($formatter, $handler->getFormatter());

@@ -14,7 +14,7 @@ namespace Mimmi20Test\MonologFactory\Handler;
 
 use Mimmi20\MonologFactory\Handler\NullHandlerFactory;
 use Monolog\Handler\NullHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -48,7 +48,7 @@ final class NullHandlerFactoryTest extends TestCase
 
         $lvl = new ReflectionProperty($handler, 'level');
 
-        self::assertSame(Logger::DEBUG, $lvl->getValue($handler));
+        self::assertSame(Level::Debug, $lvl->getValue($handler));
     }
 
     /**
@@ -74,7 +74,7 @@ final class NullHandlerFactoryTest extends TestCase
 
         $lvl = new ReflectionProperty($handler, 'level');
 
-        self::assertSame(Logger::DEBUG, $lvl->getValue($handler));
+        self::assertSame(Level::Debug, $lvl->getValue($handler));
     }
 
     /**
@@ -100,6 +100,6 @@ final class NullHandlerFactoryTest extends TestCase
 
         $lvl = new ReflectionProperty($handler, 'level');
 
-        self::assertSame(Logger::ALERT, $lvl->getValue($handler));
+        self::assertSame(Level::Alert, $lvl->getValue($handler));
     }
 }

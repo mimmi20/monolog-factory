@@ -21,7 +21,7 @@ use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\HtmlFormatter;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\NativeMailerHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -144,7 +144,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(NativeMailerHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
         self::assertNull($handler->getContentType());
         self::assertSame('utf-8', $handler->getEncoding());
@@ -203,7 +203,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(NativeMailerHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame($contentType, $handler->getContentType());
         self::assertSame($encoding, $handler->getEncoding());
@@ -339,7 +339,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(NativeMailerHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame($contentType, $handler->getContentType());
         self::assertSame($encoding, $handler->getEncoding());

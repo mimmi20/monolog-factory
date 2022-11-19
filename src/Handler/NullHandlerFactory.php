@@ -14,23 +14,19 @@ namespace Mimmi20\MonologFactory\Handler;
 
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Handler\NullHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 
 use function array_key_exists;
 use function is_array;
 
-/**
- * @phpstan-import-type Level from Logger
- * @phpstan-import-type LevelName from Logger
- */
 final class NullHandlerFactory implements FactoryInterface
 {
     /**
      * @param string                         $requestedName
      * @param array<string, int|string>|null $options
-     * @phpstan-param array{level?: (Level|LevelName|LogLevel::*)}|null $options
+     * @phpstan-param array{level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*)}|null $options
      *
      * @throws void
      *

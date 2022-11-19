@@ -21,7 +21,7 @@ use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\CouchDBHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -55,7 +55,7 @@ final class CouchDBHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(CouchDBHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $optionsP = new ReflectionProperty($handler, 'options');
@@ -99,7 +99,7 @@ final class CouchDBHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(CouchDBHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $optionsP = new ReflectionProperty($handler, 'options');
@@ -150,7 +150,7 @@ final class CouchDBHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(CouchDBHandler::class, $handler);
 
-        self::assertSame(Logger::ERROR, $handler->getLevel());
+        self::assertSame(Level::Error, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $optionsP = new ReflectionProperty($handler, 'options');
@@ -278,7 +278,7 @@ final class CouchDBHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(CouchDBHandler::class, $handler);
 
-        self::assertSame(Logger::ERROR, $handler->getLevel());
+        self::assertSame(Level::Error, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $optionsP = new ReflectionProperty($handler, 'options');

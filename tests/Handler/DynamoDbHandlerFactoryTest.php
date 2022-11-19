@@ -22,7 +22,7 @@ use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Formatter\ScalarFormatter;
 use Monolog\Handler\DynamoDbHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -149,7 +149,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(DynamoDbHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -199,7 +199,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(DynamoDbHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -245,7 +245,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(DynamoDbHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -292,7 +292,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(DynamoDbHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -436,7 +436,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(DynamoDbHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');

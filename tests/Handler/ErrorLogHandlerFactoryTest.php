@@ -20,7 +20,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ErrorLogHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -54,7 +54,7 @@ final class ErrorLogHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ErrorLogHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $mt = new ReflectionProperty($handler, 'messageType');
@@ -96,7 +96,7 @@ final class ErrorLogHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ErrorLogHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $mt = new ReflectionProperty($handler, 'messageType');
@@ -140,7 +140,7 @@ final class ErrorLogHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ErrorLogHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $mt = new ReflectionProperty($handler, 'messageType');
@@ -251,7 +251,7 @@ final class ErrorLogHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ErrorLogHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $mt = new ReflectionProperty($handler, 'messageType');

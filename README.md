@@ -468,38 +468,6 @@ return [
 
 Monolog Docs: [NativeMailerHandler](https://github.com/Seldaek/monolog/blob/master/src/Monolog/Handler/NativeMailerHandler.php)
 
-#### SwiftMailerHandler
-
-Sends emails using a [Swift_Mailer](http://swiftmailer.org/) instance.
-
-```php
-<?php
-
-return [
-    'log' => [
-        'default' => [ 
-            'handlers' => [
-                'myHandlerName' => [
-                    'type' => 'swiftMailer',
-                      
-                    'options' => [
-                        'mailer' => 'my-service', // The mailer to use.  Must be a valid service name in the container
-                        'message' => 'my-message', // An example message for real messages, only the body will be replaced.  Must be a valid service name or callable
-                        'level' => \Psr\Log\LogLevel::DEBUG, // Optional: The minimum logging level at which this handler will be triggered
-                        'bubble' => true, // Optional: Whether the messages that are handled can bubble up the stack or not
-                        
-                        'formatter' => [], // Optional: Formatter for the handler.
-                        'processors' => [], // Optional: Processors for the handler.
-                    ],
-                ],
-            ],
-        ],
-    ],
-];
-```
-
-Monolog Docs: [SwiftMailerHandler](https://github.com/Seldaek/monolog/blob/2.x/src/Monolog/Handler/SwiftMailerHandler.php)
-
 #### SymfonyMailerHandler
 
 Sends emails using a [symfony/mailer](https://symfony.com/doc/current/mailer.html) instance.

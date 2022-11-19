@@ -20,7 +20,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\RedisPubSubHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Predis\Client;
@@ -172,7 +172,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(RedisPubSubHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');
@@ -224,7 +224,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(RedisPubSubHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');
@@ -270,7 +270,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(RedisPubSubHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');
@@ -319,7 +319,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(RedisPubSubHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');
@@ -472,7 +472,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(RedisPubSubHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $rc = new ReflectionProperty($handler, 'redisClient');

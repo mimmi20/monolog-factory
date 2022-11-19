@@ -19,7 +19,7 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\SyslogHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 
@@ -29,10 +29,6 @@ use function is_array;
 use const LOG_PID;
 use const LOG_USER;
 
-/**
- * @phpstan-import-type Level from Logger
- * @phpstan-import-type LevelName from Logger
- */
 final class SyslogHandlerFactory implements FactoryInterface
 {
     use AddFormatterTrait;
@@ -41,7 +37,7 @@ final class SyslogHandlerFactory implements FactoryInterface
     /**
      * @param string                                $requestedName
      * @param array<string, (string|int|bool)>|null $options
-     * @phpstan-param array{ident?: string, facility?: (int|string), level?: (Level|LevelName|LogLevel::*), bubble?: bool, logOpts?: int}|null $options
+     * @phpstan-param array{ident?: string, facility?: (int|string), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, logOpts?: int}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service

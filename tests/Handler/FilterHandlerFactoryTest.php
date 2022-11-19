@@ -22,7 +22,7 @@ use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ChromePHPHandler;
 use Monolog\Handler\FilterHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -31,7 +31,7 @@ use ReflectionException;
 use ReflectionProperty;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
-use function array_flip;
+use function array_keys;
 use function sprintf;
 
 final class FilterHandlerFactoryTest extends TestCase
@@ -205,14 +205,14 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type           = 'abc';
         $levels         = [
-            Logger::DEBUG => 0,
-            Logger::INFO => 1,
-            Logger::NOTICE => 2,
-            Logger::WARNING => 3,
-            Logger::ERROR => 4,
-            Logger::CRITICAL => 5,
-            Logger::ALERT => 6,
-            Logger::EMERGENCY => 7,
+            Level::Debug->value => true,
+            Level::Info->value => true,
+            Level::Notice->value => true,
+            Level::Warning->value => true,
+            Level::Error->value => true,
+            Level::Critical->value => true,
+            Level::Alert->value => true,
+            Level::Emergency->value => true,
         ];
         $formatterClass = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -284,9 +284,9 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type           = 'abc';
         $levels         = [
-            Logger::WARNING => 0,
-            Logger::ERROR => 1,
-            Logger::CRITICAL => 2,
+            Level::Warning->value => true,
+            Level::Error->value => true,
+            Level::Critical->value => true,
         ];
         $formatterClass = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -358,11 +358,11 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type           = 'abc';
         $levels         = [
-            Logger::NOTICE,
-            Logger::WARNING,
-            Logger::ERROR,
-            Logger::CRITICAL,
-            Logger::ALERT,
+            Level::Notice->value => true,
+            Level::Warning->value => true,
+            Level::Error->value => true,
+            Level::Critical->value => true,
+            Level::Alert->value => true,
         ];
         $formatterClass = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -399,7 +399,7 @@ final class FilterHandlerFactoryTest extends TestCase
 
         $factory = new FilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'minLevelOrList' => $levels]);
+        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'minLevelOrList' => array_keys($levels)]);
 
         self::assertInstanceOf(FilterHandler::class, $handler);
 
@@ -413,7 +413,7 @@ final class FilterHandlerFactoryTest extends TestCase
 
         $al = new ReflectionProperty($handler, 'acceptedLevels');
 
-        self::assertSame(array_flip($levels), $al->getValue($handler));
+        self::assertSame($levels, $al->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
@@ -430,11 +430,11 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type      = 'abc';
         $levels    = [
-            Logger::NOTICE,
-            Logger::WARNING,
-            Logger::ERROR,
-            Logger::CRITICAL,
-            Logger::ALERT,
+            Level::Notice->value,
+            Level::Warning->value,
+            Level::Error->value,
+            Level::Critical->value,
+            Level::Alert->value,
         ];
         $formatter = true;
 
@@ -482,11 +482,11 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type      = 'abc';
         $levels    = [
-            Logger::NOTICE,
-            Logger::WARNING,
-            Logger::ERROR,
-            Logger::CRITICAL,
-            Logger::ALERT,
+            Level::Notice->value,
+            Level::Warning->value,
+            Level::Error->value,
+            Level::Critical->value,
+            Level::Alert->value,
         ];
         $formatter = true;
 
@@ -534,11 +534,11 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type      = 'abc';
         $levels    = [
-            Logger::NOTICE,
-            Logger::WARNING,
-            Logger::ERROR,
-            Logger::CRITICAL,
-            Logger::ALERT,
+            Level::Notice->value,
+            Level::Warning->value,
+            Level::Error->value,
+            Level::Critical->value,
+            Level::Alert->value,
         ];
         $formatter = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -600,11 +600,11 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type           = 'abc';
         $levels         = [
-            Logger::NOTICE,
-            Logger::WARNING,
-            Logger::ERROR,
-            Logger::CRITICAL,
-            Logger::ALERT,
+            Level::Notice->value => true,
+            Level::Warning->value => true,
+            Level::Error->value => true,
+            Level::Critical->value => true,
+            Level::Alert->value => true,
         ];
         $formatterClass = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -650,7 +650,7 @@ final class FilterHandlerFactoryTest extends TestCase
 
         $factory = new FilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'minLevelOrList' => $levels, 'formatter' => $formatterClass]);
+        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'minLevelOrList' => array_keys($levels), 'formatter' => $formatterClass]);
 
         self::assertInstanceOf(FilterHandler::class, $handler);
 
@@ -664,7 +664,7 @@ final class FilterHandlerFactoryTest extends TestCase
 
         $al = new ReflectionProperty($handler, 'acceptedLevels');
 
-        self::assertSame(array_flip($levels), $al->getValue($handler));
+        self::assertSame($levels, $al->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
@@ -681,11 +681,11 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type      = 'abc';
         $levels    = [
-            Logger::NOTICE,
-            Logger::WARNING,
-            Logger::ERROR,
-            Logger::CRITICAL,
-            Logger::ALERT,
+            Level::Notice->value,
+            Level::Warning->value,
+            Level::Error->value,
+            Level::Critical->value,
+            Level::Alert->value,
         ];
         $formatter = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -747,11 +747,11 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type           = 'abc';
         $levels         = [
-            Logger::NOTICE,
-            Logger::WARNING,
-            Logger::ERROR,
-            Logger::CRITICAL,
-            Logger::ALERT,
+            Level::Notice->value => true,
+            Level::Warning->value => true,
+            Level::Error->value => true,
+            Level::Critical->value => true,
+            Level::Alert->value => true,
         ];
         $formatterClass = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -797,7 +797,7 @@ final class FilterHandlerFactoryTest extends TestCase
 
         $factory = new FilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatterClass]], 'minLevelOrList' => $levels]);
+        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatterClass]], 'minLevelOrList' => array_keys($levels)]);
 
         self::assertInstanceOf(FilterHandler::class, $handler);
 
@@ -811,7 +811,7 @@ final class FilterHandlerFactoryTest extends TestCase
 
         $al = new ReflectionProperty($handler, 'acceptedLevels');
 
-        self::assertSame(array_flip($levels), $al->getValue($handler));
+        self::assertSame($levels, $al->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
@@ -828,11 +828,11 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type       = 'abc';
         $levels     = [
-            Logger::NOTICE,
-            Logger::WARNING,
-            Logger::ERROR,
-            Logger::CRITICAL,
-            Logger::ALERT,
+            Level::Notice,
+            Level::Warning,
+            Level::Error,
+            Level::Critical,
+            Level::Alert,
         ];
         $processors = true;
 
@@ -878,11 +878,11 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type       = 'abc';
         $levels     = [
-            Logger::NOTICE,
-            Logger::WARNING,
-            Logger::ERROR,
-            Logger::CRITICAL,
-            Logger::ALERT,
+            Level::Notice,
+            Level::Warning,
+            Level::Error,
+            Level::Critical,
+            Level::Alert,
         ];
         $processors = true;
 

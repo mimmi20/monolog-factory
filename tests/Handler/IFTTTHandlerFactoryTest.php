@@ -20,7 +20,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\IFTTTHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -134,7 +134,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(IFTTTHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $en = new ReflectionProperty($handler, 'eventName');
@@ -181,7 +181,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(IFTTTHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $en = new ReflectionProperty($handler, 'eventName');
@@ -305,7 +305,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(IFTTTHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $en = new ReflectionProperty($handler, 'eventName');

@@ -20,7 +20,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\RollbarHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -139,7 +139,7 @@ final class RollbarHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(RollbarHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $rollbarloggerP = new ReflectionProperty($handler, 'rollbarLogger');
@@ -199,7 +199,7 @@ final class RollbarHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(RollbarHandler::class, $handler);
 
-        self::assertSame(Logger::ERROR, $handler->getLevel());
+        self::assertSame(Level::Error, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $rollbarloggerP = new ReflectionProperty($handler, 'rollbarLogger');
@@ -340,7 +340,7 @@ final class RollbarHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(RollbarHandler::class, $handler);
 
-        self::assertSame(Logger::ERROR, $handler->getLevel());
+        self::assertSame(Level::Error, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $rollbarloggerP = new ReflectionProperty($handler, 'rollbarLogger');

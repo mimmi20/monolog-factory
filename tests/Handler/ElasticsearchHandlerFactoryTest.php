@@ -24,7 +24,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\ElasticsearchFormatter;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\ElasticsearchHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -176,7 +176,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -237,7 +237,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -391,7 +391,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -464,7 +464,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -537,7 +537,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -610,7 +610,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -683,7 +683,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -854,7 +854,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -923,7 +923,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -978,7 +978,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -1038,7 +1038,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -1189,7 +1189,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -1395,7 +1395,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');

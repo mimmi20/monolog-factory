@@ -22,7 +22,7 @@ use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ChromePHPHandler;
 use Monolog\Handler\DeduplicationHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -242,7 +242,7 @@ final class DeduplicationHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(DeduplicationHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -263,7 +263,7 @@ final class DeduplicationHandlerFactoryTest extends TestCase
 
         $ddl = new ReflectionProperty($handler, 'deduplicationLevel');
 
-        self::assertSame(Logger::ERROR, $ddl->getValue($handler));
+        self::assertSame(Level::Error, $ddl->getValue($handler));
 
         $timeP = new ReflectionProperty($handler, 'time');
 
@@ -328,7 +328,7 @@ final class DeduplicationHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(DeduplicationHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -349,7 +349,7 @@ final class DeduplicationHandlerFactoryTest extends TestCase
 
         $ddl = new ReflectionProperty($handler, 'deduplicationLevel');
 
-        self::assertSame(Logger::ALERT, $ddl->getValue($handler));
+        self::assertSame(Level::Alert, $ddl->getValue($handler));
 
         $timeP = new ReflectionProperty($handler, 'time');
 
@@ -574,7 +574,7 @@ final class DeduplicationHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(DeduplicationHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -595,7 +595,7 @@ final class DeduplicationHandlerFactoryTest extends TestCase
 
         $ddl = new ReflectionProperty($handler, 'deduplicationLevel');
 
-        self::assertSame(Logger::ALERT, $ddl->getValue($handler));
+        self::assertSame(Level::Alert, $ddl->getValue($handler));
 
         $timeP = new ReflectionProperty($handler, 'time');
 
@@ -725,7 +725,7 @@ final class DeduplicationHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(DeduplicationHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -746,7 +746,7 @@ final class DeduplicationHandlerFactoryTest extends TestCase
 
         $ddl = new ReflectionProperty($handler, 'deduplicationLevel');
 
-        self::assertSame(Logger::ALERT, $ddl->getValue($handler));
+        self::assertSame(Level::Alert, $ddl->getValue($handler));
 
         $timeP = new ReflectionProperty($handler, 'time');
 

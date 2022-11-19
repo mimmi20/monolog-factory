@@ -20,7 +20,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\FleepHookHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -107,7 +107,7 @@ final class FleepHookHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(FleepHookHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
         self::assertSame('ssl://fleep.io:443', $handler->getConnectionString());
         self::assertSame(0.0, $handler->getTimeout());
@@ -161,7 +161,7 @@ final class FleepHookHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(FleepHookHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('ssl://fleep.io:443', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());
@@ -303,7 +303,7 @@ final class FleepHookHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(FleepHookHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('ssl://fleep.io:443', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());
@@ -371,7 +371,7 @@ final class FleepHookHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(FleepHookHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('ssl://fleep.io:443', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());

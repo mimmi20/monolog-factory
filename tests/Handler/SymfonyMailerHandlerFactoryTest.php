@@ -21,7 +21,7 @@ use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\HtmlFormatter;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\SymfonyMailerHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -208,7 +208,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SymfonyMailerHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $mailerP = new ReflectionProperty($handler, 'mailer');
@@ -354,7 +354,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SymfonyMailerHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $mailerP = new ReflectionProperty($handler, 'mailer');

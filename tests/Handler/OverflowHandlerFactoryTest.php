@@ -22,7 +22,7 @@ use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ChromePHPHandler;
 use Monolog\Handler\OverflowHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -204,14 +204,14 @@ final class OverflowHandlerFactoryTest extends TestCase
     {
         $type                 = 'abc';
         $thresholdMapExpected = [
-            Logger::DEBUG => 0,
-            Logger::INFO => 0,
-            Logger::NOTICE => 0,
-            Logger::WARNING => 0,
-            Logger::ERROR => 0,
-            Logger::CRITICAL => 0,
-            Logger::ALERT => 0,
-            Logger::EMERGENCY => 0,
+            Level::Debug->value => 0,
+            Level::Info->value => 0,
+            Level::Notice->value => 0,
+            Level::Warning->value => 0,
+            Level::Error->value => 0,
+            Level::Critical->value => 0,
+            Level::Alert->value => 0,
+            Level::Emergency->value => 0,
         ];
         $formatterClass       = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -252,7 +252,7 @@ final class OverflowHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(OverflowHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -275,14 +275,14 @@ final class OverflowHandlerFactoryTest extends TestCase
     {
         $type                 = 'abc';
         $thresholdMapExpected = [
-            Logger::DEBUG => 9,
-            Logger::INFO => 99,
-            Logger::NOTICE => 2,
-            Logger::WARNING => 42,
-            Logger::ERROR => 11,
-            Logger::CRITICAL => 22,
-            Logger::ALERT => 17,
-            Logger::EMERGENCY => 8,
+            Level::Debug->value => 9,
+            Level::Info->value => 99,
+            Level::Notice->value => 2,
+            Level::Warning->value => 42,
+            Level::Error->value => 11,
+            Level::Critical->value => 22,
+            Level::Alert->value => 17,
+            Level::Emergency->value => 8,
         ];
         $formatterClass       = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -334,7 +334,7 @@ final class OverflowHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(OverflowHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -535,14 +535,14 @@ final class OverflowHandlerFactoryTest extends TestCase
     {
         $type                 = 'abc';
         $thresholdMapExpected = [
-            Logger::DEBUG => 9,
-            Logger::INFO => 99,
-            Logger::NOTICE => 2,
-            Logger::WARNING => 42,
-            Logger::ERROR => 11,
-            Logger::CRITICAL => 22,
-            Logger::ALERT => 17,
-            Logger::EMERGENCY => 8,
+            Level::Debug->value => 9,
+            Level::Info->value => 99,
+            Level::Notice->value => 2,
+            Level::Warning->value => 42,
+            Level::Error->value => 11,
+            Level::Critical->value => 22,
+            Level::Alert->value => 17,
+            Level::Emergency->value => 8,
         ];
         $formatterClass       = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -603,7 +603,7 @@ final class OverflowHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(OverflowHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -692,14 +692,14 @@ final class OverflowHandlerFactoryTest extends TestCase
     {
         $type                 = 'abc';
         $thresholdMapExpected = [
-            Logger::DEBUG => 9,
-            Logger::INFO => 99,
-            Logger::NOTICE => 2,
-            Logger::WARNING => 42,
-            Logger::ERROR => 11,
-            Logger::CRITICAL => 22,
-            Logger::ALERT => 17,
-            Logger::EMERGENCY => 8,
+            Level::Debug->value => 9,
+            Level::Info->value => 99,
+            Level::Notice->value => 2,
+            Level::Warning->value => 42,
+            Level::Error->value => 11,
+            Level::Critical->value => 22,
+            Level::Alert->value => 17,
+            Level::Emergency->value => 8,
         ];
         $formatterClass       = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -760,7 +760,7 @@ final class OverflowHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(OverflowHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -783,14 +783,14 @@ final class OverflowHandlerFactoryTest extends TestCase
     {
         $type                 = 'abc';
         $thresholdMapExpected = [
-            Logger::DEBUG => 9,
-            Logger::INFO => 99,
-            Logger::NOTICE => 2,
-            Logger::WARNING => 42,
-            Logger::ERROR => 11,
-            Logger::CRITICAL => 22,
-            Logger::ALERT => 17,
-            Logger::EMERGENCY => 8,
+            Level::Debug->value => 9,
+            Level::Info->value => 99,
+            Level::Notice->value => 2,
+            Level::Warning->value => 42,
+            Level::Error->value => 11,
+            Level::Critical->value => 22,
+            Level::Alert->value => 17,
+            Level::Emergency->value => 8,
         ];
         $processors           = true;
 
@@ -839,7 +839,7 @@ final class OverflowHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(OverflowHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');

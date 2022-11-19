@@ -14,7 +14,7 @@ namespace Mimmi20Test\MonologFactory\Handler\FingersCrossed;
 
 use Mimmi20\MonologFactory\Handler\FingersCrossed\ChannelLevelActivationStrategyFactory;
 use Monolog\Handler\FingersCrossed\ChannelLevelActivationStrategy;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -48,7 +48,7 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
 
         $dal = new ReflectionProperty($strategy, 'defaultActionLevel');
 
-        self::assertSame(Logger::DEBUG, $dal->getValue($strategy));
+        self::assertSame(Level::Debug, $dal->getValue($strategy));
 
         $ctal = new ReflectionProperty($strategy, 'channelToActionLevel');
 
@@ -78,7 +78,7 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
 
         $dal = new ReflectionProperty($strategy, 'defaultActionLevel');
 
-        self::assertSame(Logger::DEBUG, $dal->getValue($strategy));
+        self::assertSame(Level::Debug, $dal->getValue($strategy));
 
         $ctal = new ReflectionProperty($strategy, 'channelToActionLevel');
 
@@ -108,7 +108,7 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
 
         $dal = new ReflectionProperty($strategy, 'defaultActionLevel');
 
-        self::assertSame(Logger::ALERT, $dal->getValue($strategy));
+        self::assertSame(Level::Alert, $dal->getValue($strategy));
 
         $ctal = new ReflectionProperty($strategy, 'channelToActionLevel');
 
@@ -138,10 +138,10 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
 
         $dal = new ReflectionProperty($strategy, 'defaultActionLevel');
 
-        self::assertSame(Logger::ALERT, $dal->getValue($strategy));
+        self::assertSame(Level::Alert, $dal->getValue($strategy));
 
         $ctal = new ReflectionProperty($strategy, 'channelToActionLevel');
 
-        self::assertSame(['abc' => Logger::CRITICAL, 'xyz' => Logger::WARNING], $ctal->getValue($strategy));
+        self::assertSame(['abc' => Level::Critical, 'xyz' => Level::Warning], $ctal->getValue($strategy));
     }
 }

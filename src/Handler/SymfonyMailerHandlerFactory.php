@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler;
 
+use Closure;
 use Interop\Container\Exception\ContainerException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
@@ -19,7 +20,8 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\SymfonyMailerHandler;
-use Monolog\Logger;
+use Monolog\Level;
+use Monolog\LogRecord;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
@@ -29,15 +31,9 @@ use Symfony\Component\Mime\Email;
 
 use function array_key_exists;
 use function is_array;
-use function is_callable;
 use function is_string;
 use function sprintf;
 
-/**
- * @phpstan-import-type Level from Logger
- * @phpstan-import-type LevelName from Logger
- * @phpstan-import-type Record from Logger
- */
 final class SymfonyMailerHandlerFactory implements FactoryInterface
 {
     use AddFormatterTrait;
@@ -45,9 +41,9 @@ final class SymfonyMailerHandlerFactory implements FactoryInterface
     use SwiftMessageTrait;
 
     /**
-     * @param string                                    $requestedName
-     * @param array<string, (string|int|callable)>|null $options
-     * @phpstan-param array{mailer?: (bool|string|MailerInterface|TransportInterface), email-template?: (string|Email|callable(string, Record[]): Email), level?: (Level|LevelName|LogLevel::*), bubble?: bool}|null $options
+     * @param string                                   $requestedName
+     * @param array<string, (string|int|Closure)>|null $options
+     * @phpstan-param array{mailer?: (bool|string|MailerInterface|TransportInterface), email-template?: (string|Email|Closure(string, LogRecord[]): Email), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
@@ -88,7 +84,7 @@ final class SymfonyMailerHandlerFactory implements FactoryInterface
             throw new ServiceNotCreatedException('No Email template provided');
         }
 
-        if (!($options['email-template'] instanceof Email) && !is_callable($options['email-template'])) {
+        if (!($options['email-template'] instanceof Email) && !($options['email-template'] instanceof Closure)) {
             throw new ServiceNotCreatedException('No Email template provided');
         }
 

@@ -21,7 +21,7 @@ use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Formatter\LogglyFormatter;
 use Monolog\Handler\LogglyHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -108,7 +108,7 @@ final class LogglyHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(LogglyHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $tokenP = new ReflectionProperty($handler, 'token');
@@ -150,7 +150,7 @@ final class LogglyHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(LogglyHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $tokenP = new ReflectionProperty($handler, 'token');
@@ -267,7 +267,7 @@ final class LogglyHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(LogglyHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $tokenP = new ReflectionProperty($handler, 'token');

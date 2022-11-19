@@ -21,7 +21,7 @@ use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Framework\Exception;
@@ -101,7 +101,7 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertInstanceOf(StreamHandler::class, $handler);
         self::assertSame($stream, $handler->getStream());
         self::assertNull($handler->getUrl());
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
@@ -170,7 +170,7 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertInstanceOf(StreamHandler::class, $handler);
         self::assertNull($handler->getStream());
         self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
@@ -220,7 +220,7 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertInstanceOf(StreamHandler::class, $handler);
         self::assertNull($handler->getStream());
         self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
@@ -300,7 +300,7 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertInstanceOf(StreamHandler::class, $handler);
         self::assertNull($handler->getStream());
         self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
@@ -443,7 +443,7 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertInstanceOf(StreamHandler::class, $handler);
         self::assertNull($handler->getStream());
         self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
@@ -514,7 +514,7 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertInstanceOf(StreamHandler::class, $handler);
         self::assertNull($handler->getStream());
         self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
@@ -639,7 +639,7 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertInstanceOf(StreamHandler::class, $handler);
         self::assertNull($handler->getStream());
         self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
@@ -717,7 +717,7 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertInstanceOf(StreamHandler::class, $handler);
         self::assertNull($handler->getStream());
         self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');
@@ -957,7 +957,7 @@ final class StreamHandlerFactoryTest extends TestCase
         self::assertInstanceOf(StreamHandler::class, $handler);
         self::assertNull($handler->getStream());
         self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $fp = new ReflectionProperty($handler, 'filePermission');

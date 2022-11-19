@@ -20,7 +20,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ProcessHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -96,7 +96,7 @@ final class ProcessHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ProcessHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $commandP = new ReflectionProperty($handler, 'command');
@@ -141,7 +141,7 @@ final class ProcessHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ProcessHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $commandP = new ReflectionProperty($handler, 'command');
@@ -277,7 +277,7 @@ final class ProcessHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ProcessHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $commandP = new ReflectionProperty($handler, 'command');

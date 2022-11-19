@@ -21,7 +21,7 @@ use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Formatter\LogmaticFormatter;
 use Monolog\Handler\LogmaticHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -108,7 +108,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(LogmaticHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
         self::assertSame('ssl://api.logmatic.io:10515/v1/', $handler->getConnectionString());
         self::assertSame(0.0, $handler->getTimeout());
@@ -125,7 +125,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
 
         self::assertSame('', $hn->getValue($handler));
 
-        $an = new ReflectionProperty($handler, 'appname');
+        $an = new ReflectionProperty($handler, 'appName');
 
         self::assertSame('', $an->getValue($handler));
 
@@ -170,7 +170,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(LogmaticHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('api.logmatic.io:10514/v1/', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());
@@ -187,7 +187,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
 
         self::assertSame($hostname, $hn->getValue($handler));
 
-        $an = new ReflectionProperty($handler, 'appname');
+        $an = new ReflectionProperty($handler, 'appName');
 
         self::assertSame($appname, $an->getValue($handler));
 
@@ -354,7 +354,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(LogmaticHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('api.logmatic.io:10514/v1/', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());
@@ -371,7 +371,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
 
         self::assertSame($hostname, $hn->getValue($handler));
 
-        $an = new ReflectionProperty($handler, 'appname');
+        $an = new ReflectionProperty($handler, 'appName');
 
         self::assertSame($appname, $an->getValue($handler));
 
@@ -430,7 +430,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(LogmaticHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('api.logmatic.io:10514/v1/', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());
@@ -447,7 +447,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
 
         self::assertSame($hostname, $hn->getValue($handler));
 
-        $an = new ReflectionProperty($handler, 'appname');
+        $an = new ReflectionProperty($handler, 'appName');
 
         self::assertSame($appname, $an->getValue($handler));
 

@@ -22,7 +22,7 @@ use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\GelfMessageFormatter;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\GelfHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -149,7 +149,7 @@ final class GelfHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(GelfHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $publisherP = new ReflectionProperty($handler, 'publisher');
@@ -194,7 +194,7 @@ final class GelfHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(GelfHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $publisherP = new ReflectionProperty($handler, 'publisher');
@@ -236,7 +236,7 @@ final class GelfHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(GelfHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $publisherP = new ReflectionProperty($handler, 'publisher');
@@ -278,7 +278,7 @@ final class GelfHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(GelfHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $publisherP = new ReflectionProperty($handler, 'publisher');
@@ -415,7 +415,7 @@ final class GelfHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(GelfHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $publisherP = new ReflectionProperty($handler, 'publisher');

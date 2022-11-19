@@ -14,7 +14,7 @@ namespace Mimmi20Test\MonologFactory\Handler\FingersCrossed;
 
 use Mimmi20\MonologFactory\Handler\FingersCrossed\ErrorLevelActivationStrategyFactory;
 use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -48,7 +48,7 @@ final class ErrorLevelActivationStrategyFactoryTest extends TestCase
 
         $al = new ReflectionProperty($strategy, 'actionLevel');
 
-        self::assertSame(Logger::DEBUG, $al->getValue($strategy));
+        self::assertSame(Level::Debug, $al->getValue($strategy));
     }
 
     /**
@@ -74,7 +74,7 @@ final class ErrorLevelActivationStrategyFactoryTest extends TestCase
 
         $al = new ReflectionProperty($strategy, 'actionLevel');
 
-        self::assertSame(Logger::DEBUG, $al->getValue($strategy));
+        self::assertSame(Level::Debug, $al->getValue($strategy));
     }
 
     /**
@@ -100,6 +100,6 @@ final class ErrorLevelActivationStrategyFactoryTest extends TestCase
 
         $al = new ReflectionProperty($strategy, 'actionLevel');
 
-        self::assertSame(Logger::ALERT, $al->getValue($strategy));
+        self::assertSame(Level::Alert, $al->getValue($strategy));
     }
 }

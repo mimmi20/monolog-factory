@@ -20,7 +20,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\TelegramBotHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -134,7 +134,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(TelegramBotHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $ak = new ReflectionProperty($handler, 'apiKey');
@@ -194,7 +194,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(TelegramBotHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $ak = new ReflectionProperty($handler, 'apiKey');
@@ -331,7 +331,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(TelegramBotHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $ak = new ReflectionProperty($handler, 'apiKey');

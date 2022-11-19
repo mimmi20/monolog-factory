@@ -13,7 +13,7 @@ declare(strict_types = 1);
 namespace Mimmi20Test\MonologFactory\Processor;
 
 use Mimmi20\MonologFactory\Processor\GitProcessorFactory;
-use Monolog\Logger;
+use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
@@ -48,7 +48,7 @@ final class GitProcessorFactoryTest extends TestCase
 
         $lvl = new ReflectionProperty($processor, 'level');
 
-        self::assertSame(Logger::DEBUG, $lvl->getValue($processor));
+        self::assertSame(Level::Debug, $lvl->getValue($processor));
     }
 
     /**
@@ -74,7 +74,7 @@ final class GitProcessorFactoryTest extends TestCase
 
         $lvl = new ReflectionProperty($processor, 'level');
 
-        self::assertSame(Logger::DEBUG, $lvl->getValue($processor));
+        self::assertSame(Level::Debug, $lvl->getValue($processor));
     }
 
     /**
@@ -102,6 +102,6 @@ final class GitProcessorFactoryTest extends TestCase
 
         $lvl = new ReflectionProperty($processor, 'level');
 
-        self::assertSame(Logger::ALERT, $lvl->getValue($processor));
+        self::assertSame(Level::Alert, $lvl->getValue($processor));
     }
 }

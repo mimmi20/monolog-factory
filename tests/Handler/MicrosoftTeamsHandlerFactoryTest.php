@@ -21,7 +21,7 @@ use Mimmi20\MonologFactory\Handler\MicrosoftTeamsHandlerFactory;
 use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -99,7 +99,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(MicrosoftTeamsHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $urlP = new ReflectionProperty($handler, 'webhookDsn');
@@ -164,7 +164,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(MicrosoftTeamsHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $urlP = new ReflectionProperty($handler, 'webhookDsn');
@@ -291,7 +291,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(MicrosoftTeamsHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $urlP = new ReflectionProperty($handler, 'webhookDsn');

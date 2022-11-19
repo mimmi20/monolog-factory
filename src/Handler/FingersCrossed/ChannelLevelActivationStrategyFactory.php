@@ -14,23 +14,19 @@ namespace Mimmi20\MonologFactory\Handler\FingersCrossed;
 
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Handler\FingersCrossed\ChannelLevelActivationStrategy;
-use Monolog\Logger;
+use Monolog\Level;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 
 use function array_key_exists;
 use function is_array;
 
-/**
- * @phpstan-import-type Level from Logger
- * @phpstan-import-type LevelName from Logger
- */
 final class ChannelLevelActivationStrategyFactory implements FactoryInterface
 {
     /**
      * @param string                                                  $requestedName
      * @param array<string, array<string,int|string>|int|string>|null $options
-     * @phpstan-param array{defaultActionLevel?: Level|LevelName|LogLevel::*, channelToActionLevel?: array<Level|LevelName|LogLevel::*>|null}|null $options
+     * @phpstan-param array{defaultActionLevel?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), channelToActionLevel?: array<(value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*)>|null}|null $options
      *
      * @throws void
      *

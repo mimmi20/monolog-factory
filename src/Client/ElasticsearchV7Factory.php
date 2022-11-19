@@ -18,7 +18,6 @@ use Elasticsearch\Common\Exceptions\AuthenticationConfigException;
 use Interop\Container\Exception\ContainerException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 
 use function array_filter;
@@ -27,10 +26,6 @@ use function assert;
 use function is_array;
 use function is_string;
 
-/**
- * @phpstan-import-type Level from Logger
- * @phpstan-import-type LevelName from Logger
- */
 final class ElasticsearchV7Factory implements FactoryInterface
 {
     /**

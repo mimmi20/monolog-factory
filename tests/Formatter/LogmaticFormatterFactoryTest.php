@@ -64,7 +64,7 @@ final class LogmaticFormatterFactoryTest extends TestCase
 
         self::assertSame('', $h->getValue($formatter));
 
-        $a = new ReflectionProperty($formatter, 'appname');
+        $a = new ReflectionProperty($formatter, 'appName');
 
         self::assertSame('', $a->getValue($formatter));
     }
@@ -107,7 +107,7 @@ final class LogmaticFormatterFactoryTest extends TestCase
 
         self::assertSame('', $h->getValue($formatter));
 
-        $a = new ReflectionProperty($formatter, 'appname');
+        $a = new ReflectionProperty($formatter, 'appName');
 
         self::assertSame('', $a->getValue($formatter));
     }
@@ -159,7 +159,7 @@ final class LogmaticFormatterFactoryTest extends TestCase
 
         self::assertSame($hostname, $h->getValue($formatter));
 
-        $a = new ReflectionProperty($formatter, 'appname');
+        $a = new ReflectionProperty($formatter, 'appName');
 
         self::assertSame($appname, $a->getValue($formatter));
     }
@@ -211,7 +211,7 @@ final class LogmaticFormatterFactoryTest extends TestCase
 
         self::assertSame($hostname, $h->getValue($formatter));
 
-        $a = new ReflectionProperty($formatter, 'appname');
+        $a = new ReflectionProperty($formatter, 'appName');
 
         self::assertSame($appname, $a->getValue($formatter));
     }

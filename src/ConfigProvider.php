@@ -13,12 +13,12 @@ declare(strict_types = 1);
 namespace Mimmi20\MonologFactory;
 
 use Actived\MicrosoftTeamsNotifier\Handler\MicrosoftTeamsHandler;
-use Bartlett\Monolog\Handler\CallbackFilterHandler;
 use CMDISP\MonologMicrosoftTeams\TeamsLogHandler;
 use Elastic\Elasticsearch\Client as V8Client;
 use Elasticsearch\Client as V7Client;
 use JK\Monolog\Processor\RequestHeaderProcessor;
 use Mimmi20\Monolog\Formatter\StreamFormatter;
+use Mimmi20\Monolog\Handler\CallbackFilterHandler;
 use Mimmi20\MonologFactory\Client\ElasticsearchV7Factory;
 use Mimmi20\MonologFactory\Client\ElasticsearchV8Factory;
 use Mimmi20\MonologFactory\Formatter\ChromePHPFormatterFactory;
@@ -89,7 +89,6 @@ use Mimmi20\MonologFactory\Handler\SlackWebhookHandlerFactory;
 use Mimmi20\MonologFactory\Handler\SocketHandlerFactory;
 use Mimmi20\MonologFactory\Handler\SqsHandlerFactory;
 use Mimmi20\MonologFactory\Handler\StreamHandlerFactory;
-use Mimmi20\MonologFactory\Handler\SwiftMailerHandlerFactory;
 use Mimmi20\MonologFactory\Handler\SymfonyMailerHandlerFactory;
 use Mimmi20\MonologFactory\Handler\SyslogHandlerFactory;
 use Mimmi20\MonologFactory\Handler\SyslogUdpHandlerFactory;
@@ -173,7 +172,6 @@ use Monolog\Handler\SlackWebhookHandler;
 use Monolog\Handler\SocketHandler;
 use Monolog\Handler\SqsHandler;
 use Monolog\Handler\StreamHandler;
-use Monolog\Handler\SwiftMailerHandler;
 use Monolog\Handler\SymfonyMailerHandler;
 use Monolog\Handler\SyslogHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -291,7 +289,6 @@ final class ConfigProvider
                 'socket' => SocketHandler::class,
                 'sqs' => SqsHandler::class,
                 'stream' => StreamHandler::class,
-                'swiftMailer' => SwiftMailerHandler::class,
                 'symfonyMailer' => SymfonyMailerHandler::class,
                 'syslog' => SyslogHandler::class,
                 'syslogudp' => SyslogUdpHandler::class,
@@ -351,7 +348,6 @@ final class ConfigProvider
                 SocketHandler::class => SocketHandlerFactory::class,
                 SqsHandler::class => SqsHandlerFactory::class,
                 StreamHandler::class => StreamHandlerFactory::class,
-                SwiftMailerHandler::class => SwiftMailerHandlerFactory::class,
                 SymfonyMailerHandler::class => SymfonyMailerHandlerFactory::class,
                 SyslogHandler::class => SyslogHandlerFactory::class,
                 SyslogUdpHandler::class => SyslogUdpHandlerFactory::class,

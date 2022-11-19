@@ -21,7 +21,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\ElasticaFormatter;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\ElasticaHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -167,7 +167,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticaHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -224,7 +224,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticaHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -366,7 +366,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticaHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');

@@ -20,7 +20,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\SlackWebhookHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -134,7 +134,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SlackWebhookHandler::class, $handler);
         self::assertSame($webhookUrl, $handler->getWebhookUrl());
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $slackRecord = $handler->getSlackRecord();
@@ -206,7 +206,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SlackWebhookHandler::class, $handler);
         self::assertSame($webhookUrl, $handler->getWebhookUrl());
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $slackRecord = $handler->getSlackRecord();
@@ -361,7 +361,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SlackWebhookHandler::class, $handler);
         self::assertSame($webhookUrl, $handler->getWebhookUrl());
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $slackRecord = $handler->getSlackRecord();

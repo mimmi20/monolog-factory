@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Formatter;
 
+use Gelf\Message;
 use Mimmi20\MonologFactory\Formatter\GelfMessageFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\NormalizerFormatterFactory;
 use Monolog\Formatter\GelfMessageFormatter;
@@ -22,6 +23,7 @@ use ReflectionException;
 use ReflectionProperty;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
+use function class_exists;
 use function gethostname;
 
 final class GelfMessageFormatterFactoryTest extends TestCase
@@ -33,6 +35,10 @@ final class GelfMessageFormatterFactoryTest extends TestCase
      */
     public function testInvokeWithoutConfig(): void
     {
+        if (!class_exists(Message::class)) {
+            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfMessageFormatter');
+        }
+
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -74,6 +80,10 @@ final class GelfMessageFormatterFactoryTest extends TestCase
      */
     public function testInvokeWithEmptyConfig(): void
     {
+        if (!class_exists(Message::class)) {
+            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfMessageFormatter');
+        }
+
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -115,6 +125,10 @@ final class GelfMessageFormatterFactoryTest extends TestCase
      */
     public function testInvokeWithConfig(): void
     {
+        if (!class_exists(Message::class)) {
+            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfMessageFormatter');
+        }
+
         $systemName            = 'abc';
         $extraPrefix           = '__xxx';
         $contextPrefix         = 'xyz';

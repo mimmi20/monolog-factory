@@ -366,6 +366,9 @@ jobs:
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
 
       - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+
+      - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
@@ -522,14 +525,11 @@ jobs:
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
 
       - name: "Remove dependencies with composer"
-        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier ruflin/elastica"
 
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"
         run: "composer remove --no-update --dev graylog2/gelf-php"
-
-      - name: "remove ruflin/elastica"
-        run: "composer remove --no-update --dev ruflin/elastica"
 
       - name: "Require elasticsearch/elasticsearch:v8"
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:8\""
@@ -881,14 +881,11 @@ jobs:
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
 
       - name: "Remove dependencies with composer"
-        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier php-amqplib/php-amqplib"
 
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"
         run: "composer remove --no-update --dev graylog2/gelf-php"
-
-      - name: "Remove dependencies with composer"
-        run: "composer remove --no-update --dev php-amqplib/php-amqplib"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
@@ -972,9 +969,6 @@ jobs:
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"
         run: "composer remove --no-update --dev graylog2/gelf-php"
-
-      - name: "Update dependencies with composer"
-        run: "composer remove --no-update --dev cmdisp/monolog-microsoft-teams rollbar/rollbar actived/microsoft-teams-notifier"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"

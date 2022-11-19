@@ -20,9 +20,6 @@ updates:
       include: "scope"
       prefix: "composer"
     ignore:
-      - dependency-name: "rollbar/rollbar"
-        versions:
-          - ">= 3"
       - dependency-name: "predis/predis"
         versions:
           - ">= 2"
@@ -32,9 +29,6 @@ updates:
       - dependency-name: "laminas/laminas-dependency-plugin"
         versions:
           - ">= 2.3.0"
-      - dependency-name: "mimmi20/monolog-streamformatter"
-        versions:
-          - ">= 2"
 
   - package-ecosystem: "github-actions"
     directory: "/"

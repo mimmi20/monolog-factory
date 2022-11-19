@@ -18,6 +18,7 @@ use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\MongoDBHandlerFactory;
 use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use MongoDB\Client;
+use MongoDB\Collection;
 use MongoDB\Driver\Exception\RuntimeException;
 use MongoDB\Driver\Manager;
 use Monolog\Formatter\FormatterInterface;
@@ -184,12 +185,21 @@ final class MongoDBHandlerFactoryTest extends TestCase
             self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
         }
 
-        $client      = 'test-client';
+        $client     = 'test-client';
+        $database   = 'test-database';
+        $collection = 'test-collection';
+
+        $mongoCollection = $this->getMockBuilder(Collection::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $clientClass = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $database    = 'test-database';
-        $collection  = 'test-collection';
+        $clientClass->expects(self::never())
+            ->method('selectCollection')
+            ->with($database, $collection)
+            ->willReturn($mongoCollection);
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -231,11 +241,20 @@ final class MongoDBHandlerFactoryTest extends TestCase
             self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
         }
 
-        $client     = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
         $database   = 'test-database';
         $collection = 'test-collection';
+
+        $mongoCollection = $this->getMockBuilder(Collection::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $client = $this->getMockBuilder(Client::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $client->expects(self::never())
+            ->method('selectCollection')
+            ->with($database, $collection)
+            ->willReturn($mongoCollection);
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -369,16 +388,24 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $level  = LogLevel::ALERT;
         $bubble = false;
 
-        $client      = 'test-client';
+        $client     = 'test-client';
+        $database   = 'test-database';
+        $collection = 'test-collection';
+
+        $mongoCollection = $this->getMockBuilder(Collection::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $clientClass = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $database    = 'test-database';
-        $collection  = 'test-collection';
-
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass->expects(self::never())
+            ->method('selectCollection')
+            ->with($database, $collection)
+            ->willReturn($mongoCollection);
+            $container = $this->getMockBuilder(ContainerInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock();
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -416,14 +443,22 @@ final class MongoDBHandlerFactoryTest extends TestCase
             self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
         }
 
-        $level  = LogLevel::ALERT;
-        $bubble = false;
-
-        $client     = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $level      = LogLevel::ALERT;
+        $bubble     = false;
         $database   = 'test-database';
         $collection = 'test-collection';
+
+        $mongoCollection = $this->getMockBuilder(Collection::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $client = $this->getMockBuilder(Client::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $client->expects(self::never())
+            ->method('selectCollection')
+            ->with($database, $collection)
+            ->willReturn($mongoCollection);
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()

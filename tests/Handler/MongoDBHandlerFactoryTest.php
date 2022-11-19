@@ -610,6 +610,32 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
     }
 
+    /** @throws Exception */
+    public function testInvokeWithConfig13a(): void
+    {
+        $client     = 'test-client';
+        $database   = 'test-database';
+        $collection = 'test-collection';
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with($client)
+            ->willReturn(true);
+
+        $factory = new MongoDBHandlerFactory();
+
+        $this->expectException(ServiceNotCreatedException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(sprintf('Could not create %s', MongoDBHandler::class));
+
+        $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
+    }
+
     /**
      * @throws Exception
      * @throws RuntimeException

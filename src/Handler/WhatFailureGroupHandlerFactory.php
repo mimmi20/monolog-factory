@@ -12,12 +12,12 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler;
 
-use Interop\Container\Exception\ContainerException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\WhatFailureGroupHandler;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
@@ -36,7 +36,7 @@ final class WhatFailureGroupHandlerFactory
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerException         if any other error occurs
+     * @throws ContainerExceptionInterface if any other error occurs
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint

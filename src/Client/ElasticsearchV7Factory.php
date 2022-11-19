@@ -15,9 +15,9 @@ namespace Mimmi20\MonologFactory\Client;
 use Elasticsearch\Client as V7Client;
 use Elasticsearch\ClientBuilder;
 use Elasticsearch\Common\Exceptions\AuthenticationConfigException;
-use Interop\Container\Exception\ContainerException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
 use function array_filter;
@@ -34,7 +34,7 @@ final class ElasticsearchV7Factory implements FactoryInterface
      * @phpstan-param array{hosts?: bool|array<int|string|array{host?: string|int, port?: int|numeric-string, scheme?: string, path?: string, user?: string, pass?: string}>, retries?: int, api-id?: string, api-key?: string, username?: string, password?: string, metadata?: bool}|null $options
      *
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerException         if any other error occurs
+     * @throws ContainerExceptionInterface if any other error occurs
      * @throws AuthenticationConfigException
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter

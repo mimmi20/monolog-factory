@@ -12,7 +12,6 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler;
 
-use Interop\Container\Exception\ContainerException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -21,6 +20,7 @@ use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Level;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use RuntimeException;
@@ -41,7 +41,7 @@ final class CallbackFilterHandlerFactory implements FactoryInterface
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerException         if any other error occurs
+     * @throws ContainerExceptionInterface if any other error occurs
      * @throws RuntimeException
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter

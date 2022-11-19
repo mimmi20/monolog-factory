@@ -13,7 +13,6 @@ declare(strict_types = 1);
 namespace Mimmi20\MonologFactory\Handler;
 
 use Closure;
-use Interop\Container\Exception\ContainerException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -47,7 +46,7 @@ final class SymfonyMailerHandlerFactory implements FactoryInterface
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerException         if any other error occurs
+     * @throws ContainerExceptionInterface if any other error occurs
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint

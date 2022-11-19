@@ -12,10 +12,10 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler;
 
-use Interop\Container\Exception\ContainerException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Monolog\Handler\HandlerInterface;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
@@ -30,7 +30,7 @@ trait GetHandlersTrait
      *
      * @return array<int, HandlerInterface>
      *
-     * @throws ContainerException
+     * @throws ContainerExceptionInterface
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException
      */

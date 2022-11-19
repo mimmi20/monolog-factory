@@ -22,77 +22,7 @@ jobs:
     secrets:
       envPAT: "${{ secrets.GITHUB_TOKEN }}"
 
-  tests-monolog-2-without-extensions:
-    name: "UnitTests with PHPUnit for monolog/monolog 2 without extensions"
-
-    needs: "ci"
-
-    runs-on: "${{ matrix.operating-system }}"
-
-    continue-on-error: false
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        operating-system:
-          - "ubuntu-20.04"
-          - "ubuntu-22.04"
-
-        php-version: ${{ fromJson(needs.ci.outputs.version) }}
-
-        dependencies:
-          - "highest"
-          - "lowest"
-
-        psr-log-version:
-          - "2"
-          - "3"
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-          lfs: false
-          persist-credentials: false
-
-      - name: "Run CouchDB"
-        timeout-minutes: 3
-        continue-on-error: true
-        uses: "cobot/couchdb-action@master"
-        with:
-          couchdb version: "2.3.1"
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, :openssl, :mongodb, :amqp, :sockets, :curl, intl"
-          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
-          coverage: "none"
-          tools: "composer:v2"
-
-      - name: "Require psr/log ${{ matrix.psr-log-version }}"
-        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
-
-      - name: "Require monolog/monolog 2"
-        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable \"monolog/monolog:2.*\""
-
-      - name: "Remove dependencies with composer"
-        run: "composer remove --no-update --dev actived/microsoft-teams-notifier mimmi20/monolog-callbackfilterhandler"
-
-      - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
-
-      - name: "Run unit tests with phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
-
-  tests-monolog-3-without-extensions:
+  tests-monolog-without-extensions:
     name: "UnitTests with PHPUnit for monolog/monolog 3 without extensions"
 
     needs: "ci"
@@ -147,85 +77,12 @@ jobs:
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
 
-      - name: "Require monolog/monolog 3"
-        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable \"monolog/monolog:3.*\""
-
-      - name: "remove actived/microsoft-teams-notifier"
+      - name: "Remove dependencies with composer"
         run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
 
-      - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
-
-      - name: "Run unit tests with phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
-
-  tests-monolog-2-with-mongodb:
-    name: "UnitTests with PHPUnit for monolog/monolog 2 with mongodb"
-
-    needs: "ci"
-
-    runs-on: "${{ matrix.operating-system }}"
-
-    continue-on-error: false
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        operating-system:
-          - "ubuntu-20.04"
-
-        php-version: ${{ fromJson(needs.ci.outputs.version) }}
-
-        dependencies:
-          - "highest"
-          - "lowest"
-
-        psr-log-version:
-          - "2"
-          - "3"
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-          lfs: false
-          persist-credentials: false
-
-      - name: "Run CouchDB"
-        timeout-minutes: 3
-        continue-on-error: true
-        uses: "cobot/couchdb-action@master"
-        with:
-          couchdb version: "2.3.1"
-
-      - name: "Run MongoDB"
-        uses: "supercharge/mongodb-github-action@1.7.0"
-        with:
-          mongodb-version: "5.0"
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, :openssl, mongodb, :amqp, :sockets, :curl, intl"
-          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
-          coverage: "none"
-          tools: "composer:v2"
-
-      - name: "Add require for mongodb/mongodb to make tests runnable"
-        run: "composer require mongodb/mongodb --dev --no-update"
-
-      - name: "Require psr/log ${{ matrix.psr-log-version }}"
-        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
-
-      - name: "Require monolog/monolog 2"
-        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable \"monolog/monolog:2.*\""
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
@@ -236,7 +93,7 @@ jobs:
       - name: "Run unit tests with phpunit/phpunit"
         run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
 
-  tests-monolog-3-with-mongodb:
+  tests-monolog-with-mongodb:
     name: "UnitTests with PHPUnit for monolog/monolog 3 with mongodb"
 
     needs: "ci"
@@ -298,8 +155,12 @@ jobs:
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
 
-      - name: "Require monolog/monolog 3"
-        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable \"monolog/monolog:3.*\""
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
@@ -310,74 +171,7 @@ jobs:
       - name: "Run unit tests with phpunit/phpunit"
         run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
 
-  tests-monolog-2-with-curl:
-    name: "UnitTests with PHPUnit for monolog/monolog 2 with curl"
-
-    needs: "ci"
-
-    runs-on: "${{ matrix.operating-system }}"
-
-    continue-on-error: false
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        operating-system:
-          - "ubuntu-20.04"
-          - "ubuntu-22.04"
-
-        php-version: ${{ fromJson(needs.ci.outputs.version) }}
-
-        dependencies:
-          - "highest"
-          - "lowest"
-
-        psr-log-version:
-          - "2"
-          - "3"
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-          lfs: false
-          persist-credentials: false
-
-      - name: "Run CouchDB"
-        timeout-minutes: 3
-        continue-on-error: true
-        uses: "cobot/couchdb-action@master"
-        with:
-          couchdb version: "2.3.1"
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, :openssl, :mongodb, :amqp, :sockets, curl, intl"
-          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
-          coverage: "none"
-          tools: "composer:v2"
-
-      - name: "Require psr/log ${{ matrix.psr-log-version }}"
-        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
-
-      - name: "Require monolog/monolog 2"
-        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable \"monolog/monolog:2.*\""
-
-      - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
-
-      - name: "Run unit tests with phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
-
-  tests-monolog-3-with-curl:
+  tests-monolog-with-curl:
     name: "UnitTests with PHPUnit for monolog/monolog 3 with curl"
 
     needs: "ci"
@@ -432,8 +226,9 @@ jobs:
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
 
-      - name: "Require monolog/monolog 3"
-        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable \"monolog/monolog:3.*\""
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
@@ -449,10 +244,9 @@ jobs:
 
     needs:
       - "ci"
-      - "tests-monolog-2-without-extensions"
-      - "tests-monolog-2-with-mongodb"
-      - "tests-monolog-3-without-extensions"
-      - "tests-monolog-3-with-mongodb"
+      - "tests-monolog-without-extensions"
+      - "tests-monolog-with-mongodb"
+      - "tests-monolog-with-curl"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -517,10 +311,9 @@ jobs:
 
     needs:
       - "ci"
-      - "tests-monolog-2-without-extensions"
-      - "tests-monolog-2-with-mongodb"
-      - "tests-monolog-3-without-extensions"
-      - "tests-monolog-3-with-mongodb"
+      - "tests-monolog-without-extensions"
+      - "tests-monolog-with-mongodb"
+      - "tests-monolog-with-curl"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -591,10 +384,9 @@ jobs:
 
     needs:
       - "ci"
-      - "tests-monolog-2-without-extensions"
-      - "tests-monolog-2-with-mongodb"
-      - "tests-monolog-3-without-extensions"
-      - "tests-monolog-3-with-mongodb"
+      - "tests-monolog-without-extensions"
+      - "tests-monolog-with-mongodb"
+      - "tests-monolog-with-curl"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -662,10 +454,9 @@ jobs:
 
     needs:
       - "ci"
-      - "tests-monolog-2-without-extensions"
-      - "tests-monolog-2-with-mongodb"
-      - "tests-monolog-3-without-extensions"
-      - "tests-monolog-3-with-mongodb"
+      - "tests-monolog-without-extensions"
+      - "tests-monolog-with-mongodb"
+      - "tests-monolog-with-curl"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -733,10 +524,9 @@ jobs:
 
     needs:
       - "ci"
-      - "tests-monolog-2-without-extensions"
-      - "tests-monolog-2-with-mongodb"
-      - "tests-monolog-3-without-extensions"
-      - "tests-monolog-3-with-mongodb"
+      - "tests-monolog-without-extensions"
+      - "tests-monolog-with-mongodb"
+      - "tests-monolog-with-curl"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -804,10 +594,9 @@ jobs:
 
     needs:
       - "ci"
-      - "tests-monolog-2-without-extensions"
-      - "tests-monolog-2-with-mongodb"
-      - "tests-monolog-3-without-extensions"
-      - "tests-monolog-3-with-mongodb"
+      - "tests-monolog-without-extensions"
+      - "tests-monolog-with-mongodb"
+      - "tests-monolog-with-curl"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -875,10 +664,9 @@ jobs:
 
     needs:
       - "ci"
-      - "tests-monolog-2-without-extensions"
-      - "tests-monolog-2-with-mongodb"
-      - "tests-monolog-3-without-extensions"
-      - "tests-monolog-3-with-mongodb"
+      - "tests-monolog-without-extensions"
+      - "tests-monolog-with-mongodb"
+      - "tests-monolog-with-curl"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -946,10 +734,9 @@ jobs:
 
     needs:
       - "ci"
-      - "tests-monolog-2-without-extensions"
-      - "tests-monolog-2-with-mongodb"
-      - "tests-monolog-3-without-extensions"
-      - "tests-monolog-3-with-mongodb"
+      - "tests-monolog-without-extensions"
+      - "tests-monolog-with-mongodb"
+      - "tests-monolog-with-curl"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -1013,10 +800,9 @@ jobs:
 
     needs:
       - "ci"
-      - "tests-monolog-2-without-extensions"
-      - "tests-monolog-2-with-mongodb"
-      - "tests-monolog-3-without-extensions"
-      - "tests-monolog-3-with-mongodb"
+      - "tests-monolog-without-extensions"
+      - "tests-monolog-with-mongodb"
+      - "tests-monolog-with-curl"
 
     runs-on: "${{ matrix.operating-system }}"
 

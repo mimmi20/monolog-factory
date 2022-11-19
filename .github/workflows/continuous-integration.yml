@@ -398,7 +398,7 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          # - "ubuntu-22.04"
+          - "ubuntu-22.04"
 
         php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
@@ -465,7 +465,7 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
+        run: "infection --show-mutations --min-covered-msi=88 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   code-coverage-without-extensions-for-elaticsearch-8:
     name: "Code Coverage with PHPUnit for Elasticsearch 8"

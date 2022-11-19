@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Handler;
 
+use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
@@ -772,6 +773,64 @@ final class OverflowHandlerFactoryTest extends TestCase
         self::assertSame($thresholdMapExpected, $thm->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithConfigAndFormatter5(): void
+    {
+        $type           = 'abc';
+        $formatterClass = $this->getMockBuilder(LineFormatter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $thresholdMapSet = [
+            LogLevel::DEBUG => 9,
+            LogLevel::INFO => 99,
+            LogLevel::NOTICE => 2,
+            LogLevel::WARNING => 42,
+            LogLevel::ERROR => 11,
+            LogLevel::CRITICAL => 22,
+            LogLevel::ALERT => 17,
+            LogLevel::EMERGENCY => 8,
+        ];
+
+        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $handler2->expects(self::never())
+            ->method('setFormatter');
+        $handler2->expects(self::never())
+            ->method('getFormatter');
+
+        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('has');
+        $monologHandlerPluginManager->expects(self::once())
+            ->method('get')
+            ->with($type, ['formatter' => $formatterClass])
+            ->willReturn($handler2);
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->withConsecutive([MonologHandlerPluginManager::class], [MonologFormatterPluginManager::class])
+            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, null);
+
+        $factory = new OverflowHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
+
+        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatterClass]], 'thresholdMap' => $thresholdMapSet, 'level' => LogLevel::ALERT, 'bubble' => false]);
     }
 
     /**

@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Handler;
 
+use AssertionError;
 use Aws\DynamoDb\DynamoDbClient;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
@@ -455,6 +456,38 @@ final class DynamoDbHandlerFactoryTest extends TestCase
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithConfigAndFormatter3(): void
+    {
+        $client    = $this->getMockBuilder(DynamoDbClient::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $table     = 'test-table';
+        $formatter = $this->getMockBuilder(LineFormatter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologFormatterPluginManager::class)
+            ->willReturn(null);
+
+        $factory = new DynamoDbHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
+
+        $factory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /** @throws Exception */

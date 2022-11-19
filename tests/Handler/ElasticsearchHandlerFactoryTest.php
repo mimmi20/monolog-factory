@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Handler;
 
+use AssertionError;
 use Elastic\Elasticsearch\Client as V8Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Elasticsearch\Client as V7Client;
@@ -1214,6 +1215,43 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithV8ClientAndConfigAndFormatter3(): void
+    {
+        if (!class_exists(V8Client::class)) {
+            self::markTestSkipped('requires elasticsearch/elasticsearch V8');
+        }
+
+        $client        = 'xyz';
+        $clientBuilder = new ClientBuilder();
+        $clientClass   = $clientBuilder->build();
+        $index         = 'test-index';
+        $type          = 'test-type';
+        $formatter     = $this->getMockBuilder(ElasticsearchFormatter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->withConsecutive([$client], [MonologFormatterPluginManager::class])
+            ->willReturnOnConsecutiveCalls($clientClass, null);
+
+        $factory = new ElasticsearchHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
+
+        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /** @throws Exception */

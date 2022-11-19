@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Handler;
 
+use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
@@ -564,6 +565,39 @@ final class MandrillHandlerFactoryTest extends TestCase
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithConfigAndFormatter3(): void
+    {
+        $apiKey       = 'test-key';
+        $messageClass = $this->getMockBuilder(Swift_Message::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $message      = static fn (): Swift_Message => $messageClass;
+        $formatter    = $this->getMockBuilder(LineFormatter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologFormatterPluginManager::class)
+            ->willReturn(null);
+
+        $factory = new MandrillHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
+
+        $factory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /** @throws Exception */

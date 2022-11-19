@@ -42,7 +42,7 @@ trait AddFormatterTrait
      */
     private function addFormatter(ContainerInterface $container, HandlerInterface $handler, array | null $options = null): void
     {
-        if (!$handler instanceof FormattableHandlerInterface || !is_array($options) || !array_key_exists('formatter', $options)) {
+        if (!is_array($options) || !array_key_exists('formatter', $options)) {
             return;
         }
 

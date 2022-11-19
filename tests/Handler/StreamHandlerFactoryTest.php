@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Handler;
 
+use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
@@ -786,6 +787,50 @@ final class StreamHandlerFactoryTest extends TestCase
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', $type));
+
+        $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithConfigAndFormatter8(): void
+    {
+        $streamName     = 'xyz';
+        $stream         = 'http://test.test';
+        $level          = LogLevel::ALERT;
+        $bubble         = false;
+        $filePermission = 0755;
+        $useLocking     = false;
+        $type           = 'elastica';
+        $options        = ['abc' => 'def'];
+        $formatter      = ['type' => $type, 'options' => $options];
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::once())
+            ->method('has')
+            ->with($streamName)
+            ->willReturn(true);
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->withConsecutive([$streamName], [MonologFormatterPluginManager::class])
+            ->willReturnCallback(
+                static function (string $var) use ($streamName, $stream) {
+                    if ($var === $streamName) {
+                        return $stream;
+                    }
+
+                    return null;
+                },
+            );
+
+        $factory = new StreamHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
 
         $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
     }

@@ -158,10 +158,6 @@ final class AmqpHandlerFactoryTest extends TestCase
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
 
-        $ecn = new ReflectionProperty($handler, 'exchangeName');
-
-        self::assertNull($ecn->getValue($handler));
-
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
@@ -211,10 +207,6 @@ final class AmqpHandlerFactoryTest extends TestCase
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
 
-        $ecn = new ReflectionProperty($handler, 'exchangeName');
-
-        self::assertNull($ecn->getValue($handler));
-
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
@@ -261,10 +253,6 @@ final class AmqpHandlerFactoryTest extends TestCase
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
 
-        $ecn = new ReflectionProperty($handler, 'exchangeName');
-
-        self::assertNull($ecn->getValue($handler));
-
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
         $proc = new ReflectionProperty($handler, 'processors');
@@ -310,10 +298,6 @@ final class AmqpHandlerFactoryTest extends TestCase
         $ec = new ReflectionProperty($handler, 'exchange');
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
-
-        $ecn = new ReflectionProperty($handler, 'exchangeName');
-
-        self::assertNull($ecn->getValue($handler));
 
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 

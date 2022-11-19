@@ -295,6 +295,9 @@ jobs:
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
 
       - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+
+      - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"
         run: "composer remove --no-update --dev graylog2/gelf-php"
 

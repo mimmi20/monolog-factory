@@ -196,7 +196,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $clientClass = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $clientClass->expects(self::never())
+        $clientClass->expects(self::once())
             ->method('selectCollection')
             ->with($database, $collection)
             ->willReturn($mongoCollection);
@@ -251,7 +251,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $client->expects(self::never())
+        $client->expects(self::once())
             ->method('selectCollection')
             ->with($database, $collection)
             ->willReturn($mongoCollection);
@@ -399,7 +399,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $clientClass = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $clientClass->expects(self::never())
+        $clientClass->expects(self::once())
             ->method('selectCollection')
             ->with($database, $collection)
             ->willReturn($mongoCollection);
@@ -456,7 +456,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $client->expects(self::never())
+        $client->expects(self::once())
             ->method('selectCollection')
             ->with($database, $collection)
             ->willReturn($mongoCollection);

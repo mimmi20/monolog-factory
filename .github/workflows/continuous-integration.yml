@@ -614,7 +614,7 @@ jobs:
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
 
       - name: "Remove dependencies with composer"
-        run: "composer remove --no-update --dev actived/microsoft-teams-notifier ruflin/elastica"
+        run: "composer remove --no-update --dev ruflin/elastica"
 
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"
@@ -996,7 +996,7 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
+        run: "infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   code-coverage-with-curl:
     name: "Code Coverage with PHPUnit with curl"
@@ -1079,7 +1079,7 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection --show-mutations --min-covered-msi=90 --min-msi=90 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
+        run: "infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   code-coverage-with-mongodb:
     name: "Code Coverage with PHPUnit with mongodb"

@@ -31,7 +31,6 @@ and [monolog-factory](https://github.com/nikolaposa/monolog-factory).
       - [ProcessHandler](#processhandler)
     - [Send alerts and emails](#send-alerts-and-emails)
       - [NativeMailerHandler](#nativemailerhandler)
-      - [SwiftMailerHandler](#swiftmailerhandler)
       - [SymfonyMailerHandler](#symfonymailerhandler)
       - [PushoverHandler](#pushoverhandler)
       - [FlowdockHandler](#flowdockhandler)
@@ -46,7 +45,6 @@ and [monolog-factory](https://github.com/nikolaposa/monolog-factory).
       - [SocketHandler](#sockethandler)
       - [AmqpHandler](#amqphandler)
       - [GelfHandler](#gelfhandler)
-      - [CubeHandler](#cubehandler)
       - [ZendMonitorHandler](#zendmonitorhandler)
       - [NewRelicHandler](#newrelichandler)
       - [LogglyHandler](#logglyhandler)
@@ -60,7 +58,6 @@ and [monolog-factory](https://github.com/nikolaposa/monolog-factory).
       - [FirePHPHandler](#firephphandler)
       - [ChromePHPHandler](#chromephphandler)
       - [BrowserConsoleHandler](#browserconsolehandler)
-      - [PHPConsoleHandler](#phpconsolehandler)
     - [Log to databases](#log-to-databases)
       - [RedisHandler](#redishandler)
       - [RedisPubSubHandler](#redispubsubhandler)
@@ -932,42 +929,6 @@ return [
 
 Monolog Docs: [GelfHandler](https://github.com/Seldaek/monolog/blob/master/src/Monolog/Handler/GelfHandler.php)
 
-#### CubeHandler
-
-Logs records to a [Cube] server. Requires the sockets Extension for https requests or the curl Extension for http
-requests.
-
-_Note: Cube is not under active development, maintenance or support by
-Square (or by its original author Mike Bostock). It has been deprecated
-internally for over a year._
-
-```php
-<?php
-
-return [
-    'log' => [
-        'default' => [
-            'handlers' => [
-                'myHandlerName' => [
-                    'type' => 'cube',
-                      
-                    'options' => [
-                        'url' => 'http://test.com:80', // A valid url.  Must consist of three parts : protocol://host:port
-                        'level' => \Psr\Log\LogLevel::DEBUG, // Optional: The minimum logging level at which this handler will be triggered
-                        'bubble' => true, // Optional: Whether the messages that are handled can bubble up the stack or not
-                        
-                        'formatter' => [], // Optional: Formatter for the handler.
-                        'processors' => [], // Optional: Processors for the handler.
-                    ],
-                ],
-            ],
-        ],
-    ],
-];
-```
-
-Monolog Docs: [CubeHandler](https://github.com/Seldaek/monolog/blob/master/src/Monolog/Handler/CubeHandler.php)
-
 #### ZendMonitorHandler
 
 Logs records to the Zend Monitor present in [Zend Server](http://www.zend.com/en/products/zend_server).
@@ -1348,40 +1309,6 @@ return [
 ```
 
 Monolog Docs: [BrowserConsoleHandler](https://github.com/Seldaek/monolog/blob/master/src/Monolog/Handler/BrowserConsoleHandler.php)
-
-#### PHPConsoleHandler
-
-Handler for [PHP Console],
-providing inline console and notification popup messages within Chrome. Requires
-package [barbushin/php-console](https://github.com/barbushin/php-console#installation).
-
-```php
-<?php
-
-return [
-    'log' => [
-        'default' => [
-            'handlers' => [
-                'myHandlerName' => [
-                    'type' => 'phpConsole',
-                      
-                    'options' => [
-                        'options' => [], // Optional: See \Monolog\Handler\PHPConsoleHandler::$options for more details
-                        'connector' => 'my-service', // Optional:  Instance of \PhpConsole\Connector class. Must be a valid service.
-                        'level' => \Psr\Log\LogLevel::DEBUG, // Optional: The minimum logging level at which this handler will be triggered
-                        'bubble' => true, // Optional: Whether the messages that are handled can bubble up the stack or not
-                        
-                        'formatter' => [], // Optional: Formatter for the handler.
-                        'processors' => [], // Optional: Processors for the handler.
-                    ],
-                ],
-            ],
-        ],
-    ],
-];
-```
-
-Monolog Docs: [PHPConsoleHandler](https://github.com/Seldaek/monolog/blob/master/src/Monolog/Handler/PHPConsoleHandler.php)
 
 ### Log to databases
 

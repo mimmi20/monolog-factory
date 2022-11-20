@@ -32,7 +32,6 @@ parameters:
     - '~Elastic\\\\Elasticsearch\\\\Client~'
     - '~CMDISP\\MonologMicrosoftTeams\\TeamsLogHandler~'
     - '~PhpAmqpLib\\Channel\\AMQPChannel~'
-    - '~deprecated class Monolog\\Handler\\(Cube|PHPConsole|SwiftMailer)Handler~'
     - '~(Swift_Mailer|Swift_Message)~'
     - '~Rollbar\\(Config|RollbarLogger)~'
     - '~MongoDB\\Collection~'

@@ -63,7 +63,7 @@ trait AddFormatterTrait
         }
 
         assert(
-            $monologFormatterPluginManager instanceof MonologHandlerPluginManager || $monologFormatterPluginManager instanceof AbstractPluginManager,
+            $monologFormatterPluginManager instanceof MonologFormatterPluginManager || $monologFormatterPluginManager instanceof AbstractPluginManager,
             sprintf(
                 '$monologFormatterPluginManager should be an Instance of %s, but was %s',
                 AbstractPluginManager::class,

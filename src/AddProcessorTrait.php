@@ -57,7 +57,7 @@ trait AddProcessorTrait
         }
 
         assert(
-            $monologProcessorPluginManager instanceof MonologHandlerPluginManager || $monologProcessorPluginManager instanceof AbstractPluginManager,
+            $monologProcessorPluginManager instanceof MonologProcessorPluginManager || $monologProcessorPluginManager instanceof AbstractPluginManager,
             sprintf(
                 '$monologProcessorPluginManager should be an Instance of %s, but was %s',
                 AbstractPluginManager::class,

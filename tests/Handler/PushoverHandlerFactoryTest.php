@@ -18,10 +18,13 @@ use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\PushoverHandlerFactory;
 use Mimmi20\MonologFactory\MonologFormatterPluginManager;
+use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\PushoverHandler;
 use Monolog\Level;
+use Monolog\Processor\GitProcessor;
+use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -604,6 +607,285 @@ final class PushoverHandlerFactoryTest extends TestCase
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
+
+        $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @requires extension sockets
+     */
+    public function testInvokeWithConfigAndProcessors2(): void
+    {
+        $token        = 'token';
+        $users        = ['abc', 'xyz'];
+        $title        = 'title';
+        $retry        = 24;
+        $expire       = 42;
+        $timeout      = 42.0;
+        $writeTimeout = 120.0;
+        $persistent   = true;
+        $chunkSize    = 100;
+        $processors   = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            static fn (array $record): array => $record,
+        ];
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::once())
+            ->method('get')
+            ->with('abc', [])
+            ->willThrowException(new ServiceNotFoundException());
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willReturn($monologProcessorPluginManager);
+
+        $factory = new PushoverHandlerFactory();
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
+
+        $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+    }
+
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws InvalidArgumentException
+     *
+     * @requires extension sockets
+     */
+    public function testInvokeWithConfigAndProcessors3(): void
+    {
+        $token             = 'token';
+        $users             = ['abc', 'xyz'];
+        $title             = 'title';
+        $retry             = 24;
+        $expire            = 42;
+        $timeout           = 42.0;
+        $writeTimeout      = 120.0;
+        $connectionTimeout = 60.0;
+        $persistent        = true;
+        $chunkSize         = 100;
+        $processor3        = static fn (array $record): array => $record;
+        $processors        = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $processor1 = $this->getMockBuilder(GitProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::exactly(2))
+            ->method('get')
+            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
+            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willReturn($monologProcessorPluginManager);
+
+        $factory = new PushoverHandlerFactory();
+
+        $handler = $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+
+        self::assertInstanceOf(PushoverHandler::class, $handler);
+
+        self::assertSame(Level::Alert, $handler->getLevel());
+        self::assertFalse($handler->getBubble());
+        self::assertSame('api.pushover.net:80', $handler->getConnectionString());
+        self::assertSame($timeout, $handler->getTimeout());
+        self::assertSame($writeTimeout, $handler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
+        self::assertSame($chunkSize, $handler->getChunkSize());
+        self::assertTrue($handler->isPersistent());
+
+        $tk = new ReflectionProperty($handler, 'token');
+
+        self::assertSame($token, $tk->getValue($handler));
+
+        $us = new ReflectionProperty($handler, 'users');
+
+        self::assertSame($users, $us->getValue($handler));
+
+        $ti = new ReflectionProperty($handler, 'title');
+
+        self::assertSame($title, $ti->getValue($handler));
+
+        $hpl = new ReflectionProperty($handler, 'highPriorityLevel');
+
+        self::assertSame(Level::Error, $hpl->getValue($handler));
+
+        $el = new ReflectionProperty($handler, 'emergencyLevel');
+
+        self::assertSame(Level::Alert, $el->getValue($handler));
+
+        $re = new ReflectionProperty($handler, 'retry');
+
+        self::assertSame($retry, $re->getValue($handler));
+
+        $ex = new ReflectionProperty($handler, 'expire');
+
+        self::assertSame($expire, $ex->getValue($handler));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(3, $processors);
+        self::assertSame($processor2, $processors[0]);
+        self::assertSame($processor1, $processors[1]);
+        self::assertSame($processor3, $processors[2]);
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @requires extension sockets
+     */
+    public function testInvokeWithConfigAndProcessors4(): void
+    {
+        $token        = 'token';
+        $users        = ['abc', 'xyz'];
+        $title        = 'title';
+        $retry        = 24;
+        $expire       = 42;
+        $timeout      = 42.0;
+        $writeTimeout = 120.0;
+        $persistent   = true;
+        $chunkSize    = 100;
+        $processor3   = static fn (array $record): array => $record;
+        $processors   = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willThrowException(new ServiceNotFoundException());
+
+        $factory = new PushoverHandlerFactory();
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(
+            sprintf('Could not find service %s', MonologProcessorPluginManager::class),
+        );
+
+        $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @requires extension sockets
+     */
+    public function testInvokeWithConfigAndProcessors5(): void
+    {
+        $token        = 'token';
+        $users        = ['abc', 'xyz'];
+        $title        = 'title';
+        $retry        = 24;
+        $expire       = 42;
+        $timeout      = 42.0;
+        $writeTimeout = 120.0;
+        $persistent   = true;
+        $chunkSize    = 100;
+        $processor3   = static fn (array $record): array => $record;
+        $processors   = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willReturn(null);
+
+        $factory = new PushoverHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
 
         $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }

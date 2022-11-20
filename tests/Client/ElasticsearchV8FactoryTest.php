@@ -67,9 +67,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function testInvokeWithConfigWithWrongClient(): void
     {
         if (!class_exists(V8Client::class)) {

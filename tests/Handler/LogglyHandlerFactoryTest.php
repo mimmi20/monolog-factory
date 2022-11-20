@@ -348,7 +348,11 @@ final class LogglyHandlerFactoryTest extends TestCase
         $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $token      = 'test-token';
@@ -399,6 +403,8 @@ final class LogglyHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     *
+     * @requires extension curl
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -470,7 +476,11 @@ final class LogglyHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $token          = 'test-token';
@@ -516,7 +526,11 @@ final class LogglyHandlerFactoryTest extends TestCase
         $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $token      = 'test-token';

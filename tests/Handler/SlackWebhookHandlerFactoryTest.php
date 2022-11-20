@@ -476,7 +476,11 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -531,6 +535,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     *
+     * @requires extension curl
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -632,7 +638,11 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -676,7 +686,11 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $webhookUrl    = 'http://test.test';

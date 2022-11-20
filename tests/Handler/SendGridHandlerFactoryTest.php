@@ -578,7 +578,11 @@ final class SendGridHandlerFactoryTest extends TestCase
         $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $apiUser    = 'test-api-user';
@@ -635,6 +639,8 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     *
+     * @requires extension curl
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -728,7 +734,11 @@ final class SendGridHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $apiUser        = 'test-api-user';
@@ -778,7 +788,11 @@ final class SendGridHandlerFactoryTest extends TestCase
         $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $apiUser    = 'test-api-user';

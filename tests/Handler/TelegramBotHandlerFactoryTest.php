@@ -431,7 +431,11 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $apiKey     = 'test-key';
@@ -483,6 +487,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     *
+     * @requires extension curl
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -567,7 +573,11 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $apiKey     = 'test-key';
@@ -608,7 +618,11 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $apiKey     = 'test-key';
@@ -649,7 +663,11 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithoutExtension(): void
     {
         if (extension_loaded('curl')) {

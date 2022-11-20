@@ -752,7 +752,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     public function testInvokeWithV7ClientAndConfigAndProcessors2(): void
     {
         if (!class_exists(V7Client::class)) {
-            self::markTestSkipped('requires elasticsearch/elasticsearch V8');
+            self::markTestSkipped('requires elasticsearch/elasticsearch V7');
         }
 
         $client      = 'xyz';
@@ -816,7 +816,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     public function testInvokeWithV7ClientAndConfigAndProcessors3(): void
     {
         if (!class_exists(V7Client::class)) {
-            self::markTestSkipped('requires elasticsearch/elasticsearch V8');
+            self::markTestSkipped('requires elasticsearch/elasticsearch V7');
         }
 
         $client      = 'xyz';
@@ -910,7 +910,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     public function testInvokeWithV7ClientAndConfigAndProcessors4(): void
     {
         if (!class_exists(V7Client::class)) {
-            self::markTestSkipped('requires elasticsearch/elasticsearch V8');
+            self::markTestSkipped('requires elasticsearch/elasticsearch V7');
         }
 
         $client         = 'xyz';
@@ -980,7 +980,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     public function testInvokeWithV7ClientAndConfigAndProcessors5(): void
     {
         if (!class_exists(V7Client::class)) {
-            self::markTestSkipped('requires elasticsearch/elasticsearch V8');
+            self::markTestSkipped('requires elasticsearch/elasticsearch V7');
         }
 
         $client      = 'xyz';
@@ -1041,7 +1041,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigWithArrayConfigForV7ClientButLoaderError(): void
     {
         if (!class_exists(V7Client::class)) {
-            self::markTestSkipped('requires elasticsearch/elasticsearch V7');
+            self::markTestSkipped('requires elasticsearch/elasticsearch V8');
         }
 
         $client = ['host' => 'localhost'];

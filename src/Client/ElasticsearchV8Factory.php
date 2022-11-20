@@ -30,7 +30,7 @@ final class ElasticsearchV8Factory implements FactoryInterface
     /**
      * @param string                                              $requestedName
      * @param array<string, (int|array<string>|bool|string)>|null $options
-     * @phpstan-param array{hosts?: bool|array<string>, retries?: int, api-id?: string, api-key?: string, username?: string, password?: string, metadata?: bool}|null $options
+     * @phpstan-param array{hosts?: bool|array<string>, retries?: int, api-id?: string, api-key?: string, username?: string, password?: string, metadata?: bool|int}|null $options
      *
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      * @throws ContainerExceptionInterface if any other error occurs

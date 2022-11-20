@@ -663,11 +663,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /**
-     * @throws Exception
-     *
-     * @requires extension curl
-     */
+    /** @throws Exception */
     public function testInvokeWithoutExtension(): void
     {
         if (extension_loaded('curl')) {

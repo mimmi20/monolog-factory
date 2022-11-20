@@ -35,12 +35,16 @@ use ReflectionProperty;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function assert;
+use function extension_loaded;
 use function sprintf;
 
-/** @requires extension curl */
 final class MicrosoftTeamsHandlerFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -60,7 +64,11 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -84,6 +92,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     *
+     * @requires extension curl
      */
     public function testInvokeWithConfig(): void
     {
@@ -144,6 +154,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     *
+     * @requires extension curl
      */
     public function testInvokeWithConfig2(): void
     {
@@ -205,7 +217,11 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $url       = 'test-url';
@@ -230,7 +246,11 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndFormatter(): void
     {
         $url       = 'test-url';
@@ -263,6 +283,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     *
+     * @requires extension curl
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -332,7 +354,11 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $url       = 'test-url';
@@ -361,7 +387,11 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $url        = 'test-url';
@@ -384,7 +414,11 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $url        = 'test-url';
@@ -435,6 +469,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     *
+     * @requires extension curl
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -526,7 +562,11 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $url        = 'test-url';
@@ -574,7 +614,11 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $url        = 'test-url';
@@ -612,5 +656,31 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         );
 
         $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithError(): void
+    {
+        if (extension_loaded('curl')) {
+            self::markTestSkipped('This test checks the exception if the curl extension is missing');
+        }
+
+        $url = 'test-url';
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::never())
+            ->method('get');
+
+        $factory = new MicrosoftTeamsHandlerFactory();
+
+        $this->expectException(ServiceNotCreatedException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(sprintf('Could not create %s', MicrosoftTeamsHandler::class));
+
+        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false]);
     }
 }

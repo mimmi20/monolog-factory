@@ -12,7 +12,6 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler;
 
-use InvalidArgumentException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -96,20 +95,12 @@ final class RedisPubSubHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        try {
-            $handler = new RedisPubSubHandler(
-                $client,
-                $key,
-                $level,
-                $bubble,
-            );
-        } catch (InvalidArgumentException $e) {
-            throw new ServiceNotFoundException(
-                sprintf('Could not load class %s', RedisPubSubHandler::class),
-                0,
-                $e,
-            );
-        }
+        $handler = new RedisPubSubHandler(
+            $client,
+            $key,
+            $level,
+            $bubble,
+        );
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

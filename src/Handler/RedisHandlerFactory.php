@@ -12,7 +12,6 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler;
 
-use InvalidArgumentException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -101,21 +100,13 @@ final class RedisHandlerFactory implements FactoryInterface
             $capSize = $options['capSize'];
         }
 
-        try {
-            $handler = new RedisHandler(
-                $client,
-                $key,
-                $level,
-                $bubble,
-                $capSize,
-            );
-        } catch (InvalidArgumentException $e) {
-            throw new ServiceNotFoundException(
-                sprintf('Could not load class %s', RedisHandler::class),
-                0,
-                $e,
-            );
-        }
+        $handler = new RedisHandler(
+            $client,
+            $key,
+            $level,
+            $bubble,
+            $capSize,
+        );
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

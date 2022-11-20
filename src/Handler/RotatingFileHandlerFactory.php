@@ -12,7 +12,6 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler;
 
-use InvalidArgumentException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -26,7 +25,6 @@ use Psr\Log\LogLevel;
 
 use function array_key_exists;
 use function is_array;
-use function sprintf;
 
 final class RotatingFileHandlerFactory implements FactoryInterface
 {
@@ -84,15 +82,7 @@ final class RotatingFileHandlerFactory implements FactoryInterface
             $useLocking = $options['useLocking'];
         }
 
-        try {
-            $handler = new RotatingFileHandler($filename, $maxFiles, $level, $bubble, $filePermission, $useLocking);
-        } catch (InvalidArgumentException $e) {
-            throw new ServiceNotCreatedException(
-                sprintf('Could not create %s', RotatingFileHandler::class),
-                0,
-                $e,
-            );
-        }
+        $handler = new RotatingFileHandler($filename, $maxFiles, $level, $bubble, $filePermission, $useLocking); // @phpstan-ignore-line
 
         if (array_key_exists('filenameFormat', $options) || array_key_exists('dateFormat', $options)) {
             if (array_key_exists('filenameFormat', $options)) {

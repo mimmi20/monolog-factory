@@ -448,6 +448,31 @@ final class MandrillHandlerFactoryTest extends TestCase
     }
 
     /** @throws Exception */
+    public function testInvokeWithConfig11(): void
+    {
+        $apiKey  = 'test-key';
+        $message = static fn () => null;
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::never())
+            ->method('get');
+
+        $factory = new MandrillHandlerFactory();
+
+        $this->expectException(ServiceNotCreatedException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(
+            sprintf('Could not create %s', MandrillHandler::class),
+        );
+
+        $factory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false]);
+    }
+
+    /** @throws Exception */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $apiKey       = 'test-key';

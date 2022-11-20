@@ -489,7 +489,11 @@ final class LogEntriesHandlerFactoryTest extends TestCase
         $factory($container, '', ['token' => $token, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'host' => $host, 'persistent' => true, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension openssl
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $token        = 'test-token';
@@ -544,6 +548,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     *
+     * @requires extension openssl
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -626,7 +632,11 @@ final class LogEntriesHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension openssl
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $token        = 'test-token';
@@ -670,7 +680,11 @@ final class LogEntriesHandlerFactoryTest extends TestCase
         $factory($container, '', ['token' => $token, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'host' => $host, 'persistent' => true, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension openssl
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $token        = 'test-token';
@@ -712,5 +726,35 @@ final class LogEntriesHandlerFactoryTest extends TestCase
         );
 
         $factory($container, '', ['token' => $token, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'host' => $host, 'persistent' => true, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithError(): void
+    {
+        if (extension_loaded('openssl')) {
+            self::markTestSkipped('This test checks the exception if the openssl extension is missing');
+        }
+
+        $token        = 'test-token';
+        $host         = 'test.data.logentries.com';
+        $timeout      = 42.0;
+        $writeTimeout = 120.0;
+        $chunkSize    = 100;
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::never())
+            ->method('get');
+
+        $factory = new LogEntriesHandlerFactory();
+
+        $this->expectException(ServiceNotCreatedException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(sprintf('Could not create %s', LogEntriesHandler::class));
+
+        $factory($container, '', ['token' => $token, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'host' => $host, 'persistent' => true, 'chunkSize' => $chunkSize]);
     }
 }

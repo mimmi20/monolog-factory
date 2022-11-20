@@ -491,7 +491,11 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension openssl
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $token        = 'test-token';
@@ -548,6 +552,8 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     *
+     * @requires extension openssl
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -628,22 +634,22 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension openssl
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
-        $token          = 'test-token';
-        $timeout        = 42.0;
-        $writeTimeout   = 120.0;
-        $level          = LogLevel::ALERT;
-        $bubble         = false;
-        $persistent     = true;
-        $chunkSize      = 100;
-        $streamName     = 'xyz';
-        $stream         = 'http://test.test';
-        $filePermission = 0755;
-        $useLocking     = false;
-        $processor3     = static fn (array $record): array => $record;
-        $processors     = [
+        $token        = 'test-token';
+        $timeout      = 42.0;
+        $writeTimeout = 120.0;
+        $level        = LogLevel::ALERT;
+        $bubble       = false;
+        $persistent   = true;
+        $chunkSize    = 100;
+        $processor3   = static fn (array $record): array => $record;
+        $processors   = [
             [
                 'enabled' => true,
                 'type' => 'xyz',
@@ -678,22 +684,22 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     *
+     * @requires extension openssl
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
-        $token          = 'test-token';
-        $timeout        = 42.0;
-        $writeTimeout   = 120.0;
-        $level          = LogLevel::ALERT;
-        $bubble         = false;
-        $persistent     = true;
-        $chunkSize      = 100;
-        $streamName     = 'xyz';
-        $stream         = 'http://test.test';
-        $filePermission = 0755;
-        $useLocking     = false;
-        $processor3     = static fn (array $record): array => $record;
-        $processors     = [
+        $token        = 'test-token';
+        $timeout      = 42.0;
+        $writeTimeout = 120.0;
+        $level        = LogLevel::ALERT;
+        $bubble       = false;
+        $persistent   = true;
+        $chunkSize    = 100;
+        $processor3   = static fn (array $record): array => $record;
+        $processors   = [
             [
                 'enabled' => true,
                 'type' => 'xyz',
@@ -726,5 +732,37 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         );
 
         $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithError(): void
+    {
+        if (extension_loaded('openssl')) {
+            self::markTestSkipped('This test checks the exception if the openssl extension is missing');
+        }
+
+        $token        = 'test-token';
+        $timeout      = 42.0;
+        $writeTimeout = 120.0;
+        $level        = LogLevel::ALERT;
+        $bubble       = false;
+        $persistent   = true;
+        $chunkSize    = 100;
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::never())
+            ->method('get');
+
+        $factory = new InsightOpsHandlerFactory();
+
+        $this->expectException(ServiceNotCreatedException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(sprintf('Could not create %s', InsightOpsHandler::class));
+
+        $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
     }
 }

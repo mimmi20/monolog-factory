@@ -12,15 +12,19 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Handler;
 
+use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\SlackHandlerFactory;
 use Mimmi20\MonologFactory\MonologFormatterPluginManager;
+use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\SlackHandler;
-use Monolog\Logger;
+use Monolog\Level;
+use Monolog\Processor\GitProcessor;
+use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -134,7 +138,7 @@ final class SlackHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SlackHandler::class, $handler);
         self::assertSame($token, $handler->getToken());
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
         self::assertSame('ssl://slack.com:443', $handler->getConnectionString());
         self::assertSame(0.0, $handler->getTimeout());
@@ -217,7 +221,7 @@ final class SlackHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SlackHandler::class, $handler);
         self::assertSame($token, $handler->getToken());
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('ssl://slack.com:443', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());
@@ -300,7 +304,7 @@ final class SlackHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SlackHandler::class, $handler);
         self::assertSame($token, $handler->getToken());
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('ssl://slack.com:443', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());
@@ -473,7 +477,7 @@ final class SlackHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SlackHandler::class, $handler);
         self::assertSame($token, $handler->getToken());
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
         self::assertSame('ssl://slack.com:443', $handler->getConnectionString());
         self::assertSame($timeout, $handler->getTimeout());
@@ -527,6 +531,47 @@ final class SlackHandlerFactoryTest extends TestCase
      *
      * @requires extension openssl
      */
+    public function testInvokeWithConfigAndFormatter3(): void
+    {
+        $token         = 'token';
+        $channel       = 'channel';
+        $userName      = 'user';
+        $iconEmoji     = 'icon';
+        $excludeFields = ['abc', 'xyz'];
+        $timeout       = 42.0;
+        $writeTimeout  = 120.0;
+        $persistent    = true;
+        $chunkSize     = 100;
+        $formatter     = $this->getMockBuilder(LineFormatter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologFormatterPluginManager::class)
+            ->willReturn(null);
+
+        $factory = new SlackHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
+
+        $factory($container, '', ['token' => $token, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @requires extension openssl
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $token         = 'token';
@@ -553,6 +598,272 @@ final class SlackHandlerFactoryTest extends TestCase
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
+
+        $factory($container, '', ['token' => $token, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithConfigAndProcessors2(): void
+    {
+        $token         = 'token';
+        $channel       = 'channel';
+        $userName      = 'user';
+        $iconEmoji     = 'icon';
+        $excludeFields = ['abc', 'xyz'];
+        $timeout       = 42.0;
+        $writeTimeout  = 120.0;
+        $persistent    = true;
+        $chunkSize     = 100;
+        $processors    = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            static fn (array $record): array => $record,
+        ];
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::once())
+            ->method('get')
+            ->with('abc', [])
+            ->willThrowException(new ServiceNotFoundException());
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willReturn($monologProcessorPluginManager);
+
+        $factory = new SlackHandlerFactory();
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
+
+        $factory($container, '', ['token' => $token, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+    }
+
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws InvalidArgumentException
+     */
+    public function testInvokeWithConfigAndProcessors3(): void
+    {
+        $token         = 'token';
+        $channel       = 'channel';
+        $userName      = 'user';
+        $iconEmoji     = 'icon';
+        $excludeFields = ['abc', 'xyz'];
+        $timeout       = 42.0;
+        $writeTimeout  = 120.0;
+        $persistent    = true;
+        $chunkSize     = 100;
+        $processor3    = static fn (array $record): array => $record;
+        $processors    = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $processor1 = $this->getMockBuilder(GitProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::exactly(2))
+            ->method('get')
+            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
+            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willReturn($monologProcessorPluginManager);
+
+        $factory = new SlackHandlerFactory();
+
+        $handler = $factory($container, '', ['token' => $token, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+
+        self::assertInstanceOf(SlackHandler::class, $handler);
+        self::assertSame($token, $handler->getToken());
+        self::assertSame(Level::Alert, $handler->getLevel());
+        self::assertFalse($handler->getBubble());
+        self::assertSame('ssl://slack.com:443', $handler->getConnectionString());
+        self::assertSame($timeout, $handler->getTimeout());
+        self::assertSame($writeTimeout, $handler->getWritingTimeout());
+        self::assertSame(60.0, $handler->getConnectionTimeout());
+        self::assertSame($chunkSize, $handler->getChunkSize());
+        self::assertTrue($handler->isPersistent());
+
+        $slackRecord = $handler->getSlackRecord();
+
+        $ch = new ReflectionProperty($slackRecord, 'channel');
+
+        self::assertSame($channel, $ch->getValue($slackRecord));
+
+        $un = new ReflectionProperty($slackRecord, 'username');
+
+        self::assertSame($userName, $un->getValue($slackRecord));
+
+        $ua = new ReflectionProperty($slackRecord, 'useAttachment');
+
+        self::assertFalse($ua->getValue($slackRecord));
+
+        $ui = new ReflectionProperty($slackRecord, 'userIcon');
+
+        self::assertSame($iconEmoji, $ui->getValue($slackRecord));
+
+        $usa = new ReflectionProperty($slackRecord, 'useShortAttachment');
+
+        self::assertTrue($usa->getValue($slackRecord));
+
+        $ice = new ReflectionProperty($slackRecord, 'includeContextAndExtra');
+
+        self::assertTrue($ice->getValue($slackRecord));
+
+        $ef = new ReflectionProperty($slackRecord, 'excludeFields');
+
+        self::assertSame($excludeFields, $ef->getValue($slackRecord));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(3, $processors);
+        self::assertSame($processor2, $processors[0]);
+        self::assertSame($processor1, $processors[1]);
+        self::assertSame($processor3, $processors[2]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithConfigAndProcessors4(): void
+    {
+        $token         = 'token';
+        $channel       = 'channel';
+        $userName      = 'user';
+        $iconEmoji     = 'icon';
+        $excludeFields = ['abc', 'xyz'];
+        $timeout       = 42.0;
+        $writeTimeout  = 120.0;
+        $persistent    = true;
+        $chunkSize     = 100;
+        $processor3    = static fn (array $record): array => $record;
+        $processors    = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willThrowException(new ServiceNotFoundException());
+
+        $factory = new SlackHandlerFactory();
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(
+            sprintf('Could not find service %s', MonologProcessorPluginManager::class),
+        );
+
+        $factory($container, '', ['token' => $token, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithConfigAndProcessors5(): void
+    {
+        $token         = 'token';
+        $channel       = 'channel';
+        $userName      = 'user';
+        $iconEmoji     = 'icon';
+        $excludeFields = ['abc', 'xyz'];
+        $timeout       = 42.0;
+        $writeTimeout  = 120.0;
+        $persistent    = true;
+        $chunkSize     = 100;
+        $processor3    = static fn (array $record): array => $record;
+        $processors    = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willReturn(null);
+
+        $factory = new SlackHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
 
         $factory($container, '', ['token' => $token, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }

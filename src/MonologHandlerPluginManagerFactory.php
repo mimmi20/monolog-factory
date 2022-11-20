@@ -12,7 +12,6 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory;
 
-use Interop\Container\Exception\ContainerException;
 use Laminas\ServiceManager\Config;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -30,7 +29,7 @@ final class MonologHandlerPluginManagerFactory implements FactoryInterface
      * @param array<mixed>|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
-     * @throws ContainerException         if any other error occurs
+     * @throws ContainerExceptionInterface if any other error occurs
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter

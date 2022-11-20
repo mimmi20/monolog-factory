@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Handler;
 
+use AssertionError;
 use Elastic\Elasticsearch\Client as V8Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Elasticsearch\Client as V7Client;
@@ -21,10 +22,13 @@ use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\ClientPluginManager;
 use Mimmi20\MonologFactory\Handler\ElasticsearchHandlerFactory;
 use Mimmi20\MonologFactory\MonologFormatterPluginManager;
+use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Monolog\Formatter\ElasticsearchFormatter;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\ElasticsearchHandler;
-use Monolog\Logger;
+use Monolog\Level;
+use Monolog\Processor\GitProcessor;
+use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -176,7 +180,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -237,7 +241,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -391,7 +395,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -464,7 +468,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -537,7 +541,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -610,7 +614,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -683,7 +687,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -745,10 +749,299 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     }
 
     /** @throws Exception */
-    public function testInvokeWithConfigWithArrayConfigForV7ClientButLoaderError(): void
+    public function testInvokeWithV7ClientAndConfigAndProcessors2(): void
     {
         if (!class_exists(V7Client::class)) {
             self::markTestSkipped('requires elasticsearch/elasticsearch V7');
+        }
+
+        $client      = 'xyz';
+        $clientClass = $this->getMockBuilder(V7Client::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $index       = 'test-index';
+        $type        = 'test-type';
+        $processors  = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            static fn (array $record): array => $record,
+        ];
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::once())
+            ->method('get')
+            ->with('abc', [])
+            ->willThrowException(new ServiceNotFoundException());
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    [$client, $clientClass],
+                    [MonologProcessorPluginManager::class, $monologProcessorPluginManager],
+                ],
+            );
+
+        $factory = new ElasticsearchHandlerFactory();
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
+
+        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+    }
+
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws InvalidArgumentException
+     */
+    public function testInvokeWithV7ClientAndConfigAndProcessors3(): void
+    {
+        if (!class_exists(V7Client::class)) {
+            self::markTestSkipped('requires elasticsearch/elasticsearch V7');
+        }
+
+        $client      = 'xyz';
+        $clientClass = $this->getMockBuilder(V7Client::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $index       = 'test-index';
+        $type        = 'test-type';
+        $processor3  = static fn (array $record): array => $record;
+        $processors  = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $processor1 = $this->getMockBuilder(GitProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::exactly(2))
+            ->method('get')
+            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
+            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    [$client, $clientClass],
+                    [MonologProcessorPluginManager::class, $monologProcessorPluginManager],
+                ],
+            );
+
+        $factory = new ElasticsearchHandlerFactory();
+
+        $handler = $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+
+        self::assertInstanceOf(ElasticsearchHandler::class, $handler);
+
+        self::assertSame(Level::Alert->value, $handler->getLevel()->value);
+        self::assertFalse($handler->getBubble());
+
+        $clientP = new ReflectionProperty($handler, 'client');
+
+        self::assertSame($clientClass, $clientP->getValue($handler));
+
+        $optionsP = new ReflectionProperty($handler, 'options');
+
+        $optionsArray = $optionsP->getValue($handler);
+
+        self::assertIsArray($optionsArray);
+
+        self::assertSame($index, $optionsArray['index']);
+        self::assertSame('_doc', $optionsArray['type']);
+        self::assertTrue($optionsArray['ignore_error']);
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(3, $processors);
+        self::assertSame($processor2, $processors[0]);
+        self::assertSame($processor1, $processors[1]);
+        self::assertSame($processor3, $processors[2]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithV7ClientAndConfigAndProcessors4(): void
+    {
+        if (!class_exists(V7Client::class)) {
+            self::markTestSkipped('requires elasticsearch/elasticsearch V7');
+        }
+
+        $client         = 'xyz';
+        $clientClass    = $this->getMockBuilder(V7Client::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $index          = 'test-index';
+        $type           = 'test-type';
+        $streamName     = 'xyz';
+        $stream         = 'http://test.test';
+        $level          = LogLevel::ALERT;
+        $bubble         = false;
+        $filePermission = 0755;
+        $useLocking     = false;
+        $processor3     = static fn (array $record): array => $record;
+        $processors     = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnCallback(
+                static function (string $var) use ($client, $clientClass) {
+                    if ($var === $client) {
+                        return $clientClass;
+                    }
+
+                    throw new ServiceNotFoundException();
+                },
+            );
+
+        $factory = new ElasticsearchHandlerFactory();
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(
+            sprintf('Could not find service %s', MonologProcessorPluginManager::class),
+        );
+
+        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithV7ClientAndConfigAndProcessors5(): void
+    {
+        if (!class_exists(V7Client::class)) {
+            self::markTestSkipped('requires elasticsearch/elasticsearch V7');
+        }
+
+        $client      = 'xyz';
+        $clientClass = $this->getMockBuilder(V7Client::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $index       = 'test-index';
+        $type        = 'test-type';
+        $processor3  = static fn (array $record): array => $record;
+        $processors  = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    [$client, $clientClass],
+                    [MonologProcessorPluginManager::class, null],
+                ],
+            );
+
+        $factory = new ElasticsearchHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
+
+        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithConfigWithArrayConfigForV7ClientButLoaderError(): void
+    {
+        if (!class_exists(V7Client::class)) {
+            self::markTestSkipped('requires elasticsearch/elasticsearch V8');
         }
 
         $client = ['host' => 'localhost'];
@@ -854,7 +1147,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -923,7 +1216,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -978,7 +1271,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -1038,7 +1331,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -1189,7 +1482,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');
@@ -1214,6 +1507,43 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithV8ClientAndConfigAndFormatter3(): void
+    {
+        if (!class_exists(V8Client::class)) {
+            self::markTestSkipped('requires elasticsearch/elasticsearch V8');
+        }
+
+        $client        = 'xyz';
+        $clientBuilder = new ClientBuilder();
+        $clientClass   = $clientBuilder->build();
+        $index         = 'test-index';
+        $type          = 'test-type';
+        $formatter     = $this->getMockBuilder(ElasticsearchFormatter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->withConsecutive([$client], [MonologFormatterPluginManager::class])
+            ->willReturnOnConsecutiveCalls($clientClass, null);
+
+        $factory = new ElasticsearchHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
+
+        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /** @throws Exception */
@@ -1245,6 +1575,285 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
+
+        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithV8ClientAndConfigAndProcessors2(): void
+    {
+        if (!class_exists(V8Client::class)) {
+            self::markTestSkipped('requires elasticsearch/elasticsearch V8');
+        }
+
+        $client        = 'xyz';
+        $clientBuilder = new ClientBuilder();
+        $clientClass   = $clientBuilder->build();
+        $index         = 'test-index';
+        $type          = 'test-type';
+        $processors    = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            static fn (array $record): array => $record,
+        ];
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::once())
+            ->method('get')
+            ->with('abc', [])
+            ->willThrowException(new ServiceNotFoundException());
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    [$client, $clientClass],
+                    [MonologProcessorPluginManager::class, $monologProcessorPluginManager],
+                ],
+            );
+
+        $factory = new ElasticsearchHandlerFactory();
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
+
+        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+    }
+
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws InvalidArgumentException
+     */
+    public function testInvokeWithV8ClientAndConfigAndProcessors3(): void
+    {
+        if (!class_exists(V8Client::class)) {
+            self::markTestSkipped('requires elasticsearch/elasticsearch V8');
+        }
+
+        $client        = 'xyz';
+        $clientBuilder = new ClientBuilder();
+        $clientClass   = $clientBuilder->build();
+        $index         = 'test-index';
+        $type          = 'test-type';
+        $processor3    = static fn (array $record): array => $record;
+        $processors    = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $processor1 = $this->getMockBuilder(GitProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::exactly(2))
+            ->method('get')
+            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
+            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    [$client, $clientClass],
+                    [MonologProcessorPluginManager::class, $monologProcessorPluginManager],
+                ],
+            );
+
+        $factory = new ElasticsearchHandlerFactory();
+
+        $handler = $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+
+        self::assertInstanceOf(ElasticsearchHandler::class, $handler);
+
+        self::assertSame(Level::Alert, $handler->getLevel());
+        self::assertFalse($handler->getBubble());
+
+        $clientP = new ReflectionProperty($handler, 'client');
+
+        self::assertSame($clientClass, $clientP->getValue($handler));
+
+        $optionsP = new ReflectionProperty($handler, 'options');
+
+        $optionsArray = $optionsP->getValue($handler);
+
+        self::assertIsArray($optionsArray);
+
+        self::assertSame($index, $optionsArray['index']);
+        self::assertSame('_doc', $optionsArray['type']);
+        self::assertTrue($optionsArray['ignore_error']);
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(3, $processors);
+        self::assertSame($processor2, $processors[0]);
+        self::assertSame($processor1, $processors[1]);
+        self::assertSame($processor3, $processors[2]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithV8ClientAndConfigAndProcessors4(): void
+    {
+        if (!class_exists(V8Client::class)) {
+            self::markTestSkipped('requires elasticsearch/elasticsearch V8');
+        }
+
+        $client        = 'xyz';
+        $clientBuilder = new ClientBuilder();
+        $clientClass   = $clientBuilder->build();
+        $index         = 'test-index';
+        $type          = 'test-type';
+        $processor3    = static fn (array $record): array => $record;
+        $processors    = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnCallback(
+                static function (string $var) use ($client, $clientClass) {
+                    if ($var === $client) {
+                        return $clientClass;
+                    }
+
+                    throw new ServiceNotFoundException();
+                },
+            );
+
+        $factory = new ElasticsearchHandlerFactory();
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(
+            sprintf('Could not find service %s', MonologProcessorPluginManager::class),
+        );
+
+        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithV8ClientAndConfigAndProcessors5(): void
+    {
+        if (!class_exists(V8Client::class)) {
+            self::markTestSkipped('requires elasticsearch/elasticsearch V8');
+        }
+
+        $client        = 'xyz';
+        $clientBuilder = new ClientBuilder();
+        $clientClass   = $clientBuilder->build();
+        $index         = 'test-index';
+        $type          = 'test-type';
+        $processor3    = static fn (array $record): array => $record;
+        $processors    = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    [$client, $clientClass],
+                    [MonologProcessorPluginManager::class, null],
+                ],
+            );
+
+        $factory = new ElasticsearchHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
 
         $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
@@ -1395,7 +2004,7 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(ElasticsearchHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $clientP = new ReflectionProperty($handler, 'client');

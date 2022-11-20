@@ -12,17 +12,21 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Handler;
 
+use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\BufferHandlerFactory;
 use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Mimmi20\MonologFactory\MonologHandlerPluginManager;
+use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\BufferHandler;
 use Monolog\Handler\ChromePHPHandler;
-use Monolog\Logger;
+use Monolog\Level;
+use Monolog\Processor\GitProcessor;
+use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -242,7 +246,7 @@ final class BufferHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(BufferHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -315,7 +319,7 @@ final class BufferHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(BufferHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -545,7 +549,7 @@ final class BufferHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(BufferHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -683,7 +687,7 @@ final class BufferHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(BufferHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $handlerP = new ReflectionProperty($handler, 'handler');
@@ -706,6 +710,54 @@ final class BufferHandlerFactoryTest extends TestCase
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithConfigAndFormatter5(): void
+    {
+        $type           = 'abc';
+        $bufferLimit    = 42;
+        $formatterClass = $this->getMockBuilder(LineFormatter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $handler2->expects(self::never())
+            ->method('setFormatter');
+        $handler2->expects(self::never())
+            ->method('getFormatter');
+
+        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('has');
+        $monologHandlerPluginManager->expects(self::once())
+            ->method('get')
+            ->with($type, [])
+            ->willReturn($handler2);
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->withConsecutive([MonologHandlerPluginManager::class], [MonologFormatterPluginManager::class])
+            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, null);
+
+        $factory = new BufferHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
+
+        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false, 'formatter' => $formatterClass]);
     }
 
     /** @throws Exception */
@@ -794,5 +846,429 @@ final class BufferHandlerFactoryTest extends TestCase
         $this->expectExceptionMessage('Processors must be an Array');
 
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithConfigAndProcessors2(): void
+    {
+        $type        = 'abc';
+        $bufferLimit = 42;
+        $processors  = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            static fn (array $record): array => $record,
+        ];
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::once())
+            ->method('get')
+            ->with('abc', [])
+            ->willThrowException(new ServiceNotFoundException());
+
+        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $handler2->expects(self::never())
+            ->method('setFormatter');
+        $handler2->expects(self::never())
+            ->method('getFormatter');
+
+        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('has');
+        $monologHandlerPluginManager->expects(self::once())
+            ->method('get')
+            ->with($type, ['processors' => $processors])
+            ->willReturn($handler2);
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [MonologProcessorPluginManager::class, $monologProcessorPluginManager],
+                ],
+            );
+
+        $factory = new BufferHandlerFactory();
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
+
+        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
+    }
+
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws InvalidArgumentException
+     */
+    public function testInvokeWithConfigAndProcessors3(): void
+    {
+        $type        = 'abc';
+        $bufferLimit = 42;
+        $processor3  = static fn (array $record): array => $record;
+        $processors  = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $processor1 = $this->getMockBuilder(GitProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::exactly(2))
+            ->method('get')
+            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
+            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+
+        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $handler2->expects(self::never())
+            ->method('setFormatter');
+        $handler2->expects(self::never())
+            ->method('getFormatter');
+
+        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('has');
+        $monologHandlerPluginManager->expects(self::once())
+            ->method('get')
+            ->with($type, ['processors' => $processors])
+            ->willReturn($handler2);
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [MonologProcessorPluginManager::class, $monologProcessorPluginManager],
+                ],
+            );
+
+        $factory = new BufferHandlerFactory();
+
+        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
+
+        self::assertInstanceOf(BufferHandler::class, $handler);
+
+        self::assertSame(Level::Alert, $handler->getLevel());
+        self::assertFalse($handler->getBubble());
+
+        $handlerP = new ReflectionProperty($handler, 'handler');
+
+        self::assertSame($handler2, $handlerP->getValue($handler));
+
+        $bl = new ReflectionProperty($handler, 'bufferLimit');
+
+        self::assertSame($bufferLimit, $bl->getValue($handler));
+
+        $fof = new ReflectionProperty($handler, 'flushOnOverflow');
+
+        self::assertFalse($fof->getValue($handler));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(0, $processors);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithConfigAndProcessors4(): void
+    {
+        $type        = 'abc';
+        $bufferLimit = 42;
+        $processor3  = static fn (array $record): array => $record;
+        $processors  = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
+
+        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $handler2->expects(self::never())
+            ->method('setFormatter');
+        $handler2->expects(self::never())
+            ->method('getFormatter');
+
+        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('has');
+        $monologHandlerPluginManager->expects(self::once())
+            ->method('get')
+            ->with($type, ['processors' => $processors])
+            ->willReturn($handler2);
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnCallback(
+                static function (string $var) use ($monologHandlerPluginManager) {
+                    if (MonologHandlerPluginManager::class === $var) {
+                        return $monologHandlerPluginManager;
+                    }
+
+                    throw new ServiceNotFoundException();
+                },
+            );
+
+        $factory = new BufferHandlerFactory();
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(
+            sprintf('Could not find service %s', MonologProcessorPluginManager::class),
+        );
+
+        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithConfigAndProcessors5(): void
+    {
+        $type        = 'abc';
+        $bufferLimit = 42;
+        $processor3  = static fn (array $record): array => $record;
+        $processors  = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
+
+        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $handler2->expects(self::never())
+            ->method('setFormatter');
+        $handler2->expects(self::never())
+            ->method('getFormatter');
+
+        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('has');
+        $monologHandlerPluginManager->expects(self::once())
+            ->method('get')
+            ->with($type, ['processors' => $processors])
+            ->willReturn($handler2);
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [MonologProcessorPluginManager::class, null],
+                ],
+            );
+
+        $factory = new BufferHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
+
+        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
+    }
+
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws InvalidArgumentException
+     */
+    public function testInvokeWithConfigAndProcessors6(): void
+    {
+        $type        = 'abc';
+        $bufferLimit = 42;
+        $processor3  = static fn (array $record): array => $record;
+        $processors  = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $processor1 = $this->getMockBuilder(GitProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::exactly(2))
+            ->method('get')
+            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
+            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+
+        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $handler2->expects(self::never())
+            ->method('setFormatter');
+        $handler2->expects(self::never())
+            ->method('getFormatter');
+
+        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('has');
+        $monologHandlerPluginManager->expects(self::once())
+            ->method('get')
+            ->with($type, [])
+            ->willReturn($handler2);
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [MonologProcessorPluginManager::class, $monologProcessorPluginManager],
+                ],
+            );
+
+        $factory = new BufferHandlerFactory();
+
+        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false, 'processors' => $processors]);
+
+        self::assertInstanceOf(BufferHandler::class, $handler);
+
+        self::assertSame(Level::Alert, $handler->getLevel());
+        self::assertFalse($handler->getBubble());
+
+        $handlerP = new ReflectionProperty($handler, 'handler');
+
+        self::assertSame($handler2, $handlerP->getValue($handler));
+
+        $bl = new ReflectionProperty($handler, 'bufferLimit');
+
+        self::assertSame($bufferLimit, $bl->getValue($handler));
+
+        $fof = new ReflectionProperty($handler, 'flushOnOverflow');
+
+        self::assertFalse($fof->getValue($handler));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(3, $processors);
+        self::assertSame($processor2, $processors[0]);
+        self::assertSame($processor1, $processors[1]);
+        self::assertSame($processor3, $processors[2]);
     }
 }

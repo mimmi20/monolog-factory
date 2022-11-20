@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Handler;
 
+use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
@@ -20,7 +21,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\PsrHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -148,7 +149,7 @@ final class PsrHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PsrHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $loggerP = new ReflectionProperty($handler, 'logger');
@@ -184,7 +185,7 @@ final class PsrHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PsrHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $loggerP = new ReflectionProperty($handler, 'logger');
@@ -217,7 +218,7 @@ final class PsrHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PsrHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $loggerP = new ReflectionProperty($handler, 'logger');
@@ -250,7 +251,7 @@ final class PsrHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PsrHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $loggerP = new ReflectionProperty($handler, 'logger');
@@ -378,7 +379,7 @@ final class PsrHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PsrHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $loggerP = new ReflectionProperty($handler, 'logger');
@@ -386,6 +387,37 @@ final class PsrHandlerFactoryTest extends TestCase
         self::assertSame($logger, $loggerP->getValue($handler));
 
         self::assertSame($formatter, $handler->getFormatter());
+    }
+
+    /** @throws Exception */
+    public function testInvokeWithConfigAndFormatter3(): void
+    {
+        $logger    = $this->getMockBuilder(LoggerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $formatter = $this->getMockBuilder(LineFormatter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologFormatterPluginManager::class)
+            ->willReturn(null);
+
+        $factory = new PsrHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
+
+        $factory($container, '', ['logger' => $logger, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -414,7 +446,7 @@ final class PsrHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(PsrHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $loggerP = new ReflectionProperty($handler, 'logger');

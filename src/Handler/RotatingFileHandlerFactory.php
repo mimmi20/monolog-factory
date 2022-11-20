@@ -12,26 +12,20 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler;
 
-use Interop\Container\Exception\ContainerException;
-use InvalidArgumentException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\RotatingFileHandler;
-use Monolog\Logger;
+use Monolog\Level;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 
 use function array_key_exists;
 use function is_array;
-use function sprintf;
 
-/**
- * @phpstan-import-type Level from Logger
- * @phpstan-import-type LevelName from Logger
- */
 final class RotatingFileHandlerFactory implements FactoryInterface
 {
     use AddFormatterTrait;
@@ -40,11 +34,11 @@ final class RotatingFileHandlerFactory implements FactoryInterface
     /**
      * @param string                                $requestedName
      * @param array<string, (string|int|bool)>|null $options
-     * @phpstan-param array{filename?: string, maxFiles?: int, level?: (Level|LevelName|LogLevel::*), bubble?: bool, filePermission?: int|string, useLocking?: bool, dateFormat?: string, filenameFormat?: string}|null $options
+     * @phpstan-param array{filename?: string, maxFiles?: int, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, filePermission?: int|string, useLocking?: bool, dateFormat?: string, filenameFormat?: string}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerException         if any other error occurs
+     * @throws ContainerExceptionInterface if any other error occurs
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
@@ -88,15 +82,7 @@ final class RotatingFileHandlerFactory implements FactoryInterface
             $useLocking = $options['useLocking'];
         }
 
-        try {
-            $handler = new RotatingFileHandler($filename, $maxFiles, $level, $bubble, $filePermission, $useLocking);
-        } catch (InvalidArgumentException $e) {
-            throw new ServiceNotCreatedException(
-                sprintf('Could not create %s', RotatingFileHandler::class),
-                0,
-                $e,
-            );
-        }
+        $handler = new RotatingFileHandler($filename, $maxFiles, $level, $bubble, $filePermission, $useLocking); // @phpstan-ignore-line
 
         if (array_key_exists('filenameFormat', $options) || array_key_exists('dateFormat', $options)) {
             if (array_key_exists('filenameFormat', $options)) {

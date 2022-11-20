@@ -18,7 +18,7 @@
   "require": {
     "php": "^8.1.0",
     "ext-mbstring": "*",
-    "monolog/monolog": "^2.8.0"
+    "monolog/monolog": "^3.2.0"
   },
   "require-dev": {
     "ext-dom": "*",
@@ -26,11 +26,10 @@
     "ext-tokenizer": "*",
     "ext-xml": "*",
     "ext-xmlwriter": "*",
-    "actived/microsoft-teams-notifier": "^1.2.0",
-    "aws/aws-sdk-php": "^3.244.0",
-    "bartlett/monolog-callbackfilterhandler": "^2.1.0",
+    "actived/microsoft-teams-notifier": "^1.3.0",
+    "aws/aws-sdk-php": "^3.246.0",
     "doctrine/couchdb": "1.0.0-beta4",
-    "elasticsearch/elasticsearch": "^v7.17.0 || ^v8.4.1",
+    "elasticsearch/elasticsearch": "^v7.17.0 || ^v8.5.1",
     "graylog2/gelf-php": "^1.7.1",
     "guzzlehttp/guzzle": "^7.5.0",
     "guzzlehttp/psr7": "^2.4.3",
@@ -41,16 +40,16 @@
     "laminas/laminas-modulemanager": "^2.14.0",
     "laminas/laminas-servicemanager": "^3.19.0",
     "mikey179/vfsstream": "^1.6.11",
+    "mimmi20/monolog-callbackfilterhandler": "^3.0.0",
     "mimmi20/coding-standard": "^3.0.20",
-    "mimmi20/monolog-streamformatter": "^1.0.0 || ^2.0.1",
+    "mimmi20/monolog-streamformatter": "^2.0.1",
     "php-console/php-console": "^3.1.8",
     "phpstan/extension-installer": "^1.2.0",
     "phpstan/phpstan": "^1.9.2",
     "phpstan/phpstan-deprecation-rules": "^1.0.0",
     "phpstan/phpstan-phpunit": "^1.2.2",
     "phpunit/phpunit": "^9.5.26",
-    "predis/predis": "^1.1.10 || ^2.0.0",
-    "rollbar/rollbar": "^v2.1.0 || ^v3.1.3",
+    "predis/predis": "^1.1.10 || ^2.0.3",
     "ruflin/elastica": "^7.2.0",
     "symfony/mailer": "^v6.1.7",
     "symfony/mime": "^v6.1.7"
@@ -74,7 +73,7 @@
     "laminas/laminas-servicemanager": "Required for the Factories",
     "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
     "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
-    "rollbar/rollbar": "Allow sending log messages to Rollbar (only 2.1+ supported, but not 3.x)",
+    "rollbar/rollbar": "Allow sending log messages to Rollbar",
     "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
   },
   "minimum-stability": "stable",

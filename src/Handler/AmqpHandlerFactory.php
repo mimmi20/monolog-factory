@@ -13,14 +13,13 @@ declare(strict_types = 1);
 namespace Mimmi20\MonologFactory\Handler;
 
 use AMQPExchange;
-use Interop\Container\Exception\ContainerException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\AmqpHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PhpAmqpLib\Channel\AMQPChannel;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -31,10 +30,6 @@ use function is_array;
 use function is_string;
 use function sprintf;
 
-/**
- * @phpstan-import-type Level from Logger
- * @phpstan-import-type LevelName from Logger
- */
 final class AmqpHandlerFactory implements FactoryInterface
 {
     use AddFormatterTrait;
@@ -43,11 +38,11 @@ final class AmqpHandlerFactory implements FactoryInterface
     /**
      * @param string                                                         $requestedName
      * @param array<string, (bool|int|string|AMQPExchange|AMQPChannel)>|null $options
-     * @phpstan-param array{exchange?: (bool|string|AMQPExchange|AMQPChannel), exchangeName?: string, level?: (Level|LevelName|LogLevel::*), bubble?: bool}|null $options
+     * @phpstan-param array{exchange?: (bool|string|AMQPExchange|AMQPChannel), exchangeName?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerException         if any other error occurs
+     * @throws ContainerExceptionInterface if any other error occurs
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint

@@ -12,16 +12,20 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Handler;
 
+use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\SendGridHandlerFactory;
 use Mimmi20\MonologFactory\MonologFormatterPluginManager;
+use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\HtmlFormatter;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\SendGridHandler;
-use Monolog\Logger;
+use Monolog\Level;
+use Monolog\Processor\GitProcessor;
+use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -222,7 +226,7 @@ final class SendGridHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SendGridHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $apiUserP = new ReflectionProperty($handler, 'apiUser');
@@ -286,7 +290,7 @@ final class SendGridHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SendGridHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $apiUserP = new ReflectionProperty($handler, 'apiUser');
@@ -469,7 +473,7 @@ final class SendGridHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SendGridHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $apiUserP = new ReflectionProperty($handler, 'apiUser');
@@ -507,6 +511,45 @@ final class SendGridHandlerFactoryTest extends TestCase
      *
      * @requires extension curl
      */
+    public function testInvokeWithConfigAndFormatter3(): void
+    {
+        $apiUser   = 'test-api-user';
+        $apiKey    = 'test-api-key';
+        $from      = 'test-from';
+        $to        = 'test-to';
+        $subject   = 'test-subject';
+        $level     = LogLevel::ALERT;
+        $bubble    = false;
+        $formatter = $this->getMockBuilder(LineFormatter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologFormatterPluginManager::class)
+            ->willReturn(null);
+
+        $factory = new SendGridHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
+
+        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $apiUser    = 'test-api-user';
@@ -531,6 +574,266 @@ final class SendGridHandlerFactoryTest extends TestCase
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
+
+        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
+    public function testInvokeWithConfigAndProcessors2(): void
+    {
+        $apiUser    = 'test-api-user';
+        $apiKey     = 'test-api-key';
+        $from       = 'test-from';
+        $to         = 'test-to';
+        $subject    = 'test-subject';
+        $level      = LogLevel::ALERT;
+        $bubble     = false;
+        $processors = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            static fn (array $record): array => $record,
+        ];
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::once())
+            ->method('get')
+            ->with('abc', [])
+            ->willThrowException(new ServiceNotFoundException());
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willReturn($monologProcessorPluginManager);
+
+        $factory = new SendGridHandlerFactory();
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
+
+        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+    }
+
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws InvalidArgumentException
+     *
+     * @requires extension curl
+     */
+    public function testInvokeWithConfigAndProcessors3(): void
+    {
+        $apiUser    = 'test-api-user';
+        $apiKey     = 'test-api-key';
+        $from       = 'test-from';
+        $to         = 'test-to';
+        $subject    = 'test-subject';
+        $level      = LogLevel::ALERT;
+        $bubble     = false;
+        $processor3 = static fn (array $record): array => $record;
+        $processors = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $processor1 = $this->getMockBuilder(GitProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::exactly(2))
+            ->method('get')
+            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
+            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willReturn($monologProcessorPluginManager);
+
+        $factory = new SendGridHandlerFactory();
+
+        $handler = $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+
+        self::assertInstanceOf(SendGridHandler::class, $handler);
+
+        self::assertSame(Level::Alert, $handler->getLevel());
+        self::assertFalse($handler->getBubble());
+
+        $apiUserP = new ReflectionProperty($handler, 'apiUser');
+
+        self::assertSame($apiUser, $apiUserP->getValue($handler));
+
+        $apiKeyP = new ReflectionProperty($handler, 'apiKey');
+
+        self::assertSame($apiKey, $apiKeyP->getValue($handler));
+
+        $fromP = new ReflectionProperty($handler, 'from');
+
+        self::assertSame($from, $fromP->getValue($handler));
+
+        $toP = new ReflectionProperty($handler, 'to');
+
+        self::assertSame((array) $to, $toP->getValue($handler));
+
+        $subjectP = new ReflectionProperty($handler, 'subject');
+
+        self::assertSame($subject, $subjectP->getValue($handler));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(3, $processors);
+        self::assertSame($processor2, $processors[0]);
+        self::assertSame($processor1, $processors[1]);
+        self::assertSame($processor3, $processors[2]);
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
+    public function testInvokeWithConfigAndProcessors4(): void
+    {
+        $apiUser        = 'test-api-user';
+        $apiKey         = 'test-api-key';
+        $from           = 'test-from';
+        $to             = 'test-to';
+        $subject        = 'test-subject';
+        $level          = LogLevel::ALERT;
+        $bubble         = false;
+        $streamName     = 'xyz';
+        $stream         = 'http://test.test';
+        $filePermission = 0755;
+        $useLocking     = false;
+        $processor3     = static fn (array $record): array => $record;
+        $processors     = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willThrowException(new ServiceNotFoundException());
+
+        $factory = new SendGridHandlerFactory();
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(
+            sprintf('Could not find service %s', MonologProcessorPluginManager::class),
+        );
+
+        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @requires extension curl
+     */
+    public function testInvokeWithConfigAndProcessors5(): void
+    {
+        $apiUser    = 'test-api-user';
+        $apiKey     = 'test-api-key';
+        $from       = 'test-from';
+        $to         = 'test-to';
+        $subject    = 'test-subject';
+        $level      = LogLevel::ALERT;
+        $bubble     = false;
+        $processor3 = static fn (array $record): array => $record;
+        $processors = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willReturn(null);
+
+        $factory = new SendGridHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
 
         $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }

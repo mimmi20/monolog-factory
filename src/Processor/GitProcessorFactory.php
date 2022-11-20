@@ -13,7 +13,7 @@ declare(strict_types = 1);
 namespace Mimmi20\MonologFactory\Processor;
 
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use Monolog\Logger;
+use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
@@ -21,16 +21,12 @@ use Psr\Log\LogLevel;
 use function array_key_exists;
 use function is_array;
 
-/**
- * @phpstan-import-type Level from Logger
- * @phpstan-import-type LevelName from Logger
- */
 final class GitProcessorFactory implements FactoryInterface
 {
     /**
      * @param string                           $requestedName
      * @param array<string, (int|string)>|null $options
-     * @phpstan-param array{level?: (Level|LevelName|LogLevel::*)}|null $options
+     * @phpstan-param array{level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*)}|null $options
      *
      * @throws void
      *

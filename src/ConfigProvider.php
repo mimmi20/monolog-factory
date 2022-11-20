@@ -13,12 +13,12 @@ declare(strict_types = 1);
 namespace Mimmi20\MonologFactory;
 
 use Actived\MicrosoftTeamsNotifier\Handler\MicrosoftTeamsHandler;
-use Bartlett\Monolog\Handler\CallbackFilterHandler;
 use CMDISP\MonologMicrosoftTeams\TeamsLogHandler;
 use Elastic\Elasticsearch\Client as V8Client;
 use Elasticsearch\Client as V7Client;
 use JK\Monolog\Processor\RequestHeaderProcessor;
 use Mimmi20\Monolog\Formatter\StreamFormatter;
+use Mimmi20\Monolog\Handler\CallbackFilterHandler;
 use Mimmi20\MonologFactory\Client\ElasticsearchV7Factory;
 use Mimmi20\MonologFactory\Client\ElasticsearchV8Factory;
 use Mimmi20\MonologFactory\Formatter\ChromePHPFormatterFactory;
@@ -44,7 +44,6 @@ use Mimmi20\MonologFactory\Handler\BufferHandlerFactory;
 use Mimmi20\MonologFactory\Handler\CallbackFilterHandlerFactory;
 use Mimmi20\MonologFactory\Handler\ChromePHPHandlerFactory;
 use Mimmi20\MonologFactory\Handler\CouchDBHandlerFactory;
-use Mimmi20\MonologFactory\Handler\CubeHandlerFactory;
 use Mimmi20\MonologFactory\Handler\DeduplicationHandlerFactory;
 use Mimmi20\MonologFactory\Handler\DoctrineCouchDBHandlerFactory;
 use Mimmi20\MonologFactory\Handler\DynamoDbHandlerFactory;
@@ -74,7 +73,6 @@ use Mimmi20\MonologFactory\Handler\NewRelicHandlerFactory;
 use Mimmi20\MonologFactory\Handler\NoopHandlerFactory;
 use Mimmi20\MonologFactory\Handler\NullHandlerFactory;
 use Mimmi20\MonologFactory\Handler\OverflowHandlerFactory;
-use Mimmi20\MonologFactory\Handler\PHPConsoleHandlerFactory;
 use Mimmi20\MonologFactory\Handler\ProcessHandlerFactory;
 use Mimmi20\MonologFactory\Handler\PsrHandlerFactory;
 use Mimmi20\MonologFactory\Handler\PushoverHandlerFactory;
@@ -89,7 +87,6 @@ use Mimmi20\MonologFactory\Handler\SlackWebhookHandlerFactory;
 use Mimmi20\MonologFactory\Handler\SocketHandlerFactory;
 use Mimmi20\MonologFactory\Handler\SqsHandlerFactory;
 use Mimmi20\MonologFactory\Handler\StreamHandlerFactory;
-use Mimmi20\MonologFactory\Handler\SwiftMailerHandlerFactory;
 use Mimmi20\MonologFactory\Handler\SymfonyMailerHandlerFactory;
 use Mimmi20\MonologFactory\Handler\SyslogHandlerFactory;
 use Mimmi20\MonologFactory\Handler\SyslogUdpHandlerFactory;
@@ -131,7 +128,6 @@ use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Handler\BufferHandler;
 use Monolog\Handler\ChromePHPHandler;
 use Monolog\Handler\CouchDBHandler;
-use Monolog\Handler\CubeHandler;
 use Monolog\Handler\DeduplicationHandler;
 use Monolog\Handler\DoctrineCouchDBHandler;
 use Monolog\Handler\DynamoDbHandler;
@@ -158,7 +154,6 @@ use Monolog\Handler\NewRelicHandler;
 use Monolog\Handler\NoopHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\OverflowHandler;
-use Monolog\Handler\PHPConsoleHandler;
 use Monolog\Handler\ProcessHandler;
 use Monolog\Handler\PsrHandler;
 use Monolog\Handler\PushoverHandler;
@@ -173,7 +168,6 @@ use Monolog\Handler\SlackWebhookHandler;
 use Monolog\Handler\SocketHandler;
 use Monolog\Handler\SqsHandler;
 use Monolog\Handler\StreamHandler;
-use Monolog\Handler\SwiftMailerHandler;
 use Monolog\Handler\SymfonyMailerHandler;
 use Monolog\Handler\SyslogHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -248,7 +242,6 @@ final class ConfigProvider
                 'callbackfilter' => CallbackFilterHandler::class,
                 'chromephp' => ChromePHPHandler::class,
                 'couchDb' => CouchDBHandler::class,
-                'cube' => CubeHandler::class,
                 'deduplication' => DeduplicationHandler::class,
                 'doctrineCouchDb' => DoctrineCouchDBHandler::class,
                 'dynamoDb' => DynamoDbHandler::class,
@@ -276,7 +269,6 @@ final class ConfigProvider
                 'noop' => NoopHandler::class,
                 'null' => NullHandler::class,
                 'overflow' => OverflowHandler::class,
-                'phpconsole' => PHPConsoleHandler::class,
                 'process' => ProcessHandler::class,
                 'psr' => PsrHandler::class,
                 'pushover' => PushoverHandler::class,
@@ -291,7 +283,6 @@ final class ConfigProvider
                 'socket' => SocketHandler::class,
                 'sqs' => SqsHandler::class,
                 'stream' => StreamHandler::class,
-                'swiftMailer' => SwiftMailerHandler::class,
                 'symfonyMailer' => SymfonyMailerHandler::class,
                 'syslog' => SyslogHandler::class,
                 'syslogudp' => SyslogUdpHandler::class,
@@ -308,7 +299,6 @@ final class ConfigProvider
                 CallbackFilterHandler::class => CallbackFilterHandlerFactory::class,
                 ChromePHPHandler::class => ChromePHPHandlerFactory::class,
                 CouchDBHandler::class => CouchDBHandlerFactory::class,
-                CubeHandler::class => CubeHandlerFactory::class,
                 DeduplicationHandler::class => DeduplicationHandlerFactory::class,
                 DoctrineCouchDBHandler::class => DoctrineCouchDBHandlerFactory::class,
                 DynamoDbHandler::class => DynamoDbHandlerFactory::class,
@@ -336,7 +326,6 @@ final class ConfigProvider
                 NoopHandler::class => NoopHandlerFactory::class,
                 NullHandler::class => NullHandlerFactory::class,
                 OverflowHandler::class => OverflowHandlerFactory::class,
-                PHPConsoleHandler::class => PHPConsoleHandlerFactory::class,
                 ProcessHandler::class => ProcessHandlerFactory::class,
                 PsrHandler::class => PsrHandlerFactory::class,
                 PushoverHandler::class => PushoverHandlerFactory::class,
@@ -351,7 +340,6 @@ final class ConfigProvider
                 SocketHandler::class => SocketHandlerFactory::class,
                 SqsHandler::class => SqsHandlerFactory::class,
                 StreamHandler::class => StreamHandlerFactory::class,
-                SwiftMailerHandler::class => SwiftMailerHandlerFactory::class,
                 SymfonyMailerHandler::class => SymfonyMailerHandlerFactory::class,
                 SyslogHandler::class => SyslogHandlerFactory::class,
                 SyslogUdpHandler::class => SyslogUdpHandlerFactory::class,

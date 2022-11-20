@@ -19,7 +19,6 @@ use Psr\Container\ContainerExceptionInterface;
 
 use function array_key_exists;
 use function assert;
-use function is_array;
 use function is_callable;
 use function sprintf;
 
@@ -36,10 +35,6 @@ trait CreateProcessorTrait
     {
         if (is_callable($processorConfig)) {
             return $processorConfig;
-        }
-
-        if (!is_array($processorConfig)) {
-            throw new ServiceNotCreatedException('ProcessorConfig must be an Array');
         }
 
         if (array_key_exists('enabled', $processorConfig) && !$processorConfig['enabled']) {

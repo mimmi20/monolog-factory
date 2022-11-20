@@ -13,14 +13,13 @@ declare(strict_types = 1);
 namespace Mimmi20\MonologFactory\Handler;
 
 use Gelf\PublisherInterface;
-use Interop\Container\Exception\ContainerException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\GelfHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
@@ -30,10 +29,6 @@ use function is_array;
 use function is_string;
 use function sprintf;
 
-/**
- * @phpstan-import-type Level from Logger
- * @phpstan-import-type LevelName from Logger
- */
 final class GelfHandlerFactory implements FactoryInterface
 {
     use AddFormatterTrait;
@@ -42,11 +37,11 @@ final class GelfHandlerFactory implements FactoryInterface
     /**
      * @param string                                                   $requestedName
      * @param array<string, (string|int|bool|PublisherInterface)>|null $options
-     * @phpstan-param array{publisher?: (bool|string|PublisherInterface), level?: (Level|LevelName|LogLevel::*), bubble?: bool}|null $options
+     * @phpstan-param array{publisher?: (bool|string|PublisherInterface), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerException         if any other error occurs
+     * @throws ContainerExceptionInterface if any other error occurs
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint

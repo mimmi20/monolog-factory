@@ -12,15 +12,19 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Handler;
 
+use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\SyslogUdpHandlerFactory;
 use Mimmi20\MonologFactory\MonologFormatterPluginManager;
+use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\SyslogUdpHandler;
-use Monolog\Logger;
+use Monolog\Level;
+use Monolog\Processor\GitProcessor;
+use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -110,7 +114,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SyslogUdpHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $identP = new ReflectionProperty($handler, 'ident');
@@ -176,7 +180,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SyslogUdpHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $identP = new ReflectionProperty($handler, 'ident');
@@ -325,7 +329,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(SyslogUdpHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $identP = new ReflectionProperty($handler, 'ident');
@@ -367,6 +371,43 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      *
      * @requires extension sockets
      */
+    public function testInvokeWithConfigAndFormatter3(): void
+    {
+        $host      = 'test-host';
+        $port      = 4711;
+        $facility  = LOG_MAIL;
+        $ident     = 'test-ident';
+        $rfc       = SyslogUdpHandler::RFC3164;
+        $formatter = $this->getMockBuilder(LineFormatter::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologFormatterPluginManager::class)
+            ->willReturn(null);
+
+        $factory = new SyslogUdpHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
+
+        $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'formatter' => $formatter]);
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @requires extension sockets
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $host       = 'test-host';
@@ -389,6 +430,258 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
+
+        $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @requires extension sockets
+     */
+    public function testInvokeWithConfigAndProcessors2(): void
+    {
+        $host       = 'test-host';
+        $port       = 4711;
+        $facility   = LOG_MAIL;
+        $ident      = 'test-ident';
+        $rfc        = SyslogUdpHandler::RFC3164;
+        $processors = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            static fn (array $record): array => $record,
+        ];
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::once())
+            ->method('get')
+            ->with('abc', [])
+            ->willThrowException(new ServiceNotFoundException());
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willReturn($monologProcessorPluginManager);
+
+        $factory = new SyslogUdpHandlerFactory();
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
+
+        $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
+    }
+
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws InvalidArgumentException
+     *
+     * @requires extension sockets
+     */
+    public function testInvokeWithConfigAndProcessors3(): void
+    {
+        $host       = 'test-host';
+        $port       = 4711;
+        $facility   = LOG_MAIL;
+        $ident      = 'test-ident';
+        $rfc        = SyslogUdpHandler::RFC3164;
+        $processor3 = static fn (array $record): array => $record;
+        $processors = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $processor1 = $this->getMockBuilder(GitProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::exactly(2))
+            ->method('get')
+            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
+            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willReturn($monologProcessorPluginManager);
+
+        $factory = new SyslogUdpHandlerFactory();
+
+        $handler = $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
+
+        self::assertInstanceOf(SyslogUdpHandler::class, $handler);
+
+        self::assertSame(Level::Alert, $handler->getLevel());
+        self::assertFalse($handler->getBubble());
+
+        $identP = new ReflectionProperty($handler, 'ident');
+
+        self::assertSame($ident, $identP->getValue($handler));
+
+        $rfcP = new ReflectionProperty($handler, 'rfc');
+
+        self::assertSame($rfc, $rfcP->getValue($handler));
+
+        $fa = new ReflectionProperty($handler, 'facility');
+
+        self::assertSame($facility, $fa->getValue($handler));
+
+        $socketP = new ReflectionProperty($handler, 'socket');
+
+        $socket = $socketP->getValue($handler);
+
+        $ipP = new ReflectionProperty($socket, 'ip');
+
+        self::assertSame($host, $ipP->getValue($socket));
+
+        $portP = new ReflectionProperty($socket, 'port');
+
+        self::assertSame($port, $portP->getValue($socket));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(3, $processors);
+        self::assertSame($processor2, $processors[0]);
+        self::assertSame($processor1, $processors[1]);
+        self::assertSame($processor3, $processors[2]);
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @requires extension sockets
+     */
+    public function testInvokeWithConfigAndProcessors4(): void
+    {
+        $host       = 'test-host';
+        $port       = 4711;
+        $facility   = LOG_MAIL;
+        $ident      = 'test-ident';
+        $rfc        = SyslogUdpHandler::RFC3164;
+        $processor3 = static fn (array $record): array => $record;
+        $processors = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willThrowException(new ServiceNotFoundException());
+
+        $factory = new SyslogUdpHandlerFactory();
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage(
+            sprintf('Could not find service %s', MonologProcessorPluginManager::class),
+        );
+
+        $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @requires extension sockets
+     */
+    public function testInvokeWithConfigAndProcessors5(): void
+    {
+        $host       = 'test-host';
+        $port       = 4711;
+        $facility   = LOG_MAIL;
+        $ident      = 'test-ident';
+        $rfc        = SyslogUdpHandler::RFC3164;
+        $processor3 = static fn (array $record): array => $record;
+        $processors = [
+            [
+                'enabled' => true,
+                'type' => 'xyz',
+                'options' => ['efg' => 'ijk'],
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::once())
+            ->method('get')
+            ->with(MonologProcessorPluginManager::class)
+            ->willReturn(null);
+
+        $factory = new SyslogUdpHandlerFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage(
+            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+        );
 
         $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
     }

@@ -14,7 +14,6 @@ namespace Mimmi20\MonologFactory\Handler;
 
 use Elastic\Elasticsearch\Client as V8Client;
 use Elasticsearch\Client as V7Client;
-use Interop\Container\Exception\ContainerException;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
@@ -23,7 +22,7 @@ use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Mimmi20\MonologFactory\ClientPluginManager;
 use Monolog\Handler\ElasticsearchHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
@@ -41,10 +40,6 @@ use function mb_strpos;
 use function sprintf;
 use function str_replace;
 
-/**
- * @phpstan-import-type Level from Logger
- * @phpstan-import-type LevelName from Logger
- */
 final class ElasticsearchHandlerFactory implements FactoryInterface
 {
     use AddFormatterTrait;
@@ -57,11 +52,11 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
     /**
      * @param string                                                  $requestedName
      * @param array<string, (string|int|bool|V7Client|V8Client)>|null $options
-     * @phpstan-param array{client?: (bool|string|V7Client|V8Client), index?: string, type?: string, ignoreError?: bool, level?: (Level|LevelName|LogLevel::*), bubble?: bool}|null $options
+     * @phpstan-param array{client?: (bool|string|V7Client|V8Client), index?: string, type?: string, ignoreError?: bool, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerException         if any other error occurs
+     * @throws ContainerExceptionInterface if any other error occurs
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint

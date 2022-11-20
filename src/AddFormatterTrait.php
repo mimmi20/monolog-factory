@@ -42,7 +42,7 @@ trait AddFormatterTrait
      */
     private function addFormatter(ContainerInterface $container, HandlerInterface $handler, array | null $options = null): void
     {
-        if (!$handler instanceof FormattableHandlerInterface || !is_array($options) || !array_key_exists('formatter', $options)) {
+        if (!is_array($options) || !array_key_exists('formatter', $options)) {
             return;
         }
 
@@ -63,7 +63,7 @@ trait AddFormatterTrait
         }
 
         assert(
-            $monologFormatterPluginManager instanceof MonologHandlerPluginManager || $monologFormatterPluginManager instanceof AbstractPluginManager,
+            $monologFormatterPluginManager instanceof MonologFormatterPluginManager || $monologFormatterPluginManager instanceof AbstractPluginManager,
             sprintf(
                 '$monologFormatterPluginManager should be an Instance of %s, but was %s',
                 AbstractPluginManager::class,

@@ -42,7 +42,7 @@ trait AddProcessorTrait
      */
     private function addProcessor(ContainerInterface $container, HandlerInterface $handler, array | null $options = null): void
     {
-        if (!$handler instanceof ProcessableHandlerInterface || !is_array($options) || !array_key_exists('processors', $options)) {
+        if (!is_array($options) || !array_key_exists('processors', $options)) {
             return;
         }
 
@@ -57,7 +57,7 @@ trait AddProcessorTrait
         }
 
         assert(
-            $monologProcessorPluginManager instanceof MonologHandlerPluginManager || $monologProcessorPluginManager instanceof AbstractPluginManager,
+            $monologProcessorPluginManager instanceof MonologProcessorPluginManager || $monologProcessorPluginManager instanceof AbstractPluginManager,
             sprintf(
                 '$monologProcessorPluginManager should be an Instance of %s, but was %s',
                 AbstractPluginManager::class,

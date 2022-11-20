@@ -12,7 +12,6 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler;
 
-use Interop\Container\Exception\ContainerException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\AddFormatterTrait;
@@ -36,7 +35,7 @@ trait GetHandlerTrait
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerException         if any other error occurs
+     * @throws ContainerExceptionInterface if any other error occurs
      */
     private function getHandler(ContainerInterface $container, array $options): HandlerInterface | null
     {

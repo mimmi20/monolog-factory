@@ -18,7 +18,7 @@ use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\AmqpHandlerFactory;
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\AmqpHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
@@ -151,16 +151,12 @@ final class AmqpHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(AmqpHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
-
-        $ecn = new ReflectionProperty($handler, 'exchangeName');
-
-        self::assertNull($ecn->getValue($handler));
 
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
@@ -204,16 +200,12 @@ final class AmqpHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(AmqpHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
-
-        $ecn = new ReflectionProperty($handler, 'exchangeName');
-
-        self::assertNull($ecn->getValue($handler));
 
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
@@ -254,16 +246,12 @@ final class AmqpHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(AmqpHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
-
-        $ecn = new ReflectionProperty($handler, 'exchangeName');
-
-        self::assertNull($ecn->getValue($handler));
 
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
@@ -304,16 +292,12 @@ final class AmqpHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(AmqpHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
 
         self::assertSame($exchangeClass, $ec->getValue($handler));
-
-        $ecn = new ReflectionProperty($handler, 'exchangeName');
-
-        self::assertNull($ecn->getValue($handler));
 
         self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
 
@@ -357,7 +341,7 @@ final class AmqpHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(AmqpHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
@@ -411,7 +395,7 @@ final class AmqpHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(AmqpHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
@@ -461,7 +445,7 @@ final class AmqpHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(AmqpHandler::class, $handler);
 
-        self::assertSame(Logger::DEBUG, $handler->getLevel());
+        self::assertSame(Level::Debug, $handler->getLevel());
         self::assertTrue($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');
@@ -512,7 +496,7 @@ final class AmqpHandlerFactoryTest extends TestCase
 
         self::assertInstanceOf(AmqpHandler::class, $handler);
 
-        self::assertSame(Logger::ALERT, $handler->getLevel());
+        self::assertSame(Level::Alert, $handler->getLevel());
         self::assertFalse($handler->getBubble());
 
         $ec = new ReflectionProperty($handler, 'exchange');

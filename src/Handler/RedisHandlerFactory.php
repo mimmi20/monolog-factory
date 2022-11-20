@@ -12,15 +12,13 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler;
 
-use Interop\Container\Exception\ContainerException;
-use InvalidArgumentException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\RedisHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use Predis\Client;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -32,10 +30,6 @@ use function is_array;
 use function is_string;
 use function sprintf;
 
-/**
- * @phpstan-import-type Level from Logger
- * @phpstan-import-type LevelName from Logger
- */
 final class RedisHandlerFactory implements FactoryInterface
 {
     use AddFormatterTrait;
@@ -44,11 +38,11 @@ final class RedisHandlerFactory implements FactoryInterface
     /**
      * @param string                                             $requestedName
      * @param array<string, (string|int|bool|Client|Redis)>|null $options
-     * @phpstan-param array{client?: (bool|string|Client|Redis), key?: string, level?: (Level|LevelName|LogLevel::*), bubble?: bool, capSize?: int}|null $options
+     * @phpstan-param array{client?: (bool|string|Client|Redis), key?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, capSize?: int}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerException         if any other error occurs
+     * @throws ContainerExceptionInterface if any other error occurs
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
@@ -106,21 +100,13 @@ final class RedisHandlerFactory implements FactoryInterface
             $capSize = $options['capSize'];
         }
 
-        try {
-            $handler = new RedisHandler(
-                $client,
-                $key,
-                $level,
-                $bubble,
-                $capSize,
-            );
-        } catch (InvalidArgumentException $e) {
-            throw new ServiceNotFoundException(
-                sprintf('Could not load class %s', RedisHandler::class),
-                0,
-                $e,
-            );
-        }
+        $handler = new RedisHandler(
+            $client,
+            $key,
+            $level,
+            $bubble,
+            $capSize,
+        );
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

@@ -15,15 +15,15 @@ jobs:
 
     uses: "mimmi20/template/.github/workflows/ci.yml@master"
     with:
-      extensions: "openssl, mongodb, amqp, sockets, curl, intl"
+      extensions: "openssl, amqp, sockets, curl, intl"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
       composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
       composer-outdated-option: ""
     secrets:
       envPAT: "${{ secrets.GITHUB_TOKEN }}"
 
-  tests:
-    name: "UnitTests with PHPUnit"
+  tests-monolog-without-extensions:
+    name: "UnitTests with PHPUnit for monolog/monolog 3 without extensions"
 
     needs: "ci"
 
@@ -37,13 +37,17 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          # - "ubuntu-22.04"
+          - "ubuntu-22.04"
 
         php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
           - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
 
     steps:
       - name: "Checkout"
@@ -54,14 +58,31 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, intl"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, :openssl, :mongodb, :amqp, :sockets, :curl, intl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
@@ -72,12 +93,10 @@ jobs:
       - name: "Run unit tests with phpunit/phpunit"
         run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
 
-  code-coverage-with-all-extensions:
-    name: "Code Coverage with PHPUnit with all Extensions"
+  tests-monolog-with-mongodb:
+    name: "UnitTests with PHPUnit for monolog/monolog 3 with mongodb"
 
-    needs:
-      - "ci"
-      - "tests"
+    needs: "ci"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -89,13 +108,16 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          # - "ubuntu-22.04"
 
         php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
           - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
 
     steps:
       - name: "Checkout"
@@ -106,14 +128,322 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
+      - name: "Run MongoDB"
+        uses: "supercharge/mongodb-github-action@1.7.0"
+        with:
+          mongodb-version: "5.0"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, :openssl, mongodb, :amqp, :sockets, :curl, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
+          coverage: "none"
+          tools: "composer:v2"
+
+      - name: "Add require for mongodb/mongodb to make tests runnable"
+        run: "composer require mongodb/mongodb --dev --no-update"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
+
+      - name: "Update dependencies with composer"
+        uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+
+      - name: "Run unit tests with phpunit/phpunit"
+        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
+
+  tests-monolog-with-curl:
+    name: "UnitTests with PHPUnit for monolog/monolog 3 with curl"
+
+    needs: "ci"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-20.04"
+          - "ubuntu-22.04"
+
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
+
+        dependencies:
+          - "highest"
+          - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.22.0"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, :openssl, :mongodb, :amqp, :sockets, curl, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
+          coverage: "none"
+          tools: "composer:v2"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
+
+      - name: "Update dependencies with composer"
+        uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+
+      - name: "Run unit tests with phpunit/phpunit"
+        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
+
+  tests-monolog-with-sockets:
+    name: "UnitTests with PHPUnit for monolog/monolog 3 with sockets"
+
+    needs: "ci"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-20.04"
+          - "ubuntu-22.04"
+
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
+
+        dependencies:
+          - "highest"
+          - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.22.0"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, :openssl, :mongodb, :amqp, sockets, :curl, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
+          coverage: "none"
+          tools: "composer:v2"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
+
+      - name: "Update dependencies with composer"
+        uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+
+      - name: "Run unit tests with phpunit/phpunit"
+        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
+
+  tests-monolog-with-amqp:
+    name: "UnitTests with PHPUnit for monolog/monolog 3 with amqp"
+
+    needs: "ci"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-20.04"
+          - "ubuntu-22.04"
+
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
+
+        dependencies:
+          - "highest"
+          - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.22.0"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, :openssl, :mongodb, amqp, :sockets, :curl, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
+          coverage: "none"
+          tools: "composer:v2"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
+
+      - name: "Update dependencies with composer"
+        uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+
+      - name: "Run unit tests with phpunit/phpunit"
+        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
+
+  code-coverage-without-extensions:
+    name: "Code Coverage with PHPUnit without extensions"
+
+    needs:
+      - "ci"
+      - "tests-monolog-without-extensions"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-20.04"
+          - "ubuntu-22.04"
+
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
+
+        dependencies:
+          - "highest"
+          - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.22.0"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, :sockets, :curl, ctype, intl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "xdebug"
           tools: "composer:v2, infection"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
@@ -131,18 +461,18 @@ jobs:
         uses: "codecov/codecov-action@v3.1.1"
         with:
           file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-all-extensions"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},without-extensions"
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
+        run: "infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
-  code-coverage-with-all-extensions-for-elaticsearch8:
+  code-coverage-without-extensions-for-elaticsearch-8:
     name: "Code Coverage with PHPUnit for Elasticsearch 8"
 
     needs:
       - "ci"
-      - "tests"
+      - "tests-monolog-without-extensions"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -154,13 +484,17 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          # - "ubuntu-22.04"
+          - "ubuntu-22.04"
 
         php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
           - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
 
     steps:
       - name: "Checkout"
@@ -171,17 +505,31 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, :sockets, :curl, ctype, intl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
-          tools: "composer:v2, infection:0.26.6"
+          tools: "composer:v2, infection"
 
-      - name: "remove ruflin/elastica"
-        run: "composer remove --no-update --dev ruflin/elastica"
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier ruflin/elastica"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Require elasticsearch/elasticsearch:v8"
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:8\""
@@ -206,14 +554,14 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
+        run: "infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
-  code-coverage-with-all-extensions-for-php-amqplib:
-    name: "Code Coverage with PHPUnit for php-amqplib/php-amqplib"
+  code-coverage-with-curl-for-elaticsearch-8:
+    name: "Code Coverage with PHPUnit for Elasticsearch 8 with curl"
 
     needs:
       - "ci"
-      - "tests"
+      - "tests-monolog-without-extensions"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -225,13 +573,17 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          # - "ubuntu-22.04"
+          - "ubuntu-22.04"
 
         php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
           - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
 
     steps:
       - name: "Checkout"
@@ -242,14 +594,120 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, amqp, sockets, curl, ctype, intl"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, :sockets, curl, ctype, intl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
-          tools: "composer:v2, infection:0.26.6"
+          tools: "composer:v2, infection"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev ruflin/elastica"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
+
+      - name: "Require elasticsearch/elasticsearch:v8"
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:8\""
+
+      - name: "Update dependencies with composer"
+        uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+
+      - name: "Create cache directory for phpunit/phpunit"
+        run: "mkdir -p .build/coverage"
+
+      - name: "Collect code coverage with Xdebug and phpunit/phpunit"
+        run: "vendor/bin/phpunit -c phpunit.xml --verbose --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+
+      - name: "Upload coverage to Codecov"
+        uses: "codecov/codecov-action@v3.1.1"
+        with:
+          file: ".build/coverage/clover.xml"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},elasticsearch-8,with-curl"
+          verbose: false
+
+      - name: "Run mutation tests with infection/infection"
+        run: "infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
+
+  code-coverage-without-extensions-for-php-amqplib:
+    name: "Code Coverage with PHPUnit for php-amqplib/php-amqplib"
+
+    needs:
+      - "ci"
+      - "tests-monolog-without-extensions"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-20.04"
+          - "ubuntu-22.04"
+
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
+
+        dependencies:
+          - "highest"
+          - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.22.0"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, sockets, :curl, ctype, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
+          coverage: "xdebug"
+          tools: "composer:v2, infection"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Require php-amqplib/php-amqplib:^3.3.1"
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"php-amqplib/php-amqplib:^3.3.1\""
@@ -270,18 +728,18 @@ jobs:
         uses: "codecov/codecov-action@v3.1.1"
         with:
           file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},php-amqplib"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},php-amqplib,with-sockets"
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
+        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
-  code-coverage-with-all-extensions-for-swiftmailer:
+  code-coverage-without-extensions-for-swiftmailer:
     name: "Code Coverage with PHPUnit for swiftmailer"
 
     needs:
       - "ci"
-      - "tests"
+      - "tests-monolog-without-extensions"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -293,13 +751,17 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          # - "ubuntu-22.04"
+          - "ubuntu-22.04"
 
         php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
           - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
 
     steps:
       - name: "Checkout"
@@ -310,14 +772,31 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, :sockets, :curl, ctype, intl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
-          tools: "composer:v2, infection:0.26.6"
+          tools: "composer:v2, infection"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Require swiftmailer/swiftmailer:6.3.0"
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"swiftmailer/swiftmailer:6.3.0\""
@@ -342,14 +821,103 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
+        run: "infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
-  code-coverage-with-all-extensions-for-cmdisp-monolog-microsoft-teams:
-    name: "Code Coverage with PHPUnit for cmdisp/monolog-microsoft-teams"
+#  code-coverage-without-extensions-for-cmdisp-monolog-microsoft-teams:
+#    name: "Code Coverage with PHPUnit for cmdisp/monolog-microsoft-teams"
+#
+#    needs:
+#      - "ci"
+#      - "tests-monolog-without-extensions"
+#
+#    runs-on: "${{ matrix.operating-system }}"
+#
+#    continue-on-error: false
+#
+#    strategy:
+#      fail-fast: false
+#
+#      matrix:
+#        operating-system:
+#          - "ubuntu-20.04"
+#          - "ubuntu-22.04"
+#
+#        php-version: ${{ fromJson(needs.ci.outputs.version) }}
+#
+#        dependencies:
+#          - "highest"
+#          - "lowest"
+#
+#        psr-log-version:
+#          - "2"
+#          - "3"
+#
+#    steps:
+#      - name: "Checkout"
+#        uses: "actions/checkout@v3"
+#        with:
+#          # Disabling shallow clone is recommended for improving relevancy of reporting
+#          fetch-depth: 0
+#          lfs: false
+#          persist-credentials: false
+#
+#      - name: "Run CouchDB"
+#        timeout-minutes: 3
+#        continue-on-error: true
+#        uses: "cobot/couchdb-action@master"
+#        with:
+#          couchdb version: "2.3.1"
+#
+#      - name: "Install PHP"
+#        uses: "shivammathur/setup-php@2.22.0"
+#        with:
+#          php-version: "${{ matrix.php-version }}"
+#          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, :sockets, :curl, ctype, intl"
+#          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
+#          coverage: "xdebug"
+#          tools: "composer:v2, infection"
+#
+#      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+#        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+#
+#      - name: "Remove dependencies with composer"
+#        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+#
+#      - name: "Remove dependencies with composer"
+#        if: "matrix.psr-log-version >= '3'"
+#        run: "composer remove --no-update --dev graylog2/gelf-php"
+#
+#      - name: "Require cmdisp/monolog-microsoft-teams:^1.2.0"
+#        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"cmdisp/monolog-microsoft-teams:^1.2.0\""
+#
+#      - name: "Update dependencies with composer"
+#        uses: "ramsey/composer-install@v1"
+#        with:
+#          dependency-versions: "${{ matrix.dependencies }}"
+#          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+#
+#      - name: "Create cache directory for phpunit/phpunit"
+#        run: "mkdir -p .build/coverage"
+#
+#      - name: "Collect code coverage with Xdebug and phpunit/phpunit"
+#        run: "vendor/bin/phpunit -c phpunit.xml --verbose --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+#
+#      - name: "Upload coverage to Codecov"
+#        uses: "codecov/codecov-action@v3.1.1"
+#        with:
+#          file: ".build/coverage/clover.xml"
+#          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},cmdisp-monolog-microsoft-teams"
+#          verbose: false
+#
+#      - name: "Run mutation tests with infection/infection"
+#        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
+
+  code-coverage-with-sockets:
+    name: "Code Coverage with PHPUnit with sockets"
 
     needs:
       - "ci"
-      - "tests"
+      - "tests-monolog-with-sockets"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -361,13 +929,17 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          # - "ubuntu-22.04"
+          - "ubuntu-22.04"
 
         php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
           - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
 
     steps:
       - name: "Checkout"
@@ -378,153 +950,31 @@ jobs:
           lfs: false
           persist-credentials: false
 
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
         with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
-          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
-          coverage: "xdebug"
-          tools: "composer:v2, infection:0.26.6"
-
-      - name: "Require cmdisp/monolog-microsoft-teams:^1.2.0"
-        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"cmdisp/monolog-microsoft-teams:^1.2.0\""
-
-      - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
-
-      - name: "Create cache directory for phpunit/phpunit"
-        run: "mkdir -p .build/coverage"
-
-      - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --verbose --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
-
-      - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v3.1.1"
-        with:
-          file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},cmdisp-monolog-microsoft-teams"
-          verbose: false
-
-      - name: "Run mutation tests with infection/infection"
-        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
-
-  code-coverage-without-sockets:
-    name: "Code Coverage with PHPUnit without sockets"
-
-    needs:
-      - "ci"
-      - "tests"
-
-    runs-on: "${{ matrix.operating-system }}"
-
-    continue-on-error: false
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        operating-system:
-          - "ubuntu-20.04"
-          # - "ubuntu-22.04"
-
-        php-version: ${{ fromJson(needs.ci.outputs.version) }}
-
-        dependencies:
-          - "highest"
-          - "lowest"
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-          lfs: false
-          persist-credentials: false
+          couchdb version: "2.3.1"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, :sockets, curl, ctype, intl"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, sockets, :curl, ctype, intl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
-          tools: "composer:v2, infection:0.26.6"
+          tools: "composer:v2, infection"
 
-      - name: "Update dependencies with composer"
-        run: "composer remove --no-update --dev php-amqplib/php-amqplib"
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
 
-      - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier php-amqplib/php-amqplib"
 
-      - name: "Create cache directory for phpunit/phpunit"
-        run: "mkdir -p .build/coverage"
-
-      - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --verbose --debug --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
-
-      - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v3.1.1"
-        with:
-          file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},without-sockets"
-          verbose: false
-
-      - name: "Run mutation tests with infection/infection"
-        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
-
-  code-coverage-without-curl:
-    name: "Code Coverage with PHPUnit without curl"
-
-    needs:
-      - "ci"
-      - "tests"
-
-    runs-on: "${{ matrix.operating-system }}"
-
-    continue-on-error: false
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        operating-system:
-          - "ubuntu-20.04"
-          # - "ubuntu-22.04"
-
-        php-version: ${{ fromJson(needs.ci.outputs.version) }}
-
-        dependencies:
-          - "highest"
-          - "lowest"
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-          lfs: false
-          persist-credentials: false
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, :curl, ctype, intl"
-          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
-          coverage: "xdebug"
-          tools: "composer:v2, infection:0.26.6"
-
-      - name: "Update dependencies with composer"
-        run: "composer remove --no-update --dev cmdisp/monolog-microsoft-teams rollbar/rollbar actived/microsoft-teams-notifier"
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
@@ -542,18 +992,18 @@ jobs:
         uses: "codecov/codecov-action@v3.1.1"
         with:
           file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},without-curl"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-sockets"
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
+        run: "infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
-  code-coverage-without-mongodb:
-    name: "Code Coverage with PHPUnit without mongodb"
+  code-coverage-with-curl:
+    name: "Code Coverage with PHPUnit with curl"
 
     needs:
       - "ci"
-      - "tests"
+      - "tests-monolog-with-curl"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -565,13 +1015,17 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          # - "ubuntu-22.04"
+          - "ubuntu-22.04"
 
         php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
           - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
 
     steps:
       - name: "Checkout"
@@ -582,14 +1036,113 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, sockets, curl, ctype, intl"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, :sockets, curl, ctype, intl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
-          tools: "composer:v2, infection:0.26.6"
+          tools: "composer:v2, infection"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
+
+      - name: "Update dependencies with composer"
+        uses: "ramsey/composer-install@v1"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+
+      - name: "Create cache directory for phpunit/phpunit"
+        run: "mkdir -p .build/coverage"
+
+      - name: "Collect code coverage with Xdebug and phpunit/phpunit"
+        run: "vendor/bin/phpunit -c phpunit.xml --verbose --debug --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+
+      - name: "Upload coverage to Codecov"
+        uses: "codecov/codecov-action@v3.1.1"
+        with:
+          file: ".build/coverage/clover.xml"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-curl"
+          verbose: false
+
+      - name: "Run mutation tests with infection/infection"
+        run: "infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
+
+  code-coverage-with-mongodb:
+    name: "Code Coverage with PHPUnit with mongodb"
+
+    needs:
+      - "ci"
+      - "tests-monolog-with-mongodb"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-20.04"
+
+        php-version: ${{ fromJson(needs.ci.outputs.version) }}
+
+        dependencies:
+          - "highest"
+          - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.22.0"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, :sockets, :curl, ctype, intl"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
+          coverage: "xdebug"
+          tools: "composer:v2, infection"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
@@ -607,18 +1160,18 @@ jobs:
         uses: "codecov/codecov-action@v3.1.1"
         with:
           file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},without-mongodb"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-mongodb"
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github"
+        run: "infection --show-mutations --min-covered-msi=90 --min-msi=90 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
-  code-coverage-without-amqp:
-    name: "Code Coverage with PHPUnit without amqp"
+  code-coverage-with-amqp:
+    name: "Code Coverage with PHPUnit with amqp"
 
     needs:
       - "ci"
-      - "tests"
+      - "tests-monolog-with-amqp"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -630,13 +1183,17 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          # - "ubuntu-22.04"
+          - "ubuntu-22.04"
 
         php-version: ${{ fromJson(needs.ci.outputs.version) }}
 
         dependencies:
           - "highest"
           - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
 
     steps:
       - name: "Checkout"
@@ -647,14 +1204,31 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.22.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, sockets, curl, ctype, intl"
+          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, amqp, :sockets, :curl, ctype, intl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
-          tools: "composer:v2, infection:0.26.6"
+          tools: "composer:v2, infection"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@v1"
@@ -672,8 +1246,8 @@ jobs:
         uses: "codecov/codecov-action@v3.1.1"
         with:
           file: ".build/coverage/clover.xml"
-          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},without-amqp"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-amqp"
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        run: "infection --show-mutations --min-covered-msi=90 --min-msi=90 --coverage=.build/coverage --only-covered --logger-github"
+        run: "infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"

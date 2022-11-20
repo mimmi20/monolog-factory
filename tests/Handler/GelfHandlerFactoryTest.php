@@ -35,7 +35,7 @@ use ReflectionException;
 use ReflectionProperty;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
-use function class_exists;
+use function interface_exists;
 use function sprintf;
 
 final class GelfHandlerFactoryTest extends TestCase

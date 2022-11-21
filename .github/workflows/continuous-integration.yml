@@ -85,7 +85,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -163,7 +163,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -231,7 +231,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -302,7 +302,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -373,7 +373,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -446,7 +446,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -535,7 +535,7 @@ jobs:
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:8\""
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -624,7 +624,7 @@ jobs:
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:8\""
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -713,7 +713,7 @@ jobs:
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"php-amqplib/php-amqplib:^3.3.1\""
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -802,7 +802,7 @@ jobs:
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"swiftmailer/swiftmailer:6.3.0\""
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -891,7 +891,7 @@ jobs:
 #        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"cmdisp/monolog-microsoft-teams:^1.2.0\""
 #
 #      - name: "Update dependencies with composer"
-#        uses: "ramsey/composer-install@v1"
+#        uses: "ramsey/composer-install@v2"
 #        with:
 #          dependency-versions: "${{ matrix.dependencies }}"
 #          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -977,7 +977,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -1060,7 +1060,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -1145,7 +1145,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -1231,7 +1231,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v2"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"

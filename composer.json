@@ -51,7 +51,7 @@
     "phpunit/phpunit": "^9.5.26",
     "predis/predis": "^1.1.10 || ^2.0.3",
     "ruflin/elastica": "^7.2.0",
-    "symfony/mailer": "^v6.1.7",
+    "symfony/mailer": "^v6.1.8",
     "symfony/mime": "^v6.1.7"
   },
   "suggest": {

@@ -52,7 +52,7 @@
     "predis/predis": "^1.1.10 || ^2.0.3",
     "ruflin/elastica": "^7.3.0",
     "symfony/mailer": "^v6.2.0",
-    "symfony/mime": "^v6.1.8"
+    "symfony/mime": "^v6.2.0"
   },
   "suggest": {
     "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",

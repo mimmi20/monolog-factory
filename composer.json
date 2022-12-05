@@ -38,7 +38,7 @@
     "laminas/laminas-dependency-plugin": "^2.2.0",
     "laminas/laminas-eventmanager": "^3.6.0",
     "laminas/laminas-modulemanager": "^2.14.0",
-    "laminas/laminas-servicemanager": "^3.19.0",
+    "laminas/laminas-servicemanager": "^3.20.0",
     "mikey179/vfsstream": "^1.6.11",
     "mimmi20/monolog-callbackfilterhandler": "^3.0.0",
     "mimmi20/coding-standard": "^3.0.20",

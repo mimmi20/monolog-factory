@@ -30,7 +30,7 @@
     "aws/aws-sdk-php": "^3.253.1",
     "doctrine/couchdb": "1.0.0-beta4",
     "elasticsearch/elasticsearch": "^v7.17.0 || ^v8.5.1",
-    "graylog2/gelf-php": "^1.7.1",
+    "graylog2/gelf-php": "^2.0.0",
     "guzzlehttp/guzzle": "^7.5.0",
     "guzzlehttp/psr7": "^2.4.3",
     "jk/monolog-request-header-processor": "^1.0.0",

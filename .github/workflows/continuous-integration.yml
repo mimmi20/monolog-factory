@@ -66,7 +66,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+        uses: "shivammathur/setup-php@2.23.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, :openssl, :mongodb, :amqp, :sockets, :curl, intl"
@@ -141,7 +141,7 @@ jobs:
           mongodb-version: "5.0"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+        uses: "shivammathur/setup-php@2.23.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, :openssl, mongodb, :amqp, :sockets, :curl, intl"
@@ -215,7 +215,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+        uses: "shivammathur/setup-php@2.23.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, :openssl, :mongodb, :amqp, :sockets, curl, intl"
@@ -283,7 +283,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+        uses: "shivammathur/setup-php@2.23.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, :openssl, :mongodb, :amqp, sockets, :curl, intl"
@@ -354,7 +354,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+        uses: "shivammathur/setup-php@2.23.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, :openssl, :mongodb, amqp, :sockets, :curl, intl"
@@ -427,7 +427,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+        uses: "shivammathur/setup-php@2.23.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, :sockets, :curl, ctype, intl"
@@ -513,7 +513,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+        uses: "shivammathur/setup-php@2.23.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, :sockets, :curl, ctype, intl"
@@ -602,7 +602,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+        uses: "shivammathur/setup-php@2.23.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, :sockets, curl, ctype, intl"
@@ -691,7 +691,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+        uses: "shivammathur/setup-php@2.23.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, sockets, :curl, ctype, intl"
@@ -780,7 +780,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+        uses: "shivammathur/setup-php@2.23.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, :sockets, :curl, ctype, intl"
@@ -869,7 +869,7 @@ jobs:
 #          couchdb version: "2.3.1"
 #
 #      - name: "Install PHP"
-#        uses: "shivammathur/setup-php@2.22.0"
+#        uses: "shivammathur/setup-php@2.23.0"
 #        with:
 #          php-version: "${{ matrix.php-version }}"
 #          extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, :sockets, :curl, ctype, intl"
@@ -958,7 +958,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+        uses: "shivammathur/setup-php@2.23.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, sockets, :curl, ctype, intl"
@@ -1044,7 +1044,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+        uses: "shivammathur/setup-php@2.23.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, :amqp, :sockets, curl, ctype, intl"
@@ -1126,7 +1126,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+        uses: "shivammathur/setup-php@2.23.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, mongodb, :amqp, :sockets, :curl, ctype, intl"
@@ -1212,7 +1212,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.22.0"
+        uses: "shivammathur/setup-php@2.23.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ${{ join(fromJson(needs.ci.outputs.extensions), ', ') }}, openssl, :mongodb, amqp, :sockets, :curl, ctype, intl"

@@ -44,12 +44,11 @@ final class ModuleTest extends TestCase
         $config = $module->getConfig();
 
         self::assertIsArray($config);
-        self::assertCount(6, $config);
+        self::assertCount(5, $config);
         self::assertArrayHasKey('service_manager', $config);
         self::assertArrayHasKey('monolog_handlers', $config);
         self::assertArrayHasKey('monolog_processors', $config);
         self::assertArrayHasKey('monolog_formatters', $config);
-        self::assertArrayHasKey('monolog', $config);
         self::assertArrayHasKey('monolog_service_clients', $config);
     }
 

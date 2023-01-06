@@ -195,7 +195,7 @@ final class ConfigProvider
      * Return general-purpose laminas-navigation configuration.
      *
      * @return array<string, array<string, array<int|string, string>>>
-     * @phpstan-return array{dependencies: array{factories: array<class-string, class-string>, abstract_factories: array<int, class-string>, aliases: array<string|class-string, class-string>}, monolog_handlers: array{aliases: array<string|class-string, class-string>, factories: array<string|class-string, class-string>}, monolog_processors: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog_formatters: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog_service_clients:array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}}
+     * @phpstan-return array{dependencies: array{abstract_factories: array<int, class-string>, factories: array<class-string, class-string>}, monolog_handlers: array{aliases: array<string|class-string, class-string>, factories: array<string|class-string, class-string>}, monolog_processors: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog_formatters: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog_service_clients:array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}}
      */
     public function __invoke(): array
     {
@@ -204,6 +204,7 @@ final class ConfigProvider
             'monolog_handlers' => $this->getMonologHandlerConfig(),
             'monolog_processors' => $this->getMonologProcessorConfig(),
             'monolog_formatters' => $this->getMonologFormatterConfig(),
+            'monolog' => $this->getMonologConfig(),
             'monolog_service_clients' => $this->getMonologClientConfig(),
         ];
     }
@@ -212,24 +213,20 @@ final class ConfigProvider
      * Return application-level dependency configuration.
      *
      * @return array<string, array<int|string, string>>
-     * @phpstan-return array{factories: array<class-string, class-string>, abstract_factories: array<int, class-string>, aliases: array<string|class-string, class-string>}
+     * @phpstan-return array{abstract_factories: array<int, class-string>, factories: array<class-string, class-string>}
      */
     public function getDependencyConfig(): array
     {
         return [
+            'abstract_factories' => [
+                LoggerAbstractFactory::class,
+            ],
             'factories' => [
                 ActivationStrategyPluginManager::class => ActivationStrategyPluginManagerFactory::class,
                 MonologPluginManager::class => MonologPluginManagerFactory::class,
                 MonologHandlerPluginManager::class => MonologHandlerPluginManagerFactory::class,
                 MonologProcessorPluginManager::class => MonologProcessorPluginManagerFactory::class,
                 MonologFormatterPluginManager::class => MonologFormatterPluginManagerFactory::class,
-                Logger::class => MonologFactory::class,
-            ],
-            'abstract_factories' => [
-                LoggerAbstractFactory::class,
-            ],
-            'aliases' => [
-                LoggerInterface::class => Logger::class,
             ],
         ];
     }
@@ -458,6 +455,22 @@ final class ConfigProvider
             'factories' => [
                 V7Client::class => ElasticsearchV7Factory::class,
                 V8Client::class => ElasticsearchV8Factory::class,
+            ],
+        ];
+    }
+
+    /**
+     * @return array<string, array<string, string>>
+     * @phpstan-return array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}
+     */
+    public function getMonologConfig(): array
+    {
+        return [
+            'aliases' => [
+                LoggerInterface::class => Logger::class,
+            ],
+            'factories' => [
+                Logger::class => MonologFactory::class,
             ],
         ];
     }

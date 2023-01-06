@@ -21,8 +21,10 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Mimmi20\MonologFactory\MonologHandlerPluginManager;
 use Mimmi20\MonologFactory\MonologPluginManager;
 use Mimmi20\MonologFactory\MonologProcessorPluginManager;
+use Monolog\Logger;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class ConfigProviderTest extends TestCase
@@ -149,6 +151,36 @@ final class ConfigProviderTest extends TestCase
         $factories = $monologFormatterConfig['factories'];
         self::assertIsArray($factories);
         self::assertCount(17, $factories);
+    }
+
+    /**
+     * @throws Exception
+     * @throws InvalidArgumentException
+     */
+    public function testGetMonologConfig(): void
+    {
+        $monologConfig = $this->provider->getMonologConfig();
+        self::assertIsArray($monologConfig);
+        self::assertCount(2, $monologConfig);
+
+        self::assertArrayNotHasKey('abstract_factories', $monologConfig);
+        self::assertArrayNotHasKey('delegators', $monologConfig);
+        self::assertArrayNotHasKey('initializers', $monologConfig);
+        self::assertArrayNotHasKey('invokables', $monologConfig);
+        self::assertArrayNotHasKey('services', $monologConfig);
+        self::assertArrayNotHasKey('shared', $monologConfig);
+
+        self::assertArrayHasKey('factories', $monologConfig);
+        $factories = $monologConfig['factories'];
+        self::assertIsArray($factories);
+        self::assertCount(1, $factories);
+        self::assertArrayHasKey(Logger::class, $factories);
+
+        self::assertArrayHasKey('aliases', $monologConfig);
+        $aliases = $monologConfig['aliases'];
+        self::assertIsArray($aliases);
+        self::assertCount(1, $aliases);
+        self::assertArrayHasKey(LoggerInterface::class, $aliases);
     }
 
     /**

@@ -525,7 +525,7 @@ jobs:
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
 
       - name: "Remove dependencies with composer"
-        run: "composer remove --no-update --dev actived/microsoft-teams-notifier ruflin/elastica"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier ruflin/elastica ezimuel/ringphp"
 
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"
@@ -614,7 +614,7 @@ jobs:
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
 
       - name: "Remove dependencies with composer"
-        run: "composer remove --no-update --dev ruflin/elastica"
+        run: "composer remove --no-update --dev ruflin/elastica ezimuel/ringphp"
 
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"

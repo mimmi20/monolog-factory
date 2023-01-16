@@ -49,7 +49,7 @@
     "phpstan/phpstan": "^1.9.11",
     "phpstan/phpstan-deprecation-rules": "^1.1.1",
     "phpstan/phpstan-phpunit": "^1.3.3",
-    "phpunit/phpunit": "^9.5.27",
+    "phpunit/phpunit": "^9.5.28",
     "predis/predis": "^1.1.10 || ^2.0.3",
     "ruflin/elastica": "^7.3.0",
     "symfony/mailer": "^v6.2.2",

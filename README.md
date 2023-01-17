@@ -14,6 +14,7 @@ and [monolog-factory](https://github.com/nikolaposa/monolog-factory).
 [![codecov](https://codecov.io/gh/mimmi20/monolog-factory/branch/master/graph/badge.svg)](https://codecov.io/gh/mimmi20/monolog-factory)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/mimmi20/monolog-factory.svg)](http://isitmaintained.com/project/mimmi20/monolog-factory "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/mimmi20/monolog-factory.svg)](http://isitmaintained.com/project/mimmi20/monolog-factory "Percentage of issues still open")
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fmimmi20%2Fmonolog-factory%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/mimmi20/monolog-factory/master)
 
 ## Table of Contents
 

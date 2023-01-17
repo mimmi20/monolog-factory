@@ -465,8 +465,6 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   code-coverage-without-extensions-for-elaticsearch-8:
@@ -556,8 +554,6 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   code-coverage-with-curl-for-elaticsearch-8:
@@ -738,8 +734,6 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "vendor/bin/infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   code-coverage-without-extensions-for-swiftmailer:
@@ -829,8 +823,6 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
 #  code-coverage-without-extensions-for-cmdisp-monolog-microsoft-teams:
@@ -920,8 +912,6 @@ jobs:
 #          verbose: false
 #
 #      - name: "Run mutation tests with infection/infection"
-#        env:
-#          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 #        run: "vendor/bin/infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   code-coverage-with-sockets:
@@ -1008,8 +998,6 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   code-coverage-with-curl:
@@ -1180,8 +1168,6 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "vendor/bin/infection --show-mutations --min-covered-msi=90 --min-msi=90 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   code-coverage-with-amqp:
@@ -1268,6 +1254,4 @@ jobs:
           verbose: false
 
       - name: "Run mutation tests with infection/infection"
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"

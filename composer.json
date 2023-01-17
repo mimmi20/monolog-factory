@@ -34,6 +34,7 @@
     "graylog2/gelf-php": "^2.0.0",
     "guzzlehttp/guzzle": "^7.5.0",
     "guzzlehttp/psr7": "^2.4.3",
+    "infection/infection": "^0.26.16",
     "jk/monolog-request-header-processor": "^1.0.0",
     "laminas/laminas-config": "^3.8.0",
     "laminas/laminas-eventmanager": "^3.10.0",
@@ -96,7 +97,8 @@
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "laminas/laminas-dependency-plugin": true,
-      "phpstan/extension-installer": true
+      "phpstan/extension-installer": true,
+      "infection/extension-installer": true
     }
   },
   "extra": {

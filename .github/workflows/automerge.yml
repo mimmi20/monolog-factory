@@ -8,7 +8,7 @@ on:
   pull_request_target:
     types:
       - "labeled"
-  status: {}
+
 jobs:
   approve:
     uses: "mimmi20/template/.github/workflows/auto-approve.yml@master"

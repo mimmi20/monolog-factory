@@ -4,10 +4,7 @@ permissions:
   pull-requests: write
   contents: write
 
-on:
-  pull_request_target:
-    types:
-      - "labeled"
+on: pull_request_target
 
 jobs:
   approve:

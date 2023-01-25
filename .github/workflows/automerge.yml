@@ -8,9 +8,6 @@ on:
   pull_request_target:
     types:
       - "labeled"
-  check_suite:
-    types:
-      - "completed"
   status: {}
 jobs:
   approve:
@@ -29,3 +26,5 @@ jobs:
 
     secrets:
       envPAT: "${{ secrets.GITHUB_TOKEN }}"
+  test:
+    run: "echo 'env: ${{ github.env }} event: ${{ github.event_name }} repo: {{ github.repository }} workflow-ref: ${{ github.workflow }}-${{ github.ref }}'"

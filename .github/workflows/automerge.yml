@@ -4,14 +4,8 @@ permissions:
   pull-requests: write
   contents: write
 
-on:
-  pull_request_target:
-    types:
-      - "labeled"
-  check_suite:
-    types:
-      - "completed"
-  status: {}
+on: pull_request_target
+
 jobs:
   approve:
     uses: "mimmi20/template/.github/workflows/auto-approve.yml@master"
@@ -29,3 +23,5 @@ jobs:
 
     secrets:
       envPAT: "${{ secrets.GITHUB_TOKEN }}"
+  test:
+    run: "echo 'env: ${{ github.env }} event: ${{ github.event_name }} repo: {{ github.repository }} workflow-ref: ${{ github.workflow }}-${{ github.ref }}'"

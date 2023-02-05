@@ -75,10 +75,12 @@ jobs:
         uses: "shivammathur/setup-php@verbose"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter :openssl, :mongodb, :amqp, :sockets, :curl"
+          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter :openssl, :mongodb, :amqp, :sockets, :curl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
+        env:
+          fail-fast: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -152,10 +154,12 @@ jobs:
         uses: "shivammathur/setup-php@verbose"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, :openssl, mongodb, :amqp, :sockets, :curl"
+          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, :openssl, mongodb, :amqp, :sockets, :curl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
+        env:
+          fail-fast: true
 
       - name: "Add require for mongodb/mongodb to make tests runnable"
         run: "composer require mongodb/mongodb --dev --no-update"
@@ -228,10 +232,12 @@ jobs:
         uses: "shivammathur/setup-php@verbose"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, :openssl, :mongodb, :amqp, :sockets, curl"
+          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, :openssl, :mongodb, :amqp, :sockets, curl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
+        env:
+          fail-fast: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -298,10 +304,12 @@ jobs:
         uses: "shivammathur/setup-php@verbose"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, :openssl, :mongodb, :amqp, sockets, :curl"
+          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, :openssl, :mongodb, :amqp, sockets, :curl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
+        env:
+          fail-fast: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -371,10 +379,12 @@ jobs:
         uses: "shivammathur/setup-php@verbose"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, :openssl, :mongodb, amqp, :sockets, :curl"
+          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, :openssl, :mongodb, amqp, :sockets, :curl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
+        env:
+          fail-fast: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -444,10 +454,12 @@ jobs:
         uses: "shivammathur/setup-php@verbose"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
+          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "xdebug"
           tools: "composer:v2"
+        env:
+          fail-fast: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -530,10 +542,12 @@ jobs:
         uses: "shivammathur/setup-php@verbose"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
+          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
+        env:
+          fail-fast: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -619,10 +633,12 @@ jobs:
         uses: "shivammathur/setup-php@verbose"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, :sockets, curl, ctype"
+          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, curl, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
+        env:
+          fail-fast: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -710,10 +726,12 @@ jobs:
         uses: "shivammathur/setup-php@verbose"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, sockets, :curl, ctype"
+          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, sockets, :curl, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
+        env:
+          fail-fast: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -799,10 +817,12 @@ jobs:
         uses: "shivammathur/setup-php@verbose"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
+          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
+        env:
+          fail-fast: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -888,10 +908,12 @@ jobs:
 #        uses: "shivammathur/setup-php@verbose"
 #        with:
 #          php-version: "${{ matrix.php-version }}"
-#          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
+#          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
 #          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
 #          coverage: "xdebug"
 #          tools: "composer:v2"
+#        env:
+#          fail-fast: true
 #
 #      - name: "Require psr/log ${{ matrix.psr-log-version }}"
 #        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -977,10 +999,12 @@ jobs:
         uses: "shivammathur/setup-php@verbose"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, sockets, :curl, ctype"
+          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, sockets, :curl, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
+        env:
+          fail-fast: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -1063,10 +1087,12 @@ jobs:
         uses: "shivammathur/setup-php@verbose"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, :sockets, curl, ctype"
+          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, curl, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
+        env:
+          fail-fast: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -1147,10 +1173,12 @@ jobs:
         uses: "shivammathur/setup-php@verbose"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, openssl, mongodb, :amqp, :sockets, :curl, ctype"
+          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, mongodb, :amqp, :sockets, :curl, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
+        env:
+          fail-fast: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -1233,10 +1261,12 @@ jobs:
         uses: "shivammathur/setup-php@verbose"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, amqp, :sockets, :curl, ctype"
+          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, amqp, :sockets, :curl, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
+        env:
+          fail-fast: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"

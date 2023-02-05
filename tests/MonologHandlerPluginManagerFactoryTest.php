@@ -63,8 +63,12 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
             ->getMock();
         $container->expects(self::exactly(2))
             ->method('has')
-            ->withConsecutive(['ServiceListener'], ['config'])
-            ->willReturnOnConsecutiveCalls(false, false);
+            ->willReturnMap(
+                [
+                    ['ServiceListener', false],
+                    ['config', false],
+                ],
+            );
         $container->expects(self::never())
             ->method('get');
 
@@ -84,8 +88,12 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
             ->getMock();
         $container->expects(self::exactly(2))
             ->method('has')
-            ->withConsecutive(['ServiceListener'], ['config'])
-            ->willReturnOnConsecutiveCalls(false, true);
+            ->willReturnMap(
+                [
+                    ['ServiceListener', false],
+                    ['config', true],
+                ],
+            );
         $container->expects(self::once())
             ->method('get')
             ->with('config')
@@ -115,8 +123,12 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
             ->getMock();
         $container->expects(self::exactly(2))
             ->method('has')
-            ->withConsecutive(['ServiceListener'], ['config'])
-            ->willReturnOnConsecutiveCalls(false, true);
+            ->willReturnMap(
+                [
+                    ['ServiceListener', false],
+                    ['config', true],
+                ],
+            );
         $container->expects(self::once())
             ->method('get')
             ->with('config')
@@ -142,8 +154,12 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
             ->getMock();
         $container->expects(self::exactly(2))
             ->method('has')
-            ->withConsecutive(['ServiceListener'], ['config'])
-            ->willReturnOnConsecutiveCalls(false, true);
+            ->willReturnMap(
+                [
+                    ['ServiceListener', false],
+                    ['config', true],
+                ],
+            );
         $container->expects(self::once())
             ->method('get')
             ->with('config')
@@ -169,8 +185,12 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
             ->getMock();
         $container->expects(self::exactly(2))
             ->method('has')
-            ->withConsecutive(['ServiceListener'], ['config'])
-            ->willReturnOnConsecutiveCalls(false, true);
+            ->willReturnMap(
+                [
+                    ['ServiceListener', false],
+                    ['config', true],
+                ],
+            );
         $container->expects(self::once())
             ->method('get')
             ->with('config')

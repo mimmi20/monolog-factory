@@ -572,8 +572,12 @@ final class FlowdockHandlerFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
-            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+            ->willReturnMap(
+                [
+                    ['abc', [], $processor1],
+                    ['xyz', ['efg' => 'ijk'], $processor2],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()

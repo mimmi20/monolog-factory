@@ -337,8 +337,12 @@ final class MonologFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['xyz', ['abc' => 'def']], ['abc', []])
-            ->willReturn($handler);
+            ->willReturnMap(
+                [
+                    ['xyz', ['abc' => 'def'], $handler],
+                    ['abc', [], $handler],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -578,8 +582,12 @@ final class MonologFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
-            ->willReturn($processor);
+            ->willReturnMap(
+                [
+                    ['abc', [], $processor],
+                    ['xyz', ['efg' => 'ijk'], $processor],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -633,8 +641,12 @@ final class MonologFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
-            ->willReturn($processor);
+            ->willReturnMap(
+                [
+                    ['abc', [], $processor],
+                    ['xyz', ['efg' => 'ijk'], $processor],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()

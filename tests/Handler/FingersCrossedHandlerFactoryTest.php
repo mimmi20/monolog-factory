@@ -577,8 +577,12 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [ActivationStrategyPluginManager::class])
-            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, $activationStrategyPluginManager);
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [ActivationStrategyPluginManager::class, $activationStrategyPluginManager],
+                ],
+            );
 
         $factory = new FingersCrossedHandlerFactory();
 
@@ -674,8 +678,12 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [ActivationStrategyPluginManager::class])
-            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, $activationStrategyPluginManager);
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [ActivationStrategyPluginManager::class, $activationStrategyPluginManager],
+                ],
+            );
 
         $factory = new FingersCrossedHandlerFactory();
 
@@ -748,7 +756,6 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [ActivationStrategyPluginManager::class])
             ->willReturnCallback(
                 static function (string $with) use ($monologHandlerPluginManager) {
                     if (MonologHandlerPluginManager::class === $with) {
@@ -811,8 +818,12 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [ActivationStrategyPluginManager::class])
-            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, $activationStrategyPluginManager);
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [ActivationStrategyPluginManager::class, $activationStrategyPluginManager],
+                ],
+            );
 
         $factory = new FingersCrossedHandlerFactory();
 
@@ -876,8 +887,12 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [ActivationStrategyPluginManager::class])
-            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, $activationStrategyPluginManager);
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [ActivationStrategyPluginManager::class, $activationStrategyPluginManager],
+                ],
+            );
 
         $factory = new FingersCrossedHandlerFactory();
 
@@ -961,8 +976,12 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [ActivationStrategyPluginManager::class])
-            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, $activationStrategyPluginManager);
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [ActivationStrategyPluginManager::class, $activationStrategyPluginManager],
+                ],
+            );
 
         $factory = new FingersCrossedHandlerFactory();
 
@@ -1011,8 +1030,12 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [ActivationStrategyPluginManager::class])
-            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, $activationStrategyPluginManager);
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [ActivationStrategyPluginManager::class, $activationStrategyPluginManager],
+                ],
+            );
 
         $factory = new FingersCrossedHandlerFactory();
 
@@ -1064,8 +1087,12 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [ActivationStrategyPluginManager::class])
-            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, $activationStrategyPluginManager);
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [ActivationStrategyPluginManager::class, $activationStrategyPluginManager],
+                ],
+            );
 
         $factory = new FingersCrossedHandlerFactory();
 
@@ -1122,8 +1149,12 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [ActivationStrategyPluginManager::class])
-            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, $activationStrategyPluginManager);
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [ActivationStrategyPluginManager::class, $activationStrategyPluginManager],
+                ],
+            );
 
         $factory = new FingersCrossedHandlerFactory();
 
@@ -1231,7 +1262,6 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(3))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [ActivationStrategyPluginManager::class], [MonologFormatterPluginManager::class])
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager, $activationStrategyPluginManager) {
                     if (MonologHandlerPluginManager::class === $var) {
@@ -1319,8 +1349,13 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(3))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [ActivationStrategyPluginManager::class], [MonologFormatterPluginManager::class])
-            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, $activationStrategyPluginManager, $monologFormatterPluginManager);
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [ActivationStrategyPluginManager::class, $activationStrategyPluginManager],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
+            );
 
         $factory = new FingersCrossedHandlerFactory();
 
@@ -1405,7 +1440,6 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [MonologFormatterPluginManager::class])
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager) {
                     if (MonologHandlerPluginManager::class === $var) {
@@ -1489,8 +1523,13 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(3))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [MonologFormatterPluginManager::class], [ActivationStrategyPluginManager::class])
-            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, $monologFormatterPluginManager, $activationStrategyPluginManager);
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [ActivationStrategyPluginManager::class, $activationStrategyPluginManager],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
+            );
 
         $factory = new FingersCrossedHandlerFactory();
 
@@ -1567,8 +1606,12 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [MonologFormatterPluginManager::class])
-            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, null);
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [MonologFormatterPluginManager::class, null],
+                ],
+            );
 
         $factory = new FingersCrossedHandlerFactory();
 
@@ -1802,8 +1845,12 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
-            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+            ->willReturnMap(
+                [
+                    ['abc', [], $processor1],
+                    ['xyz', ['efg' => 'ijk'], $processor2],
+                ],
+            );
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
             ->disableOriginalConstructor()
@@ -2076,8 +2123,12 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
-            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+            ->willReturnMap(
+                [
+                    ['abc', [], $processor1],
+                    ['xyz', ['efg' => 'ijk'], $processor2],
+                ],
+            );
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
             ->disableOriginalConstructor()

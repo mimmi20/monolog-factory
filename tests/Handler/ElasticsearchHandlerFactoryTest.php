@@ -328,7 +328,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$client], [MonologFormatterPluginManager::class])
             ->willReturnCallback(
                 static function (string $var) use ($client, $clientClass): V7Client {
                     if ($var === $client) {
@@ -386,8 +385,12 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$client], [MonologFormatterPluginManager::class])
-            ->willReturnOnConsecutiveCalls($clientClass, $monologFormatterPluginManager);
+            ->willReturnMap(
+                [
+                    [$client, $clientClass],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
+            );
 
         $factory = new ElasticsearchHandlerFactory();
 
@@ -459,8 +462,12 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$client], [MonologFormatterPluginManager::class])
-            ->willReturnOnConsecutiveCalls($clientClass, $monologFormatterPluginManager);
+            ->willReturnMap(
+                [
+                    [$client, $clientClass],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
+            );
 
         $factory = new ElasticsearchHandlerFactory();
 
@@ -532,8 +539,12 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$client], [MonologFormatterPluginManager::class])
-            ->willReturnOnConsecutiveCalls($clientClass, $monologFormatterPluginManager);
+            ->willReturnMap(
+                [
+                    [$client, $clientClass],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
+            );
 
         $factory = new ElasticsearchHandlerFactory();
 
@@ -605,8 +616,12 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$client], [MonologFormatterPluginManager::class])
-            ->willReturnOnConsecutiveCalls($clientClass, $monologFormatterPluginManager);
+            ->willReturnMap(
+                [
+                    [$client, $clientClass],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
+            );
 
         $factory = new ElasticsearchHandlerFactory();
 
@@ -678,8 +693,12 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$client], [MonologFormatterPluginManager::class])
-            ->willReturnOnConsecutiveCalls($clientClass, $monologFormatterPluginManager);
+            ->willReturnMap(
+                [
+                    [$client, $clientClass],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
+            );
 
         $factory = new ElasticsearchHandlerFactory();
 
@@ -855,8 +874,12 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
-            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+            ->willReturnMap(
+                [
+                    ['abc', [], $processor1],
+                    ['xyz', ['efg' => 'ijk'], $processor2],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -1416,7 +1439,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$client], [MonologFormatterPluginManager::class])
             ->willReturnCallback(
                 static function (string $var) use ($client, $clientClass): V8Client {
                     if ($var === $client) {
@@ -1473,8 +1495,12 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$client], [MonologFormatterPluginManager::class])
-            ->willReturnOnConsecutiveCalls($clientClass, $monologFormatterPluginManager);
+            ->willReturnMap(
+                [
+                    [$client, $clientClass],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
+            );
 
         $factory = new ElasticsearchHandlerFactory();
 
@@ -1532,8 +1558,12 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$client], [MonologFormatterPluginManager::class])
-            ->willReturnOnConsecutiveCalls($clientClass, null);
+            ->willReturnMap(
+                [
+                    [$client, $clientClass],
+                    [MonologFormatterPluginManager::class, null],
+                ],
+            );
 
         $factory = new ElasticsearchHandlerFactory();
 
@@ -1684,8 +1714,12 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
-            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+            ->willReturnMap(
+                [
+                    ['abc', [], $processor1],
+                    ['xyz', ['efg' => 'ijk'], $processor2],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()

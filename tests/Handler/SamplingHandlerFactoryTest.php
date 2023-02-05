@@ -518,7 +518,6 @@ final class SamplingHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [MonologFormatterPluginManager::class])
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager): AbstractPluginManager {
                     if (MonologHandlerPluginManager::class === $var) {
@@ -587,8 +586,12 @@ final class SamplingHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [MonologFormatterPluginManager::class])
-            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, $monologFormatterPluginManager);
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
+            );
 
         $factory = new SamplingHandlerFactory();
 
@@ -653,8 +656,12 @@ final class SamplingHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [MonologFormatterPluginManager::class])
-            ->willReturnOnConsecutiveCalls($monologHandlerPluginManager, $monologFormatterPluginManager);
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
+            );
 
         $factory = new SamplingHandlerFactory();
 
@@ -705,7 +712,6 @@ final class SamplingHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [MonologFormatterPluginManager::class])
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager): AbstractPluginManager {
                     if (MonologHandlerPluginManager::class === $var) {
@@ -760,15 +766,11 @@ final class SamplingHandlerFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([MonologHandlerPluginManager::class], [MonologFormatterPluginManager::class])
-            ->willReturnCallback(
-                static function (string $var) use ($monologHandlerPluginManager): AbstractPluginManager | null {
-                    if (MonologHandlerPluginManager::class === $var) {
-                        return $monologHandlerPluginManager;
-                    }
-
-                    return null;
-                },
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [MonologFormatterPluginManager::class, null],
+                ],
             );
 
         $factory = new SamplingHandlerFactory();
@@ -975,8 +977,12 @@ final class SamplingHandlerFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
-            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+            ->willReturnMap(
+                [
+                    ['abc', [], $processor1],
+                    ['xyz', ['efg' => 'ijk'], $processor2],
+                ],
+            );
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
             ->disableOriginalConstructor()
@@ -1189,8 +1195,12 @@ final class SamplingHandlerFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
-            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+            ->willReturnMap(
+                [
+                    ['abc', [], $processor1],
+                    ['xyz', ['efg' => 'ijk'], $processor2],
+                ],
+            );
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
             ->disableOriginalConstructor()

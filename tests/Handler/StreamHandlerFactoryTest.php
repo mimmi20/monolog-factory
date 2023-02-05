@@ -378,7 +378,6 @@ final class StreamHandlerFactoryTest extends TestCase
             ->willReturn(true);
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$streamName], [MonologFormatterPluginManager::class])
             ->willReturnCallback(
                 static function (string $var) use ($streamName, $stream): string {
                     if ($var === $streamName) {
@@ -434,8 +433,12 @@ final class StreamHandlerFactoryTest extends TestCase
             ->willReturn(true);
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$streamName], [MonologFormatterPluginManager::class])
-            ->willReturnOnConsecutiveCalls($stream, $monologFormatterPluginManager);
+            ->willReturnMap(
+                [
+                    [$streamName, $stream],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
+            );
 
         $factory = new StreamHandlerFactory();
 
@@ -497,15 +500,11 @@ final class StreamHandlerFactoryTest extends TestCase
             ->willReturn(true);
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$streamName], [MonologFormatterPluginManager::class])
-            ->willReturnCallback(
-                static function (string $var) use ($streamName, $stream, $monologFormatterPluginManager) {
-                    if ($var === $streamName) {
-                        return $stream;
-                    }
-
-                    return $monologFormatterPluginManager;
-                },
+            ->willReturnMap(
+                [
+                    [$streamName, $stream],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
             );
 
         $factory = new StreamHandlerFactory();
@@ -564,15 +563,11 @@ final class StreamHandlerFactoryTest extends TestCase
             ->willReturn(true);
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$streamName], [MonologFormatterPluginManager::class])
-            ->willReturnCallback(
-                static function (string $var) use ($streamName, $stream, $monologFormatterPluginManager) {
-                    if ($var === $streamName) {
-                        return $stream;
-                    }
-
-                    return $monologFormatterPluginManager;
-                },
+            ->willReturnMap(
+                [
+                    [$streamName, $stream],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
             );
 
         $factory = new StreamHandlerFactory();
@@ -622,15 +617,11 @@ final class StreamHandlerFactoryTest extends TestCase
             ->willReturn(true);
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$streamName], [MonologFormatterPluginManager::class])
-            ->willReturnCallback(
-                static function (string $var) use ($streamName, $stream, $monologFormatterPluginManager) {
-                    if ($var === $streamName) {
-                        return $stream;
-                    }
-
-                    return $monologFormatterPluginManager;
-                },
+            ->willReturnMap(
+                [
+                    [$streamName, $stream],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
             );
 
         $factory = new StreamHandlerFactory();
@@ -700,15 +691,11 @@ final class StreamHandlerFactoryTest extends TestCase
             ->willReturn(true);
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$streamName], [MonologFormatterPluginManager::class])
-            ->willReturnCallback(
-                static function (string $var) use ($streamName, $stream, $monologFormatterPluginManager) {
-                    if ($var === $streamName) {
-                        return $stream;
-                    }
-
-                    return $monologFormatterPluginManager;
-                },
+            ->willReturnMap(
+                [
+                    [$streamName, $stream],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
             );
 
         $factory = new StreamHandlerFactory();
@@ -771,15 +758,11 @@ final class StreamHandlerFactoryTest extends TestCase
             ->willReturn(true);
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$streamName], [MonologFormatterPluginManager::class])
-            ->willReturnCallback(
-                static function (string $var) use ($streamName, $stream, $monologFormatterPluginManager) {
-                    if ($var === $streamName) {
-                        return $stream;
-                    }
-
-                    return $monologFormatterPluginManager;
-                },
+            ->willReturnMap(
+                [
+                    [$streamName, $stream],
+                    [MonologFormatterPluginManager::class, $monologFormatterPluginManager],
+                ],
             );
 
         $factory = new StreamHandlerFactory();
@@ -813,15 +796,11 @@ final class StreamHandlerFactoryTest extends TestCase
             ->willReturn(true);
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$streamName], [MonologFormatterPluginManager::class])
-            ->willReturnCallback(
-                static function (string $var) use ($streamName, $stream) {
-                    if ($var === $streamName) {
-                        return $stream;
-                    }
-
-                    return null;
-                },
+            ->willReturnMap(
+                [
+                    [$streamName, $stream],
+                    [MonologFormatterPluginManager::class, null],
+                ],
             );
 
         $factory = new StreamHandlerFactory();
@@ -909,15 +888,11 @@ final class StreamHandlerFactoryTest extends TestCase
             ->willReturn(true);
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$streamName], [MonologProcessorPluginManager::class])
-            ->willReturnCallback(
-                static function (string $var) use ($streamName, $stream, $monologProcessorPluginManager) {
-                    if ($var === $streamName) {
-                        return $stream;
-                    }
-
-                    return $monologProcessorPluginManager;
-                },
+            ->willReturnMap(
+                [
+                    [$streamName, $stream],
+                    [MonologProcessorPluginManager::class, $monologProcessorPluginManager],
+                ],
             );
 
         $factory = new StreamHandlerFactory();
@@ -972,8 +947,12 @@ final class StreamHandlerFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
-            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+            ->willReturnMap(
+                [
+                    ['abc', [], $processor1],
+                    ['xyz', ['efg' => 'ijk'], $processor2],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -984,15 +963,11 @@ final class StreamHandlerFactoryTest extends TestCase
             ->willReturn(true);
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$streamName], [MonologProcessorPluginManager::class])
-            ->willReturnCallback(
-                static function (string $var) use ($streamName, $stream, $monologProcessorPluginManager) {
-                    if ($var === $streamName) {
-                        return $stream;
-                    }
-
-                    return $monologProcessorPluginManager;
-                },
+            ->willReturnMap(
+                [
+                    [$streamName, $stream],
+                    [MonologProcessorPluginManager::class, $monologProcessorPluginManager],
+                ],
             );
 
         $factory = new StreamHandlerFactory();
@@ -1067,7 +1042,6 @@ final class StreamHandlerFactoryTest extends TestCase
             ->willReturn(true);
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$streamName], [MonologProcessorPluginManager::class])
             ->willReturnCallback(
                 static function (string $var) use ($streamName, $stream) {
                     if ($var === $streamName) {
@@ -1130,15 +1104,11 @@ final class StreamHandlerFactoryTest extends TestCase
             ->willReturn(true);
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([$streamName], [MonologProcessorPluginManager::class])
-            ->willReturnCallback(
-                static function (string $var) use ($streamName, $stream) {
-                    if ($var === $streamName) {
-                        return $stream;
-                    }
-
-                    return null;
-                },
+            ->willReturnMap(
+                [
+                    [$streamName, $stream],
+                    [MonologFormatterPluginManager::class, null],
+                ],
             );
 
         $factory = new StreamHandlerFactory();

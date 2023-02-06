@@ -12,6 +12,8 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory;
 
+use AssertionError;
+use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\LoggerAbstractFactory;
@@ -55,6 +57,35 @@ final class LoggerAbstractFactoryTest extends TestCase
     }
 
     /** @throws Exception */
+    public function testInvokeWithoutManager(): void
+    {
+        $requestedName = Logger::class;
+        $config        = [];
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    ['config', $config],
+                    [MonologPluginManager::class, null],
+                ],
+            );
+
+        $factory = new LoggerAbstractFactory();
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionMessage('$pluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL');
+        $this->expectExceptionCode(1);
+
+        $factory($container, $requestedName);
+    }
+
+    /** @throws Exception */
     public function testInvokeWithManagerException(): void
     {
         $requestedName = Logger::class;
@@ -68,7 +99,6 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['config'], [MonologPluginManager::class])
             ->willReturnCallback(
                 static function (string $var) use ($config, $exception): array {
                     if ('config' === $var) {
@@ -100,7 +130,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         $logConfig     = [];
         $exception     = new ServiceNotFoundException();
 
-        $pluginManager = $this->getMockBuilder(ContainerInterface::class)
+        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $pluginManager->expects(self::never())
@@ -117,8 +147,12 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['config'], [MonologPluginManager::class])
-            ->willReturnOnConsecutiveCalls($config, $pluginManager);
+            ->willReturnMap(
+                [
+                    ['config', $config],
+                    [MonologPluginManager::class, $pluginManager],
+                ],
+            );
 
         $factory = new LoggerAbstractFactory();
 
@@ -142,7 +176,7 @@ final class LoggerAbstractFactoryTest extends TestCase
 
         $logger = $this->createMock(Logger::class);
 
-        $pluginManager = $this->getMockBuilder(ContainerInterface::class)
+        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $pluginManager->expects(self::never())
@@ -159,8 +193,12 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['config'], [MonologPluginManager::class])
-            ->willReturnOnConsecutiveCalls($config, $pluginManager);
+            ->willReturnMap(
+                [
+                    ['config', $config],
+                    [MonologPluginManager::class, $pluginManager],
+                ],
+            );
 
         $factory = new LoggerAbstractFactory();
 
@@ -176,7 +214,7 @@ final class LoggerAbstractFactoryTest extends TestCase
 
         $logger = $this->createMock(Logger::class);
 
-        $pluginManager = $this->getMockBuilder(ContainerInterface::class)
+        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $pluginManager->expects(self::never())
@@ -193,8 +231,12 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['config'], [MonologPluginManager::class])
-            ->willReturnOnConsecutiveCalls($config, $pluginManager);
+            ->willReturnMap(
+                [
+                    ['config', $config],
+                    [MonologPluginManager::class, $pluginManager],
+                ],
+            );
 
         $factory = new LoggerAbstractFactory();
 
@@ -210,7 +252,7 @@ final class LoggerAbstractFactoryTest extends TestCase
 
         $logger = $this->createMock(Logger::class);
 
-        $pluginManager = $this->getMockBuilder(ContainerInterface::class)
+        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $pluginManager->expects(self::never())
@@ -227,8 +269,12 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['config'], [MonologPluginManager::class])
-            ->willReturnOnConsecutiveCalls($config, $pluginManager);
+            ->willReturnMap(
+                [
+                    ['config', $config],
+                    [MonologPluginManager::class, $pluginManager],
+                ],
+            );
 
         $factory = new LoggerAbstractFactory();
 
@@ -244,7 +290,7 @@ final class LoggerAbstractFactoryTest extends TestCase
 
         $logger = $this->createMock(Logger::class);
 
-        $pluginManager = $this->getMockBuilder(ContainerInterface::class)
+        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $pluginManager->expects(self::never())
@@ -261,8 +307,12 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['config'], [MonologPluginManager::class])
-            ->willReturnOnConsecutiveCalls($config, $pluginManager);
+            ->willReturnMap(
+                [
+                    ['config', $config],
+                    [MonologPluginManager::class, $pluginManager],
+                ],
+            );
 
         $factory = new LoggerAbstractFactory();
 
@@ -278,7 +328,7 @@ final class LoggerAbstractFactoryTest extends TestCase
 
         $logger = $this->createMock(Logger::class);
 
-        $pluginManager = $this->getMockBuilder(ContainerInterface::class)
+        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $pluginManager->expects(self::never())
@@ -295,8 +345,12 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['config'], [MonologPluginManager::class])
-            ->willReturnOnConsecutiveCalls($config, $pluginManager);
+            ->willReturnMap(
+                [
+                    ['config', $config],
+                    [MonologPluginManager::class, $pluginManager],
+                ],
+            );
 
         $factory = new LoggerAbstractFactory();
 
@@ -312,7 +366,7 @@ final class LoggerAbstractFactoryTest extends TestCase
 
         $logger = $this->createMock(Logger::class);
 
-        $pluginManager = $this->getMockBuilder(ContainerInterface::class)
+        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $pluginManager->expects(self::never())
@@ -329,8 +383,12 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['config'], [MonologPluginManager::class])
-            ->willReturnOnConsecutiveCalls($config, $pluginManager);
+            ->willReturnMap(
+                [
+                    ['config', $config],
+                    [MonologPluginManager::class, $pluginManager],
+                ],
+            );
 
         $factory = new LoggerAbstractFactory();
 
@@ -346,7 +404,7 @@ final class LoggerAbstractFactoryTest extends TestCase
 
         $logger = $this->createMock(Logger::class);
 
-        $pluginManager = $this->getMockBuilder(ContainerInterface::class)
+        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $pluginManager->expects(self::never())
@@ -363,8 +421,12 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->method('has');
         $container->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['config'], [MonologPluginManager::class])
-            ->willReturnOnConsecutiveCalls($config, $pluginManager);
+            ->willReturnMap(
+                [
+                    ['config', $config],
+                    [MonologPluginManager::class, $pluginManager],
+                ],
+            );
 
         $factory = new LoggerAbstractFactory();
 

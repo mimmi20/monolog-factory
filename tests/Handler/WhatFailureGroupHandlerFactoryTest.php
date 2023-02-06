@@ -204,7 +204,6 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::exactly(3))
             ->method('get')
-            ->withConsecutive([FirePHPHandler::class, []], [ChromePHPHandler::class, []], [GelfHandler::class, []])
             ->willReturnCallback(
                 static function (string $with) use ($handler1, $handler2): HandlerInterface {
                     if (FirePHPHandler::class === $with) {
@@ -281,8 +280,12 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive([FirePHPHandler::class, []], [ChromePHPHandler::class, []])
-            ->willReturnOnConsecutiveCalls($handler1, $handler2);
+            ->willReturnMap(
+                [
+                    [FirePHPHandler::class, [], $handler1],
+                    [ChromePHPHandler::class, [], $handler2],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -369,8 +372,13 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::exactly(3))
             ->method('get')
-            ->withConsecutive([FirePHPHandler::class, []], [ChromePHPHandler::class, []], [GelfHandler::class, []])
-            ->willReturnOnConsecutiveCalls($handler1, $handler2, $handler3);
+            ->willReturnMap(
+                [
+                    [FirePHPHandler::class, [], $handler1],
+                    [ChromePHPHandler::class, [], $handler2],
+                    [GelfHandler::class, [], $handler3],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -465,8 +473,13 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::exactly(3))
             ->method('get')
-            ->withConsecutive([FirePHPHandler::class, []], [ChromePHPHandler::class, []], [GelfHandler::class, []])
-            ->willReturnOnConsecutiveCalls($handler1, $handler2, $handler3);
+            ->willReturnMap(
+                [
+                    [FirePHPHandler::class, [], $handler1],
+                    [ChromePHPHandler::class, [], $handler2],
+                    [GelfHandler::class, [], $handler3],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -562,8 +575,13 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::exactly(3))
             ->method('get')
-            ->withConsecutive([FirePHPHandler::class, []], [ChromePHPHandler::class, []], [GelfHandler::class, []])
-            ->willReturnOnConsecutiveCalls($handler1, $handler2, $handler3);
+            ->willReturnMap(
+                [
+                    [FirePHPHandler::class, [], $handler1],
+                    [ChromePHPHandler::class, [], $handler2],
+                    [GelfHandler::class, [], $handler3],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -661,8 +679,13 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::exactly(3))
             ->method('get')
-            ->withConsecutive([FirePHPHandler::class, []], [ChromePHPHandler::class, []], [GelfHandler::class, []])
-            ->willReturnOnConsecutiveCalls($handler1, $handler2, $handler3);
+            ->willReturnMap(
+                [
+                    [FirePHPHandler::class, [], $handler1],
+                    [ChromePHPHandler::class, [], $handler2],
+                    [GelfHandler::class, [], $handler3],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -760,8 +783,13 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::exactly(3))
             ->method('get')
-            ->withConsecutive([FirePHPHandler::class, []], [ChromePHPHandler::class, []], [GelfHandler::class, []])
-            ->willReturnOnConsecutiveCalls($handler1, $handler2, $handler3);
+            ->willReturnMap(
+                [
+                    [FirePHPHandler::class, [], $handler1],
+                    [ChromePHPHandler::class, [], $handler2],
+                    [GelfHandler::class, [], $handler3],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -853,8 +881,13 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::exactly(3))
             ->method('get')
-            ->withConsecutive([FirePHPHandler::class, []], [ChromePHPHandler::class, []], [GelfHandler::class, []])
-            ->willReturnOnConsecutiveCalls($handler1, $handler2, $handler3);
+            ->willReturnMap(
+                [
+                    [FirePHPHandler::class, [], $handler1],
+                    [ChromePHPHandler::class, [], $handler2],
+                    [GelfHandler::class, [], $handler3],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -940,8 +973,13 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::exactly(3))
             ->method('get')
-            ->withConsecutive([FirePHPHandler::class, []], [ChromePHPHandler::class, []], [GelfHandler::class, []])
-            ->willReturnOnConsecutiveCalls($handler1, $handler2, $handler3);
+            ->willReturnMap(
+                [
+                    [FirePHPHandler::class, [], $handler1],
+                    [ChromePHPHandler::class, [], $handler2],
+                    [GelfHandler::class, [], $handler3],
+                ],
+            );
 
         $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
@@ -1030,8 +1068,12 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::exactly(2))
             ->method('get')
-            ->withConsecutive(['abc', []], ['xyz', ['efg' => 'ijk']])
-            ->willReturnOnConsecutiveCalls($processor1, $processor2);
+            ->willReturnMap(
+                [
+                    ['abc', [], $processor1],
+                    ['xyz', ['efg' => 'ijk'], $processor2],
+                ],
+            );
 
         $handler1 = $this->getMockBuilder(FirePHPHandler::class)
             ->disableOriginalConstructor()
@@ -1064,8 +1106,13 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::exactly(3))
             ->method('get')
-            ->withConsecutive([FirePHPHandler::class, []], [ChromePHPHandler::class, []], [GelfHandler::class, []])
-            ->willReturnOnConsecutiveCalls($handler1, $handler2, $handler3);
+            ->willReturnMap(
+                [
+                    [FirePHPHandler::class, [], $handler1],
+                    [ChromePHPHandler::class, [], $handler2],
+                    [GelfHandler::class, [], $handler3],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -1197,8 +1244,13 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::exactly(3))
             ->method('get')
-            ->withConsecutive([FirePHPHandler::class, []], [ChromePHPHandler::class, []], [GelfHandler::class, []])
-            ->willReturnOnConsecutiveCalls($handler1, $handler2, $handler3);
+            ->willReturnMap(
+                [
+                    [FirePHPHandler::class, [], $handler1],
+                    [ChromePHPHandler::class, [], $handler2],
+                    [GelfHandler::class, [], $handler3],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -1319,8 +1371,13 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::exactly(3))
             ->method('get')
-            ->withConsecutive([FirePHPHandler::class, []], [ChromePHPHandler::class, []], [GelfHandler::class, []])
-            ->willReturnOnConsecutiveCalls($handler1, $handler2, $handler3);
+            ->willReturnMap(
+                [
+                    [FirePHPHandler::class, [], $handler1],
+                    [ChromePHPHandler::class, [], $handler2],
+                    [GelfHandler::class, [], $handler3],
+                ],
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()

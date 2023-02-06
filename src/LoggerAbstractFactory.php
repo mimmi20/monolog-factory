@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory;
 
+use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
@@ -20,7 +21,10 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
+use function assert;
+use function gettype;
 use function is_array;
+use function is_object;
 use function sprintf;
 
 /**
@@ -59,6 +63,15 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
         } catch (ContainerExceptionInterface $e) {
             throw new ServiceNotCreatedException(sprintf('Could not find service %s', MonologPluginManager::class), 0, $e);
         }
+
+        assert(
+            $pluginManager instanceof AbstractPluginManager,
+            sprintf(
+                '$pluginManager should be an Instance of %s, but was %s',
+                AbstractPluginManager::class,
+                is_object($pluginManager) ? $pluginManager::class : gettype($pluginManager),
+            ),
+        );
 
         try {
             $monolog = $pluginManager->get(Logger::class, $logConfig);

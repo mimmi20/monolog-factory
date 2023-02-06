@@ -61,36 +61,13 @@ final class ModuleTest extends TestCase
             ->getMock();
         $serviceListener->expects(self::exactly(5))
             ->method('addServiceManager')
-            ->withConsecutive(
+            ->willReturnMap(
                 [
-                    MonologPluginManager::class,
-                    'monolog',
-                    MonologProviderInterface::class,
-                    'getMonologConfig',
-                ],
-                [
-                    MonologHandlerPluginManager::class,
-                    'monolog_handlers',
-                    MonologHandlerProviderInterface::class,
-                    'getMonologHandlerConfig',
-                ],
-                [
-                    MonologProcessorPluginManager::class,
-                    'monolog_processors',
-                    MonologProcessorProviderInterface::class,
-                    'getMonologProcessorConfig',
-                ],
-                [
-                    MonologFormatterPluginManager::class,
-                    'monolog_formatters',
-                    MonologFormatterProviderInterface::class,
-                    'getMonologFormatterConfig',
-                ],
-                [
-                    ClientPluginManager::class,
-                    'monolog_service_clients',
-                    ClientProviderInterface::class,
-                    'getMonologClientConfig',
+                    [MonologPluginManager::class, 'monolog', MonologProviderInterface::class, 'getMonologConfig', $serviceListener],
+                    [MonologHandlerPluginManager::class, 'monolog_handlers', MonologHandlerProviderInterface::class, 'getMonologHandlerConfig', $serviceListener],
+                    [MonologProcessorPluginManager::class, 'monolog_processors', MonologProcessorProviderInterface::class, 'getMonologProcessorConfig', $serviceListener],
+                    [MonologFormatterPluginManager::class, 'monolog_formatters', MonologFormatterProviderInterface::class, 'getMonologFormatterConfig', $serviceListener],
+                    [ClientPluginManager::class, 'monolog_service_clients', ClientProviderInterface::class, 'getMonologClientConfig', $serviceListener],
                 ],
             );
 

@@ -12,12 +12,15 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Formatter;
 
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Formatter\LineFormatter;
 use Psr\Container\ContainerInterface;
+use RuntimeException;
 
 use function array_key_exists;
 use function is_array;
+use function sprintf;
 
 final class LineFormatterFactory implements FactoryInterface
 {
@@ -26,7 +29,7 @@ final class LineFormatterFactory implements FactoryInterface
      * @param array<string, (string|int|bool)>|null $options
      * @phpstan-param array{format?: string, dateFormat?: string, allowInlineLineBreaks?: bool, ignoreEmptyContextAndExtra?: bool, includeStacktraces?: bool, maxNormalizeDepth?: int, maxNormalizeItemCount?: int, prettyPrint?: bool}|null $options
      *
-     * @throws void
+     * @throws ServiceNotCreatedException
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
@@ -76,7 +79,15 @@ final class LineFormatterFactory implements FactoryInterface
             }
         }
 
-        $formatter = new LineFormatter($format, $dateFormat, $allowInlineLineBreaks, $ignoreEmptyContextAndExtra, $includeStacktraces);
+        try {
+            $formatter = new LineFormatter($format, $dateFormat, $allowInlineLineBreaks, $ignoreEmptyContextAndExtra, $includeStacktraces);
+        } catch (RuntimeException $e) {
+            throw new ServiceNotCreatedException(
+                sprintf('Could not create %s', LineFormatter::class),
+                0,
+                $e,
+            );
+        }
 
         $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
         $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);

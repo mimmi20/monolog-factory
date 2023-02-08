@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler;
 
+use InvalidArgumentException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -22,6 +23,7 @@ use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
 use function is_array;
+use function sprintf;
 
 final class GroupHandlerFactory implements FactoryInterface
 {
@@ -54,10 +56,18 @@ final class GroupHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new GroupHandler(
-            $handlers,
-            $bubble,
-        );
+        try {
+            $handler = new GroupHandler(
+                $handlers,
+                $bubble,
+            );
+        } catch (InvalidArgumentException $e) {
+            throw new ServiceNotCreatedException(
+                sprintf('Could not create %s', GroupHandler::class),
+                0,
+                $e,
+            );
+        }
 
         $this->addProcessor($container, $handler, $options);
 

@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler;
 
+use InvalidArgumentException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -25,6 +26,7 @@ use Psr\Log\LogLevel;
 
 use function array_key_exists;
 use function is_array;
+use function sprintf;
 
 final class ErrorLogHandlerFactory implements FactoryInterface
 {
@@ -68,7 +70,15 @@ final class ErrorLogHandlerFactory implements FactoryInterface
             }
         }
 
-        $handler = new ErrorLogHandler($messageType, $level, $bubble, $expandNewlines);
+        try {
+            $handler = new ErrorLogHandler($messageType, $level, $bubble, $expandNewlines);
+        } catch (InvalidArgumentException $e) {
+            throw new ServiceNotCreatedException(
+                sprintf('Could not create %s', ErrorLogHandler::class),
+                0,
+                $e,
+            );
+        }
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

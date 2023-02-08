@@ -22,7 +22,6 @@ parameters:
       missingCheckedExceptionInThrows: true
       tooWideThrowType: true
   ignoreErrors:
-    - '~Dead catch~'
     - '~Call to an undefined method Laminas\\ModuleManager\\ModuleManagerInterface::getEvent~'
     - '~MongoDB\\Client~'
     - '~Call to deprecated method getType\(\) of class Monolog\\Formatter\\ElasticaFormatter~'
@@ -38,3 +37,5 @@ parameters:
     - '~Parameter #3 \$options of callable Mimmi20\\MonologFactory\\Processor\\UidProcessorFactory expects array{length\?: int<1, 32>}\|null, array{length: (0|33)} given~'
     - '~PHPDoc tag @param for parameter .* contains unresolvable type~'
 #    - '~is not subtype of Throwable~'
+    - '~Fetching class constant class of deprecated class~'
+    - '~Monolog\\(Formatter|Handler)\\Flowdock(Formatter|Handler)~'

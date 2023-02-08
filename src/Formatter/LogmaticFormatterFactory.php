@@ -12,13 +12,16 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Formatter;
 
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Formatter\LogmaticFormatter;
 use Psr\Container\ContainerInterface;
+use RuntimeException;
 
 use function array_key_exists;
 use function is_array;
+use function sprintf;
 
 final class LogmaticFormatterFactory implements FactoryInterface
 {
@@ -27,7 +30,7 @@ final class LogmaticFormatterFactory implements FactoryInterface
      * @param array<string, (int|bool|string)>|null $options
      * @phpstan-param array{batchMode?: JsonFormatter::BATCH_MODE_*, appendNewline?: bool, hostname?: string, appName?: string, includeStacktraces?: bool, ignoreEmptyContextAndExtra?: bool, dateFormat?: string, maxNormalizeDepth?: int, maxNormalizeItemCount?: int, prettyPrint?: bool}|null $options
      *
-     * @throws void
+     * @throws ServiceNotCreatedException
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
@@ -67,7 +70,15 @@ final class LogmaticFormatterFactory implements FactoryInterface
             }
         }
 
-        $formatter = new LogmaticFormatter($batchMode, $appendNewline, $ignoreEmptyContextAndExtra);
+        try {
+            $formatter = new LogmaticFormatter($batchMode, $appendNewline, $ignoreEmptyContextAndExtra);
+        } catch (RuntimeException $e) {
+            throw new ServiceNotCreatedException(
+                sprintf('Could not create %s', LogmaticFormatter::class),
+                0,
+                $e,
+            );
+        }
 
         if (is_array($options)) {
             if (array_key_exists('hostname', $options)) {

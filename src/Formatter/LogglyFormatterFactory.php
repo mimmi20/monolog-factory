@@ -12,13 +12,16 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Formatter;
 
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Formatter\LogglyFormatter;
 use Psr\Container\ContainerInterface;
+use RuntimeException;
 
 use function array_key_exists;
 use function is_array;
+use function sprintf;
 
 final class LogglyFormatterFactory implements FactoryInterface
 {
@@ -27,7 +30,7 @@ final class LogglyFormatterFactory implements FactoryInterface
      * @param array<string, (string|int|bool)>|null $options
      * @phpstan-param array{batchMode?: JsonFormatter::BATCH_MODE_*, appendNewline?: bool, includeStacktraces?: bool, dateFormat?: string, maxNormalizeDepth?: int, maxNormalizeItemCount?: int, prettyPrint?: bool}|null $options
      *
-     * @throws void
+     * @throws ServiceNotCreatedException
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
@@ -62,7 +65,15 @@ final class LogglyFormatterFactory implements FactoryInterface
             }
         }
 
-        $formatter = new LogglyFormatter($batchMode, $appendNewline);
+        try {
+            $formatter = new LogglyFormatter($batchMode, $appendNewline);
+        } catch (RuntimeException $e) {
+            throw new ServiceNotCreatedException(
+                sprintf('Could not create %s', LogglyFormatter::class),
+                0,
+                $e,
+            );
+        }
 
         if (is_array($options)) {
             if (array_key_exists('includeStacktraces', $options)) {

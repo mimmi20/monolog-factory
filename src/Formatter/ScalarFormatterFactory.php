@@ -12,12 +12,15 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Formatter;
 
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Formatter\ScalarFormatter;
 use Psr\Container\ContainerInterface;
+use RuntimeException;
 
 use function array_key_exists;
 use function is_array;
+use function sprintf;
 
 final class ScalarFormatterFactory implements FactoryInterface
 {
@@ -26,7 +29,7 @@ final class ScalarFormatterFactory implements FactoryInterface
      * @param array<string, bool|int|string>|null $options
      * @phpstan-param array{dateFormat?: string, maxNormalizeDepth?: int, maxNormalizeItemCount?: int, prettyPrint?: bool}|null $options
      *
-     * @throws void
+     * @throws ServiceNotCreatedException
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
@@ -51,7 +54,15 @@ final class ScalarFormatterFactory implements FactoryInterface
             }
         }
 
-        $formatter = new ScalarFormatter();
+        try {
+            $formatter = new ScalarFormatter();
+        } catch (RuntimeException $e) {
+            throw new ServiceNotCreatedException(
+                sprintf('Could not create %s', ScalarFormatter::class),
+                0,
+                $e,
+            );
+        }
 
         if (is_array($options) && array_key_exists('dateFormat', $options)) {
             $formatter->setDateFormat($options['dateFormat']);

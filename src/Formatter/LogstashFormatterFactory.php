@@ -17,9 +17,11 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Formatter\LogstashFormatter;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use RuntimeException;
 
 use function array_key_exists;
 use function is_array;
+use function sprintf;
 
 final class LogstashFormatterFactory implements FactoryInterface
 {
@@ -64,7 +66,15 @@ final class LogstashFormatterFactory implements FactoryInterface
             $contextPrefix = $options['contextPrefix'];
         }
 
-        $formatter = new LogstashFormatter($applicationName, $systemName, $extraPrefix, $contextPrefix);
+        try {
+            $formatter = new LogstashFormatter($applicationName, $systemName, $extraPrefix, $contextPrefix);
+        } catch (RuntimeException $e) {
+            throw new ServiceNotCreatedException(
+                sprintf('Could not create %s', LogstashFormatter::class),
+                0,
+                $e,
+            );
+        }
 
         $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
         $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);

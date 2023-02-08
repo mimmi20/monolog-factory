@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler;
 
+use InvalidArgumentException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\AddFormatterTrait;
@@ -22,6 +23,7 @@ use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
 use function is_array;
+use function sprintf;
 
 final class WhatFailureGroupHandlerFactory
 {
@@ -55,10 +57,18 @@ final class WhatFailureGroupHandlerFactory
             $bubble = $options['bubble'];
         }
 
-        $handler = new WhatFailureGroupHandler(
-            $handlers,
-            $bubble,
-        );
+        try {
+            $handler = new WhatFailureGroupHandler(
+                $handlers,
+                $bubble,
+            );
+        } catch (InvalidArgumentException $e) {
+            throw new ServiceNotCreatedException(
+                sprintf('Could not create %s', WhatFailureGroupHandler::class),
+                0,
+                $e,
+            );
+        }
 
         $this->addProcessor($container, $handler, $options);
 

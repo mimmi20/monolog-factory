@@ -44,6 +44,11 @@
       ]
     },
     {
+      "groupName": "mimmi20 packages",
+      "groupSlug": "mimmi20",
+      "matchPackagePatterns": ["^mimmi20/"]
+    },
+    {
       "groupName": "PHP",
       "matchPackageNames": ["php"],
       "allowedVersions": "^8.1",

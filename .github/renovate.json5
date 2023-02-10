@@ -17,7 +17,7 @@
     "enabled": false
   },
   "platformAutomerge": false,
-  "prCreation": "not-pending",
+  "prCreation": "immediate",
   "rangeStrategy": "bump",
   "rebaseWhen": "behind-base-branch",
   "reviewers": [

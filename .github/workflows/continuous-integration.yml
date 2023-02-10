@@ -572,7 +572,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Require elasticsearch/elasticsearch:v8"
-        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:8\""
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:^8\""
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@2.2.0"
@@ -664,7 +664,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Require elasticsearch/elasticsearch:v8"
-        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:8\""
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:^8\""
 
       - name: "Update dependencies with composer"
         uses: "ramsey/composer-install@2.2.0"

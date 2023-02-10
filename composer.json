@@ -98,7 +98,8 @@
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "laminas/laminas-dependency-plugin": true,
       "phpstan/extension-installer": true,
-      "infection/extension-installer": true
+      "infection/extension-installer": true,
+      "php-http/discovery": true
     }
   },
   "extra": {

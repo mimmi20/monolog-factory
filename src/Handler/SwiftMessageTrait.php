@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -24,11 +24,17 @@ use function sprintf;
 trait SwiftMessageTrait
 {
     /**
+     * @phpstan-param (string|Swift_Message|callable(): Swift_Message) $message
+     *
+     * @phpstan-return (Swift_Message|callable(): Swift_Message)
+     *
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException
      */
-    private function getSwiftMessage(ContainerInterface $container, callable | string | Swift_Message $message): callable | Swift_Message
-    {
+    private function getSwiftMessage(
+        ContainerInterface $container,
+        callable | string | Swift_Message $message,
+    ): callable | Swift_Message {
         if (empty($message)) {
             throw new ServiceNotCreatedException(
                 'No message service name or callback provided',

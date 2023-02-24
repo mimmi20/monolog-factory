@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -24,7 +24,8 @@ use function sprintf;
 
 final class NormalizerFormatterFactory implements FactoryInterface
 {
-    public const DEFAULT_NORMALIZER_DEPTH      = 9;
+    public const DEFAULT_NORMALIZER_DEPTH = 9;
+
     public const DEFAULT_NORMALIZER_ITEM_COUNT = 1000;
 
     /**
@@ -37,8 +38,11 @@ final class NormalizerFormatterFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): NormalizerFormatter
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): NormalizerFormatter {
         $dateFormat            = null;
         $maxNormalizeDepth     = self::DEFAULT_NORMALIZER_DEPTH;
         $maxNormalizeItemCount = self::DEFAULT_NORMALIZER_ITEM_COUNT;

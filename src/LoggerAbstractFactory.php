@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -44,8 +44,11 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): Logger
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): Logger {
         try {
             $config = $container->get('config');
         } catch (ContainerExceptionInterface $e) {
@@ -87,10 +90,14 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
      *
      * @param string $requestedName
      *
+     * @throws void
+     *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function canCreate(ContainerInterface $container, $requestedName): bool
-    {
+    public function canCreate(
+        ContainerInterface $container,
+        $requestedName,
+    ): bool {
         try {
             $config = $container->get('config');
         } catch (ContainerExceptionInterface) {

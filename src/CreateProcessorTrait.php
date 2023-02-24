@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,6 +15,7 @@ namespace Mimmi20\MonologFactory;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
+use Monolog\LogRecord;
 use Psr\Container\ContainerExceptionInterface;
 
 use function array_key_exists;
@@ -26,13 +27,17 @@ trait CreateProcessorTrait
 {
     /**
      * @param array<string, array<string, mixed>|bool|string>|callable $processorConfig
-     * @phpstan-param callable|array{enabled?: bool, type?: string, options?: array<mixed>} $processorConfig
+     * @phpstan-param (callable(LogRecord): LogRecord)|array{enabled?: bool, type?: string, options?: array<mixed>} $processorConfig
+     *
+     * @phpstan-return (callable(LogRecord): LogRecord)|null
      *
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException
      */
-    private function createProcessor(array | callable $processorConfig, AbstractPluginManager $monologProcessorPluginManager): callable | null
-    {
+    private function createProcessor(
+        array | callable $processorConfig,
+        AbstractPluginManager $monologProcessorPluginManager,
+    ): callable | null {
         if (is_callable($processorConfig)) {
             return $processorConfig;
         }

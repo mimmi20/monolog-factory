@@ -1,18 +1,45 @@
 parameters:
   level: 8
+
   parallel:
     maximumNumberOfProcesses: 1
     processTimeout: 200.0
+
   paths:
     - src
     - tests
+
   scanFiles:
     - %currentWorkingDirectory%/vendor/autoload.php
     - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/autoload.php
     - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/src/Util/Tokens.php
+
+  checkAlwaysTrueCheckTypeFunctionCall: true
+  checkAlwaysTrueInstanceof: true
+  checkAlwaysTrueStrictComparison: true
+  checkBenevolentUnionTypes: true
+  checkDynamicProperties: true
+  checkExplicitMixedMissingReturn: true
+  checkFunctionNameCase: true
   checkGenericClassInNonGenericObjectType: false
-  checkMissingIterableValueType: false
+  checkImplicitMixed: false
+  checkInternalClassCaseSensitivity: true
+  checkMissingCallableSignature: true
+  checkMissingIterableValueType: true
+  checkTooWideReturnTypesInProtectedAndPublicMethods: true
+  checkUninitializedProperties: false
+  inferPrivatePropertyTypeFromConstructor: false
+  polluteScopeWithAlwaysIterableForeach: false
+  polluteScopeWithLoopInitialAssignments: false
+# reportAlwaysTrueInLastCondition: true
+  reportMaybesInMethodSignatures: false
+  reportMaybesInPropertyPhpDocTypes: false
+  reportStaticMethodSignatures: true
+# reportWrongPhpDocTypeInVarTag: true
   treatPhpDocTypesAsCertain: false
+
+  tipsOfTheDay: false
+
   exceptions:
     implicitThrows: false
     checkedExceptionRegexes:
@@ -21,6 +48,7 @@ parameters:
     check:
       missingCheckedExceptionInThrows: true
       tooWideThrowType: true
+
   ignoreErrors:
     - '~Call to an undefined method Laminas\\ModuleManager\\ModuleManagerInterface::getEvent~'
     - '~MongoDB\\Client~'
@@ -28,7 +56,6 @@ parameters:
     - '~Parameter #1 \$stream of class Monolog\\Handler\\StreamHandler constructor expects~'
     - '~overridden property~'
     - '~Elastic\\Elasticsearch\\Client(Builder)?~'
-    - '~Elastic\\\\Elasticsearch\\\\Client~'
     - '~CMDISP\\MonologMicrosoftTeams\\TeamsLogHandler~'
     - '~PhpAmqpLib\\Channel\\AMQPChannel~'
     - '~(Swift_Mailer|Swift_Message)~'
@@ -39,3 +66,5 @@ parameters:
     - '~is not subtype of Throwable~'
     - '~Fetching class constant class of deprecated class~'
     - '~Monolog\\(Formatter|Handler)\\Flowdock(Formatter|Handler)~'
+    - '~Call to static method PHPUnit\\Framework\\Assert::assert.*\(\) with .* will always evaluate to true~'
+    - '~no value type specified in iterable type~'

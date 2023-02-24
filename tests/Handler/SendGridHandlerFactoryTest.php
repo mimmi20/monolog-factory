@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -745,19 +745,15 @@ final class SendGridHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
-        $apiUser        = 'test-api-user';
-        $apiKey         = 'test-api-key';
-        $from           = 'test-from';
-        $to             = 'test-to';
-        $subject        = 'test-subject';
-        $level          = LogLevel::ALERT;
-        $bubble         = false;
-        $streamName     = 'xyz';
-        $stream         = 'http://test.test';
-        $filePermission = 0755;
-        $useLocking     = false;
-        $processor3     = static fn (array $record): array => $record;
-        $processors     = [
+        $apiUser    = 'test-api-user';
+        $apiKey     = 'test-api-key';
+        $from       = 'test-from';
+        $to         = 'test-to';
+        $subject    = 'test-subject';
+        $level      = LogLevel::ALERT;
+        $bubble     = false;
+        $processor3 = static fn (array $record): array => $record;
+        $processors = [
             [
                 'enabled' => true,
                 'type' => 'xyz',

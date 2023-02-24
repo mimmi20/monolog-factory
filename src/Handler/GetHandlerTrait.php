@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -37,8 +37,10 @@ trait GetHandlerTrait
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      * @throws ContainerExceptionInterface if any other error occurs
      */
-    private function getHandler(ContainerInterface $container, array $options): HandlerInterface | null
-    {
+    private function getHandler(
+        ContainerInterface $container,
+        array $options,
+    ): HandlerInterface | null {
         if (!array_key_exists('type', $options)) {
             throw new ServiceNotCreatedException('Options must contain a type for the handler');
         }

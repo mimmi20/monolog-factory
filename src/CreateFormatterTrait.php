@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -31,8 +31,10 @@ trait CreateFormatterTrait
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      */
-    private function createFormatter(array | FormatterInterface $formatterConfig, AbstractPluginManager $monologFormatterPluginManager): FormatterInterface | null
-    {
+    private function createFormatter(
+        array | FormatterInterface $formatterConfig,
+        AbstractPluginManager $monologFormatterPluginManager,
+    ): FormatterInterface | null {
         if ($formatterConfig instanceof FormatterInterface) {
             return $formatterConfig;
         }

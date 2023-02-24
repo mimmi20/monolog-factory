@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -40,8 +40,11 @@ final class ElasticsearchV7Factory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): V7Client
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): V7Client {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
         }
@@ -81,9 +84,6 @@ final class ElasticsearchV7Factory implements FactoryInterface
 
             $builder->setApiKey($options['api-id'], $options['api-key']);
         } elseif (array_key_exists('username', $options) && array_key_exists('password', $options)) {
-            assert(is_string($options['username']));
-            assert(is_string($options['password']));
-
             $builder->setBasicAuthentication($options['username'], $options['password']);
         }
 

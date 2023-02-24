@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -661,12 +661,6 @@ final class SqsHandlerFactoryTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $queueUrl       = 'test-uri';
-        $streamName     = 'xyz';
-        $stream         = 'http://test.test';
-        $level          = LogLevel::ALERT;
-        $bubble         = false;
-        $filePermission = 0755;
-        $useLocking     = false;
         $processor3     = static fn (array $record): array => $record;
         $processors     = [
             [

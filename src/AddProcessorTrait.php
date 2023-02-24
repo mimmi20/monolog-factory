@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,6 +17,7 @@ use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\ProcessableHandlerInterface;
+use Monolog\LogRecord;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
@@ -35,13 +36,16 @@ trait AddProcessorTrait
     /**
      * @param array<array<string, array<string, mixed>|bool|string>|callable>|null $options
      * @phpstan-param HandlerInterface&ProcessableHandlerInterface $handler
-     * @phpstan-param array{processors?: (callable|array{enabled?: bool, type?: string, options?: array<mixed>})}|null $options
+     * @phpstan-param array{processors?: ((callable(LogRecord): LogRecord)|array{enabled?: bool, type?: string, options?: array<mixed>})}|null $options
      *
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException
      */
-    private function addProcessor(ContainerInterface $container, HandlerInterface $handler, array | null $options = null): void
-    {
+    private function addProcessor(
+        ContainerInterface $container,
+        HandlerInterface $handler,
+        array | null $options = null,
+    ): void {
         if (!is_array($options) || !array_key_exists('processors', $options)) {
             return;
         }

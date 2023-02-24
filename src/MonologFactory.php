@@ -2,7 +2,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2023, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -21,6 +21,7 @@ use Monolog\ErrorHandler;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;
+use Monolog\LogRecord;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Throwable;
@@ -44,7 +45,7 @@ final class MonologFactory implements FactoryInterface
 
     /**
      * @param string $requestedName
-     * @phpstan-param array{name?: string, timezone?: (bool|string|DateTimeZone), handlers?: string|array{HandlerInterface|array{enabled?: bool, type?: string, options?: array<mixed>}}, processors?: (callable|string|array{enabled?: bool, type?: string, options?: array<mixed>})}|null $options
+     * @phpstan-param array{name?: string, timezone?: (bool|string|DateTimeZone), handlers?: string|array{HandlerInterface|array{enabled?: bool, type?: string, options?: array<mixed>}}, processors?: string|array<((callable(LogRecord): LogRecord)|array{enabled?: bool, type?: string, options?: array<mixed>})>}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
@@ -53,8 +54,11 @@ final class MonologFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): Logger
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): Logger {
         if (!is_array($options) || !array_key_exists('name', $options)) {
             throw new ServiceNotCreatedException('The name for the monolog logger is missing');
         }

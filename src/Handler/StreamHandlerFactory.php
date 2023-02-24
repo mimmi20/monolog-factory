@@ -47,8 +47,11 @@ final class StreamHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): StreamHandler
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): StreamHandler {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
         }

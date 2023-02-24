@@ -498,17 +498,11 @@ final class SyslogHandlerFactoryTest extends TestCase
     /** @throws Exception */
     public function testInvokeWithConfigAndProcessors4(): void
     {
-        $ident          = 'test';
-        $facility       = LOG_MAIL;
-        $logOpts        = LOG_CONS;
-        $streamName     = 'xyz';
-        $stream         = 'http://test.test';
-        $level          = LogLevel::ALERT;
-        $bubble         = false;
-        $filePermission = 0755;
-        $useLocking     = false;
-        $processor3     = static fn (array $record): array => $record;
-        $processors     = [
+        $ident      = 'test';
+        $facility   = LOG_MAIL;
+        $logOpts    = LOG_CONS;
+        $processor3 = static fn (array $record): array => $record;
+        $processors = [
             [
                 'enabled' => true,
                 'type' => 'xyz',

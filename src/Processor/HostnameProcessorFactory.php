@@ -27,8 +27,11 @@ final class HostnameProcessorFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): HostnameProcessor
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): HostnameProcessor {
         return new HostnameProcessor();
     }
 }

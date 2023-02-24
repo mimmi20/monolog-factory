@@ -29,11 +29,13 @@ final class WebProcessorFactoryTest extends TestCase
     /** @var array<string, string>|null */
     private array | null $serverVar = null;
 
+    /** @throws void */
     protected function setUp(): void
     {
         $this->serverVar = $_SERVER;
     }
 
+    /** @throws void */
     protected function tearDown(): void
     {
         $_SERVER = $this->serverVar;

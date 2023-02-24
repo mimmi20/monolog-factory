@@ -34,8 +34,11 @@ final class WildfireFormatterFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): WildfireFormatter
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): WildfireFormatter {
         $dateFormat            = null;
         $maxNormalizeDepth     = NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH;
         $maxNormalizeItemCount = NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT;

@@ -509,15 +509,9 @@ final class ErrorLogHandlerFactoryTest extends TestCase
     /** @throws Exception */
     public function testInvokeWithConfigAndProcessors5(): void
     {
-        $messageType    = ErrorLogHandler::SAPI;
-        $streamName     = 'xyz';
-        $stream         = 'http://test.test';
-        $level          = LogLevel::ALERT;
-        $bubble         = false;
-        $filePermission = 0755;
-        $useLocking     = false;
-        $processor3     = static fn (array $record): array => $record;
-        $processors     = [
+        $messageType = ErrorLogHandler::SAPI;
+        $processor3  = static fn (array $record): array => $record;
+        $processors  = [
             [
                 'enabled' => true,
                 'type' => 'xyz',

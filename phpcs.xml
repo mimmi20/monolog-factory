@@ -7,7 +7,13 @@
     <arg name="encoding" value="utf-8"/>
 
     <!-- inherit rules from: -->
-    <rule ref="mimmi20-cs"/>
+    <rule ref="Mimmi20CodingStandard">
+        <exclude name="SlevomatCodingStandard.Functions.FunctionLength.FunctionLength"/>
+        <exclude name="SlevomatCodingStandard.Classes.ClassLength.ClassTooLong"/>
+        <exclude name="SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh"/>
+        <exclude name="SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable.DisallowedSuperGlobalVariable"/>
+        <exclude name="Generic.Metrics.CyclomaticComplexity.TooHigh"/>
+    </rule>
 
     <!-- Paths to check -->
     <file>src</file>

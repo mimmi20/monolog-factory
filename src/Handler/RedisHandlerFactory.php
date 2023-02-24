@@ -47,8 +47,11 @@ final class RedisHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): RedisHandler
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): RedisHandler {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
         }

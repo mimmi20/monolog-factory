@@ -34,8 +34,11 @@ final class MonologHandlerPluginManagerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): MonologHandlerPluginManager
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): MonologHandlerPluginManager {
         $pluginManager = new MonologHandlerPluginManager($container, $options ?: []);
 
         // If this is in a laminas-mvc application, the ServiceListener will inject

@@ -196,6 +196,8 @@ final class ConfigProvider
      *
      * @return array<string, array<string, array<int|string, string>>>
      * @phpstan-return array{dependencies: array{abstract_factories: array<int, class-string>, factories: array<class-string, class-string>}, monolog_handlers: array{aliases: array<string|class-string, class-string>, factories: array<string|class-string, class-string>}, monolog_processors: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog_formatters: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog_service_clients:array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}}
+     *
+     * @throws void
      */
     public function __invoke(): array
     {
@@ -214,6 +216,8 @@ final class ConfigProvider
      *
      * @return array<string, array<int|string, string>>
      * @phpstan-return array{abstract_factories: array<int, class-string>, factories: array<class-string, class-string>}
+     *
+     * @throws void
      */
     public function getDependencyConfig(): array
     {
@@ -234,6 +238,8 @@ final class ConfigProvider
     /**
      * @return array<string, array<int|string, string>>
      * @phpstan-return array{aliases: array<string|class-string, class-string>, factories: array<string|class-string, class-string>}
+     *
+     * @throws void
      */
     public function getMonologHandlerConfig(): array
     {
@@ -358,6 +364,8 @@ final class ConfigProvider
     /**
      * @return array<string, array<int|string, string>>
      * @phpstan-return array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}
+     *
+     * @throws void
      */
     public function getMonologProcessorConfig(): array
     {
@@ -396,6 +404,8 @@ final class ConfigProvider
     /**
      * @return array<string, array<int|string, string>>
      * @phpstan-return array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}
+     *
+     * @throws void
      */
     public function getMonologFormatterConfig(): array
     {
@@ -444,6 +454,8 @@ final class ConfigProvider
     /**
      * @return array<string, array<int|string, string>>
      * @phpstan-return array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}
+     *
+     * @throws void
      */
     public function getMonologClientConfig(): array
     {
@@ -462,6 +474,8 @@ final class ConfigProvider
     /**
      * @return array<string, array<string, string>>
      * @phpstan-return array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}
+     *
+     * @throws void
      */
     public function getMonologConfig(): array
     {

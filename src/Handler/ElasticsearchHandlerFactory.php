@@ -45,9 +45,11 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
     use AddFormatterTrait;
     use AddProcessorTrait;
 
-    public const INDEX_PER_DAY   = 'Y-m-d';
+    public const INDEX_PER_DAY = 'Y-m-d';
+
     public const INDEX_PER_MONTH = 'Y-m';
-    public const INDEX_PER_YEAR  = 'Y';
+
+    public const INDEX_PER_YEAR = 'Y';
 
     /**
      * @param string                                                  $requestedName
@@ -61,8 +63,11 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): ElasticsearchHandler
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): ElasticsearchHandler {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
         }
@@ -150,9 +155,11 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
             $dateFormat = $options['dateFormat'];
         }
 
-        if (array_key_exists('indexNameFormat', $options)
+        if (
+            array_key_exists('indexNameFormat', $options)
             && is_string($options['indexNameFormat'])
-            && false !== mb_strpos($options['indexNameFormat'], '{indexname}')) {
+            && false !== mb_strpos($options['indexNameFormat'], '{indexname}')
+        ) {
             $indexNameFormat = $options['indexNameFormat'];
         }
 

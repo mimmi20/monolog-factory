@@ -25,12 +25,16 @@ trait SwiftMessageTrait
 {
     /**
      * @phpstan-param (string|Swift_Message|callable(): Swift_Message) $message
+     *
      * @phpstan-return (Swift_Message|callable(): Swift_Message)
+     *
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException
      */
-    private function getSwiftMessage(ContainerInterface $container, callable | string | Swift_Message $message): callable | Swift_Message
-    {
+    private function getSwiftMessage(
+        ContainerInterface $container,
+        callable | string | Swift_Message $message,
+    ): callable | Swift_Message {
         if (empty($message)) {
             throw new ServiceNotCreatedException(
                 'No message service name or callback provided',

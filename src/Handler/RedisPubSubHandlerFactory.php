@@ -47,8 +47,11 @@ final class RedisPubSubHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): RedisPubSubHandler
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): RedisPubSubHandler {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
         }

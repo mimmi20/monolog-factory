@@ -54,8 +54,11 @@ final class MonologFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): Logger
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): Logger {
         if (!is_array($options) || !array_key_exists('name', $options)) {
             throw new ServiceNotCreatedException('The name for the monolog logger is missing');
         }

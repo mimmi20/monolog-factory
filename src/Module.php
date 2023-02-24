@@ -26,6 +26,8 @@ final class Module implements ConfigProviderInterface, InitProviderInterface
      *
      * @return array<string, array<string, array<int|string, string>>>
      * @phpstan-return array{service_manager: array{abstract_factories: array<int, class-string>, factories: array<class-string, class-string>}, monolog_handlers: array{aliases: array<string|class-string, class-string>, factories: array<string|class-string, class-string>}, monolog_processors: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog_formatters: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog: array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}, monolog_service_clients:array{aliases: array<string|class-string, class-string>, factories: array<class-string, class-string>}}
+     *
+     * @throws void
      */
     public function getConfig(): array
     {
@@ -43,6 +45,8 @@ final class Module implements ConfigProviderInterface, InitProviderInterface
 
     /**
      * Register specifications for all plugin managers with the ServiceListener.
+     *
+     * @throws void
      */
     public function init(ModuleManagerInterface $manager): void
     {

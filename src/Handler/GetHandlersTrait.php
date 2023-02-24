@@ -34,8 +34,10 @@ trait GetHandlersTrait
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException
      */
-    private function getHandlers(ContainerInterface $container, array $options): array
-    {
+    private function getHandlers(
+        ContainerInterface $container,
+        array $options,
+    ): array {
         if (!array_key_exists('handlers', $options) || !is_array($options['handlers'])) {
             throw new ServiceNotCreatedException(
                 'No Service names provided for the required handler classes',

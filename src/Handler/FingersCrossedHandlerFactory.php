@@ -57,8 +57,11 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): FingersCrossedHandler
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): FingersCrossedHandler {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
         }
@@ -128,8 +131,10 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      * @throws InvalidServiceException
      */
-    private function getActivationStrategy(ContainerInterface $container, ActivationStrategyInterface | Level | int | array | string | null $activationStrategy): ActivationStrategyInterface | Level | null
-    {
+    private function getActivationStrategy(
+        ContainerInterface $container,
+        ActivationStrategyInterface | Level | int | array | string | null $activationStrategy,
+    ): ActivationStrategyInterface | Level | null {
         if (null === $activationStrategy) {
             return null;
         }

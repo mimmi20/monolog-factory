@@ -936,14 +936,14 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
             self::markTestSkipped('requires elasticsearch/elasticsearch V7');
         }
 
-        $client         = 'xyz';
-        $clientClass    = $this->getMockBuilder(V7Client::class)
+        $client      = 'xyz';
+        $clientClass = $this->getMockBuilder(V7Client::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $index          = 'test-index';
-        $type           = 'test-type';
-        $processor3     = static fn (array $record): array => $record;
-        $processors     = [
+        $index       = 'test-index';
+        $type        = 'test-type';
+        $processor3  = static fn (array $record): array => $record;
+        $processors  = [
             [
                 'enabled' => true,
                 'type' => 'xyz',

@@ -31,8 +31,10 @@ trait CreateFormatterTrait
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      */
-    private function createFormatter(array | FormatterInterface $formatterConfig, AbstractPluginManager $monologFormatterPluginManager): FormatterInterface | null
-    {
+    private function createFormatter(
+        array | FormatterInterface $formatterConfig,
+        AbstractPluginManager $monologFormatterPluginManager,
+    ): FormatterInterface | null {
         if ($formatterConfig instanceof FormatterInterface) {
             return $formatterConfig;
         }

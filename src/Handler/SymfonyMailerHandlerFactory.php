@@ -42,7 +42,7 @@ final class SymfonyMailerHandlerFactory implements FactoryInterface
     /**
      * @param string                                   $requestedName
      * @param array<string, (string|int|Closure)>|null $options
-     * @phpstan-param array{mailer?: (bool|string|MailerInterface|TransportInterface), email-template?: (string|Email|Closure(string, LogRecord[]): Email), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
+     * @phpstan-param array{mailer?: (bool|string|MailerInterface|TransportInterface), email-template?: (string|Email|Closure(string, array|null<LogRecord>): Email), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
@@ -51,8 +51,11 @@ final class SymfonyMailerHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): SymfonyMailerHandler
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): SymfonyMailerHandler {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
         }

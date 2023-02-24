@@ -46,8 +46,11 @@ final class PushoverHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): PushoverHandler
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): PushoverHandler {
         if (!extension_loaded('sockets')) {
             throw new ServiceNotCreatedException(
                 sprintf('The sockets extension is needed to use the %s', PushoverHandler::class),

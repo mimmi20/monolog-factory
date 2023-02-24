@@ -859,8 +859,6 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $filePermission = 0755;
         $useLocking     = false;
         $dateFormat     = RotatingFileHandler::FILE_PER_MONTH;
-        $streamName     = 'xyz';
-        $stream         = 'http://test.test';
         $processor3     = static fn (array $record): array => $record;
         $processors     = [
             [
@@ -907,8 +905,6 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $filePermission = 0755;
         $useLocking     = false;
         $dateFormat     = RotatingFileHandler::FILE_PER_MONTH;
-        $streamName     = 'xyz';
-        $stream         = 'http://test.test';
         $processor3     = static fn (array $record): array => $record;
         $processors     = [
             [

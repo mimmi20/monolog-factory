@@ -45,8 +45,11 @@ final class ErrorLogHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): ErrorLogHandler
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $requestedName,
+        array | null $options = null,
+    ): ErrorLogHandler {
         $messageType    = ErrorLogHandler::OPERATING_SYSTEM;
         $level          = LogLevel::DEBUG;
         $bubble         = true;

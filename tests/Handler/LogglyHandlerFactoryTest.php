@@ -487,15 +487,9 @@ final class LogglyHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
-        $token          = 'test-token';
-        $streamName     = 'xyz';
-        $stream         = 'http://test.test';
-        $level          = LogLevel::ALERT;
-        $bubble         = false;
-        $filePermission = 0755;
-        $useLocking     = false;
-        $processor3     = static fn (array $record): array => $record;
-        $processors     = [
+        $token      = 'test-token';
+        $processor3 = static fn (array $record): array => $record;
+        $processors = [
             [
                 'enabled' => true,
                 'type' => 'xyz',

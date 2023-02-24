@@ -34,8 +34,10 @@ trait CreateProcessorTrait
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException
      */
-    private function createProcessor(array | callable $processorConfig, AbstractPluginManager $monologProcessorPluginManager): callable | null
-    {
+    private function createProcessor(
+        array | callable $processorConfig,
+        AbstractPluginManager $monologProcessorPluginManager,
+    ): callable | null {
         if (is_callable($processorConfig)) {
             return $processorConfig;
         }

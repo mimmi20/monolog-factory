@@ -40,8 +40,11 @@ trait AddFormatterTrait
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException
      */
-    private function addFormatter(ContainerInterface $container, HandlerInterface $handler, array | null $options = null): void
-    {
+    private function addFormatter(
+        ContainerInterface $container,
+        HandlerInterface $handler,
+        array | null $options = null,
+    ): void {
         if (!is_array($options) || !array_key_exists('formatter', $options)) {
             return;
         }

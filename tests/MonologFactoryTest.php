@@ -21,6 +21,7 @@ use Mimmi20\MonologFactory\MonologHandlerPluginManager;
 use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Logger;
+use Monolog\LogRecord;
 use Monolog\Processor\ProcessorInterface;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
@@ -569,7 +570,7 @@ final class MonologFactoryTest extends TestCase
                     'options' => ['efg' => 'ijk'],
                 ],
                 ['type' => 'abc'],
-                static fn (array $record): array => $record,
+                static fn (LogRecord $record): LogRecord => $record,
             ],
         ];
 
@@ -628,7 +629,7 @@ final class MonologFactoryTest extends TestCase
                     'options' => ['efg' => 'ijk'],
                 ],
                 ['type' => 'abc'],
-                static fn (array $record): array => $record,
+                static fn (LogRecord $record): LogRecord => $record,
             ],
         ];
 

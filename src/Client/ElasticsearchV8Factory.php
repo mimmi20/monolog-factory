@@ -73,9 +73,6 @@ final class ElasticsearchV8Factory implements FactoryInterface
 
             $builder->setApiKey($options['api-key'], $options['api-id']);
         } elseif (array_key_exists('username', $options) && array_key_exists('password', $options)) {
-            assert(is_string($options['username']));
-            assert(is_string($options['password']));
-
             $builder->setBasicAuthentication($options['username'], $options['password']);
         }
 

@@ -16,6 +16,7 @@ use Laminas\ServiceManager\AbstractPluginManager;
 use Monolog\Handler\FingersCrossed\ActivationStrategyInterface;
 use Monolog\Handler\FingersCrossed\ChannelLevelActivationStrategy;
 use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
+use Psr\Container\ContainerInterface;
 
 final class ActivationStrategyPluginManager extends AbstractPluginManager
 {
@@ -39,7 +40,7 @@ final class ActivationStrategyPluginManager extends AbstractPluginManager
     /**
      * A list of factories (either as string name or callable)
      *
-     * @var callable[]|string[]
+     * @phpstan-var array<string|class-string, class-string|(callable(ContainerInterface, string, array|null):ActivationStrategyInterface)>
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
      */
     protected $factories = [

@@ -24,6 +24,8 @@ use function sprintf;
 trait SwiftMessageTrait
 {
     /**
+     * @phpstan-param (string|Swift_Message|callable(): Swift_Message) $message
+     * @phpstan-return (Swift_Message|callable(): Swift_Message)
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException
      */

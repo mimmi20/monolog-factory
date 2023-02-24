@@ -20,6 +20,7 @@ use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Level;
+use Monolog\LogRecord;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
@@ -37,7 +38,7 @@ final class CallbackFilterHandlerFactory implements FactoryInterface
     /**
      * @param string                                                    $requestedName
      * @param array<string, (string|int|array<(int|string)>|bool)>|null $options
-     * @phpstan-param array{handler?: bool|array{type?: string, enabled?: bool, options?: array<mixed>}, filters?: array<callable>|callable, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
+     * @phpstan-param array{handler?: bool|array{type?: string, enabled?: bool, options?: array<mixed>}, filters?: array<(Closure(LogRecord|null, HandlerInterface): HandlerInterface)>|(Closure(LogRecord|null, HandlerInterface): HandlerInterface), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service

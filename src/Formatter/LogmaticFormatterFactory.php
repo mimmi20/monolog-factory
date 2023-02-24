@@ -86,7 +86,7 @@ final class LogmaticFormatterFactory implements FactoryInterface
             }
 
             if (array_key_exists('appName', $options)) {
-                $formatter->setAppname($options['appName']);
+                $formatter->setAppName($options['appName']);
             }
 
             if (array_key_exists('includeStacktraces', $options)) {

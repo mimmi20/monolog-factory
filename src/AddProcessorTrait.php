@@ -17,6 +17,7 @@ use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\ProcessableHandlerInterface;
+use Monolog\LogRecord;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
@@ -35,7 +36,7 @@ trait AddProcessorTrait
     /**
      * @param array<array<string, array<string, mixed>|bool|string>|callable>|null $options
      * @phpstan-param HandlerInterface&ProcessableHandlerInterface $handler
-     * @phpstan-param array{processors?: (callable|array{enabled?: bool, type?: string, options?: array<mixed>})}|null $options
+     * @phpstan-param array{processors?: ((callable(LogRecord): LogRecord)|array{enabled?: bool, type?: string, options?: array<mixed>})}|null $options
      *
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException

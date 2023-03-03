@@ -146,12 +146,12 @@ final class ConfigProviderTest extends TestCase
         self::assertArrayHasKey('aliases', $monologFormatterConfig);
         $aliases = $monologFormatterConfig['aliases'];
         self::assertIsArray($aliases);
-        self::assertCount(17, $aliases);
+        self::assertCount(16, $aliases);
 
         self::assertArrayHasKey('factories', $monologFormatterConfig);
         $factories = $monologFormatterConfig['factories'];
         self::assertIsArray($factories);
-        self::assertCount(17, $factories);
+        self::assertCount(16, $factories);
     }
 
     /**

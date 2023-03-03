@@ -24,3 +24,4 @@ infection-*.log
 rewrite*.php
 .reports/
 *.bak
+/.phpcs.cache

@@ -17,7 +17,6 @@ use CMDISP\MonologMicrosoftTeams\TeamsLogHandler;
 use Elastic\Elasticsearch\Client as V8Client;
 use Elasticsearch\Client as V7Client;
 use JK\Monolog\Processor\RequestHeaderProcessor;
-use Mimmi20\Monolog\Formatter\StreamFormatter;
 use Mimmi20\Monolog\Handler\CallbackFilterHandler;
 use Mimmi20\MonologFactory\Client\ElasticsearchV7Factory;
 use Mimmi20\MonologFactory\Client\ElasticsearchV8Factory;
@@ -36,7 +35,6 @@ use Mimmi20\MonologFactory\Formatter\LogstashFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\MongoDBFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\NormalizerFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\ScalarFormatterFactory;
-use Mimmi20\MonologFactory\Formatter\StreamFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\WildfireFormatterFactory;
 use Mimmi20\MonologFactory\Handler\AmqpHandlerFactory;
 use Mimmi20\MonologFactory\Handler\BrowserConsoleHandlerFactory;
@@ -427,7 +425,6 @@ final class ConfigProvider
                 'normalizer' => NormalizerFormatter::class,
                 'scalar' => ScalarFormatter::class,
                 'wildfire' => WildfireFormatter::class,
-                'stream' => StreamFormatter::class,
             ],
             'factories' => [
                 ChromePHPFormatter::class => ChromePHPFormatterFactory::class,
@@ -446,7 +443,6 @@ final class ConfigProvider
                 NormalizerFormatter::class => NormalizerFormatterFactory::class,
                 ScalarFormatter::class => ScalarFormatterFactory::class,
                 WildfireFormatter::class => WildfireFormatterFactory::class,
-                StreamFormatter::class => StreamFormatterFactory::class,
             ],
         ];
     }

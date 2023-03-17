@@ -29,10 +29,9 @@ use Throwable;
 use function array_key_exists;
 use function array_reverse;
 use function assert;
-use function gettype;
+use function get_debug_type;
 use function is_array;
 use function is_iterable;
-use function is_object;
 use function is_string;
 use function sprintf;
 
@@ -94,7 +93,7 @@ final class MonologFactory implements FactoryInterface
                     sprintf(
                         '$monologHandlerPluginManager should be an Instance of %s, but was %s',
                         AbstractPluginManager::class,
-                        is_object($monologHandlerPluginManager) ? $monologHandlerPluginManager::class : gettype($monologHandlerPluginManager),
+                        get_debug_type($monologHandlerPluginManager),
                     ),
                 );
             } catch (ContainerExceptionInterface $e) {

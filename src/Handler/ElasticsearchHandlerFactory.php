@@ -31,10 +31,9 @@ use function array_key_exists;
 use function assert;
 use function class_exists;
 use function date;
-use function gettype;
+use function get_debug_type;
 use function in_array;
 use function is_array;
-use function is_object;
 use function is_string;
 use function mb_strpos;
 use function sprintf;
@@ -100,7 +99,7 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
                 sprintf(
                     '$monologConfigPluginManager should be an Instance of %s, but was %s',
                     AbstractPluginManager::class,
-                    is_object($monologClientPluginManager) ? $monologClientPluginManager::class : gettype($monologClientPluginManager),
+                    get_debug_type($monologClientPluginManager),
                 ),
             );
 

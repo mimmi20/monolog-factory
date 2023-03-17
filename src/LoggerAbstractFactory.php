@@ -22,9 +22,8 @@ use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
 use function assert;
-use function gettype;
+use function get_debug_type;
 use function is_array;
-use function is_object;
 use function sprintf;
 
 /**
@@ -72,7 +71,7 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
             sprintf(
                 '$pluginManager should be an Instance of %s, but was %s',
                 AbstractPluginManager::class,
-                is_object($pluginManager) ? $pluginManager::class : gettype($pluginManager),
+                get_debug_type($pluginManager),
             ),
         );
 

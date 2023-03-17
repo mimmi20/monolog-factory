@@ -79,7 +79,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         $factory = new LoggerAbstractFactory();
 
         $this->expectException(AssertionError::class);
-        $this->expectExceptionMessage('$pluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL');
+        $this->expectExceptionMessage('$pluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null');
         $this->expectExceptionCode(1);
 
         $factory($container, $requestedName);

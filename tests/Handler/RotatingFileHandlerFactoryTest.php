@@ -662,7 +662,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
         $this->expectExceptionMessage(
-            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
         $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'formatter' => $formatter]);
@@ -832,7 +832,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
 
         $fp = new ReflectionProperty($handler, 'filePermission');
 
-        self::assertSame((int) $filePermission, $fp->getValue($handler));
+        self::assertSame($filePermission, $fp->getValue($handler));
 
         $ul = new ReflectionProperty($handler, 'useLocking');
 
@@ -935,7 +935,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
         $this->expectExceptionMessage(
-            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
         $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'processors' => $processors]);

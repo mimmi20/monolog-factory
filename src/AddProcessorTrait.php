@@ -24,9 +24,8 @@ use Psr\Container\ContainerInterface;
 use function array_key_exists;
 use function array_reverse;
 use function assert;
-use function gettype;
+use function get_debug_type;
 use function is_array;
-use function is_object;
 use function sprintf;
 
 trait AddProcessorTrait
@@ -65,7 +64,7 @@ trait AddProcessorTrait
             sprintf(
                 '$monologProcessorPluginManager should be an Instance of %s, but was %s',
                 AbstractPluginManager::class,
-                is_object($monologProcessorPluginManager) ? $monologProcessorPluginManager::class : gettype($monologProcessorPluginManager),
+                get_debug_type($monologProcessorPluginManager),
             ),
         );
 

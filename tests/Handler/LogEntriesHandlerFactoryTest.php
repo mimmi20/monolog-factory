@@ -452,7 +452,7 @@ final class LogEntriesHandlerFactoryTest extends TestCase
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
         $this->expectExceptionMessage(
-            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
         $factory($container, '', ['token' => $token, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'host' => $host, 'persistent' => true, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
@@ -726,7 +726,7 @@ final class LogEntriesHandlerFactoryTest extends TestCase
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
         $this->expectExceptionMessage(
-            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
         $factory($container, '', ['token' => $token, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'host' => $host, 'persistent' => true, 'chunkSize' => $chunkSize, 'processors' => $processors]);

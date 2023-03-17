@@ -397,7 +397,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
         $this->expectExceptionMessage(
-            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
         $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'formatter' => $formatter]);
@@ -684,7 +684,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
         $this->expectExceptionMessage(
-            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
         $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);

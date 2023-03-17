@@ -840,7 +840,7 @@ final class OverflowHandlerFactoryTest extends TestCase
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
         $this->expectExceptionMessage(
-            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatterClass]], 'thresholdMap' => $thresholdMapSet, 'level' => LogLevel::ALERT, 'bubble' => false]);
@@ -1316,7 +1316,7 @@ final class OverflowHandlerFactoryTest extends TestCase
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
         $this->expectExceptionMessage(
-            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'thresholdMap' => $thresholdMapSet, 'level' => LogLevel::ALERT, 'bubble' => false]);

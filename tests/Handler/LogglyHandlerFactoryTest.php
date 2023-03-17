@@ -315,7 +315,7 @@ final class LogglyHandlerFactoryTest extends TestCase
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
         $this->expectExceptionMessage(
-            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+            '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
         $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
@@ -562,7 +562,7 @@ final class LogglyHandlerFactoryTest extends TestCase
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
         $this->expectExceptionMessage(
-            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was NULL',
+            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
         $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);

@@ -63,8 +63,7 @@ final class ElasticsearchV7Factory implements FactoryInterface
         $builder->setHosts(
             array_filter(
                 $options['hosts'],
-                /** @param array|int|string $host */
-                static function ($host): bool {
+                static function (array | int | string $host): bool {
                     if (is_string($host)) {
                         return true;
                     }
@@ -88,7 +87,7 @@ final class ElasticsearchV7Factory implements FactoryInterface
         }
 
         if (array_key_exists('metadata', $options)) {
-            $metadata = (bool) $options['metadata'];
+            $metadata = $options['metadata'];
         }
 
         $builder->setElasticMetaHeader($metadata);

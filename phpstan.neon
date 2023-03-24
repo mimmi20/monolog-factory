@@ -66,7 +66,7 @@ parameters:
   polluteScopeWithLoopInitialAssignments: false
 
   # report always true last condition in a series of elseif branches and match expression arms
-# reportAlwaysTrueInLastCondition: true
+  reportAlwaysTrueInLastCondition: true
 
   # reports violations of parameter type contravariance and return type covariance
   reportMaybesInMethodSignatures: false
@@ -77,7 +77,7 @@ parameters:
   # reports violations of parameter type contravariance and return type covariance in static methods
   reportStaticMethodSignatures: true
 
-  # 
+  #
   reportWrongPhpDocTypeInVarTag: true
 
   # differentiate between PHPDoc and native types (if false)

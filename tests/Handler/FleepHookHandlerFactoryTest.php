@@ -31,7 +31,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function extension_loaded;
 use function sprintf;
@@ -89,7 +88,6 @@ final class FleepHookHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension openssl
      */
@@ -137,7 +135,6 @@ final class FleepHookHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension openssl
      */
@@ -265,7 +262,6 @@ final class FleepHookHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension openssl
      */
@@ -333,7 +329,6 @@ final class FleepHookHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension openssl
      */
@@ -531,7 +526,6 @@ final class FleepHookHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension openssl
      */

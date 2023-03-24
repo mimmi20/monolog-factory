@@ -25,7 +25,6 @@ use Monolog\Logger;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class ConfigProviderTest extends TestCase
 {
@@ -37,10 +36,7 @@ final class ConfigProviderTest extends TestCase
         $this->provider = new ConfigProvider();
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testGetDependencyConfig(): void
     {
         $dependencyConfig = $this->provider->getDependencyConfig();
@@ -70,10 +66,7 @@ final class ConfigProviderTest extends TestCase
         self::assertContains(LoggerAbstractFactory::class, $abstractFactories);
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testGetMonologHandlerConfig(): void
     {
         $monologHandlerConfig = $this->provider->getMonologHandlerConfig();
@@ -98,10 +91,7 @@ final class ConfigProviderTest extends TestCase
         self::assertCount(55, $factories);
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testGetMonologProcessorConfig(): void
     {
         $monologProcessorConfig = $this->provider->getMonologProcessorConfig();
@@ -126,10 +116,7 @@ final class ConfigProviderTest extends TestCase
         self::assertCount(12, $factories);
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testGetMonologFormatterConfig(): void
     {
         $monologFormatterConfig = $this->provider->getMonologFormatterConfig();
@@ -154,10 +141,7 @@ final class ConfigProviderTest extends TestCase
         self::assertCount(16, $factories);
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testGetMonologConfig(): void
     {
         $monologConfig = $this->provider->getMonologConfig();
@@ -184,10 +168,7 @@ final class ConfigProviderTest extends TestCase
         self::assertArrayHasKey(LoggerInterface::class, $aliases);
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testGetMonologClientConfig(): void
     {
         $monologConfig = $this->provider->getMonologClientConfig();
@@ -216,10 +197,7 @@ final class ConfigProviderTest extends TestCase
         self::assertArrayHasKey('v8', $aliases);
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvocationReturnsArrayWithDependencies(): void
     {
         $config = ($this->provider)();

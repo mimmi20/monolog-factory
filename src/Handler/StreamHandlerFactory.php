@@ -63,7 +63,7 @@ final class StreamHandlerFactory implements FactoryInterface
         $stream         = $this->getStream($container, $options['stream']);
         $level          = LogLevel::DEBUG;
         $bubble         = true;
-        $filePermission = 0644;
+        $filePermission = null;
         $useLocking     = true;
 
         if (array_key_exists('level', $options)) {

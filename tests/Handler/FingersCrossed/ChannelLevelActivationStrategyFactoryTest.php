@@ -21,14 +21,12 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class ChannelLevelActivationStrategyFactoryTest extends TestCase
 {
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -58,7 +56,6 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -88,7 +85,6 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithWrongConfig(): void
     {
@@ -118,7 +114,6 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfig(): void
     {

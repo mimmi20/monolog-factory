@@ -20,7 +20,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class FlowdockFormatterFactoryTest extends TestCase
 {
@@ -88,7 +87,6 @@ final class FlowdockFormatterFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithSouceAndSourceEmail(): void

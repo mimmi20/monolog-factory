@@ -31,7 +31,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function extension_loaded;
 use function sprintf;
@@ -88,7 +87,6 @@ final class InsightOpsHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      *
      * @requires extension openssl
@@ -132,7 +130,6 @@ final class InsightOpsHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      *
      * @requires extension openssl
@@ -292,7 +289,6 @@ final class InsightOpsHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      *
      * @requires extension openssl
@@ -356,7 +352,6 @@ final class InsightOpsHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      *
      * @requires extension openssl
@@ -551,7 +546,6 @@ final class InsightOpsHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension openssl
      */

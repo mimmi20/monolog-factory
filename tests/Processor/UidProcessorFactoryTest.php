@@ -12,19 +12,16 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Processor;
 
+use InvalidArgumentException;
 use Mimmi20\MonologFactory\Processor\UidProcessorFactory;
 use Monolog\Processor\UidProcessor;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class UidProcessorFactoryTest extends TestCase
 {
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -42,10 +39,7 @@ final class UidProcessorFactoryTest extends TestCase
         self::assertInstanceOf(UidProcessor::class, $processor);
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -63,10 +57,7 @@ final class UidProcessorFactoryTest extends TestCase
         self::assertInstanceOf(UidProcessor::class, $processor);
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvokeWithLength(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -97,7 +88,7 @@ final class UidProcessorFactoryTest extends TestCase
 
         $factory = new UidProcessorFactory();
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('The uid length must be an integer between 1 and 32');
 
@@ -117,7 +108,7 @@ final class UidProcessorFactoryTest extends TestCase
 
         $factory = new UidProcessorFactory();
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('The uid length must be an integer between 1 and 32');
 

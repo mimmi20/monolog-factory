@@ -19,16 +19,12 @@ use Monolog\Formatter\HtmlFormatter;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function sprintf;
 
 final class MonologFormatterPluginManagerFactoryTest extends TestCase
 {
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvoke1(): void
     {
         $requestedName = HtmlFormatter::class;
@@ -49,10 +45,7 @@ final class MonologFormatterPluginManagerFactoryTest extends TestCase
         self::assertInstanceOf(MonologFormatterPluginManager::class, $factory($container, $requestedName, $options));
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvoke2(): void
     {
         $requestedName = HtmlFormatter::class;
@@ -108,10 +101,7 @@ final class MonologFormatterPluginManagerFactoryTest extends TestCase
         $factory($container, $requestedName, $options);
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvoke4(): void
     {
         $requestedName = HtmlFormatter::class;
@@ -139,10 +129,7 @@ final class MonologFormatterPluginManagerFactoryTest extends TestCase
         self::assertInstanceOf(MonologFormatterPluginManager::class, $factory($container, $requestedName, $options));
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvoke5(): void
     {
         $requestedName = HtmlFormatter::class;
@@ -170,10 +157,7 @@ final class MonologFormatterPluginManagerFactoryTest extends TestCase
         self::assertInstanceOf(MonologFormatterPluginManager::class, $factory($container, $requestedName, $options));
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvoke6(): void
     {
         $requestedName = HtmlFormatter::class;

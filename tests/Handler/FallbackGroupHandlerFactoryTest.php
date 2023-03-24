@@ -33,7 +33,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function sprintf;
 
@@ -319,7 +318,6 @@ final class FallbackGroupHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithHandlerWithType3(): void
@@ -420,7 +418,6 @@ final class FallbackGroupHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithHandlerWithType4(): void
@@ -521,7 +518,6 @@ final class FallbackGroupHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
@@ -623,7 +619,6 @@ final class FallbackGroupHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfigAndFormatter(): void
@@ -727,7 +722,6 @@ final class FallbackGroupHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfigAndFormatter2(): void
@@ -1016,7 +1010,6 @@ final class FallbackGroupHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {

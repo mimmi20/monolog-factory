@@ -21,7 +21,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function class_exists;
 use function gethostname;
@@ -30,7 +29,6 @@ final class GelfMessageFormatterFactoryTest extends TestCase
 {
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithoutConfig(): void
@@ -75,7 +73,6 @@ final class GelfMessageFormatterFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithEmptyConfig(): void
@@ -120,7 +117,6 @@ final class GelfMessageFormatterFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig(): void

@@ -13,7 +13,9 @@ declare(strict_types = 1);
 namespace Mimmi20\MonologFactory;
 
 use Laminas\ServiceManager\AbstractPluginManager;
+use Monolog\Logger;
 
+/** @extends AbstractPluginManager<Logger> */
 final class MonologPluginManager extends AbstractPluginManager
 {
     /**

@@ -22,7 +22,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class WebProcessorFactoryTest extends TestCase
 {
@@ -43,7 +42,6 @@ final class WebProcessorFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithoutConfig(): void
@@ -84,7 +82,6 @@ final class WebProcessorFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithEmptyConfig(): void
@@ -125,7 +122,6 @@ final class WebProcessorFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithEmptyServerdataConfig(): void
@@ -166,7 +162,6 @@ final class WebProcessorFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithServerdataConfig(): void
@@ -207,7 +202,6 @@ final class WebProcessorFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithServerdataArrayaccess(): void
@@ -294,7 +288,6 @@ final class WebProcessorFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithServerdataString2(): void
@@ -366,7 +359,6 @@ final class WebProcessorFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithServerdataString4(): void
@@ -407,7 +399,6 @@ final class WebProcessorFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithServerdataString5(): void
@@ -448,7 +439,6 @@ final class WebProcessorFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ServiceNotCreatedException
      * @throws ServiceNotFoundException
      */

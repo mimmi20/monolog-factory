@@ -12,8 +12,11 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory;
 
+use Elastic\Elasticsearch\Client as V8Client;
+use Elasticsearch\Client as V7Client;
 use Laminas\ServiceManager\AbstractPluginManager;
 
+/** @extends AbstractPluginManager<V7Client|V8Client> */
 final class ClientPluginManager extends AbstractPluginManager
 {
     /**

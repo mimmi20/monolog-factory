@@ -13,7 +13,9 @@ declare(strict_types = 1);
 namespace Mimmi20\MonologFactory;
 
 use Laminas\ServiceManager\AbstractPluginManager;
+use Monolog\Processor\ProcessorInterface;
 
+/** @extends AbstractPluginManager<ProcessorInterface> */
 final class MonologProcessorPluginManager extends AbstractPluginManager
 {
     /**

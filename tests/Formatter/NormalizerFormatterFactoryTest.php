@@ -19,7 +19,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use const JSON_PRETTY_PRINT;
 
@@ -27,7 +26,6 @@ final class NormalizerFormatterFactoryTest extends TestCase
 {
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithoutConfig(): void
@@ -58,7 +56,6 @@ final class NormalizerFormatterFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithEmptyConfig(): void
@@ -89,7 +86,6 @@ final class NormalizerFormatterFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig(): void

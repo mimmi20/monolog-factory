@@ -31,7 +31,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function fopen;
 use function sprintf;
@@ -81,7 +80,6 @@ final class StreamHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigWithStream(): void
     {
@@ -107,7 +105,7 @@ final class StreamHandlerFactoryTest extends TestCase
 
         $fp = new ReflectionProperty($handler, 'filePermission');
 
-        self::assertSame(0644, $fp->getValue($handler));
+        self::assertNull($fp->getValue($handler));
 
         $ul = new ReflectionProperty($handler, 'useLocking');
 
@@ -148,7 +146,6 @@ final class StreamHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigWithString(): void
     {
@@ -176,7 +173,7 @@ final class StreamHandlerFactoryTest extends TestCase
 
         $fp = new ReflectionProperty($handler, 'filePermission');
 
-        self::assertSame(0644, $fp->getValue($handler));
+        self::assertNull($fp->getValue($handler));
 
         $ul = new ReflectionProperty($handler, 'useLocking');
 
@@ -195,7 +192,6 @@ final class StreamHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigWithString2(): void
     {
@@ -226,7 +222,7 @@ final class StreamHandlerFactoryTest extends TestCase
 
         $fp = new ReflectionProperty($handler, 'filePermission');
 
-        self::assertSame(0644, $fp->getValue($handler));
+        self::assertNull($fp->getValue($handler));
 
         $ul = new ReflectionProperty($handler, 'useLocking');
 
@@ -271,7 +267,6 @@ final class StreamHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfig(): void
     {
@@ -402,7 +397,6 @@ final class StreamHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -471,7 +465,6 @@ final class StreamHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
@@ -582,7 +575,6 @@ final class StreamHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndFormatter5(): void
     {
@@ -655,7 +647,6 @@ final class StreamHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndFormatter6(): void
     {
@@ -907,7 +898,6 @@ final class StreamHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {

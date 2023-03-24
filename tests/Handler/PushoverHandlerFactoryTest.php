@@ -31,7 +31,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function extension_loaded;
 use function gethostname;
@@ -116,7 +115,6 @@ final class PushoverHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension sockets
      */
@@ -188,7 +186,6 @@ final class PushoverHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension sockets
      */
@@ -346,7 +343,6 @@ final class PushoverHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension sockets
      */
@@ -439,7 +435,6 @@ final class PushoverHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension sockets
      */
@@ -673,7 +668,6 @@ final class PushoverHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension sockets
      */

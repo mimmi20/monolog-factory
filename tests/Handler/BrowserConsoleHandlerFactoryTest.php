@@ -31,7 +31,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function sprintf;
 
@@ -39,7 +38,6 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
 {
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithoutConfig(): void
@@ -73,7 +71,6 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithEmptyConfig(): void
@@ -107,7 +104,6 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig(): void
@@ -193,7 +189,6 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfigAndFormatter2(): void
@@ -338,7 +333,6 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {

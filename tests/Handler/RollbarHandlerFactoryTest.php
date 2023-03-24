@@ -33,7 +33,6 @@ use ReflectionException;
 use ReflectionProperty;
 use Rollbar\Config;
 use Rollbar\RollbarLogger;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function assert;
 use function class_exists;
@@ -119,7 +118,6 @@ final class RollbarHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfig(): void
     {
@@ -176,7 +174,6 @@ final class RollbarHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfig2(): void
     {
@@ -304,7 +301,6 @@ final class RollbarHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -497,7 +493,6 @@ final class RollbarHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {

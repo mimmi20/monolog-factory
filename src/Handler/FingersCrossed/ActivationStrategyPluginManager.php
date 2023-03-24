@@ -18,6 +18,7 @@ use Monolog\Handler\FingersCrossed\ChannelLevelActivationStrategy;
 use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
 use Psr\Container\ContainerInterface;
 
+/** @extends AbstractPluginManager<ActivationStrategyInterface> */
 final class ActivationStrategyPluginManager extends AbstractPluginManager
 {
     /**

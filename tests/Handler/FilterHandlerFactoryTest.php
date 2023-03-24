@@ -33,7 +33,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function array_keys;
 use function sprintf;
@@ -203,7 +202,6 @@ final class FilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithHandlerConfig(): void
     {
@@ -282,7 +280,6 @@ final class FilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithHandlerConfig2(): void
     {
@@ -356,7 +353,6 @@ final class FilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithHandlerConfig3(): void
     {
@@ -597,7 +593,6 @@ final class FilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -747,7 +742,6 @@ final class FilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndFormatter4(): void
     {
@@ -1070,7 +1064,6 @@ final class FilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -1336,7 +1329,6 @@ final class FilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors6(): void
     {

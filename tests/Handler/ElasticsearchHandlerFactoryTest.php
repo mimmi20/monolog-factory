@@ -35,7 +35,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function class_exists;
 use function date;
@@ -154,7 +153,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigWithV7ClientClass(): void
     {
@@ -210,7 +208,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigWithV7ClassString(): void
     {
@@ -352,7 +349,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter2(): void
     {
@@ -428,7 +424,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter3(): void
     {
@@ -505,7 +500,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter4(): void
     {
@@ -582,7 +576,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter5(): void
     {
@@ -659,7 +652,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter6(): void
     {
@@ -830,7 +822,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithV7ClientAndConfigAndProcessors3(): void
     {
@@ -1123,7 +1114,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigWithArrayConfigForV7ClientButLoaderError3(): void
     {
@@ -1194,7 +1184,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigWithArrayConfigForV7ClientButLoaderError4(): void
     {
@@ -1263,7 +1252,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigWithV8ClientClass(): void
     {
@@ -1318,7 +1306,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigWithV8ClassString(): void
     {
@@ -1457,7 +1444,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithV8ClientAndConfigAndFormatter2(): void
     {
@@ -1665,7 +1651,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithV8ClientAndConfigAndProcessors3(): void
     {
@@ -1994,7 +1979,6 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigWithArrayConfigForV8ClientButLoaderError4(): void
     {

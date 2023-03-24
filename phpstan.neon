@@ -14,28 +14,73 @@ parameters:
     - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/autoload.php
     - %currentWorkingDirectory%/vendor/squizlabs/php_codesniffer/src/Util/Tokens.php
 
+  # reports occurrences of type-checking functions always evaluated to true
   checkAlwaysTrueCheckTypeFunctionCall: true
+
+  # reports instanceof occurrences always evaluated to true
   checkAlwaysTrueInstanceof: true
+
+  # reports === and !== occurrences always evaluated to true
   checkAlwaysTrueStrictComparison: true
+
+  # enable stricter analysis of benevolent union types
   checkBenevolentUnionTypes: true
+
+  # reports use of dynamic properties as undefined
   checkDynamicProperties: true
+
+  # reports code paths with missing return statement in functions and methods with @return mixed PHPDoc
   checkExplicitMixedMissingReturn: true
+
+  # reports function and method calls with incorrect name case
   checkFunctionNameCase: true
-  checkGenericClassInNonGenericObjectType: false
+
+  # it requires type variables always be specified in typehints
+  checkGenericClassInNonGenericObjectType: true
+
+  # be strict about values with an unspecified (implicit mixed) type
   checkImplicitMixed: false
+
+  # reports references to built-in classes with incorrect name case
   checkInternalClassCaseSensitivity: true
+
+  # require that callable signatures are specified
   checkMissingCallableSignature: true
+
+  # checks for missing typehints in iterables
   checkMissingIterableValueType: true
+
+  # reports return typehints that could be narrowed down because some of the listed types are never returned
   checkTooWideReturnTypesInProtectedAndPublicMethods: true
-  checkUninitializedProperties: false
+
+  # reports properties with native types that weren’t initialized in the class constructor
+  checkUninitializedProperties: true
+
+  # doesn’t require typehints for properties if the types can be inferred from constructor injection
   inferPrivatePropertyTypeFromConstructor: false
+
+  # prevents reading key and value variables set in foreach when iterating over a non-empty array
   polluteScopeWithAlwaysIterableForeach: false
+
+  # prevents reading variables set in for loop initial statement and while loop condition after the loop
   polluteScopeWithLoopInitialAssignments: false
-# reportAlwaysTrueInLastCondition: true
+
+  # report always true last condition in a series of elseif branches and match expression arms
+  reportAlwaysTrueInLastCondition: true
+
+  # reports violations of parameter type contravariance and return type covariance
   reportMaybesInMethodSignatures: false
-  reportMaybesInPropertyPhpDocTypes: false
+
+  # reports violations of property type invariance
+  reportMaybesInPropertyPhpDocTypes: true
+
+  # reports violations of parameter type contravariance and return type covariance in static methods
   reportStaticMethodSignatures: true
-# reportWrongPhpDocTypeInVarTag: true
+
+  #
+  reportWrongPhpDocTypeInVarTag: true
+
+  # differentiate between PHPDoc and native types (if false)
   treatPhpDocTypesAsCertain: false
 
   tipsOfTheDay: false
@@ -63,7 +108,6 @@ parameters:
     - '~MongoDB\\Collection~'
     - '~Parameter #3 \$options of callable Mimmi20\\MonologFactory\\Processor\\UidProcessorFactory expects array{length\?: int<1, 32>}\|null, array{length: (0|33)} given~'
     - '~PHPDoc tag @param for parameter .* contains unresolvable type~'
-    - '~is not subtype of Throwable~'
     - '~Fetching class constant class of deprecated class~'
     - '~Monolog\\(Formatter|Handler)\\Flowdock(Formatter|Handler)~'
     - '~Call to static method PHPUnit\\Framework\\Assert::assert.*\(\) with .* will always evaluate to true~'

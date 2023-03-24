@@ -33,7 +33,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function sprintf;
 
@@ -202,7 +201,6 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithHandlerConfig(): void
     {
@@ -268,7 +266,6 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithHandlerConfig2(): void
     {
@@ -336,7 +333,6 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithHandlerConfig3(): void
     {
@@ -406,7 +402,6 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
@@ -526,7 +521,6 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
@@ -599,7 +593,6 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -907,7 +900,6 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -1160,7 +1152,6 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors6(): void
     {

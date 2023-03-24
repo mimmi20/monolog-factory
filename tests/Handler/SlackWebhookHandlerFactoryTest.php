@@ -31,7 +31,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function extension_loaded;
 use function sprintf;
@@ -115,7 +114,6 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension curl
      */
@@ -184,7 +182,6 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension curl
      */
@@ -326,7 +323,6 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension curl
      */
@@ -534,7 +530,6 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension curl
      */

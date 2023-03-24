@@ -27,6 +27,7 @@ trait CreateFormatterTrait
     /**
      * @param array<string, array<string, mixed>|bool|string>|FormatterInterface $formatterConfig
      * @phpstan-param FormatterInterface|array{enabled?: bool, type?: string, options?: array<mixed>} $formatterConfig
+     * @phpstan-param AbstractPluginManager<FormatterInterface> $monologFormatterPluginManager
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service

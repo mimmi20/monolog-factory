@@ -20,7 +20,6 @@ use Monolog\Formatter\ElasticsearchFormatter;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class ElasticsearchFormatterFactoryTest extends TestCase
 {
@@ -64,10 +63,7 @@ final class ElasticsearchFormatterFactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvokeWithIndex(): void
     {
         $index = 'abc';
@@ -92,10 +88,7 @@ final class ElasticsearchFormatterFactoryTest extends TestCase
         self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvokeWithIndexAndType(): void
     {
         $maxNormalizeDepth     = 42;

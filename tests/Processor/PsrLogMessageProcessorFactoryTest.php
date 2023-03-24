@@ -19,14 +19,12 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class PsrLogMessageProcessorFactoryTest extends TestCase
 {
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -56,7 +54,6 @@ final class PsrLogMessageProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -86,7 +83,6 @@ final class PsrLogMessageProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfig(): void
     {

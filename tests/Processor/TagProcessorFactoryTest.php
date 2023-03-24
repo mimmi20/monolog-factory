@@ -19,14 +19,12 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class TagProcessorFactoryTest extends TestCase
 {
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -52,7 +50,6 @@ final class TagProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -78,7 +75,6 @@ final class TagProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithLevel(): void
     {
@@ -106,7 +102,6 @@ final class TagProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithTagsAsString(): void
     {

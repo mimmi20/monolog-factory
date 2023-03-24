@@ -16,6 +16,7 @@ use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Monolog\LogRecord;
+use Monolog\Processor\ProcessorInterface;
 use Psr\Container\ContainerExceptionInterface;
 
 use function array_key_exists;
@@ -28,6 +29,7 @@ trait CreateProcessorTrait
     /**
      * @param array<string, array<string, mixed>|bool|string>|callable $processorConfig
      * @phpstan-param (callable(LogRecord): LogRecord)|array{enabled?: bool, type?: string, options?: array<mixed>} $processorConfig
+     * @phpstan-param AbstractPluginManager<ProcessorInterface> $monologProcessorPluginManager
      *
      * @phpstan-return (callable(LogRecord): LogRecord)|null
      *

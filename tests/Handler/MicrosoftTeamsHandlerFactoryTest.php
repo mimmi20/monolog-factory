@@ -32,7 +32,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function assert;
 use function extension_loaded;
@@ -91,7 +90,6 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension curl
      */
@@ -153,7 +151,6 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension curl
      */
@@ -282,7 +279,6 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension curl
      */
@@ -468,7 +464,6 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension curl
      */

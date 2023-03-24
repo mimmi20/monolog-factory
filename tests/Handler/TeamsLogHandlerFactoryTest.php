@@ -31,7 +31,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function class_exists;
 use function sprintf;
@@ -97,7 +96,6 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension curl
      */
@@ -143,7 +141,6 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension curl
      */
@@ -259,7 +256,6 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      *
      * @requires extension curl
      */
@@ -437,7 +433,6 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {

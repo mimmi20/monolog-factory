@@ -13,7 +13,9 @@ declare(strict_types = 1);
 namespace Mimmi20\MonologFactory;
 
 use Laminas\ServiceManager\AbstractPluginManager;
+use Monolog\Formatter\FormatterInterface;
 
+/** @extends AbstractPluginManager<FormatterInterface> */
 final class MonologFormatterPluginManager extends AbstractPluginManager
 {
     /**

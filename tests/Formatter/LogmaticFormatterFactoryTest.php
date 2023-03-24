@@ -22,13 +22,11 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class LogmaticFormatterFactoryTest extends TestCase
 {
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithoutConfig(): void
@@ -71,7 +69,6 @@ final class LogmaticFormatterFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithEmptyConfig(): void
@@ -114,7 +111,6 @@ final class LogmaticFormatterFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig(): void
@@ -166,7 +162,6 @@ final class LogmaticFormatterFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig2(): void

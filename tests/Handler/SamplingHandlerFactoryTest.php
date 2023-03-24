@@ -31,7 +31,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function sprintf;
 
@@ -283,7 +282,6 @@ final class SamplingHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithHandlerConfig(): void
@@ -340,7 +338,6 @@ final class SamplingHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithHandlerConfig2(): void
@@ -541,7 +538,6 @@ final class SamplingHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfigAndFormatter2(): void
@@ -611,7 +607,6 @@ final class SamplingHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfigAndFormatter3(): void
@@ -942,7 +937,6 @@ final class SamplingHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -1160,7 +1154,6 @@ final class SamplingHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors6(): void
     {

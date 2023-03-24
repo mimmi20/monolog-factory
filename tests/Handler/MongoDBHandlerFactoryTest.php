@@ -21,6 +21,7 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use MongoDB\Client;
 use MongoDB\Collection;
+use MongoDB\Driver\Exception\InvalidArgumentException;
 use MongoDB\Driver\Exception\RuntimeException;
 use MongoDB\Driver\Manager;
 use Monolog\Formatter\FormatterInterface;
@@ -36,7 +37,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function class_exists;
 use function sprintf;
@@ -180,7 +180,6 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig5(): void
@@ -236,7 +235,6 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig6(): void
@@ -289,9 +287,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws RuntimeException
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig7(): void
@@ -336,9 +333,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws RuntimeException
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig8(): void
@@ -380,7 +376,6 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig9(): void
@@ -439,7 +434,6 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig10(): void
@@ -494,9 +488,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws RuntimeException
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig11(): void
@@ -544,9 +537,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws RuntimeException
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig12(): void
@@ -618,7 +610,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws RuntimeException
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
@@ -656,7 +648,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws RuntimeException
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
@@ -697,9 +689,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws RuntimeException
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfigAndFormatter2(): void
@@ -758,7 +749,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws RuntimeException
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
@@ -800,7 +791,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws RuntimeException
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
@@ -836,7 +827,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws RuntimeException
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -896,7 +887,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws RuntimeException
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfigAndProcessors3(): void
@@ -981,7 +972,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws RuntimeException
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
@@ -1034,7 +1025,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws RuntimeException
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {

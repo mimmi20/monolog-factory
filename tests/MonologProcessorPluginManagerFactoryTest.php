@@ -19,16 +19,12 @@ use Monolog\Processor\PsrLogMessageProcessor;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function sprintf;
 
 final class MonologProcessorPluginManagerFactoryTest extends TestCase
 {
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvoke1(): void
     {
         $requestedName = PsrLogMessageProcessor::class;
@@ -49,10 +45,7 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
         self::assertInstanceOf(MonologProcessorPluginManager::class, $factory($container, $requestedName, $options));
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvoke2(): void
     {
         $requestedName = PsrLogMessageProcessor::class;
@@ -108,10 +101,7 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
         $factory($container, $requestedName, $options);
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvoke4(): void
     {
         $requestedName = PsrLogMessageProcessor::class;
@@ -139,10 +129,7 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
         self::assertInstanceOf(MonologProcessorPluginManager::class, $factory($container, $requestedName, $options));
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvoke5(): void
     {
         $requestedName = PsrLogMessageProcessor::class;
@@ -170,10 +157,7 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
         self::assertInstanceOf(MonologProcessorPluginManager::class, $factory($container, $requestedName, $options));
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvoke6(): void
     {
         $requestedName = PsrLogMessageProcessor::class;

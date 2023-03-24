@@ -17,14 +17,10 @@ use Monolog\Formatter\FluentdFormatter;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class FluentdFormatterFactoryTest extends TestCase
 {
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -43,10 +39,7 @@ final class FluentdFormatterFactoryTest extends TestCase
         self::assertFalse($formatter->isUsingLevelsInTag());
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -65,10 +58,7 @@ final class FluentdFormatterFactoryTest extends TestCase
         self::assertFalse($formatter->isUsingLevelsInTag());
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvokeWithConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)

@@ -21,13 +21,11 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class IntrospectionProcessorFactoryTest extends TestCase
 {
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithoutConfig(): void
@@ -61,7 +59,6 @@ final class IntrospectionProcessorFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithEmptyConfig(): void
@@ -95,7 +92,6 @@ final class IntrospectionProcessorFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig(): void
@@ -133,7 +129,6 @@ final class IntrospectionProcessorFactoryTest extends TestCase
 
     /**
      * @throws Exception
-     * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     public function testInvokeWithConfig2(): void

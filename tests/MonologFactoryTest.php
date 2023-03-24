@@ -26,7 +26,6 @@ use Monolog\Processor\ProcessorInterface;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 use function sprintf;
 
@@ -123,10 +122,7 @@ final class MonologFactoryTest extends TestCase
         $factory($container, $requestedName, $options);
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvokeWithTimezone3(): void
     {
         $requestedName = Logger::class;
@@ -148,10 +144,7 @@ final class MonologFactoryTest extends TestCase
         self::assertInstanceOf(DateTimeZone::class, $logger->getTimezone());
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvokeWithTimezone4(): void
     {
         $requestedName = Logger::class;
@@ -306,10 +299,7 @@ final class MonologFactoryTest extends TestCase
         $factory($container, $requestedName, $options);
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvokeWithHandlers5(): void
     {
         $requestedName = Logger::class;
@@ -365,10 +355,7 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(4, $logger->getHandlers());
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvokeWithHandlers6(): void
     {
         $requestedName = Logger::class;
@@ -551,10 +538,7 @@ final class MonologFactoryTest extends TestCase
         $factory($container, $requestedName, $options);
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvokeWithProcessors5(): void
     {
         $requestedName = Logger::class;
@@ -610,10 +594,7 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(3, $logger->getProcessors());
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvokeWithProcessors7(): void
     {
         $requestedName = Logger::class;

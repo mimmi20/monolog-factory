@@ -29,14 +29,10 @@ use Mimmi20\MonologFactory\MonologProviderInterface;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class ModuleTest extends TestCase
 {
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testGetConfig(): void
     {
         $module = new Module();

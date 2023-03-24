@@ -17,14 +17,10 @@ use Monolog\Handler\NoopHandler;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 final class NoopHandlerFactoryTest extends TestCase
 {
-    /**
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
+    /** @throws Exception */
     public function testInvoke(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)

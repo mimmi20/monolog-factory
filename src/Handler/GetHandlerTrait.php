@@ -37,10 +37,8 @@ trait GetHandlerTrait
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      * @throws ContainerExceptionInterface if any other error occurs
      */
-    private function getHandler(
-        ContainerInterface $container,
-        array $options,
-    ): HandlerInterface | null {
+    private function getHandler(ContainerInterface $container, array $options): HandlerInterface | null
+    {
         if (!array_key_exists('type', $options)) {
             throw new ServiceNotCreatedException('Options must contain a type for the handler');
         }

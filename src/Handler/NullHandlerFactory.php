@@ -33,11 +33,8 @@ final class NullHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
-    public function __invoke(
-        ContainerInterface $container,
-        $requestedName,
-        array | null $options = null,
-    ): NullHandler {
+    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): NullHandler
+    {
         $level = LogLevel::DEBUG;
 
         if (is_array($options) && array_key_exists('level', $options)) {

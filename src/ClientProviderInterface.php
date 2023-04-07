@@ -21,6 +21,8 @@ interface ClientProviderInterface
      * seed such an object.
      *
      * @return array<string, array<int, string>>|Config
+     *
+     * @throws void
      */
     public function getMonologClientConfig(): array | Config;
 }

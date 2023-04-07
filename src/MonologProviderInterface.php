@@ -21,6 +21,8 @@ interface MonologProviderInterface
      * seed such an object.
      *
      * @return array<string, array<string, string>>|Config
+     *
+     * @throws void
      */
     public function getMonologConfig(): array | Config;
 }

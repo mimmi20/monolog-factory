@@ -21,6 +21,8 @@ interface MonologFormatterProviderInterface
      * seed such an object.
      *
      * @return array<string, array<int, string>>|Config
+     *
+     * @throws void
      */
     public function getMonologFormatterConfig(): array | Config;
 }

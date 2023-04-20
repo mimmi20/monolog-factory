@@ -80,7 +80,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.25.0"
+        uses: "shivammathur/setup-php@2.25.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, :mongodb, :amqp, :sockets, :curl"
@@ -161,7 +161,7 @@ jobs:
           mongodb-version: "5.0"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.25.0"
+        uses: "shivammathur/setup-php@2.25.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, mongodb, :amqp, :sockets, :curl"
@@ -241,7 +241,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.25.0"
+        uses: "shivammathur/setup-php@2.25.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, :mongodb, :amqp, :sockets, curl"
@@ -315,7 +315,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.25.0"
+        uses: "shivammathur/setup-php@2.25.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, :mongodb, :amqp, sockets, :curl"
@@ -392,7 +392,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.25.0"
+        uses: "shivammathur/setup-php@2.25.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, :mongodb, amqp, :sockets, :curl"
@@ -469,7 +469,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.25.0"
+        uses: "shivammathur/setup-php@2.25.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
@@ -559,7 +559,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.25.0"
+        uses: "shivammathur/setup-php@2.25.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
@@ -652,7 +652,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.25.0"
+        uses: "shivammathur/setup-php@2.25.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, curl, ctype"
@@ -747,7 +747,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.25.0"
+        uses: "shivammathur/setup-php@2.25.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, sockets, :curl, ctype"
@@ -840,7 +840,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.25.0"
+        uses: "shivammathur/setup-php@2.25.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
@@ -1026,7 +1026,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.25.0"
+        uses: "shivammathur/setup-php@2.25.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, sockets, :curl, ctype"
@@ -1116,7 +1116,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.25.0"
+        uses: "shivammathur/setup-php@2.25.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, curl, ctype"
@@ -1204,7 +1204,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.25.0"
+        uses: "shivammathur/setup-php@2.25.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, mongodb, :amqp, :sockets, :curl, ctype"
@@ -1294,7 +1294,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.25.0"
+        uses: "shivammathur/setup-php@2.25.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, amqp, :sockets, :curl, ctype"

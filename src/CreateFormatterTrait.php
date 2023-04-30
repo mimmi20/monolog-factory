@@ -61,7 +61,7 @@ trait CreateFormatterTrait
             );
         }
 
-        assert(null === $formatter || $formatter instanceof FormatterInterface);
+        assert($formatter === null || $formatter instanceof FormatterInterface);
 
         return $formatter;
     }

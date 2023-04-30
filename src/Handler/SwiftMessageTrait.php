@@ -36,9 +36,7 @@ trait SwiftMessageTrait
         callable | string | Swift_Message $message,
     ): callable | Swift_Message {
         if (empty($message)) {
-            throw new ServiceNotCreatedException(
-                'No message service name or callback provided',
-            );
+            throw new ServiceNotCreatedException('No message service name or callback provided');
         }
 
         if (is_callable($message) || $message instanceof Swift_Message) {
@@ -46,9 +44,7 @@ trait SwiftMessageTrait
         }
 
         if (!$container->has($message)) {
-            throw new ServiceNotFoundException(
-                'No Message service found',
-            );
+            throw new ServiceNotFoundException('No Message service found');
         }
 
         try {

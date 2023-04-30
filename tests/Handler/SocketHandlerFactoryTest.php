@@ -494,8 +494,8 @@ final class SocketHandlerFactoryTest extends TestCase
         $processors       = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -552,8 +552,8 @@ final class SocketHandlerFactoryTest extends TestCase
         $processors        = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -635,8 +635,8 @@ final class SocketHandlerFactoryTest extends TestCase
         $processors       = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -689,8 +689,8 @@ final class SocketHandlerFactoryTest extends TestCase
         $processors       = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,

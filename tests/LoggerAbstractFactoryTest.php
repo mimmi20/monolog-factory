@@ -79,7 +79,9 @@ final class LoggerAbstractFactoryTest extends TestCase
         $factory = new LoggerAbstractFactory();
 
         $this->expectException(AssertionError::class);
-        $this->expectExceptionMessage('$pluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null');
+        $this->expectExceptionMessage(
+            '$pluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
+        );
         $this->expectExceptionCode(1);
 
         $factory($container, $requestedName);
@@ -101,7 +103,7 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $var) use ($config, $exception): array {
-                    if ('config' === $var) {
+                    if ($var === 'config') {
                         return $config;
                     }
 
@@ -116,7 +118,10 @@ final class LoggerAbstractFactoryTest extends TestCase
 
             self::fail('ServiceNotCreatedException expected');
         } catch (ServiceNotCreatedException $e) {
-            self::assertSame(sprintf('Could not find service %s', MonologPluginManager::class), $e->getMessage());
+            self::assertSame(
+                sprintf('Could not find service %s', MonologPluginManager::class),
+                $e->getMessage(),
+            );
             self::assertSame(0, $e->getCode());
             self::assertSame($exception, $e->getPrevious());
         }

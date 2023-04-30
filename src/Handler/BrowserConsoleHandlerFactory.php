@@ -61,10 +61,7 @@ final class BrowserConsoleHandlerFactory implements FactoryInterface
             }
         }
 
-        $handler = new BrowserConsoleHandler(
-            $level,
-            $bubble,
-        );
+        $handler = new BrowserConsoleHandler($level, $bubble);
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

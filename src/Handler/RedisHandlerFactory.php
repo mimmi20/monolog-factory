@@ -57,13 +57,17 @@ final class RedisHandlerFactory implements FactoryInterface
         }
 
         if (!array_key_exists('client', $options)) {
-            throw new ServiceNotCreatedException('No Service name provided for the required service class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required service class',
+            );
         }
 
         if ($options['client'] instanceof Client || $options['client'] instanceof Redis) {
             $client = $options['client'];
         } elseif (!is_string($options['client'])) {
-            throw new ServiceNotCreatedException('No Service name provided for the required service class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required service class',
+            );
         } else {
             try {
                 $client = $container->get($options['client']);
@@ -103,13 +107,7 @@ final class RedisHandlerFactory implements FactoryInterface
             $capSize = $options['capSize'];
         }
 
-        $handler = new RedisHandler(
-            $client,
-            $key,
-            $level,
-            $bubble,
-            $capSize,
-        );
+        $handler = new RedisHandler($client, $key, $level, $bubble, $capSize);
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

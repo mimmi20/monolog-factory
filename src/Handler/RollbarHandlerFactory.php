@@ -110,10 +110,10 @@ final class RollbarHandlerFactory implements FactoryInterface
                 [
                     'access_token' => $token,
                     'enabled' => $enabled,
-                    'transmit' => $transmit,
-                    'log_payload' => $logPayload,
-                    'verbose' => $verbose,
                     'environment' => $environment,
+                    'log_payload' => $logPayload,
+                    'transmit' => $transmit,
+                    'verbose' => $verbose,
                 ],
             );
         } catch (InvalidArgumentException $e) {
@@ -124,11 +124,7 @@ final class RollbarHandlerFactory implements FactoryInterface
             );
         }
 
-        $handler = new RollbarHandler(
-            $rollbarLogger,
-            $level,
-            $bubble,
-        );
+        $handler = new RollbarHandler($rollbarLogger, $level, $bubble);
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

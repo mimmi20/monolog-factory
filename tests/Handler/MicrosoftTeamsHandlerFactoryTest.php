@@ -421,8 +421,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -474,8 +474,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -573,8 +573,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -625,8 +625,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -678,7 +678,9 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage(sprintf('The curl extension is needed to use the %s', MicrosoftTeamsHandler::class));
+        $this->expectExceptionMessage(
+            sprintf('The curl extension is needed to use the %s', MicrosoftTeamsHandler::class),
+        );
 
         $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false]);
     }

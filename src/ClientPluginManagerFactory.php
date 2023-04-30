@@ -61,7 +61,10 @@ final class ClientPluginManagerFactory implements FactoryInterface
         assert(is_array($config));
 
         // If we do not have client configuration, nothing more to do
-        if (!isset($config['monolog_service_clients']) || !is_array($config['monolog_service_clients'])) {
+        if (
+            !isset($config['monolog_service_clients'])
+            || !is_array($config['monolog_service_clients'])
+        ) {
             return $pluginManager;
         }
 

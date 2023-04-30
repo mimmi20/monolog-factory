@@ -78,7 +78,12 @@ final class GelfMessageFormatterFactory implements FactoryInterface
         }
 
         try {
-            $formatter = new GelfMessageFormatter($systemName, $extraPrefix, $contextPrefix, $maxLength);
+            $formatter = new GelfMessageFormatter(
+                $systemName,
+                $extraPrefix,
+                $contextPrefix,
+                $maxLength,
+            );
         } catch (RuntimeException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', GelfMessageFormatter::class),

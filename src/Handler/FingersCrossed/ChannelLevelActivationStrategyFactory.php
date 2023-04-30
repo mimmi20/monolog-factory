@@ -46,7 +46,10 @@ final class ChannelLevelActivationStrategyFactory implements FactoryInterface
                 $defaultActionLevel = $options['defaultActionLevel'];
             }
 
-            if (array_key_exists('channelToActionLevel', $options) && is_array($options['channelToActionLevel'])) {
+            if (
+                array_key_exists('channelToActionLevel', $options)
+                && is_array($options['channelToActionLevel'])
+            ) {
                 $channelToActionLevel = $options['channelToActionLevel'];
             }
         }

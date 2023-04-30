@@ -61,13 +61,20 @@ final class SymfonyMailerHandlerFactory implements FactoryInterface
         }
 
         if (!array_key_exists('mailer', $options)) {
-            throw new ServiceNotCreatedException('No Service name provided for the required mailer class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required mailer class',
+            );
         }
 
-        if ($options['mailer'] instanceof MailerInterface || $options['mailer'] instanceof TransportInterface) {
+        if (
+            $options['mailer'] instanceof MailerInterface
+            || $options['mailer'] instanceof TransportInterface
+        ) {
             $mailer = $options['mailer'];
         } elseif (!is_string($options['mailer'])) {
-            throw new ServiceNotCreatedException('No Service name provided for the required mailer class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required mailer class',
+            );
         } else {
             try {
                 $mailer = $container->get($options['mailer']);
@@ -86,7 +93,10 @@ final class SymfonyMailerHandlerFactory implements FactoryInterface
             throw new ServiceNotCreatedException('No Email template provided');
         }
 
-        if (!($options['email-template'] instanceof Email) && !($options['email-template'] instanceof Closure)) {
+        if (
+            !($options['email-template'] instanceof Email)
+            && !($options['email-template'] instanceof Closure)
+        ) {
             throw new ServiceNotCreatedException('No Email template provided');
         }
 

@@ -44,8 +44,14 @@ final class LineFormatterFactoryTest extends TestCase
 
         self::assertInstanceOf(LineFormatter::class, $formatter);
         self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH, $formatter->getMaxNormalizeDepth());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
+            $formatter->getMaxNormalizeDepth(),
+        );
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
+            $formatter->getMaxNormalizeItemCount(),
+        );
 
         $ailb = new ReflectionProperty($formatter, 'allowInlineLineBreaks');
 
@@ -84,8 +90,14 @@ final class LineFormatterFactoryTest extends TestCase
 
         self::assertInstanceOf(LineFormatter::class, $formatter);
         self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH, $formatter->getMaxNormalizeDepth());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
+            $formatter->getMaxNormalizeDepth(),
+        );
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
+            $formatter->getMaxNormalizeItemCount(),
+        );
 
         $ailb = new ReflectionProperty($formatter, 'allowInlineLineBreaks');
 

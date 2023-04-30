@@ -51,17 +51,15 @@ trait GetHandlersTrait
 
             $handler = $this->getHandler($container, $handler);
 
-            if (null === $handler) {
+            if ($handler === null) {
                 continue;
             }
 
             $return[] = $handler;
         }
 
-        if ([] === $return) {
-            throw new ServiceNotCreatedException(
-                'No active handlers specified',
-            );
+        if ($return === []) {
+            throw new ServiceNotCreatedException('No active handlers specified');
         }
 
         return $return;

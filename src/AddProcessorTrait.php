@@ -56,7 +56,11 @@ trait AddProcessorTrait
         try {
             $monologProcessorPluginManager = $container->get(MonologProcessorPluginManager::class);
         } catch (ContainerExceptionInterface $e) {
-            throw new ServiceNotFoundException(sprintf('Could not find service %s', MonologProcessorPluginManager::class), 0, $e);
+            throw new ServiceNotFoundException(
+                sprintf('Could not find service %s', MonologProcessorPluginManager::class),
+                0,
+                $e,
+            );
         }
 
         assert(
@@ -71,7 +75,7 @@ trait AddProcessorTrait
         foreach (array_reverse($options['processors']) as $processorConfig) {
             $processor = $this->createProcessor($processorConfig, $monologProcessorPluginManager);
 
-            if (null === $processor) {
+            if ($processor === null) {
                 continue;
             }
 

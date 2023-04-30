@@ -76,12 +76,7 @@ final class ProcessHandlerFactory implements FactoryInterface
         }
 
         try {
-            $handler = new ProcessHandler(
-                $command,
-                $level,
-                $bubble,
-                $cwd,
-            );
+            $handler = new ProcessHandler($command, $level, $bubble, $cwd);
         } catch (InvalidArgumentException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', ProcessHandler::class),

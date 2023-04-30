@@ -89,13 +89,7 @@ final class BufferHandlerFactory implements FactoryInterface
             $flushOnOverflow = $options['flushOnOverflow'];
         }
 
-        $handler = new BufferHandler(
-            $handler,
-            $bufferLimit,
-            $level,
-            $bubble,
-            $flushOnOverflow,
-        );
+        $handler = new BufferHandler($handler, $bufferLimit, $level, $bubble, $flushOnOverflow);
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

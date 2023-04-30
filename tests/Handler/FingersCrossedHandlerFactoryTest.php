@@ -752,7 +752,7 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $with) use ($monologHandlerPluginManager) {
-                    if (MonologHandlerPluginManager::class === $with) {
+                    if ($with === MonologHandlerPluginManager::class) {
                         return $monologHandlerPluginManager;
                     }
 
@@ -764,7 +764,9 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage(sprintf('Could not load service %s', ActivationStrategyPluginManager::class));
+        $this->expectExceptionMessage(
+            sprintf('Could not load service %s', ActivationStrategyPluginManager::class),
+        );
 
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => $strategy, 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
@@ -1257,11 +1259,11 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager, $activationStrategyPluginManager) {
-                    if (MonologHandlerPluginManager::class === $var) {
+                    if ($var === MonologHandlerPluginManager::class) {
                         return $monologHandlerPluginManager;
                     }
 
-                    if (ActivationStrategyPluginManager::class === $var) {
+                    if ($var === ActivationStrategyPluginManager::class) {
                         return $activationStrategyPluginManager;
                     }
 
@@ -1434,7 +1436,7 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager) {
-                    if (MonologHandlerPluginManager::class === $var) {
+                    if ($var === MonologHandlerPluginManager::class) {
                         return $monologHandlerPluginManager;
                     }
 
@@ -1731,8 +1733,8 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
         $processors      = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1809,8 +1811,8 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
         $processors      = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1933,8 +1935,8 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
         $processors      = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1979,7 +1981,7 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager) {
-                    if (MonologHandlerPluginManager::class === $var) {
+                    if ($var === MonologHandlerPluginManager::class) {
                         return $monologHandlerPluginManager;
                     }
 
@@ -2008,8 +2010,8 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
         $processors      = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -2086,8 +2088,8 @@ final class FingersCrossedHandlerFactoryTest extends TestCase
         $processors      = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,

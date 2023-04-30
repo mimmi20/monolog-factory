@@ -69,14 +69,14 @@ final class OverflowHandlerFactory implements FactoryInterface
         }
 
         $thresholdMap = [
+            Level::Alert->value => $options['thresholdMap'][LogLevel::ALERT] ?? 0,
+            Level::Critical->value => $options['thresholdMap'][LogLevel::CRITICAL] ?? 0,
             Level::Debug->value => $options['thresholdMap'][LogLevel::DEBUG] ?? 0,
+            Level::Emergency->value => $options['thresholdMap'][LogLevel::EMERGENCY] ?? 0,
+            Level::Error->value => $options['thresholdMap'][LogLevel::ERROR] ?? 0,
             Level::Info->value => $options['thresholdMap'][LogLevel::INFO] ?? 0,
             Level::Notice->value => $options['thresholdMap'][LogLevel::NOTICE] ?? 0,
             Level::Warning->value => $options['thresholdMap'][LogLevel::WARNING] ?? 0,
-            Level::Error->value => $options['thresholdMap'][LogLevel::ERROR] ?? 0,
-            Level::Critical->value => $options['thresholdMap'][LogLevel::CRITICAL] ?? 0,
-            Level::Alert->value => $options['thresholdMap'][LogLevel::ALERT] ?? 0,
-            Level::Emergency->value => $options['thresholdMap'][LogLevel::EMERGENCY] ?? 0,
         ];
 
         $level  = LogLevel::DEBUG;
@@ -90,12 +90,7 @@ final class OverflowHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new OverflowHandler(
-            $handler,
-            $thresholdMap,
-            $level,
-            $bubble,
-        );
+        $handler = new OverflowHandler($handler, $thresholdMap, $level, $bubble);
 
         $this->addFormatter($container, $handler, $options);
 

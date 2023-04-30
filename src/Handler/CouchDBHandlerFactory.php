@@ -88,11 +88,11 @@ final class CouchDBHandlerFactory implements FactoryInterface
 
         $handler = new CouchDBHandler(
             [
-                'host' => $host,
-                'port' => $port,
                 'dbname' => $dbname,
-                'username' => $userName,
+                'host' => $host,
                 'password' => $password,
+                'port' => $port,
+                'username' => $userName,
             ],
             $level,
             $bubble,

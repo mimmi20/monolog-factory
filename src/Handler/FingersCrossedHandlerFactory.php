@@ -86,7 +86,10 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
         $passthruLevel      = null;
 
         if (array_key_exists('activationStrategy', $options)) {
-            $activationStrategy = $this->getActivationStrategy($container, $options['activationStrategy']);
+            $activationStrategy = $this->getActivationStrategy(
+                $container,
+                $options['activationStrategy'],
+            );
         }
 
         if (array_key_exists('bufferSize', $options)) {
@@ -134,11 +137,14 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
         ContainerInterface $container,
         ActivationStrategyInterface | Level | int | array | string | null $activationStrategy,
     ): ActivationStrategyInterface | Level | null {
-        if (null === $activationStrategy) {
+        if ($activationStrategy === null) {
             return null;
         }
 
-        if ($activationStrategy instanceof ActivationStrategyInterface || $activationStrategy instanceof Level) {
+        if (
+            $activationStrategy instanceof ActivationStrategyInterface
+            || $activationStrategy instanceof Level
+        ) {
             return $activationStrategy;
         }
 
@@ -163,11 +169,16 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
 
         if (is_array($activationStrategy)) {
             if (!array_key_exists('type', $activationStrategy)) {
-                throw new ServiceNotCreatedException('Options must contain a type for the ActivationStrategy');
+                throw new ServiceNotCreatedException(
+                    'Options must contain a type for the ActivationStrategy',
+                );
             }
 
             try {
-                $strategy = $activationStrategyPluginManager->get($activationStrategy['type'], $activationStrategy['options'] ?? []);
+                $strategy = $activationStrategyPluginManager->get(
+                    $activationStrategy['type'],
+                    $activationStrategy['options'] ?? [],
+                );
             } catch (ServiceNotFoundException | ServiceNotCreatedException $e) {
                 throw new ServiceNotFoundException('Could not load ActivationStrategy class', 0, $e);
             }
@@ -177,7 +188,10 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
             return $strategy;
         }
 
-        if (is_string($activationStrategy) && $activationStrategyPluginManager->has($activationStrategy)) {
+        if (
+            is_string($activationStrategy)
+            && $activationStrategyPluginManager->has($activationStrategy)
+        ) {
             try {
                 $strategy = $activationStrategyPluginManager->get($activationStrategy);
             } catch (ServiceNotFoundException | ServiceNotCreatedException $e) {

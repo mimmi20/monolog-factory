@@ -84,7 +84,12 @@ final class JsonFormatterFactory implements FactoryInterface
         }
 
         try {
-            $formatter = new JsonFormatter($batchMode, $appendNewline, $ignoreEmptyContextAndExtra, $includeStacktraces);
+            $formatter = new JsonFormatter(
+                $batchMode,
+                $appendNewline,
+                $ignoreEmptyContextAndExtra,
+                $includeStacktraces,
+            );
         } catch (RuntimeException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', JsonFormatter::class),

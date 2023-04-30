@@ -121,7 +121,9 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage(sprintf('Could not load client class for %s class', ElasticsearchHandler::class));
+        $this->expectExceptionMessage(
+            sprintf('Could not load client class for %s class', ElasticsearchHandler::class),
+        );
 
         $factory($container, '', ['client' => $client]);
     }
@@ -775,8 +777,8 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
         $processors  = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -839,8 +841,8 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
         $processors  = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -937,8 +939,8 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
         $processors  = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1001,8 +1003,8 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
         $processors  = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1604,8 +1606,8 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
         $processors    = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1667,8 +1669,8 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
         $processors    = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1764,8 +1766,8 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
         $processors    = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1827,8 +1829,8 @@ final class ElasticsearchHandlerFactoryTest extends TestCase
         $processors    = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,

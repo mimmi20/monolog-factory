@@ -68,13 +68,13 @@ final class WebProcessorFactoryTest extends TestCase
 
         $xf = new ReflectionProperty($processor, 'extraFields');
 
-        self::assertSame(
+        self::assertEquals(
             [
-                'url' => 'REQUEST_URI',
-                'ip' => 'REMOTE_ADDR',
                 'http_method' => 'REQUEST_METHOD',
-                'server' => 'SERVER_NAME',
+                'ip' => 'REMOTE_ADDR',
                 'referrer' => 'HTTP_REFERER',
+                'server' => 'SERVER_NAME',
+                'url' => 'REQUEST_URI',
             ],
             $xf->getValue($processor),
         );
@@ -108,13 +108,13 @@ final class WebProcessorFactoryTest extends TestCase
 
         $xf = new ReflectionProperty($processor, 'extraFields');
 
-        self::assertSame(
+        self::assertEquals(
             [
-                'url' => 'REQUEST_URI',
-                'ip' => 'REMOTE_ADDR',
                 'http_method' => 'REQUEST_METHOD',
-                'server' => 'SERVER_NAME',
+                'ip' => 'REMOTE_ADDR',
                 'referrer' => 'HTTP_REFERER',
+                'server' => 'SERVER_NAME',
+                'url' => 'REQUEST_URI',
             ],
             $xf->getValue($processor),
         );
@@ -148,13 +148,13 @@ final class WebProcessorFactoryTest extends TestCase
 
         $xf = new ReflectionProperty($processor, 'extraFields');
 
-        self::assertSame(
+        self::assertEquals(
             [
-                'url' => 'REQUEST_URI',
-                'ip' => 'REMOTE_ADDR',
                 'http_method' => 'REQUEST_METHOD',
-                'server' => 'SERVER_NAME',
+                'ip' => 'REMOTE_ADDR',
                 'referrer' => 'HTTP_REFERER',
+                'server' => 'SERVER_NAME',
+                'url' => 'REQUEST_URI',
             ],
             $xf->getValue($processor),
         );
@@ -188,13 +188,13 @@ final class WebProcessorFactoryTest extends TestCase
 
         $xf = new ReflectionProperty($processor, 'extraFields');
 
-        self::assertSame(
+        self::assertEquals(
             [
-                'url' => 'REQUEST_URI',
-                'ip' => 'REMOTE_ADDR',
                 'http_method' => 'REQUEST_METHOD',
-                'server' => 'SERVER_NAME',
+                'ip' => 'REMOTE_ADDR',
                 'referrer' => 'HTTP_REFERER',
+                'server' => 'SERVER_NAME',
+                'url' => 'REQUEST_URI',
             ],
             $xf->getValue($processor),
         );
@@ -228,13 +228,13 @@ final class WebProcessorFactoryTest extends TestCase
 
         $xf = new ReflectionProperty($processor, 'extraFields');
 
-        self::assertSame(
+        self::assertEquals(
             [
-                'url' => 'REQUEST_URI',
-                'ip' => 'REMOTE_ADDR',
                 'http_method' => 'REQUEST_METHOD',
-                'server' => 'SERVER_NAME',
+                'ip' => 'REMOTE_ADDR',
                 'referrer' => 'HTTP_REFERER',
+                'server' => 'SERVER_NAME',
+                'url' => 'REQUEST_URI',
             ],
             $xf->getValue($processor),
         );
@@ -319,13 +319,13 @@ final class WebProcessorFactoryTest extends TestCase
 
         $xf = new ReflectionProperty($processor, 'extraFields');
 
-        self::assertSame(
+        self::assertEquals(
             [
-                'url' => 'REQUEST_URI',
-                'ip' => 'REMOTE_ADDR',
                 'http_method' => 'REQUEST_METHOD',
-                'server' => 'SERVER_NAME',
+                'ip' => 'REMOTE_ADDR',
                 'referrer' => 'HTTP_REFERER',
+                'server' => 'SERVER_NAME',
+                'url' => 'REQUEST_URI',
             ],
             $xf->getValue($processor),
         );

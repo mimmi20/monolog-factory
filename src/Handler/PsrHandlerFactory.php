@@ -53,13 +53,17 @@ final class PsrHandlerFactory implements FactoryInterface
         }
 
         if (!array_key_exists('logger', $options)) {
-            throw new ServiceNotCreatedException('No Service name provided for the required logger class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required logger class',
+            );
         }
 
         if ($options['logger'] instanceof LoggerInterface) {
             $logger = $options['logger'];
         } elseif (!is_string($options['logger'])) {
-            throw new ServiceNotCreatedException('No Service name provided for the required logger class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required logger class',
+            );
         } else {
             try {
                 $logger = $container->get($options['logger']);
@@ -85,11 +89,7 @@ final class PsrHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new PsrHandler(
-            $logger,
-            $level,
-            $bubble,
-        );
+        $handler = new PsrHandler($logger, $level, $bubble);
 
         $this->addFormatter($container, $handler, $options);
 

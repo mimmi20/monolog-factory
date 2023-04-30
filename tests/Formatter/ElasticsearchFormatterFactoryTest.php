@@ -84,8 +84,14 @@ final class ElasticsearchFormatterFactoryTest extends TestCase
         self::assertSame($index, $formatter->getIndex());
         self::assertSame('', $formatter->getType());
         self::assertSame(DateTimeInterface::ISO8601, $formatter->getDateFormat());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH, $formatter->getMaxNormalizeDepth());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
+            $formatter->getMaxNormalizeDepth(),
+        );
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
+            $formatter->getMaxNormalizeItemCount(),
+        );
     }
 
     /** @throws Exception */

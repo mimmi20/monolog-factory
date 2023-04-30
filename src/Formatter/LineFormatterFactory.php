@@ -83,7 +83,13 @@ final class LineFormatterFactory implements FactoryInterface
         }
 
         try {
-            $formatter = new LineFormatter($format, $dateFormat, $allowInlineLineBreaks, $ignoreEmptyContextAndExtra, $includeStacktraces);
+            $formatter = new LineFormatter(
+                $format,
+                $dateFormat,
+                $allowInlineLineBreaks,
+                $ignoreEmptyContextAndExtra,
+                $includeStacktraces,
+            );
         } catch (RuntimeException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', LineFormatter::class),

@@ -137,6 +137,9 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
 
         $ctal = new ReflectionProperty($strategy, 'channelToActionLevel');
 
-        self::assertSame(['abc' => Level::Critical, 'xyz' => Level::Warning], $ctal->getValue($strategy));
+        self::assertSame(
+            ['abc' => Level::Critical, 'xyz' => Level::Warning],
+            $ctal->getValue($strategy),
+        );
     }
 }

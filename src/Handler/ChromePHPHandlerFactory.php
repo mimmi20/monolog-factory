@@ -64,10 +64,7 @@ final class ChromePHPHandlerFactory implements FactoryInterface
         }
 
         try {
-            $handler = new ChromePHPHandler(
-                $level,
-                $bubble,
-            );
+            $handler = new ChromePHPHandler($level, $bubble);
         } catch (RuntimeException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', ChromePHPHandler::class),

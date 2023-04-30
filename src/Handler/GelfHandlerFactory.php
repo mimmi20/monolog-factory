@@ -53,13 +53,17 @@ final class GelfHandlerFactory implements FactoryInterface
         }
 
         if (!array_key_exists('publisher', $options)) {
-            throw new ServiceNotCreatedException('No Service name provided for the required publisher class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required publisher class',
+            );
         }
 
         if ($options['publisher'] instanceof PublisherInterface) {
             $publisher = $options['publisher'];
         } elseif (!is_string($options['publisher'])) {
-            throw new ServiceNotCreatedException('No Service name provided for the required publisher class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required publisher class',
+            );
         } else {
             try {
                 $publisher = $container->get($options['publisher']);
@@ -85,11 +89,7 @@ final class GelfHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new GelfHandler(
-            $publisher,
-            $level,
-            $bubble,
-        );
+        $handler = new GelfHandler($publisher, $level, $bubble);
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

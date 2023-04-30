@@ -211,7 +211,9 @@ final class MonologFactoryTest extends TestCase
         $factory = new MonologFactory();
 
         $this->expectException(ServiceNotFoundException::class);
-        $this->expectExceptionMessage(sprintf('Could not find service %s', MonologHandlerPluginManager::class));
+        $this->expectExceptionMessage(
+            sprintf('Could not find service %s', MonologHandlerPluginManager::class),
+        );
         $this->expectExceptionCode(0);
 
         $factory($container, $requestedName, $options);
@@ -257,17 +259,17 @@ final class MonologFactoryTest extends TestCase
         $requestedName = Logger::class;
         $timezone      = new DateTimeZone('Europe/Berlin');
         $options       = [
-            'name' => 'xyz',
-            'timezone' => $timezone,
             'handlers' => [
                 ['enabled' => false],
                 [
                     'enabled' => true,
-                    'type' => 'xyz',
                     'options' => ['abc' => 'def'],
+                    'type' => 'xyz',
                 ],
                 ['type' => 'abc'],
             ],
+            'name' => 'xyz',
+            'timezone' => $timezone,
         ];
 
         $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
@@ -305,18 +307,18 @@ final class MonologFactoryTest extends TestCase
         $requestedName = Logger::class;
         $timezone      = new DateTimeZone('Europe/Berlin');
         $options       = [
-            'name' => 'xyz',
-            'timezone' => $timezone,
             'handlers' => [
                 ['enabled' => false],
                 [
                     'enabled' => true,
-                    'type' => 'xyz',
                     'options' => ['abc' => 'def'],
+                    'type' => 'xyz',
                 ],
                 ['type' => 'abc'],
                 $this->createMock(HandlerInterface::class),
             ],
+            'name' => 'xyz',
+            'timezone' => $timezone,
         ];
 
         $handler = $this->createMock(HandlerInterface::class);
@@ -361,18 +363,18 @@ final class MonologFactoryTest extends TestCase
         $requestedName = Logger::class;
         $timezone      = new DateTimeZone('Europe/Berlin');
         $options       = [
-            'name' => 'xyz',
-            'timezone' => $timezone,
             'handlers' => [
                 ['enabled' => false],
                 [
                     'enabled' => true,
-                    'type' => 'xyz',
                     'options' => ['abc' => 'def'],
+                    'type' => 'xyz',
                 ],
                 'xyz',
                 $this->createMock(HandlerInterface::class),
             ],
+            'name' => 'xyz',
+            'timezone' => $timezone,
         ];
 
         $handler = $this->createMock(HandlerInterface::class);
@@ -451,7 +453,9 @@ final class MonologFactoryTest extends TestCase
         $factory = new MonologFactory();
 
         $this->expectException(ServiceNotFoundException::class);
-        $this->expectExceptionMessage(sprintf('Could not find service %s', MonologProcessorPluginManager::class));
+        $this->expectExceptionMessage(
+            sprintf('Could not find service %s', MonologProcessorPluginManager::class),
+        );
         $this->expectExceptionCode(0);
 
         $factory($container, $requestedName, $options);
@@ -498,7 +502,6 @@ final class MonologFactoryTest extends TestCase
         $timezone      = new DateTimeZone('Europe/Berlin');
         $options       = [
             'name' => 'xyz',
-            'timezone' => $timezone,
             'processors' => [
                 ['enabled' => false],
                 [
@@ -507,6 +510,7 @@ final class MonologFactoryTest extends TestCase
                 ],
                 ['type' => 'abc'],
             ],
+            'timezone' => $timezone,
         ];
 
         $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
@@ -545,17 +549,17 @@ final class MonologFactoryTest extends TestCase
         $timezone      = new DateTimeZone('Europe/Berlin');
         $options       = [
             'name' => 'xyz',
-            'timezone' => $timezone,
             'processors' => [
                 ['enabled' => false],
                 [
                     'enabled' => true,
-                    'type' => 'xyz',
                     'options' => ['efg' => 'ijk'],
+                    'type' => 'xyz',
                 ],
                 ['type' => 'abc'],
                 static fn (LogRecord $record): LogRecord => $record,
             ],
+            'timezone' => $timezone,
         ];
 
         $processor = $this->createMock(ProcessorInterface::class);
@@ -601,17 +605,17 @@ final class MonologFactoryTest extends TestCase
         $timezone      = 'Europe/London';
         $options       = [
             'name' => 'xyz',
-            'timezone' => $timezone,
             'processors' => [
                 ['enabled' => false],
                 [
                     'enabled' => true,
-                    'type' => 'xyz',
                     'options' => ['efg' => 'ijk'],
+                    'type' => 'xyz',
                 ],
                 ['type' => 'abc'],
                 static fn (LogRecord $record): LogRecord => $record,
             ],
+            'timezone' => $timezone,
         ];
 
         $processor = $this->createMock(ProcessorInterface::class);

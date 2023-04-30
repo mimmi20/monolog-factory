@@ -56,10 +56,6 @@ final class IntrospectionProcessorFactory implements FactoryInterface
             }
         }
 
-        return new IntrospectionProcessor(
-            $level,
-            $skipPartials,
-            $skipFrameCount,
-        );
+        return new IntrospectionProcessor($level, $skipPartials, $skipFrameCount);
     }
 }

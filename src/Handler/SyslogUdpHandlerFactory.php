@@ -95,15 +95,7 @@ final class SyslogUdpHandlerFactory implements FactoryInterface
         }
 
         try {
-            $handler = new SyslogUdpHandler(
-                $host,
-                $port,
-                $facility,
-                $level,
-                $bubble,
-                $ident,
-                $rfc,
-            );
+            $handler = new SyslogUdpHandler($host, $port, $facility, $level, $bubble, $ident, $rfc);
         } catch (MissingExtensionException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', SyslogUdpHandler::class),

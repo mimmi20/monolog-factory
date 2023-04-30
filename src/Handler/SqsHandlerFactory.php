@@ -53,13 +53,17 @@ final class SqsHandlerFactory implements FactoryInterface
         }
 
         if (!array_key_exists('sqsClient', $options)) {
-            throw new ServiceNotCreatedException('No Service name provided for the required sqsClient class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required sqsClient class',
+            );
         }
 
         if ($options['sqsClient'] instanceof SqsClient) {
             $sqsClient = $options['sqsClient'];
         } elseif (!is_string($options['sqsClient'])) {
-            throw new ServiceNotCreatedException('No Service name provided for the required sqsClient class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required sqsClient class',
+            );
         } else {
             try {
                 $sqsClient = $container->get($options['sqsClient']);

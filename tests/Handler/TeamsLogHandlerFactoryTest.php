@@ -45,7 +45,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     public function testInvokeWithoutConfig(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
-            self::markTestSkipped(sprintf('class %s is required for this test', TeamsLogHandler::class));
+            self::markTestSkipped(
+                sprintf('class %s is required for this test', TeamsLogHandler::class),
+            );
         }
 
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -73,7 +75,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     public function testInvokeWithEmptyConfig(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
-            self::markTestSkipped(sprintf('class %s is required for this test', TeamsLogHandler::class));
+            self::markTestSkipped(
+                sprintf('class %s is required for this test', TeamsLogHandler::class),
+            );
         }
 
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -102,7 +106,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
-            self::markTestSkipped(sprintf('class %s is required for this test', TeamsLogHandler::class));
+            self::markTestSkipped(
+                sprintf('class %s is required for this test', TeamsLogHandler::class),
+            );
         }
 
         $url = 'test-url';
@@ -147,7 +153,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig2(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
-            self::markTestSkipped(sprintf('class %s is required for this test', TeamsLogHandler::class));
+            self::markTestSkipped(
+                sprintf('class %s is required for this test', TeamsLogHandler::class),
+            );
         }
 
         $url = 'test-url';
@@ -191,7 +199,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
-            self::markTestSkipped(sprintf('class %s is required for this test', TeamsLogHandler::class));
+            self::markTestSkipped(
+                sprintf('class %s is required for this test', TeamsLogHandler::class),
+            );
         }
 
         $url       = 'test-url';
@@ -224,7 +234,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndFormatter(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
-            self::markTestSkipped(sprintf('class %s is required for this test', TeamsLogHandler::class));
+            self::markTestSkipped(
+                sprintf('class %s is required for this test', TeamsLogHandler::class),
+            );
         }
 
         $url       = 'test-url';
@@ -262,7 +274,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndFormatter2(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
-            self::markTestSkipped(sprintf('class %s is required for this test', TeamsLogHandler::class));
+            self::markTestSkipped(
+                sprintf('class %s is required for this test', TeamsLogHandler::class),
+            );
         }
 
         $url       = 'test-url';
@@ -319,7 +333,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndFormatter3(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
-            self::markTestSkipped(sprintf('class %s is required for this test', TeamsLogHandler::class));
+            self::markTestSkipped(
+                sprintf('class %s is required for this test', TeamsLogHandler::class),
+            );
         }
 
         $url       = 'test-url';
@@ -356,7 +372,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
-            self::markTestSkipped(sprintf('class %s is required for this test', TeamsLogHandler::class));
+            self::markTestSkipped(
+                sprintf('class %s is required for this test', TeamsLogHandler::class),
+            );
         }
 
         $url        = 'test-url';
@@ -383,15 +401,17 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndProcessors2(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
-            self::markTestSkipped(sprintf('class %s is required for this test', TeamsLogHandler::class));
+            self::markTestSkipped(
+                sprintf('class %s is required for this test', TeamsLogHandler::class),
+            );
         }
 
         $url        = 'test-url';
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -437,7 +457,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndProcessors3(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
-            self::markTestSkipped(sprintf('class %s is required for this test', TeamsLogHandler::class));
+            self::markTestSkipped(
+                sprintf('class %s is required for this test', TeamsLogHandler::class),
+            );
         }
 
         $url        = 'test-url';
@@ -445,8 +467,8 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -516,7 +538,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndProcessors4(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
-            self::markTestSkipped(sprintf('class %s is required for this test', TeamsLogHandler::class));
+            self::markTestSkipped(
+                sprintf('class %s is required for this test', TeamsLogHandler::class),
+            );
         }
 
         $url        = 'test-url';
@@ -524,8 +548,8 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -560,7 +584,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndProcessors5(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
-            self::markTestSkipped(sprintf('class %s is required for this test', TeamsLogHandler::class));
+            self::markTestSkipped(
+                sprintf('class %s is required for this test', TeamsLogHandler::class),
+            );
         }
 
         $url        = 'test-url';
@@ -568,8 +594,8 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,

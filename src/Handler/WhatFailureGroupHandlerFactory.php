@@ -61,10 +61,7 @@ final class WhatFailureGroupHandlerFactory
         }
 
         try {
-            $handler = new WhatFailureGroupHandler(
-                $handlers,
-                $bubble,
-            );
+            $handler = new WhatFailureGroupHandler($handlers, $bubble);
         } catch (InvalidArgumentException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', WhatFailureGroupHandler::class),

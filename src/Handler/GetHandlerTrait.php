@@ -48,7 +48,10 @@ trait GetHandlerTrait
         }
 
         try {
-            $handler = $container->get(MonologHandlerPluginManager::class)->get($options['type'], $options['options'] ?? []);
+            $handler = $container->get(MonologHandlerPluginManager::class)->get(
+                $options['type'],
+                $options['options'] ?? [],
+            );
         } catch (ContainerExceptionInterface $e) {
             throw new ServiceNotFoundException(
                 sprintf('Could not load handler class %s', $options['type']),

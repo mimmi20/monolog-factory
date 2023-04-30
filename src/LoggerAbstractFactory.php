@@ -53,14 +53,24 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
 
         $logConfig = [];
 
-        if (is_array($config) && array_key_exists('log', $config) && is_array($config['log']) && array_key_exists($requestedName, $config['log']) && is_array($config['log'][$requestedName])) {
+        if (
+            is_array($config)
+            && array_key_exists('log', $config)
+            && is_array($config['log'])
+            && array_key_exists($requestedName, $config['log'])
+            && is_array($config['log'][$requestedName])
+        ) {
             $logConfig = $config['log'][$requestedName];
         }
 
         try {
             $pluginManager = $container->get(MonologPluginManager::class);
         } catch (ContainerExceptionInterface $e) {
-            throw new ServiceNotCreatedException(sprintf('Could not find service %s', MonologPluginManager::class), 0, $e);
+            throw new ServiceNotCreatedException(
+                sprintf('Could not find service %s', MonologPluginManager::class),
+                0,
+                $e,
+            );
         }
 
         assert(
@@ -75,7 +85,11 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
         try {
             $monolog = $pluginManager->get(Logger::class, $logConfig);
         } catch (ContainerExceptionInterface $e) {
-            throw new ServiceNotCreatedException(sprintf('Could not find service %s', Logger::class), 0, $e);
+            throw new ServiceNotCreatedException(
+                sprintf('Could not find service %s', Logger::class),
+                0,
+                $e,
+            );
         }
 
         return $monolog;

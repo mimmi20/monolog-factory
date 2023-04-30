@@ -87,12 +87,7 @@ final class CallbackFilterHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new CallbackFilterHandler(
-            $handler,
-            $filters,
-            $level,
-            $bubble,
-        );
+        $handler = new CallbackFilterHandler($handler, $filters, $level, $bubble);
 
         $this->addProcessor($container, $handler, $options);
 

@@ -207,14 +207,14 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type           = 'abc';
         $levels         = [
+            Level::Alert->value => true,
+            Level::Critical->value => true,
             Level::Debug->value => true,
+            Level::Emergency->value => true,
+            Level::Error->value => true,
             Level::Info->value => true,
             Level::Notice->value => true,
             Level::Warning->value => true,
-            Level::Error->value => true,
-            Level::Critical->value => true,
-            Level::Alert->value => true,
-            Level::Emergency->value => true,
         ];
         $formatterClass = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -265,7 +265,7 @@ final class FilterHandlerFactoryTest extends TestCase
 
         $al = new ReflectionProperty($handler, 'acceptedLevels');
 
-        self::assertSame($levels, $al->getValue($handler));
+        self::assertEquals($levels, $al->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
@@ -285,9 +285,9 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type           = 'abc';
         $levels         = [
-            Level::Warning->value => true,
-            Level::Error->value => true,
             Level::Critical->value => true,
+            Level::Error->value => true,
+            Level::Warning->value => true,
         ];
         $formatterClass = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -338,7 +338,7 @@ final class FilterHandlerFactoryTest extends TestCase
 
         $al = new ReflectionProperty($handler, 'acceptedLevels');
 
-        self::assertSame($levels, $al->getValue($handler));
+        self::assertEquals($levels, $al->getValue($handler));
 
         self::assertSame($formatterClass, $handler->getFormatter());
 
@@ -358,11 +358,11 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type           = 'abc';
         $levels         = [
+            Level::Alert->value => true,
+            Level::Critical->value => true,
+            Level::Error->value => true,
             Level::Notice->value => true,
             Level::Warning->value => true,
-            Level::Error->value => true,
-            Level::Critical->value => true,
-            Level::Alert->value => true,
         ];
         $formatterClass = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -399,7 +399,10 @@ final class FilterHandlerFactoryTest extends TestCase
 
         $factory = new FilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'minLevelOrList' => array_keys($levels)]);
+        $handler = $factory($container, '', [
+            'handler' => ['type' => $type, 'enabled' => true],
+            'minLevelOrList' => array_keys($levels),
+        ]);
 
         self::assertInstanceOf(FilterHandler::class, $handler);
 
@@ -571,7 +574,7 @@ final class FilterHandlerFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager): AbstractPluginManager {
-                    if (MonologHandlerPluginManager::class === $var) {
+                    if ($var === MonologHandlerPluginManager::class) {
                         return $monologHandlerPluginManager;
                     }
 
@@ -598,11 +601,11 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type           = 'abc';
         $levels         = [
+            Level::Alert->value => true,
+            Level::Critical->value => true,
+            Level::Error->value => true,
             Level::Notice->value => true,
             Level::Warning->value => true,
-            Level::Error->value => true,
-            Level::Critical->value => true,
-            Level::Alert->value => true,
         ];
         $formatterClass = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -652,7 +655,11 @@ final class FilterHandlerFactoryTest extends TestCase
 
         $factory = new FilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'minLevelOrList' => array_keys($levels), 'formatter' => $formatterClass]);
+        $handler = $factory($container, '', [
+            'formatter' => $formatterClass,
+            'handler' => ['type' => $type, 'enabled' => true],
+            'minLevelOrList' => array_keys($levels),
+        ]);
 
         self::assertInstanceOf(FilterHandler::class, $handler);
 
@@ -720,7 +727,7 @@ final class FilterHandlerFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager): AbstractPluginManager {
-                    if (MonologHandlerPluginManager::class === $var) {
+                    if ($var === MonologHandlerPluginManager::class) {
                         return $monologHandlerPluginManager;
                     }
 
@@ -747,11 +754,11 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type           = 'abc';
         $levels         = [
+            Level::Alert->value => true,
+            Level::Critical->value => true,
+            Level::Error->value => true,
             Level::Notice->value => true,
             Level::Warning->value => true,
-            Level::Error->value => true,
-            Level::Critical->value => true,
-            Level::Alert->value => true,
         ];
         $formatterClass = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -801,7 +808,10 @@ final class FilterHandlerFactoryTest extends TestCase
 
         $factory = new FilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatterClass]], 'minLevelOrList' => array_keys($levels)]);
+        $handler = $factory($container, '', [
+            'handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatterClass]],
+            'minLevelOrList' => array_keys($levels),
+        ]);
 
         self::assertInstanceOf(FilterHandler::class, $handler);
 
@@ -832,11 +842,11 @@ final class FilterHandlerFactoryTest extends TestCase
     {
         $type           = 'abc';
         $levels         = [
+            Level::Alert->value => true,
+            Level::Critical->value => true,
+            Level::Error->value => true,
             Level::Notice->value => true,
             Level::Warning->value => true,
-            Level::Error->value => true,
-            Level::Critical->value => true,
-            Level::Alert->value => true,
         ];
         $formatterClass = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -882,7 +892,10 @@ final class FilterHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatterClass]], 'minLevelOrList' => array_keys($levels)]);
+        $factory($container, '', [
+            'handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatterClass]],
+            'minLevelOrList' => array_keys($levels),
+        ]);
     }
 
     /** @throws Exception */
@@ -999,8 +1012,8 @@ final class FilterHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1076,18 +1089,18 @@ final class FilterHandlerFactoryTest extends TestCase
             Level::Alert,
         ];
         $expectedLevels = [
+            Level::Alert->value => true,
+            Level::Critical->value => true,
+            Level::Error->value => true,
             Level::Notice->value => true,
             Level::Warning->value => true,
-            Level::Error->value => true,
-            Level::Critical->value => true,
-            Level::Alert->value => true,
         ];
         $processor3     = static fn (array $record): array => $record;
         $processors     = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1167,7 +1180,7 @@ final class FilterHandlerFactoryTest extends TestCase
 
         $al = new ReflectionProperty($handler, 'acceptedLevels');
 
-        self::assertSame($expectedLevels, $al->getValue($handler));
+        self::assertEquals($expectedLevels, $al->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
 
@@ -1192,8 +1205,8 @@ final class FilterHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1238,7 +1251,7 @@ final class FilterHandlerFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager) {
-                    if (MonologHandlerPluginManager::class === $var) {
+                    if ($var === MonologHandlerPluginManager::class) {
                         return $monologHandlerPluginManager;
                     }
 
@@ -1272,8 +1285,8 @@ final class FilterHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1341,18 +1354,18 @@ final class FilterHandlerFactoryTest extends TestCase
             Level::Alert,
         ];
         $expectedLevels = [
+            Level::Alert->value => true,
+            Level::Critical->value => true,
+            Level::Error->value => true,
             Level::Notice->value => true,
             Level::Warning->value => true,
-            Level::Error->value => true,
-            Level::Critical->value => true,
-            Level::Alert->value => true,
         ];
         $processor3     = static fn (array $record): array => $record;
         $processors     = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1432,7 +1445,7 @@ final class FilterHandlerFactoryTest extends TestCase
 
         $al = new ReflectionProperty($handler, 'acceptedLevels');
 
-        self::assertSame($expectedLevels, $al->getValue($handler));
+        self::assertEquals($expectedLevels, $al->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
 

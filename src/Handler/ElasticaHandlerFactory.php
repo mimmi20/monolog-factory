@@ -56,13 +56,17 @@ final class ElasticaHandlerFactory implements FactoryInterface
         }
 
         if (!array_key_exists('client', $options)) {
-            throw new ServiceNotCreatedException('No Service name provided for the required service class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required service class',
+            );
         }
 
         if ($options['client'] instanceof Client) {
             $client = $options['client'];
         } elseif (!is_string($options['client'])) {
-            throw new ServiceNotCreatedException('No Service name provided for the required service class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required service class',
+            );
         } else {
             try {
                 $client = $container->get($options['client']);
@@ -110,9 +114,9 @@ final class ElasticaHandlerFactory implements FactoryInterface
         $handler = new ElasticaHandler(
             $client,
             [
+                'ignore_error' => $ignoreError,
                 'index' => $index,
                 'type' => $type,
-                'ignore_error' => $ignoreError,
             ],
             $level,
             $bubble,

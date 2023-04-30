@@ -165,12 +165,12 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
     {
         $handlers = [
             [
-                'type' => FingersCrossedHandler::class,
                 'enabled' => false,
+                'type' => FingersCrossedHandler::class,
             ],
             [
-                'type' => FirePHPHandler::class,
                 'enabled' => true,
+                'type' => FirePHPHandler::class,
             ],
             [
                 'type' => ChromePHPHandler::class,
@@ -205,11 +205,11 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $with) use ($handler1, $handler2): HandlerInterface {
-                    if (FirePHPHandler::class === $with) {
+                    if ($with === FirePHPHandler::class) {
                         return $handler1;
                     }
 
-                    if (ChromePHPHandler::class === $with) {
+                    if ($with === ChromePHPHandler::class) {
                         return $handler2;
                     }
 
@@ -241,12 +241,12 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
     {
         $handlers = [
             [
-                'type' => FingersCrossedHandler::class,
                 'enabled' => false,
+                'type' => FingersCrossedHandler::class,
             ],
             [
-                'type' => FirePHPHandler::class,
                 'enabled' => true,
+                'type' => FirePHPHandler::class,
             ],
             [
                 'type' => ChromePHPHandler::class,
@@ -324,12 +324,12 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
     {
         $handlers = [
             [
-                'type' => FingersCrossedHandler::class,
                 'enabled' => false,
+                'type' => FingersCrossedHandler::class,
             ],
             [
-                'type' => FirePHPHandler::class,
                 'enabled' => true,
+                'type' => FirePHPHandler::class,
             ],
             [
                 'type' => ChromePHPHandler::class,
@@ -424,12 +424,12 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
     {
         $handlers = [
             [
-                'type' => FingersCrossedHandler::class,
                 'enabled' => false,
+                'type' => FingersCrossedHandler::class,
             ],
             [
-                'type' => FirePHPHandler::class,
                 'enabled' => true,
+                'type' => FirePHPHandler::class,
             ],
             [
                 'type' => ChromePHPHandler::class,
@@ -525,12 +525,12 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
         $formatter = true;
         $handlers  = [
             [
-                'type' => FingersCrossedHandler::class,
                 'enabled' => false,
+                'type' => FingersCrossedHandler::class,
             ],
             [
-                'type' => FirePHPHandler::class,
                 'enabled' => true,
+                'type' => FirePHPHandler::class,
             ],
             [
                 'type' => ChromePHPHandler::class,
@@ -628,12 +628,12 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->getMock();
         $handlers  = [
             [
-                'type' => FingersCrossedHandler::class,
                 'enabled' => false,
+                'type' => FingersCrossedHandler::class,
             ],
             [
-                'type' => FirePHPHandler::class,
                 'enabled' => true,
+                'type' => FirePHPHandler::class,
             ],
             [
                 'type' => ChromePHPHandler::class,
@@ -731,12 +731,12 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
             ->getMock();
         $handlers  = [
             [
-                'type' => FingersCrossedHandler::class,
                 'enabled' => false,
+                'type' => FingersCrossedHandler::class,
             ],
             [
-                'type' => FirePHPHandler::class,
                 'enabled' => true,
+                'type' => FirePHPHandler::class,
             ],
             [
                 'type' => ChromePHPHandler::class,
@@ -829,12 +829,12 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
         $processors = true;
         $handlers   = [
             [
-                'type' => FingersCrossedHandler::class,
                 'enabled' => false,
+                'type' => FingersCrossedHandler::class,
             ],
             [
-                'type' => FirePHPHandler::class,
                 'enabled' => true,
+                'type' => FirePHPHandler::class,
             ],
             [
                 'type' => ChromePHPHandler::class,
@@ -907,12 +907,12 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
     {
         $handlers = [
             [
-                'type' => FingersCrossedHandler::class,
                 'enabled' => false,
+                'type' => FingersCrossedHandler::class,
             ],
             [
-                'type' => FirePHPHandler::class,
                 'enabled' => true,
+                'type' => FirePHPHandler::class,
             ],
             [
                 'type' => ChromePHPHandler::class,
@@ -925,8 +925,8 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1016,12 +1016,12 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
     {
         $handlers = [
             [
-                'type' => FingersCrossedHandler::class,
                 'enabled' => false,
+                'type' => FingersCrossedHandler::class,
             ],
             [
-                'type' => FirePHPHandler::class,
                 'enabled' => true,
+                'type' => FirePHPHandler::class,
             ],
             [
                 'type' => ChromePHPHandler::class,
@@ -1035,8 +1035,8 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1160,12 +1160,12 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
     {
         $handlers = [
             [
-                'type' => FingersCrossedHandler::class,
                 'enabled' => false,
+                'type' => FingersCrossedHandler::class,
             ],
             [
-                'type' => FirePHPHandler::class,
                 'enabled' => true,
+                'type' => FirePHPHandler::class,
             ],
             [
                 'type' => ChromePHPHandler::class,
@@ -1181,8 +1181,8 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1295,12 +1295,12 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
     {
         $handlers = [
             [
-                'type' => FingersCrossedHandler::class,
                 'enabled' => false,
+                'type' => FingersCrossedHandler::class,
             ],
             [
-                'type' => FirePHPHandler::class,
                 'enabled' => true,
+                'type' => FirePHPHandler::class,
             ],
             [
                 'type' => ChromePHPHandler::class,
@@ -1314,8 +1314,8 @@ final class WhatFailureGroupHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,

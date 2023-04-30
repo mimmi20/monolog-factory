@@ -42,7 +42,10 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
 
         $factory = new MonologHandlerPluginManagerFactory();
 
-        self::assertInstanceOf(MonologHandlerPluginManager::class, $factory($container, $requestedName, $options));
+        self::assertInstanceOf(
+            MonologHandlerPluginManager::class,
+            $factory($container, $requestedName, $options),
+        );
     }
 
     /** @throws Exception */
@@ -67,7 +70,10 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
 
         $factory = new MonologHandlerPluginManagerFactory();
 
-        self::assertInstanceOf(MonologHandlerPluginManager::class, $factory($container, $requestedName, $options));
+        self::assertInstanceOf(
+            MonologHandlerPluginManager::class,
+            $factory($container, $requestedName, $options),
+        );
     }
 
     /** @throws Exception */
@@ -126,7 +132,10 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
 
         $factory = new MonologHandlerPluginManagerFactory();
 
-        self::assertInstanceOf(MonologHandlerPluginManager::class, $factory($container, $requestedName, $options));
+        self::assertInstanceOf(
+            MonologHandlerPluginManager::class,
+            $factory($container, $requestedName, $options),
+        );
     }
 
     /** @throws Exception */
@@ -154,7 +163,10 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
 
         $factory = new MonologHandlerPluginManagerFactory();
 
-        self::assertInstanceOf(MonologHandlerPluginManager::class, $factory($container, $requestedName, $options));
+        self::assertInstanceOf(
+            MonologHandlerPluginManager::class,
+            $factory($container, $requestedName, $options),
+        );
     }
 
     /** @throws Exception */
@@ -182,6 +194,9 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
 
         $factory = new MonologHandlerPluginManagerFactory();
 
-        self::assertInstanceOf(MonologHandlerPluginManager::class, $factory($container, $requestedName, $options));
+        self::assertInstanceOf(
+            MonologHandlerPluginManager::class,
+            $factory($container, $requestedName, $options),
+        );
     }
 }

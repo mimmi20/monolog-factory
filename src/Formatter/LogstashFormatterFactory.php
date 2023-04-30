@@ -70,7 +70,12 @@ final class LogstashFormatterFactory implements FactoryInterface
         }
 
         try {
-            $formatter = new LogstashFormatter($applicationName, $systemName, $extraPrefix, $contextPrefix);
+            $formatter = new LogstashFormatter(
+                $applicationName,
+                $systemName,
+                $extraPrefix,
+                $contextPrefix,
+            );
         } catch (RuntimeException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', LogstashFormatter::class),

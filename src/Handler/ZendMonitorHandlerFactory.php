@@ -64,10 +64,7 @@ final class ZendMonitorHandlerFactory implements FactoryInterface
         }
 
         try {
-            $handler = new ZendMonitorHandler(
-                $level,
-                $bubble,
-            );
+            $handler = new ZendMonitorHandler($level, $bubble);
         } catch (MissingExtensionException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', ZendMonitorHandler::class),

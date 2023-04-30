@@ -54,10 +54,7 @@ final class WebProcessorFactory implements FactoryInterface
             }
         }
 
-        return new WebProcessor(
-            $serverData,
-            $extraFields,
-        );
+        return new WebProcessor($serverData, $extraFields);
     }
 
     /**
@@ -82,9 +79,7 @@ final class WebProcessorFactory implements FactoryInterface
         }
 
         if (!is_string($serverData) || !$container->has($serverData)) {
-            throw new ServiceNotFoundException(
-                'No serverData service found',
-            );
+            throw new ServiceNotFoundException('No serverData service found');
         }
 
         try {

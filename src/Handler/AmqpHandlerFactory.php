@@ -54,13 +54,20 @@ final class AmqpHandlerFactory implements FactoryInterface
         }
 
         if (!array_key_exists('exchange', $options)) {
-            throw new ServiceNotCreatedException('No Service name provided for the required exchange class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required exchange class',
+            );
         }
 
-        if ($options['exchange'] instanceof AMQPExchange || $options['exchange'] instanceof AMQPChannel) {
+        if (
+            $options['exchange'] instanceof AMQPExchange
+            || $options['exchange'] instanceof AMQPChannel
+        ) {
             $exchange = $options['exchange'];
         } elseif (!is_string($options['exchange'])) {
-            throw new ServiceNotCreatedException('No Service name provided for the required exchange class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required exchange class',
+            );
         } else {
             try {
                 $exchange = $container->get($options['exchange']);
@@ -95,12 +102,7 @@ final class AmqpHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new AmqpHandler(
-            $exchange,
-            $exchangeName,
-            $level,
-            $bubble,
-        );
+        $handler = new AmqpHandler($exchange, $exchangeName, $level, $bubble);
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

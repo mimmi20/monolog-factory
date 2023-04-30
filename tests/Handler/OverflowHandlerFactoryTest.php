@@ -206,14 +206,14 @@ final class OverflowHandlerFactoryTest extends TestCase
     {
         $type                 = 'abc';
         $thresholdMapExpected = [
+            Level::Alert->value => 0,
+            Level::Critical->value => 0,
             Level::Debug->value => 0,
+            Level::Emergency->value => 0,
+            Level::Error->value => 0,
             Level::Info->value => 0,
             Level::Notice->value => 0,
             Level::Warning->value => 0,
-            Level::Error->value => 0,
-            Level::Critical->value => 0,
-            Level::Alert->value => 0,
-            Level::Emergency->value => 0,
         ];
         $formatterClass       = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
@@ -276,28 +276,28 @@ final class OverflowHandlerFactoryTest extends TestCase
     {
         $type                 = 'abc';
         $thresholdMapExpected = [
+            Level::Alert->value => 17,
+            Level::Critical->value => 22,
             Level::Debug->value => 9,
+            Level::Emergency->value => 8,
+            Level::Error->value => 11,
             Level::Info->value => 99,
             Level::Notice->value => 2,
             Level::Warning->value => 42,
-            Level::Error->value => 11,
-            Level::Critical->value => 22,
-            Level::Alert->value => 17,
-            Level::Emergency->value => 8,
         ];
         $formatterClass       = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $thresholdMapSet = [
+            LogLevel::ALERT => 17,
+            LogLevel::CRITICAL => 22,
             LogLevel::DEBUG => 9,
+            LogLevel::EMERGENCY => 8,
+            LogLevel::ERROR => 11,
             LogLevel::INFO => 99,
             LogLevel::NOTICE => 2,
             LogLevel::WARNING => 42,
-            LogLevel::ERROR => 11,
-            LogLevel::CRITICAL => 22,
-            LogLevel::ALERT => 17,
-            LogLevel::EMERGENCY => 8,
         ];
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -356,14 +356,14 @@ final class OverflowHandlerFactoryTest extends TestCase
         $formatter = true;
 
         $thresholdMapSet = [
+            LogLevel::ALERT => 17,
+            LogLevel::CRITICAL => 22,
             LogLevel::DEBUG => 9,
+            LogLevel::EMERGENCY => 8,
+            LogLevel::ERROR => 11,
             LogLevel::INFO => 99,
             LogLevel::NOTICE => 2,
             LogLevel::WARNING => 42,
-            LogLevel::ERROR => 11,
-            LogLevel::CRITICAL => 22,
-            LogLevel::ALERT => 17,
-            LogLevel::EMERGENCY => 8,
         ];
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -412,14 +412,14 @@ final class OverflowHandlerFactoryTest extends TestCase
         $formatter = true;
 
         $thresholdMapSet = [
+            LogLevel::ALERT => 17,
+            LogLevel::CRITICAL => 22,
             LogLevel::DEBUG => 9,
+            LogLevel::EMERGENCY => 8,
+            LogLevel::ERROR => 11,
             LogLevel::INFO => 99,
             LogLevel::NOTICE => 2,
             LogLevel::WARNING => 42,
-            LogLevel::ERROR => 11,
-            LogLevel::CRITICAL => 22,
-            LogLevel::ALERT => 17,
-            LogLevel::EMERGENCY => 8,
         ];
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -470,14 +470,14 @@ final class OverflowHandlerFactoryTest extends TestCase
             ->getMock();
 
         $thresholdMapSet = [
+            LogLevel::ALERT => 17,
+            LogLevel::CRITICAL => 22,
             LogLevel::DEBUG => 9,
+            LogLevel::EMERGENCY => 8,
+            LogLevel::ERROR => 11,
             LogLevel::INFO => 99,
             LogLevel::NOTICE => 2,
             LogLevel::WARNING => 42,
-            LogLevel::ERROR => 11,
-            LogLevel::CRITICAL => 22,
-            LogLevel::ALERT => 17,
-            LogLevel::EMERGENCY => 8,
         ];
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -507,7 +507,7 @@ final class OverflowHandlerFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager): AbstractPluginManager {
-                    if (MonologHandlerPluginManager::class === $var) {
+                    if ($var === MonologHandlerPluginManager::class) {
                         return $monologHandlerPluginManager;
                     }
 
@@ -534,28 +534,28 @@ final class OverflowHandlerFactoryTest extends TestCase
     {
         $type                 = 'abc';
         $thresholdMapExpected = [
+            Level::Alert->value => 17,
+            Level::Critical->value => 22,
             Level::Debug->value => 9,
+            Level::Emergency->value => 8,
+            Level::Error->value => 11,
             Level::Info->value => 99,
             Level::Notice->value => 2,
             Level::Warning->value => 42,
-            Level::Error->value => 11,
-            Level::Critical->value => 22,
-            Level::Alert->value => 17,
-            Level::Emergency->value => 8,
         ];
         $formatterClass       = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $thresholdMapSet = [
+            LogLevel::ALERT => 17,
+            LogLevel::CRITICAL => 22,
             LogLevel::DEBUG => 9,
+            LogLevel::EMERGENCY => 8,
+            LogLevel::ERROR => 11,
             LogLevel::INFO => 99,
             LogLevel::NOTICE => 2,
             LogLevel::WARNING => 42,
-            LogLevel::ERROR => 11,
-            LogLevel::CRITICAL => 22,
-            LogLevel::ALERT => 17,
-            LogLevel::EMERGENCY => 8,
         ];
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -629,14 +629,14 @@ final class OverflowHandlerFactoryTest extends TestCase
             ->getMock();
 
         $thresholdMapSet = [
+            LogLevel::ALERT => 17,
+            LogLevel::CRITICAL => 22,
             LogLevel::DEBUG => 9,
+            LogLevel::EMERGENCY => 8,
+            LogLevel::ERROR => 11,
             LogLevel::INFO => 99,
             LogLevel::NOTICE => 2,
             LogLevel::WARNING => 42,
-            LogLevel::ERROR => 11,
-            LogLevel::CRITICAL => 22,
-            LogLevel::ALERT => 17,
-            LogLevel::EMERGENCY => 8,
         ];
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -666,7 +666,7 @@ final class OverflowHandlerFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager): AbstractPluginManager {
-                    if (MonologHandlerPluginManager::class === $var) {
+                    if ($var === MonologHandlerPluginManager::class) {
                         return $monologHandlerPluginManager;
                     }
 
@@ -693,28 +693,28 @@ final class OverflowHandlerFactoryTest extends TestCase
     {
         $type                 = 'abc';
         $thresholdMapExpected = [
+            Level::Alert->value => 17,
+            Level::Critical->value => 22,
             Level::Debug->value => 9,
+            Level::Emergency->value => 8,
+            Level::Error->value => 11,
             Level::Info->value => 99,
             Level::Notice->value => 2,
             Level::Warning->value => 42,
-            Level::Error->value => 11,
-            Level::Critical->value => 22,
-            Level::Alert->value => 17,
-            Level::Emergency->value => 8,
         ];
         $formatterClass       = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $thresholdMapSet = [
+            LogLevel::ALERT => 17,
+            LogLevel::CRITICAL => 22,
             LogLevel::DEBUG => 9,
+            LogLevel::EMERGENCY => 8,
+            LogLevel::ERROR => 11,
             LogLevel::INFO => 99,
             LogLevel::NOTICE => 2,
             LogLevel::WARNING => 42,
-            LogLevel::ERROR => 11,
-            LogLevel::CRITICAL => 22,
-            LogLevel::ALERT => 17,
-            LogLevel::EMERGENCY => 8,
         ];
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -788,14 +788,14 @@ final class OverflowHandlerFactoryTest extends TestCase
             ->getMock();
 
         $thresholdMapSet = [
+            LogLevel::ALERT => 17,
+            LogLevel::CRITICAL => 22,
             LogLevel::DEBUG => 9,
+            LogLevel::EMERGENCY => 8,
+            LogLevel::ERROR => 11,
             LogLevel::INFO => 99,
             LogLevel::NOTICE => 2,
             LogLevel::WARNING => 42,
-            LogLevel::ERROR => 11,
-            LogLevel::CRITICAL => 22,
-            LogLevel::ALERT => 17,
-            LogLevel::EMERGENCY => 8,
         ];
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -849,26 +849,26 @@ final class OverflowHandlerFactoryTest extends TestCase
     {
         $type                 = 'abc';
         $thresholdMapExpected = [
+            Level::Alert->value => 17,
+            Level::Critical->value => 22,
             Level::Debug->value => 9,
+            Level::Emergency->value => 8,
+            Level::Error->value => 11,
             Level::Info->value => 99,
             Level::Notice->value => 2,
             Level::Warning->value => 42,
-            Level::Error->value => 11,
-            Level::Critical->value => 22,
-            Level::Alert->value => 17,
-            Level::Emergency->value => 8,
         ];
         $processors           = true;
 
         $thresholdMapSet = [
+            LogLevel::ALERT => 17,
+            LogLevel::CRITICAL => 22,
             LogLevel::DEBUG => 9,
+            LogLevel::EMERGENCY => 8,
+            LogLevel::ERROR => 11,
             LogLevel::INFO => 99,
             LogLevel::NOTICE => 2,
             LogLevel::WARNING => 42,
-            LogLevel::ERROR => 11,
-            LogLevel::CRITICAL => 22,
-            LogLevel::ALERT => 17,
-            LogLevel::EMERGENCY => 8,
         ];
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -924,14 +924,14 @@ final class OverflowHandlerFactoryTest extends TestCase
         $processors = true;
 
         $thresholdMapSet = [
+            LogLevel::ALERT => 17,
+            LogLevel::CRITICAL => 22,
             LogLevel::DEBUG => 9,
+            LogLevel::EMERGENCY => 8,
+            LogLevel::ERROR => 11,
             LogLevel::INFO => 99,
             LogLevel::NOTICE => 2,
             LogLevel::WARNING => 42,
-            LogLevel::ERROR => 11,
-            LogLevel::CRITICAL => 22,
-            LogLevel::ALERT => 17,
-            LogLevel::EMERGENCY => 8,
         ];
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -978,8 +978,8 @@ final class OverflowHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -990,14 +990,14 @@ final class OverflowHandlerFactoryTest extends TestCase
         ];
 
         $thresholdMapSet = [
+            LogLevel::ALERT => 17,
+            LogLevel::CRITICAL => 22,
             LogLevel::DEBUG => 9,
+            LogLevel::EMERGENCY => 8,
+            LogLevel::ERROR => 11,
             LogLevel::INFO => 99,
             LogLevel::NOTICE => 2,
             LogLevel::WARNING => 42,
-            LogLevel::ERROR => 11,
-            LogLevel::CRITICAL => 22,
-            LogLevel::ALERT => 17,
-            LogLevel::EMERGENCY => 8,
         ];
 
         $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
@@ -1062,8 +1062,8 @@ final class OverflowHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1074,24 +1074,24 @@ final class OverflowHandlerFactoryTest extends TestCase
         ];
 
         $thresholdMapSet      = [
+            LogLevel::ALERT => 17,
+            LogLevel::CRITICAL => 22,
             LogLevel::DEBUG => 9,
+            LogLevel::EMERGENCY => 8,
+            LogLevel::ERROR => 11,
             LogLevel::INFO => 99,
             LogLevel::NOTICE => 2,
             LogLevel::WARNING => 42,
-            LogLevel::ERROR => 11,
-            LogLevel::CRITICAL => 22,
-            LogLevel::ALERT => 17,
-            LogLevel::EMERGENCY => 8,
         ];
         $thresholdMapExpected = [
+            Level::Alert->value => 17,
+            Level::Critical->value => 22,
             Level::Debug->value => 9,
+            Level::Emergency->value => 8,
+            Level::Error->value => 11,
             Level::Info->value => 99,
             Level::Notice->value => 2,
             Level::Warning->value => 42,
-            Level::Error->value => 11,
-            Level::Critical->value => 22,
-            Level::Alert->value => 17,
-            Level::Emergency->value => 8,
         ];
 
         $processor1 = $this->getMockBuilder(GitProcessor::class)
@@ -1174,8 +1174,8 @@ final class OverflowHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1186,14 +1186,14 @@ final class OverflowHandlerFactoryTest extends TestCase
         ];
 
         $thresholdMapSet = [
+            LogLevel::ALERT => 17,
+            LogLevel::CRITICAL => 22,
             LogLevel::DEBUG => 9,
+            LogLevel::EMERGENCY => 8,
+            LogLevel::ERROR => 11,
             LogLevel::INFO => 99,
             LogLevel::NOTICE => 2,
             LogLevel::WARNING => 42,
-            LogLevel::ERROR => 11,
-            LogLevel::CRITICAL => 22,
-            LogLevel::ALERT => 17,
-            LogLevel::EMERGENCY => 8,
         ];
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -1223,7 +1223,7 @@ final class OverflowHandlerFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager) {
-                    if (MonologHandlerPluginManager::class === $var) {
+                    if ($var === MonologHandlerPluginManager::class) {
                         return $monologHandlerPluginManager;
                     }
 
@@ -1250,8 +1250,8 @@ final class OverflowHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1262,14 +1262,14 @@ final class OverflowHandlerFactoryTest extends TestCase
         ];
 
         $thresholdMapSet = [
+            LogLevel::ALERT => 17,
+            LogLevel::CRITICAL => 22,
             LogLevel::DEBUG => 9,
+            LogLevel::EMERGENCY => 8,
+            LogLevel::ERROR => 11,
             LogLevel::INFO => 99,
             LogLevel::NOTICE => 2,
             LogLevel::WARNING => 42,
-            LogLevel::ERROR => 11,
-            LogLevel::CRITICAL => 22,
-            LogLevel::ALERT => 17,
-            LogLevel::EMERGENCY => 8,
         ];
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)

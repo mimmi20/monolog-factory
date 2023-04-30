@@ -34,12 +34,12 @@ final class Module implements ConfigProviderInterface, InitProviderInterface
         $provider = new ConfigProvider();
 
         return [
-            'service_manager' => $provider->getDependencyConfig(),
             'monolog' => $provider->getMonologConfig(),
+            'monolog_formatters' => $provider->getMonologFormatterConfig(),
             'monolog_handlers' => $provider->getMonologHandlerConfig(),
             'monolog_processors' => $provider->getMonologProcessorConfig(),
-            'monolog_formatters' => $provider->getMonologFormatterConfig(),
             'monolog_service_clients' => $provider->getMonologClientConfig(),
+            'service_manager' => $provider->getDependencyConfig(),
         ];
     }
 

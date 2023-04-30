@@ -119,7 +119,9 @@ final class DynamoDbHandlerFactoryTest extends TestCase
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage(sprintf('Could not load client class for %s class', DynamoDbHandler::class));
+        $this->expectExceptionMessage(
+            sprintf('Could not load client class for %s class', DynamoDbHandler::class),
+        );
 
         $factory($container, '', ['client' => $clientName]);
     }
@@ -523,8 +525,8 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -577,8 +579,8 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -659,8 +661,8 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -702,8 +704,8 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,

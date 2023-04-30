@@ -72,17 +72,15 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
         }
 
         if (!array_key_exists('client', $options)) {
-            throw new ServiceNotCreatedException('No Service name provided for the required service class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required service class',
+            );
         }
 
         if ($options['client'] instanceof V8Client || $options['client'] instanceof V7Client) {
             $client = $options['client'];
         } elseif (is_array($options['client'])) {
-            if (class_exists(V8Client::class)) {
-                $clientType = V8Client::class;
-            } else {
-                $clientType = V7Client::class;
-            }
+            $clientType = class_exists(V8Client::class) ? V8Client::class : V7Client::class;
 
             try {
                 $monologClientPluginManager = $container->get(ClientPluginManager::class);
@@ -119,7 +117,9 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
                 );
             }
         } elseif (!is_string($options['client'])) {
-            throw new ServiceNotCreatedException('No Service name provided for the required service class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required service class',
+            );
         } else {
             try {
                 $client = $container->get($options['client']);
@@ -150,14 +150,21 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
             $index = $options['index'];
         }
 
-        if (array_key_exists('dateFormat', $options) && in_array($options['dateFormat'], [self::INDEX_PER_DAY, self::INDEX_PER_MONTH, self::INDEX_PER_YEAR], true)) {
+        if (
+            array_key_exists('dateFormat', $options)
+            && in_array(
+                $options['dateFormat'],
+                [self::INDEX_PER_DAY, self::INDEX_PER_MONTH, self::INDEX_PER_YEAR],
+                true,
+            )
+        ) {
             $dateFormat = $options['dateFormat'];
         }
 
         if (
             array_key_exists('indexNameFormat', $options)
             && is_string($options['indexNameFormat'])
-            && false !== mb_strpos($options['indexNameFormat'], '{indexname}')
+            && mb_strpos($options['indexNameFormat'], '{indexname}') !== false
         ) {
             $indexNameFormat = $options['indexNameFormat'];
         }
@@ -181,9 +188,13 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
         $handler = new ElasticsearchHandler(
             $client,
             [
-                'index' => str_replace(['{indexname}', '{date}'], [$index, date($dateFormat)], $indexNameFormat),
-                'type' => $type,
                 'ignore_error' => $ignoreError,
+                'index' => str_replace(
+                    ['{indexname}', '{date}'],
+                    [$index, date($dateFormat)],
+                    $indexNameFormat,
+                ),
+                'type' => $type,
             ],
             $level,
             $bubble,

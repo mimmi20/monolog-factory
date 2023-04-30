@@ -201,10 +201,10 @@ final class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependencyConfig(),
+            'monolog' => $this->getMonologConfig(),
+            'monolog_formatters' => $this->getMonologFormatterConfig(),
             'monolog_handlers' => $this->getMonologHandlerConfig(),
             'monolog_processors' => $this->getMonologProcessorConfig(),
-            'monolog_formatters' => $this->getMonologFormatterConfig(),
-            'monolog' => $this->getMonologConfig(),
             'monolog_service_clients' => $this->getMonologClientConfig(),
         ];
     }
@@ -225,10 +225,10 @@ final class ConfigProvider
             ],
             'factories' => [
                 ActivationStrategyPluginManager::class => ActivationStrategyPluginManagerFactory::class,
-                MonologPluginManager::class => MonologPluginManagerFactory::class,
-                MonologHandlerPluginManager::class => MonologHandlerPluginManagerFactory::class,
-                MonologProcessorPluginManager::class => MonologProcessorPluginManagerFactory::class,
                 MonologFormatterPluginManager::class => MonologFormatterPluginManagerFactory::class,
+                MonologHandlerPluginManager::class => MonologHandlerPluginManagerFactory::class,
+                MonologPluginManager::class => MonologPluginManagerFactory::class,
+                MonologProcessorPluginManager::class => MonologProcessorPluginManagerFactory::class,
             ],
         ];
     }

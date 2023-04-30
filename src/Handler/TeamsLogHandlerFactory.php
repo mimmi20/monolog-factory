@@ -68,11 +68,7 @@ final class TeamsLogHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new TeamsLogHandler(
-            $url,
-            $level,
-            $bubble,
-        );
+        $handler = new TeamsLogHandler($url, $level, $bubble);
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

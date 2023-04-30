@@ -56,13 +56,17 @@ final class DoctrineCouchDBHandlerFactory implements FactoryInterface
         }
 
         if (!array_key_exists('client', $options)) {
-            throw new ServiceNotCreatedException('No Service name provided for the required client class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required client class',
+            );
         }
 
         if ($options['client'] instanceof CouchDBClient) {
             $client = $options['client'];
         } elseif (!is_string($options['client'])) {
-            throw new ServiceNotCreatedException('No Service name provided for the required client class');
+            throw new ServiceNotCreatedException(
+                'No Service name provided for the required client class',
+            );
         } else {
             try {
                 $client = $container->get($options['client']);
@@ -92,11 +96,7 @@ final class DoctrineCouchDBHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new DoctrineCouchDBHandler(
-            $client,
-            $level,
-            $bubble,
-        );
+        $handler = new DoctrineCouchDBHandler($client, $level, $bubble);
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

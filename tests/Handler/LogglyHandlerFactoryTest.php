@@ -355,8 +355,8 @@ final class LogglyHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -408,8 +408,8 @@ final class LogglyHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -487,8 +487,8 @@ final class LogglyHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -531,8 +531,8 @@ final class LogglyHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,

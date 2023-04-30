@@ -44,8 +44,14 @@ final class JsonFormatterFactoryTest extends TestCase
 
         self::assertInstanceOf(JsonFormatter::class, $formatter);
         self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH, $formatter->getMaxNormalizeDepth());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
+            $formatter->getMaxNormalizeDepth(),
+        );
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
+            $formatter->getMaxNormalizeItemCount(),
+        );
         self::assertSame(JsonFormatter::BATCH_MODE_JSON, $formatter->getBatchMode());
         self::assertTrue($formatter->isAppendingNewlines());
 
@@ -78,8 +84,14 @@ final class JsonFormatterFactoryTest extends TestCase
 
         self::assertInstanceOf(JsonFormatter::class, $formatter);
         self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH, $formatter->getMaxNormalizeDepth());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
+            $formatter->getMaxNormalizeDepth(),
+        );
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
+            $formatter->getMaxNormalizeItemCount(),
+        );
         self::assertSame(JsonFormatter::BATCH_MODE_JSON, $formatter->getBatchMode());
         self::assertTrue($formatter->isAppendingNewlines());
 

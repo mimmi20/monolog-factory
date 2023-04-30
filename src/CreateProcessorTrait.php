@@ -65,7 +65,7 @@ trait CreateProcessorTrait
             );
         }
 
-        assert(is_callable($processor) || null === $processor);
+        assert(is_callable($processor) || $processor === null);
 
         return $processor;
     }

@@ -625,8 +625,8 @@ final class PushoverHandlerFactoryTest extends TestCase
         $processors   = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -687,8 +687,8 @@ final class PushoverHandlerFactoryTest extends TestCase
         $processors        = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -804,8 +804,8 @@ final class PushoverHandlerFactoryTest extends TestCase
         $processors   = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -856,8 +856,8 @@ final class PushoverHandlerFactoryTest extends TestCase
         $processors   = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -917,7 +917,9 @@ final class PushoverHandlerFactoryTest extends TestCase
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage(sprintf('The sockets extension is needed to use the %s', PushoverHandler::class));
+        $this->expectExceptionMessage(
+            sprintf('The sockets extension is needed to use the %s', PushoverHandler::class),
+        );
 
         $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
     }

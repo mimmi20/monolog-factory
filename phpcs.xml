@@ -13,10 +13,12 @@
         <exclude name="SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh"/>
         <exclude name="SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable.DisallowedSuperGlobalVariable"/>
         <exclude name="Generic.Metrics.CyclomaticComplexity.TooHigh"/>
+        <exclude name="SlevomatCodingStandard.Files.FileLength.FileTooLong"/>
     </rule>
 
     <!-- Paths to check -->
     <file>src</file>
     <file>tests</file>
     <file>.php-cs-fixer.php</file>
+    <file>rector.php</file>
 </ruleset>

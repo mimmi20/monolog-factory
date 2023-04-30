@@ -450,8 +450,8 @@ final class RollbarHandlerFactoryTest extends TestCase
         $processors  = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -508,8 +508,8 @@ final class RollbarHandlerFactoryTest extends TestCase
         $processors  = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -603,8 +603,8 @@ final class RollbarHandlerFactoryTest extends TestCase
         $processors  = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -650,8 +650,8 @@ final class RollbarHandlerFactoryTest extends TestCase
         $processors  = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,

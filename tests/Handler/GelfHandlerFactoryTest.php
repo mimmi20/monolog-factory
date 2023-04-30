@@ -43,7 +43,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithoutConfig(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -67,7 +69,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithEmptyConfig(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -91,7 +95,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisherName = true;
@@ -117,7 +123,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig2(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisherName = 'test-publisher';
@@ -148,7 +156,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig3(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisherName = 'test-publisher';
@@ -196,7 +206,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig4(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisherName = 'test-publisher';
@@ -244,7 +256,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig5(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisher = $this->getMockBuilder(PublisherInterface::class)
@@ -289,7 +303,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig6(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisher = $this->getMockBuilder(PublisherInterface::class)
@@ -331,7 +347,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig7(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisherName = 'test-publisher';
@@ -359,7 +377,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisher = $this->getMockBuilder(PublisherInterface::class)
@@ -390,7 +410,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndFormatter(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisher = $this->getMockBuilder(PublisherInterface::class)
@@ -428,7 +450,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndFormatter2(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisher = $this->getMockBuilder(PublisherInterface::class)
@@ -483,7 +507,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndFormatter3(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisher = $this->getMockBuilder(PublisherInterface::class)
@@ -518,7 +544,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisher  = $this->getMockBuilder(PublisherInterface::class)
@@ -547,7 +575,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndProcessors2(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisher  = $this->getMockBuilder(PublisherInterface::class)
@@ -556,8 +586,8 @@ final class GelfHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -603,7 +633,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndProcessors3(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisher  = $this->getMockBuilder(PublisherInterface::class)
@@ -613,8 +645,8 @@ final class GelfHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -684,7 +716,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndProcessors4(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisher  = $this->getMockBuilder(PublisherInterface::class)
@@ -694,8 +728,8 @@ final class GelfHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -730,7 +764,9 @@ final class GelfHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndProcessors5(): void
     {
         if (!interface_exists(PublisherInterface::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfHandler',
+            );
         }
 
         $publisher  = $this->getMockBuilder(PublisherInterface::class)
@@ -740,8 +776,8 @@ final class GelfHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,

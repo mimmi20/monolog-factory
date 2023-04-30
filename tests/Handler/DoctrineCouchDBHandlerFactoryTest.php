@@ -119,7 +119,9 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage(sprintf('Could not load client class for %s class', DoctrineCouchDBHandler::class));
+        $this->expectExceptionMessage(
+            sprintf('Could not load client class for %s class', DoctrineCouchDBHandler::class),
+        );
 
         $factory($container, '', ['client' => $clientName]);
     }
@@ -495,8 +497,8 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -548,8 +550,8 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -625,8 +627,8 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -675,8 +677,8 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $processors = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,

@@ -75,7 +75,7 @@ trait AddFormatterTrait
 
         $formatter = $this->createFormatter($options['formatter'], $monologFormatterPluginManager);
 
-        if (null === $formatter) {
+        if ($formatter === null) {
             return;
         }
 

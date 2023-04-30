@@ -34,7 +34,9 @@ final class GelfMessageFormatterFactoryTest extends TestCase
     public function testInvokeWithoutConfig(): void
     {
         if (!class_exists(Message::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfMessageFormatter');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfMessageFormatter',
+            );
         }
 
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -51,8 +53,14 @@ final class GelfMessageFormatterFactoryTest extends TestCase
 
         self::assertInstanceOf(GelfMessageFormatter::class, $formatter);
         self::assertSame('U.u', $formatter->getDateFormat());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH, $formatter->getMaxNormalizeDepth());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
+            $formatter->getMaxNormalizeDepth(),
+        );
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
+            $formatter->getMaxNormalizeItemCount(),
+        );
 
         $s = new ReflectionProperty($formatter, 'systemName');
 
@@ -78,7 +86,9 @@ final class GelfMessageFormatterFactoryTest extends TestCase
     public function testInvokeWithEmptyConfig(): void
     {
         if (!class_exists(Message::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfMessageFormatter');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfMessageFormatter',
+            );
         }
 
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -95,8 +105,14 @@ final class GelfMessageFormatterFactoryTest extends TestCase
 
         self::assertInstanceOf(GelfMessageFormatter::class, $formatter);
         self::assertSame('U.u', $formatter->getDateFormat());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH, $formatter->getMaxNormalizeDepth());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
+            $formatter->getMaxNormalizeDepth(),
+        );
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
+            $formatter->getMaxNormalizeItemCount(),
+        );
 
         $s = new ReflectionProperty($formatter, 'systemName');
 
@@ -122,7 +138,9 @@ final class GelfMessageFormatterFactoryTest extends TestCase
     public function testInvokeWithConfig(): void
     {
         if (!class_exists(Message::class)) {
-            self::markTestSkipped('Composer package graylog2/gelf-php is required to use Monolog\'s GelfMessageFormatter');
+            self::markTestSkipped(
+                'Composer package graylog2/gelf-php is required to use Monolog\'s GelfMessageFormatter',
+            );
         }
 
         $systemName            = 'abc';

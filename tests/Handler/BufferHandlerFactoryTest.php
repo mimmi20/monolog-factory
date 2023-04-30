@@ -469,7 +469,7 @@ final class BufferHandlerFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager): AbstractPluginManager {
-                    if (MonologHandlerPluginManager::class === $var) {
+                    if ($var === MonologHandlerPluginManager::class) {
                         return $monologHandlerPluginManager;
                     }
 
@@ -609,7 +609,7 @@ final class BufferHandlerFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager): AbstractPluginManager {
-                    if (MonologHandlerPluginManager::class === $var) {
+                    if ($var === MonologHandlerPluginManager::class) {
                         return $monologHandlerPluginManager;
                     }
 
@@ -861,8 +861,8 @@ final class BufferHandlerFactoryTest extends TestCase
         $processors  = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -935,8 +935,8 @@ final class BufferHandlerFactoryTest extends TestCase
         $processors  = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1038,8 +1038,8 @@ final class BufferHandlerFactoryTest extends TestCase
         $processors  = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1084,7 +1084,7 @@ final class BufferHandlerFactoryTest extends TestCase
             ->method('get')
             ->willReturnCallback(
                 static function (string $var) use ($monologHandlerPluginManager) {
-                    if (MonologHandlerPluginManager::class === $var) {
+                    if ($var === MonologHandlerPluginManager::class) {
                         return $monologHandlerPluginManager;
                     }
 
@@ -1112,8 +1112,8 @@ final class BufferHandlerFactoryTest extends TestCase
         $processors  = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,
@@ -1186,8 +1186,8 @@ final class BufferHandlerFactoryTest extends TestCase
         $processors  = [
             [
                 'enabled' => true,
-                'type' => 'xyz',
                 'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
             ],
             [
                 'enabled' => false,

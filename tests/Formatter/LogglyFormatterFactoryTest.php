@@ -45,8 +45,14 @@ final class LogglyFormatterFactoryTest extends TestCase
 
         self::assertInstanceOf(LogglyFormatter::class, $formatter);
         self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH, $formatter->getMaxNormalizeDepth());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
+            $formatter->getMaxNormalizeDepth(),
+        );
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
+            $formatter->getMaxNormalizeItemCount(),
+        );
         self::assertSame(JsonFormatter::BATCH_MODE_NEWLINES, $formatter->getBatchMode());
         self::assertTrue($formatter->isAppendingNewlines());
 
@@ -79,8 +85,14 @@ final class LogglyFormatterFactoryTest extends TestCase
 
         self::assertInstanceOf(LogglyFormatter::class, $formatter);
         self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH, $formatter->getMaxNormalizeDepth());
-        self::assertSame(NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT, $formatter->getMaxNormalizeItemCount());
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
+            $formatter->getMaxNormalizeDepth(),
+        );
+        self::assertSame(
+            NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
+            $formatter->getMaxNormalizeItemCount(),
+        );
         self::assertSame(JsonFormatter::BATCH_MODE_NEWLINES, $formatter->getBatchMode());
         self::assertTrue($formatter->isAppendingNewlines());
 

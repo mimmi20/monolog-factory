@@ -94,7 +94,11 @@ final class MonologFactory implements FactoryInterface
                     ),
                 );
             } catch (ContainerExceptionInterface $e) {
-                throw new ServiceNotFoundException(sprintf('Could not find service %s', MonologHandlerPluginManager::class), 0, $e);
+                throw new ServiceNotFoundException(
+                    sprintf('Could not find service %s', MonologHandlerPluginManager::class),
+                    0,
+                    $e,
+                );
             }
 
             foreach ($options['handlers'] as $handlerArray) {
@@ -122,7 +126,11 @@ final class MonologFactory implements FactoryInterface
                         $handlerArray['options'] ?? [],
                     );
                 } catch (ContainerExceptionInterface $e) {
-                    throw new ServiceNotFoundException(sprintf('Could not find service %s', $handlerArray['type']), 0, $e);
+                    throw new ServiceNotFoundException(
+                        sprintf('Could not find service %s', $handlerArray['type']),
+                        0,
+                        $e,
+                    );
                 }
 
                 assert($handler instanceof HandlerInterface);
@@ -139,13 +147,17 @@ final class MonologFactory implements FactoryInterface
             try {
                 $monologProcessorPluginManager = $container->get(MonologProcessorPluginManager::class);
             } catch (ContainerExceptionInterface $e) {
-                throw new ServiceNotFoundException(sprintf('Could not find service %s', MonologProcessorPluginManager::class), 0, $e);
+                throw new ServiceNotFoundException(
+                    sprintf('Could not find service %s', MonologProcessorPluginManager::class),
+                    0,
+                    $e,
+                );
             }
 
             foreach (array_reverse($options['processors']) as $processorConfig) {
                 $processor = $this->createProcessor($processorConfig, $monologProcessorPluginManager);
 
-                if (null === $processor) {
+                if ($processor === null) {
                     continue;
                 }
 

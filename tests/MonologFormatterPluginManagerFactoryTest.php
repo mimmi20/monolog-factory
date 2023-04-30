@@ -42,7 +42,10 @@ final class MonologFormatterPluginManagerFactoryTest extends TestCase
 
         $factory = new MonologFormatterPluginManagerFactory();
 
-        self::assertInstanceOf(MonologFormatterPluginManager::class, $factory($container, $requestedName, $options));
+        self::assertInstanceOf(
+            MonologFormatterPluginManager::class,
+            $factory($container, $requestedName, $options),
+        );
     }
 
     /** @throws Exception */
@@ -67,7 +70,10 @@ final class MonologFormatterPluginManagerFactoryTest extends TestCase
 
         $factory = new MonologFormatterPluginManagerFactory();
 
-        self::assertInstanceOf(MonologFormatterPluginManager::class, $factory($container, $requestedName, $options));
+        self::assertInstanceOf(
+            MonologFormatterPluginManager::class,
+            $factory($container, $requestedName, $options),
+        );
     }
 
     /** @throws Exception */
@@ -126,7 +132,10 @@ final class MonologFormatterPluginManagerFactoryTest extends TestCase
 
         $factory = new MonologFormatterPluginManagerFactory();
 
-        self::assertInstanceOf(MonologFormatterPluginManager::class, $factory($container, $requestedName, $options));
+        self::assertInstanceOf(
+            MonologFormatterPluginManager::class,
+            $factory($container, $requestedName, $options),
+        );
     }
 
     /** @throws Exception */
@@ -154,7 +163,10 @@ final class MonologFormatterPluginManagerFactoryTest extends TestCase
 
         $factory = new MonologFormatterPluginManagerFactory();
 
-        self::assertInstanceOf(MonologFormatterPluginManager::class, $factory($container, $requestedName, $options));
+        self::assertInstanceOf(
+            MonologFormatterPluginManager::class,
+            $factory($container, $requestedName, $options),
+        );
     }
 
     /** @throws Exception */
@@ -182,6 +194,9 @@ final class MonologFormatterPluginManagerFactoryTest extends TestCase
 
         $factory = new MonologFormatterPluginManagerFactory();
 
-        self::assertInstanceOf(MonologFormatterPluginManager::class, $factory($container, $requestedName, $options));
+        self::assertInstanceOf(
+            MonologFormatterPluginManager::class,
+            $factory($container, $requestedName, $options),
+        );
     }
 }

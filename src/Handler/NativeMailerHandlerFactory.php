@@ -83,7 +83,14 @@ final class NativeMailerHandlerFactory implements FactoryInterface
             $maxColumnWidth = $options['maxColumnWidth'];
         }
 
-        $handler = new NativeMailerHandler($toEmail, $subject, $fromEmail, $level, $bubble, $maxColumnWidth);
+        $handler = new NativeMailerHandler(
+            $toEmail,
+            $subject,
+            $fromEmail,
+            $level,
+            $bubble,
+            $maxColumnWidth,
+        );
 
         if (array_key_exists('contentType', $options)) {
             $handler->setContentType($options['contentType']);

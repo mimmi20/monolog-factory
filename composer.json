@@ -28,7 +28,7 @@
     "ext-xml": "*",
     "ext-xmlwriter": "*",
     "actived/microsoft-teams-notifier": "^1.3.0",
-    "aws/aws-sdk-php": "^3.269.5",
+    "aws/aws-sdk-php": "^3.269.6",
     "doctrine/couchdb": "1.0.0-beta4",
     "elasticsearch/elasticsearch": "^v7.17.2 || ^v8.7.0",
     "ezimuel/ringphp": "^1.2.2",

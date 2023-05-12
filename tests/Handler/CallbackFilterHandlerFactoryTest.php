@@ -24,6 +24,8 @@ use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ChromePHPHandler;
+use Monolog\Handler\HandlerInterface;
+use Monolog\Handler\NullHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
@@ -270,8 +272,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     public function testInvokeWithHandlerConfig2(): void
     {
         $type   = 'abc';
-        $filter = static function (): void {
-        };
+        $filter = static fn (): HandlerInterface => new NullHandler();
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
             ->disableOriginalConstructor()
@@ -337,10 +338,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     public function testInvokeWithHandlerConfig3(): void
     {
         $type    = 'abc';
-        $filter1 = static function (): void {
-        };
-        $filter2 = static function (): void {
-        };
+        $filter1 = static fn (): HandlerInterface => new NullHandler();
+        $filter2 = static fn (): HandlerInterface => new NullHandler();
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
             ->disableOriginalConstructor()
@@ -406,10 +405,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $type      = 'abc';
-        $filter1   = static function (): void {
-        };
-        $filter2   = static function (): void {
-        };
+        $filter1   = static fn (): HandlerInterface => new NullHandler();
+        $filter2   = static fn (): HandlerInterface => new NullHandler();
         $formatter = true;
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -473,10 +470,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndBoolFormatter2(): void
     {
         $type      = 'abc';
-        $filter1   = static function (): void {
-        };
-        $filter2   = static function (): void {
-        };
+        $filter1   = static fn (): HandlerInterface => new NullHandler();
+        $filter2   = static fn (): HandlerInterface => new NullHandler();
         $formatter = true;
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -525,10 +520,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndFormatter(): void
     {
         $type      = 'abc';
-        $filter1   = static function (): void {
-        };
-        $filter2   = static function (): void {
-        };
+        $filter1   = static fn (): HandlerInterface => new NullHandler();
+        $filter2   = static fn (): HandlerInterface => new NullHandler();
         $formatter = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -597,10 +590,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $type      = 'abc';
-        $filter1   = static function (): void {
-        };
-        $filter2   = static function (): void {
-        };
+        $filter1   = static fn (): HandlerInterface => new NullHandler();
+        $filter2   = static fn (): HandlerInterface => new NullHandler();
         $formatter = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -679,10 +670,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $type      = 'abc';
-        $filter1   = static function (): void {
-        };
-        $filter2   = static function (): void {
-        };
+        $filter1   = static fn (): HandlerInterface => new NullHandler();
+        $filter2   = static fn (): HandlerInterface => new NullHandler();
         $formatter = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -734,10 +723,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $type       = 'abc';
-        $filter1    = static function (): void {
-        };
-        $filter2    = static function (): void {
-        };
+        $filter1    = static fn (): HandlerInterface => new NullHandler();
+        $filter2    = static fn (): HandlerInterface => new NullHandler();
         $processors = true;
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -781,10 +768,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndBoolProcessors2(): void
     {
         $type       = 'abc';
-        $filter1    = static function (): void {
-        };
-        $filter2    = static function (): void {
-        };
+        $filter1    = static fn (): HandlerInterface => new NullHandler();
+        $filter2    = static fn (): HandlerInterface => new NullHandler();
         $processors = true;
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -828,10 +813,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $type       = 'abc';
-        $filter1    = static function (): void {
-        };
-        $filter2    = static function (): void {
-        };
+        $filter1    = static fn (): HandlerInterface => new NullHandler();
+        $filter2    = static fn (): HandlerInterface => new NullHandler();
         $processors = [
             [
                 'enabled' => true,
@@ -904,10 +887,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $type       = 'abc';
-        $filter1    = static function (): void {
-        };
-        $filter2    = static function (): void {
-        };
+        $filter1    = static fn (): HandlerInterface => new NullHandler();
+        $filter2    = static fn (): HandlerInterface => new NullHandler();
         $processor3 = static fn (array $record): array => $record;
         $processors = [
             [
@@ -1010,10 +991,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $type       = 'abc';
-        $filter1    = static function (): void {
-        };
-        $filter2    = static function (): void {
-        };
+        $filter1    = static fn (): HandlerInterface => new NullHandler();
+        $filter2    = static fn (): HandlerInterface => new NullHandler();
         $processor3 = static fn (array $record): array => $record;
         $processors = [
             [
@@ -1087,10 +1066,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $type       = 'abc';
-        $filter1    = static function (): void {
-        };
-        $filter2    = static function (): void {
-        };
+        $filter1    = static fn (): HandlerInterface => new NullHandler();
+        $filter2    = static fn (): HandlerInterface => new NullHandler();
         $processor3 = static fn (array $record): array => $record;
         $processors = [
             [
@@ -1156,10 +1133,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndProcessors6(): void
     {
         $type       = 'abc';
-        $filter1    = static function (): void {
-        };
-        $filter2    = static function (): void {
-        };
+        $filter1    = static fn (): HandlerInterface => new NullHandler();
+        $filter2    = static fn (): HandlerInterface => new NullHandler();
         $processor3 = static fn (array $record): array => $record;
         $processors = [
             [

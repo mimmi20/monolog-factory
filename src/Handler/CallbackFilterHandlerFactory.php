@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler;
 
+use Closure;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -36,9 +37,9 @@ final class CallbackFilterHandlerFactory implements FactoryInterface
     use GetHandlerTrait;
 
     /**
-     * @param string                                                    $requestedName
-     * @param array<string, (string|int|array<(int|string)>|bool)>|null $options
-     * @phpstan-param array{handler?: bool|array{type?: string, enabled?: bool, options?: array<mixed>}, filters?: array<(Closure(LogRecord|null, HandlerInterface): HandlerInterface)>|(Closure(LogRecord|null, HandlerInterface): HandlerInterface), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
+     * @param string                                                                                                           $requestedName
+     * @param array<string, (string|int|array<(int|string|bool|array<(int|string), mixed>|Closure), mixed>|bool|Closure)>|null $options
+     * @phpstan-param array{handler?: (bool|array{type?: string, enabled?: bool, options?: array<(int|string), mixed>}), filters?: (array<Closure((LogRecord|null), HandlerInterface): HandlerInterface>|Closure((LogRecord|null), HandlerInterface): HandlerInterface), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service

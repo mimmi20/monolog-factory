@@ -113,3 +113,4 @@ parameters:
     - '~Call to static method PHPUnit\\Framework\\Assert::assert.*\(\) with .* will always evaluate to true~'
     - '~no value type specified in iterable type~'
 #    - '~PHPDoc tag @throws with type .*Psr\\Container\\ContainerExceptionInterface.* is not subtype of Throwable~'
+    - '~deprecated class Laminas\\ServiceManager\\Config~'

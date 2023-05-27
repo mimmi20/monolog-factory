@@ -312,7 +312,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
 
         $factory = new CallbackFilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter]]);
+        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => $filter]);
 
         self::assertInstanceOf(CallbackFilterHandler::class, $handler);
 

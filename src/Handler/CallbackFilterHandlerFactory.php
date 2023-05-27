@@ -39,7 +39,7 @@ final class CallbackFilterHandlerFactory implements FactoryInterface
     /**
      * @param string                                                                                                           $requestedName
      * @param array<string, (array<(array<(int|string), mixed>|bool|Closure|int|string), mixed>|bool|Closure|int|string)>|null $options
-     * @phpstan-param array{handler?: (bool|array{type?: string, enabled?: bool, options?: array<(int|string), mixed>}), filters?: array<int|string, (Closure(LogRecord, Level): bool)>, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
+     * @phpstan-param array{handler?: (bool|array{type?: string, enabled?: bool, options?: array<(int|string), mixed>}), filters?: array<int|string, (Closure(LogRecord, Level): bool)>|(Closure(LogRecord, Level): bool), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service

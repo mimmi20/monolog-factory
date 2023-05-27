@@ -35,7 +35,7 @@ final class LogmaticHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                $requestedName
-     * @param array<string, (string|int|bool)>|null $options
+     * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{token?: string, hostname?: string, appname?: string, useSSL?: bool, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, timeout?: float, writeTimeout?: float, persistent?: bool, chunkSize?: int}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

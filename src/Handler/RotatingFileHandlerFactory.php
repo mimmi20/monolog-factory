@@ -35,7 +35,7 @@ final class RotatingFileHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                $requestedName
-     * @param array<string, (string|int|bool)>|null $options
+     * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{filename?: string, maxFiles?: int, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, filePermission?: int|string, useLocking?: bool, dateFormat?: string, filenameFormat?: string}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

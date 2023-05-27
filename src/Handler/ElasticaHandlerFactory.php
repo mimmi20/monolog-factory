@@ -36,7 +36,7 @@ final class ElasticaHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                       $requestedName
-     * @param array<string, (string|int|bool|Client)>|null $options
+     * @param array<string, (bool|Client|int|string)>|null $options
      * @phpstan-param array{client?: (bool|string|Client), index?: string, type?: string, ignoreError?: bool, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

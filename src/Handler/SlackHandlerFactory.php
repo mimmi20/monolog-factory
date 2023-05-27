@@ -35,7 +35,7 @@ final class SlackHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                $requestedName
-     * @param array<string, (string|int|bool)>|null $options
+     * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{token?: string, channel?: string, userName?: string, useAttachment?: bool, iconEmoji?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, useShortAttachment?: bool, includeContextAndExtra?: bool, excludeFields?: array<string>, timeout?: float, writeTimeout?: float, persistent?: bool, chunkSize?: int}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

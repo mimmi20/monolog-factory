@@ -36,7 +36,7 @@ final class PushoverHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                              $requestedName
-     * @param array<string, (string|int|bool|array<string>)>|null $options
+     * @param array<string, (array<string>|bool|int|string)>|null $options
      * @phpstan-param array{token?: string, users?: array<string>|string, title?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, useSSL?: bool, highPriorityLevel?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), emergencyLevel?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), retry?: int, expire?: int, timeout?: float, writingTimeout?: float, writeTimeout?: float, connectionTimeout?: float, persistent?: bool, chunkSize?: int}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

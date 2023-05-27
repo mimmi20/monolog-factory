@@ -25,7 +25,7 @@ final class IntrospectionProcessorFactory implements FactoryInterface
 {
     /**
      * @param string                                              $requestedName
-     * @param array<string, (int|string|array<int, string>)>|null $options
+     * @param array<string, (array<int, string>|int|string)>|null $options
      * @phpstan-param array{level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), skipClassesPartials?: array<int, string>|string, skipStackFramesCount?: int}|null $options
      *
      * @throws void

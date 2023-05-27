@@ -26,7 +26,7 @@ final class LineFormatterFactory implements FactoryInterface
 {
     /**
      * @param string                                $requestedName
-     * @param array<string, (string|int|bool)>|null $options
+     * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{format?: string, dateFormat?: string, allowInlineLineBreaks?: bool, ignoreEmptyContextAndExtra?: bool, includeStacktraces?: bool, maxNormalizeDepth?: int, maxNormalizeItemCount?: int, prettyPrint?: bool}|null $options
      *
      * @throws ServiceNotCreatedException

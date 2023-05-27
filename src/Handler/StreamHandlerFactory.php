@@ -37,7 +37,7 @@ final class StreamHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                         $requestedName
-     * @param array<string, (string|int|bool|resource)>|null $options
+     * @param array<string, (bool|int|resource|string)>|null $options
      * @phpstan-param array{stream?: (bool|int|string|resource), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, filePermission?: int, useLocking?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

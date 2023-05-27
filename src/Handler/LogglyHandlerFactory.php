@@ -35,7 +35,7 @@ final class LogglyHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                $requestedName
-     * @param array<string, (string|int|bool)>|null $options
+     * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{token?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

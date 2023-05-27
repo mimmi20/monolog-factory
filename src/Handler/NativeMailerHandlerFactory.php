@@ -33,7 +33,7 @@ final class NativeMailerHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                $requestedName
-     * @param array<string, (string|int|bool)>|null $options
+     * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{to?: array<string>|string, subject?: string, from?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, maxColumnWidth?: int, contentType?: string, encoding?: string}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

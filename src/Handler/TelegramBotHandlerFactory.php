@@ -35,7 +35,7 @@ final class TelegramBotHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                $requestedName
-     * @param array<string, (string|int|bool)>|null $options
+     * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{apiKey?: string, channel?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, parseMode?: string, disableWebPagePreview?: bool, disableNotification?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

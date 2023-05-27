@@ -37,7 +37,7 @@ final class RollbarHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                $requestedName
-     * @param array<string, (string|int|bool)>|null $options
+     * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{
      *     access_token?: string,
      *     enabled?: bool,

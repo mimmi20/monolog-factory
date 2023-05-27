@@ -26,7 +26,7 @@ final class GelfMessageFormatterFactory implements FactoryInterface
 {
     /**
      * @param string                                $requestedName
-     * @param array<string, (string|int|bool)>|null $options
+     * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{systemName?: string, extraPrefix?: string, contextPrefix?: string, maxLength?: int, maxNormalizeDepth?: int, maxNormalizeItemCount?: int, prettyPrint?: bool}|null $options
      *
      * @throws ServiceNotCreatedException

@@ -36,7 +36,7 @@ final class SqsHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                          $requestedName
-     * @param array<string, (string|int|bool|SqsClient)>|null $options
+     * @param array<string, (bool|int|SqsClient|string)>|null $options
      * @phpstan-param array{sqsClient?: (bool|string|SqsClient), queueUrl?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

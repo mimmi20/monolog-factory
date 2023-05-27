@@ -33,7 +33,7 @@ final class SamplingHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                 $requestedName
-     * @param array<string, (string|int|float)>|null $options
+     * @param array<string, (float|int|string)>|null $options
      * @phpstan-param array{handler?: bool|array{type?: string, enabled?: bool, options?: array<mixed>}, factor?: int|float}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

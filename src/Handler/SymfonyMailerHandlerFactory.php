@@ -41,7 +41,7 @@ final class SymfonyMailerHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                   $requestedName
-     * @param array<string, (string|int|Closure)>|null $options
+     * @param array<string, (Closure|int|string)>|null $options
      * @phpstan-param array{mailer?: (bool|string|MailerInterface|TransportInterface), email-template?: (string|Email|Closure(string, array|null<LogRecord>): Email), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

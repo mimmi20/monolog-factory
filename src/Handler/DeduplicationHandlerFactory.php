@@ -35,7 +35,7 @@ final class DeduplicationHandlerFactory implements FactoryInterface
 
     /**
      * @param string                           $requestedName
-     * @param array<string, (string|int)>|null $options
+     * @param array<string, (int|string)>|null $options
      * @phpstan-param array{handler?: bool|array{type?: string, enabled?: bool, options?: array<mixed>}, deduplicationStore?: string, deduplicationLevel?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), time?: int, bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

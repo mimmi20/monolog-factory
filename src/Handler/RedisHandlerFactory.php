@@ -37,7 +37,7 @@ final class RedisHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                             $requestedName
-     * @param array<string, (string|int|bool|Client|Redis)>|null $options
+     * @param array<string, (bool|Client|int|Redis|string)>|null $options
      * @phpstan-param array{client?: (bool|string|Client|Redis), key?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, capSize?: int}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

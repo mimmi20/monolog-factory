@@ -23,7 +23,7 @@ final class PsrLogMessageProcessorFactory implements FactoryInterface
 {
     /**
      * @param string                            $requestedName
-     * @param array<string, (string|bool)>|null $options
+     * @param array<string, (bool|string)>|null $options
      * @phpstan-param array{dateFormat?: string, removeUsedContextFields?: bool}|null $options
      *
      * @throws void

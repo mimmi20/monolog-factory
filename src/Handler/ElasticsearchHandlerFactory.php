@@ -52,7 +52,7 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                                  $requestedName
-     * @param array<string, (string|int|bool|V7Client|V8Client)>|null $options
+     * @param array<string, (bool|int|string|V7Client|V8Client)>|null $options
      * @phpstan-param array{client?: (bool|string|V7Client|V8Client), index?: string, type?: string, ignoreError?: bool, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

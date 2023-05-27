@@ -36,7 +36,7 @@ final class GelfHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                                   $requestedName
-     * @param array<string, (string|int|bool|PublisherInterface)>|null $options
+     * @param array<string, (bool|int|PublisherInterface|string)>|null $options
      * @phpstan-param array{publisher?: (bool|string|PublisherInterface), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

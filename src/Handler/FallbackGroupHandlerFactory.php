@@ -33,7 +33,7 @@ final class FallbackGroupHandlerFactory
 
     /**
      * @param string                                            $requestedName
-     * @param array<string, (array<string>|iterable|bool)>|null $options
+     * @param array<string, (array<string>|bool|iterable)>|null $options
      * @phpstan-param array{handlers?: bool|array<string|array{type?: string, enabled?: bool, options?: array<mixed>}>, bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

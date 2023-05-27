@@ -35,7 +35,7 @@ final class SlackWebhookHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                $requestedName
-     * @param array<string, (string|int|bool)>|null $options
+     * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{webhookUrl?: string, channel?: string, userName?: string, useAttachment?: bool, iconEmoji?: string, useShortAttachment?: bool, includeContextAndExtra?: bool, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, excludeFields?: array<string>}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

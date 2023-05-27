@@ -35,7 +35,7 @@ final class SocketHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                      $requestedName
-     * @param array<string, (string|int|bool|float)>|null $options
+     * @param array<string, (bool|float|int|string)>|null $options
      * @phpstan-param array{connectionString?: string, timeout?: float, writingTimeout?: float, writeTimeout?: float, connectionTimeout?: float, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, persistent?: bool, chunkSize?: int}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

@@ -36,7 +36,7 @@ final class DoctrineCouchDBHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                              $requestedName
-     * @param array<string, (string|int|bool|CouchDBClient)>|null $options
+     * @param array<string, (bool|CouchDBClient|int|string)>|null $options
      * @phpstan-param array{client?: (bool|string|CouchDBClient), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

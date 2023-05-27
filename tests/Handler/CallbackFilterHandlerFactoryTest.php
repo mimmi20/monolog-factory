@@ -24,9 +24,8 @@ use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ChromePHPHandler;
-use Monolog\Handler\HandlerInterface;
-use Monolog\Handler\NullHandler;
 use Monolog\Level;
+use Monolog\LogRecord;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Framework\Exception;
@@ -271,8 +270,17 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithHandlerConfig2(): void
     {
-        $type   = 'abc';
-        $filter = static fn (): HandlerInterface => new NullHandler();
+        $type = 'abc';
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter = static fn (LogRecord $record, Level $level): bool => true;
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
             ->disableOriginalConstructor()
@@ -337,9 +345,27 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithHandlerConfig3(): void
     {
-        $type    = 'abc';
-        $filter1 = static fn (): HandlerInterface => new NullHandler();
-        $filter2 = static fn (): HandlerInterface => new NullHandler();
+        $type = 'abc';
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
             ->disableOriginalConstructor()
@@ -404,9 +430,28 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
-        $type      = 'abc';
-        $filter1   = static fn (): HandlerInterface => new NullHandler();
-        $filter2   = static fn (): HandlerInterface => new NullHandler();
+        $type = 'abc';
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+
         $formatter = true;
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -469,9 +514,28 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /** @throws Exception */
     public function testInvokeWithConfigAndBoolFormatter2(): void
     {
-        $type      = 'abc';
-        $filter1   = static fn (): HandlerInterface => new NullHandler();
-        $filter2   = static fn (): HandlerInterface => new NullHandler();
+        $type = 'abc';
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+
         $formatter = true;
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -519,9 +583,28 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
-        $type      = 'abc';
-        $filter1   = static fn (): HandlerInterface => new NullHandler();
-        $filter2   = static fn (): HandlerInterface => new NullHandler();
+        $type = 'abc';
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+
         $formatter = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -589,9 +672,28 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
-        $type      = 'abc';
-        $filter1   = static fn (): HandlerInterface => new NullHandler();
-        $filter2   = static fn (): HandlerInterface => new NullHandler();
+        $type = 'abc';
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+
         $formatter = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -669,9 +771,28 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /** @throws Exception */
     public function testInvokeWithConfigAndFormatter3(): void
     {
-        $type      = 'abc';
-        $filter1   = static fn (): HandlerInterface => new NullHandler();
-        $filter2   = static fn (): HandlerInterface => new NullHandler();
+        $type = 'abc';
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+
         $formatter = $this->getMockBuilder(LineFormatter::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -722,9 +843,28 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /** @throws Exception */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
-        $type       = 'abc';
-        $filter1    = static fn (): HandlerInterface => new NullHandler();
-        $filter2    = static fn (): HandlerInterface => new NullHandler();
+        $type = 'abc';
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+
         $processors = true;
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -767,9 +907,28 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /** @throws Exception */
     public function testInvokeWithConfigAndBoolProcessors2(): void
     {
-        $type       = 'abc';
-        $filter1    = static fn (): HandlerInterface => new NullHandler();
-        $filter2    = static fn (): HandlerInterface => new NullHandler();
+        $type = 'abc';
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+
         $processors = true;
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
@@ -812,9 +971,28 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /** @throws Exception */
     public function testInvokeWithConfigAndProcessors2(): void
     {
-        $type       = 'abc';
-        $filter1    = static fn (): HandlerInterface => new NullHandler();
-        $filter2    = static fn (): HandlerInterface => new NullHandler();
+        $type = 'abc';
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+
         $processors = [
             [
                 'enabled' => true,
@@ -886,9 +1064,28 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
-        $type       = 'abc';
-        $filter1    = static fn (): HandlerInterface => new NullHandler();
-        $filter2    = static fn (): HandlerInterface => new NullHandler();
+        $type = 'abc';
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+
         $processor3 = static fn (array $record): array => $record;
         $processors = [
             [
@@ -990,9 +1187,28 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /** @throws Exception */
     public function testInvokeWithConfigAndProcessors4(): void
     {
-        $type       = 'abc';
-        $filter1    = static fn (): HandlerInterface => new NullHandler();
-        $filter2    = static fn (): HandlerInterface => new NullHandler();
+        $type = 'abc';
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+
         $processor3 = static fn (array $record): array => $record;
         $processors = [
             [
@@ -1065,9 +1281,28 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /** @throws Exception */
     public function testInvokeWithConfigAndProcessors5(): void
     {
-        $type       = 'abc';
-        $filter1    = static fn (): HandlerInterface => new NullHandler();
-        $filter2    = static fn (): HandlerInterface => new NullHandler();
+        $type = 'abc';
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+
         $processor3 = static fn (array $record): array => $record;
         $processors = [
             [
@@ -1132,9 +1367,28 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors6(): void
     {
-        $type       = 'abc';
-        $filter1    = static fn (): HandlerInterface => new NullHandler();
-        $filter2    = static fn (): HandlerInterface => new NullHandler();
+        $type = 'abc';
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+
+        /**
+         * @param LogRecord $record
+         * @param Level $level
+         *
+         * @return bool
+         *
+         * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+         */
+        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+
         $processor3 = static fn (array $record): array => $record;
         $processors = [
             [

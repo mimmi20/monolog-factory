@@ -37,7 +37,7 @@ final class AmqpHandlerFactory implements FactoryInterface
 
     /**
      * @param string                                                         $requestedName
-     * @param array<string, (bool|int|string|AMQPExchange|AMQPChannel)>|null $options
+     * @param array<string, (AMQPChannel|AMQPExchange|bool|int|string)>|null $options
      * @phpstan-param array{exchange?: (bool|string|AMQPExchange|AMQPChannel), exchangeName?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service

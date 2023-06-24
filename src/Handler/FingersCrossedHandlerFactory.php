@@ -46,7 +46,7 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
     /**
      * @param string                                                       $requestedName
      * @param array<string, (ActivationStrategyInterface|int|string)>|null $options
-     * @phpstan-param array{handler?: bool|array{type?: string, enabled?: bool, options?: array<mixed>}, activationStrategy?: (null|value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*|ActivationStrategyInterface|array{type?: string, options?: array<mixed>}|string), bufferSize?: int, bubble?: bool, stopBuffering?: bool, passthruLevel?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*)}|null $options
+     * @phpstan-param array{handler?: bool|array{type?: string, enabled?: bool, options?: array<mixed>}, activationStrategy?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*|ActivationStrategyInterface|array{type?: string, options?: array<mixed>}|string|null), bufferSize?: int, bubble?: bool, stopBuffering?: bool, passthruLevel?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*)}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service

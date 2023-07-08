@@ -11,10 +11,11 @@
   "commitBody": "Signed-off-by: {{{gitAuthor}}}",
   "commitBodyTable": true,
   "dependencyDashboard": false,
-  "enabledManagers": ["composer", "npm"],
+  "enabledManagers": ["composer", "github-actions", "npm"],
   "ignoreUnstable": true,
   "labels": [
-    "dependencies"
+    "dependencies",
+    "patch"
   ],
   "lockFileMaintenance": {
     "enabled": false
@@ -39,11 +40,11 @@
     "mimmi20"
   ],
   "rollbackPrs": true,
-  "schedule": ["at 4:00 pm on Saturday"],
+  "schedule": ["at 4:00 am on Saturday"],
   "semanticCommits": "disabled",
   "separateMajorMinor": true,
   "separateMinorPatch": false,
-  "timezone": "UTC",
+  "timezone": "Europe/Berlin",
   "updateLockFiles": false,
   "updateNotScheduled": false,
   "packageRules": [

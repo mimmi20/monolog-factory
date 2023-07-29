@@ -42,7 +42,7 @@
     "laminas/laminas-modulemanager": "^2.14.0",
     "laminas/laminas-servicemanager": "^3.21.0",
     "mikey179/vfsstream": "^1.6.11",
-    "mimmi20/coding-standard": "^5.1.7",
+    "mimmi20/coding-standard": "^5.1.9",
     "mimmi20/monolog-callbackfilterhandler": "^3.0.3",
     "mimmi20/monolog-streamformatter": "^3.0.2",
     "nikic/php-parser": "^v4.16.0",

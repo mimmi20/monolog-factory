@@ -46,23 +46,17 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          - "ubuntu-22.04"
 
         php-version:
           - "8.1"
           - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
         psr-log-version:
           - "2"
           - "3"
-
-        ts:
-          - "ts"
-          - "nts"
 
     steps:
       - name: "Checkout"
@@ -91,7 +85,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "${{ matrix.ts }}"
+          phpts: "nts"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -133,7 +127,6 @@ jobs:
           - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
         psr-log-version:
@@ -172,7 +165,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "ts"
+          phpts: "nts"
 
       - name: "Add require for mongodb/mongodb to make tests runnable"
         run: "composer require mongodb/mongodb --dev --no-update"
@@ -211,14 +204,12 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          - "ubuntu-22.04"
 
         php-version:
           - "8.1"
           - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
         psr-log-version:
@@ -252,7 +243,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "ts"
+          phpts: "nts"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -285,14 +276,12 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          - "ubuntu-22.04"
 
         php-version:
           - "8.1"
           - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
         psr-log-version:
@@ -326,7 +315,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "ts"
+          phpts: "nts"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -362,14 +351,12 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          - "ubuntu-22.04"
 
         php-version:
           - "8.1"
           - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
         psr-log-version:
@@ -403,7 +390,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "ts"
+          phpts: "nts"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -439,14 +426,11 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          - "ubuntu-22.04"
 
         php-version:
           - "8.1"
-          - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
         psr-log-version:
@@ -480,7 +464,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "ts"
+          phpts: "nts"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -529,14 +513,11 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          - "ubuntu-22.04"
 
         php-version:
           - "8.1"
-          - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
         psr-log-version:
@@ -570,7 +551,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "ts"
+          phpts: "nts"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -622,14 +603,11 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          - "ubuntu-22.04"
 
         php-version:
           - "8.1"
-          - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
         psr-log-version:
@@ -663,7 +641,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "ts"
+          phpts: "nts"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -717,14 +695,11 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          - "ubuntu-22.04"
 
         php-version:
           - "8.1"
-          - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
         psr-log-version:
@@ -758,7 +733,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "ts"
+          phpts: "nts"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -810,14 +785,11 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          - "ubuntu-22.04"
 
         php-version:
           - "8.1"
-          - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
         psr-log-version:
@@ -851,7 +823,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "ts"
+          phpts: "nts"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -903,14 +875,11 @@ jobs:
 #      matrix:
 #        operating-system:
 #          - "ubuntu-20.04"
-#          - "ubuntu-22.04"
 #
 #        php-version:
 #          - "8.1"
-#          - "8.2"
 #
 #        dependencies:
-#          - "highest"
 #          - "lowest"
 #
 #        psr-log-version:
@@ -944,7 +913,7 @@ jobs:
 #        env:
 #          fail-fast: true
 #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          phpts: "ts"
+#          phpts: "nts"
 #
 #      - name: "Require psr/log ${{ matrix.psr-log-version }}"
 #        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -996,14 +965,11 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          - "ubuntu-22.04"
 
         php-version:
           - "8.1"
-          - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
         psr-log-version:
@@ -1037,7 +1003,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "ts"
+          phpts: "nts"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -1086,14 +1052,11 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          - "ubuntu-22.04"
 
         php-version:
           - "8.1"
-          - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
         psr-log-version:
@@ -1127,7 +1090,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "ts"
+          phpts: "nts"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -1178,10 +1141,8 @@ jobs:
 
         php-version:
           - "8.1"
-          - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
         psr-log-version:
@@ -1215,7 +1176,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "ts"
+          phpts: "nts"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -1264,14 +1225,11 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-20.04"
-          - "ubuntu-22.04"
 
         php-version:
           - "8.1"
-          - "8.2"
 
         dependencies:
-          - "highest"
           - "lowest"
 
         psr-log-version:
@@ -1305,7 +1263,7 @@ jobs:
         env:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "ts"
+          phpts: "nts"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"

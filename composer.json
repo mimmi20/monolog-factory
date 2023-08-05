@@ -34,7 +34,7 @@
     "ezimuel/ringphp": "^1.2.2",
     "graylog2/gelf-php": "^2.0.1",
     "guzzlehttp/guzzle": "^7.7.0",
-    "guzzlehttp/psr7": "^2.5.0",
+    "guzzlehttp/psr7": "^2.6.0",
     "infection/infection": "^0.27.0",
     "jk/monolog-request-header-processor": "^1.0.0",
     "laminas/laminas-config": "^3.8.0",

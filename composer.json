@@ -57,7 +57,7 @@
     "ruflin/elastica": "^7.3.1",
     "symfony/mailer": "^v6.3.0",
     "symfony/mime": "^v6.3.3",
-    "vimeo/psalm": "^5.13.1"
+    "vimeo/psalm": "^5.14.1"
   },
   "suggest": {
     "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",

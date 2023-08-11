@@ -19,7 +19,7 @@ jobs:
 
     uses: "mimmi20/mimmi20/.github/workflows/ci.yml@main"
     with:
-      extensions: "ctype, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter, openssl, amqp, sockets, curl, intl"
+      extensions: "curl, iconv, mbstring, intl, dom, simplexml, tokenizer, xml, xmlwriter, openssl, amqp, sockets"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
       composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
       composer-outdated-option: ""
@@ -27,9 +27,60 @@ jobs:
       skip-phplint: false
       skip-rector: false
       skip-phpmd: false
-      skip-psalm: true
     secrets:
       envPAT: "${{ secrets.GITHUB_TOKEN }}"
+
+  check-composer:
+    name: "Check composer dependencies"
+
+    runs-on: "${{ matrix.operating-system }}"
+    timeout-minutes: 10
+    continue-on-error: false
+
+    needs: "ci"
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-20.04"
+
+        php-version:
+          # Should use the lowest supported version
+          - "8.1"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.25.5"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "none, phar, json, opcache, curl, iconv, mbstring, ctype, dom, intl, simplexml, tokenizer, xml, xmlwriter"
+          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
+          coverage: "none"
+          tools: "composer:v2, composer-unused"
+        env:
+          fail-fast: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          phpts: "nts"
+          debug: true
+
+      - name: "Update dependencies with composer"
+        uses: "ramsey/composer-install@2.2.0"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+
+      - name: "Check composer.json"
+        run: "composer-unused unused --ansi --no-progress --no-interaction --output-format=github"
 
   tests-monolog-without-extensions:
     name: "UnitTests with PHPUnit for monolog/monolog 3 without extensions"
@@ -78,7 +129,7 @@ jobs:
         uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, :mongodb, :amqp, :sockets, :curl"
+          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, :mongodb, :amqp, :sockets"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
@@ -86,6 +137,7 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           phpts: "nts"
+          debug: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -158,7 +210,7 @@ jobs:
         uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, mongodb, :amqp, :sockets, :curl"
+          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, mongodb, :amqp, :sockets"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
@@ -166,6 +218,7 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           phpts: "nts"
+          debug: true
 
       - name: "Add require for mongodb/mongodb to make tests runnable"
         run: "composer require mongodb/mongodb --dev --no-update"
@@ -236,7 +289,7 @@ jobs:
         uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, :mongodb, :amqp, :sockets, curl"
+          extensions: "none, phar, json, opcache, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, :mongodb, :amqp, :sockets"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
@@ -244,6 +297,7 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           phpts: "nts"
+          debug: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -308,7 +362,7 @@ jobs:
         uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, :mongodb, :amqp, sockets, :curl"
+          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, :mongodb, :amqp, sockets"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
@@ -316,6 +370,7 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           phpts: "nts"
+          debug: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -383,7 +438,7 @@ jobs:
         uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, :mongodb, amqp, :sockets, :curl"
+          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, :mongodb, amqp, :sockets"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
@@ -391,6 +446,7 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           phpts: "nts"
+          debug: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -457,7 +513,7 @@ jobs:
         uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
+          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, :sockets, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -465,6 +521,7 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           phpts: "nts"
+          debug: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -544,7 +601,7 @@ jobs:
         uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
+          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, :sockets, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -552,6 +609,7 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           phpts: "nts"
+          debug: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -634,7 +692,7 @@ jobs:
         uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, curl, ctype"
+          extensions: "none, phar, json, opcache, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, :sockets, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -642,6 +700,7 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           phpts: "nts"
+          debug: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -726,7 +785,7 @@ jobs:
         uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, sockets, :curl, ctype"
+          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, sockets, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -734,6 +793,7 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           phpts: "nts"
+          debug: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -816,7 +876,7 @@ jobs:
         uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
+          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, :sockets, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -824,6 +884,7 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           phpts: "nts"
+          debug: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -906,7 +967,7 @@ jobs:
 #        uses: "shivammathur/setup-php@2.24.0"
 #        with:
 #          php-version: "${{ matrix.php-version }}"
-#          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, :curl, ctype"
+#          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, :sockets, ctype"
 #          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
 #          coverage: "xdebug"
 #          tools: "composer:v2"
@@ -914,6 +975,7 @@ jobs:
 #          fail-fast: true
 #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #          phpts: "nts"
+#          debug: true
 #
 #      - name: "Require psr/log ${{ matrix.psr-log-version }}"
 #        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -996,7 +1058,7 @@ jobs:
         uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, sockets, :curl, ctype"
+          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, sockets, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -1004,6 +1066,7 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           phpts: "nts"
+          debug: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -1083,7 +1146,7 @@ jobs:
         uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, :amqp, :sockets, curl, ctype"
+          extensions: "none, phar, json, opcache, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, :amqp, :sockets, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -1091,6 +1154,7 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           phpts: "nts"
+          debug: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -1169,7 +1233,7 @@ jobs:
         uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, mongodb, :amqp, :sockets, :curl, ctype"
+          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, mongodb, :amqp, :sockets, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -1177,6 +1241,7 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           phpts: "nts"
+          debug: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
@@ -1256,7 +1321,7 @@ jobs:
         uses: "shivammathur/setup-php@2.25.5"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "phar, json, opcache, dom, iconv, intl, mbstring, simplexml, tokenizer, xmlwriter, openssl, :mongodb, amqp, :sockets, :curl, ctype"
+          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, :mongodb, amqp, :sockets, ctype"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -1264,6 +1329,7 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           phpts: "nts"
+          debug: true
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"

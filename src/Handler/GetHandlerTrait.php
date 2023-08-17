@@ -18,8 +18,8 @@ use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Mimmi20\MonologFactory\MonologHandlerPluginManager;
 use Monolog\Handler\HandlerInterface;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Throwable;
 
 use function array_key_exists;
 use function sprintf;
@@ -35,7 +35,6 @@ trait GetHandlerTrait
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerExceptionInterface if any other error occurs
      */
     private function getHandler(ContainerInterface $container, array $options): HandlerInterface | null
     {
@@ -52,7 +51,7 @@ trait GetHandlerTrait
                 $options['type'],
                 $options['options'] ?? [],
             );
-        } catch (ContainerExceptionInterface $e) {
+        } catch (Throwable $e) {
             throw new ServiceNotFoundException(
                 sprintf('Could not load handler class %s', $options['type']),
                 0,

@@ -14,16 +14,14 @@ namespace Mimmi20\MonologFactory\Handler;
 
 use InvalidArgumentException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\WhatFailureGroupHandler;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Throwable;
 
 use function array_key_exists;
 use function is_array;
-use function sprintf;
 
 final class WhatFailureGroupHandlerFactory
 {
@@ -36,9 +34,7 @@ final class WhatFailureGroupHandlerFactory
      * @param array<string, (array<string>|bool|iterable)>|null $options
      * @phpstan-param array{handlers?: bool|array<string|array{type?: string, enabled?: bool, options?: array<mixed>}>, bubble?: bool}|null $options
      *
-     * @throws ServiceNotFoundException   if unable to resolve the service
-     * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerExceptionInterface if any other error occurs
+     * @throws InvalidArgumentException
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
@@ -49,10 +45,8 @@ final class WhatFailureGroupHandlerFactory
         array | null $options = null,
     ): WhatFailureGroupHandler {
         if (!is_array($options)) {
-            throw new ServiceNotCreatedException('Options must be an Array');
+            return new WhatFailureGroupHandler([], true);
         }
-
-        $handlers = $this->getHandlers($container, $options);
 
         $bubble = true;
 
@@ -61,16 +55,22 @@ final class WhatFailureGroupHandlerFactory
         }
 
         try {
-            $handler = new WhatFailureGroupHandler($handlers, $bubble);
-        } catch (InvalidArgumentException $e) {
-            throw new ServiceNotCreatedException(
-                sprintf('Could not create %s', WhatFailureGroupHandler::class),
-                0,
-                $e,
-            );
+            $handlers = $this->getHandlers($container, $options);
+        } catch (ServiceNotCreatedException) {
+            return new WhatFailureGroupHandler([], $bubble);
         }
 
-        $this->addProcessor($container, $handler, $options);
+        try {
+            $handler = new WhatFailureGroupHandler($handlers, $bubble);
+        } catch (InvalidArgumentException) {
+            return new WhatFailureGroupHandler([], $bubble);
+        }
+
+        try {
+            $this->addProcessor($container, $handler, $options);
+        } catch (Throwable) {
+            // do nothing
+        }
 
         return $handler;
     }

@@ -13,10 +13,10 @@ declare(strict_types = 1);
 namespace Mimmi20Test\MonologFactory\Handler;
 
 use Laminas\ServiceManager\AbstractPluginManager;
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\WhatFailureGroupHandlerFactory;
 use Mimmi20\MonologFactory\MonologHandlerPluginManager;
+use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ChromePHPHandler;
 use Monolog\Handler\FingersCrossedHandler;
@@ -24,139 +24,20 @@ use Monolog\Handler\FirePHPHandler;
 use Monolog\Handler\GelfHandler;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\WhatFailureGroupHandler;
+use Monolog\Processor\GitProcessor;
+use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionProperty;
 
-use function sprintf;
-
 final class WhatFailureGroupHandlerFactory1Test extends TestCase
 {
-    /** @throws Exception */
-    public function testInvokeWithoutConfig(): void
-    {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $container->expects(self::never())
-            ->method('has');
-        $container->expects(self::never())
-            ->method('get');
-
-        $factory = new WhatFailureGroupHandlerFactory();
-
-        $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Options must be an Array');
-
-        $factory($container, '');
-    }
-
-    /** @throws Exception */
-    public function testInvokeWithEmptyConfig(): void
-    {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $container->expects(self::never())
-            ->method('has');
-        $container->expects(self::never())
-            ->method('get');
-
-        $factory = new WhatFailureGroupHandlerFactory();
-
-        $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('No Service names provided for the required handler classes');
-
-        $factory($container, '', []);
-    }
-
-    /** @throws Exception */
-    public function testInvokeWithEmptyConfig2(): void
-    {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $container->expects(self::never())
-            ->method('has');
-        $container->expects(self::never())
-            ->method('get');
-
-        $factory = new WhatFailureGroupHandlerFactory();
-
-        $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('No Service names provided for the required handler classes');
-
-        $factory($container, '', ['handlers' => true]);
-    }
-
-    /** @throws Exception */
-    public function testInvokeWithoutHandlers(): void
-    {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $container->expects(self::never())
-            ->method('has');
-        $container->expects(self::never())
-            ->method('get');
-
-        $factory = new WhatFailureGroupHandlerFactory();
-
-        $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('No active handlers specified');
-
-        $factory($container, '', ['handlers' => []]);
-    }
-
-    /** @throws Exception */
-    public function testInvokeWithStringHandlers(): void
-    {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $container->expects(self::never())
-            ->method('has');
-        $container->expects(self::never())
-            ->method('get');
-
-        $factory = new WhatFailureGroupHandlerFactory();
-
-        $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('HandlerConfig must be an Array');
-
-        $factory($container, '', ['handlers' => ['test']]);
-    }
-
-    /** @throws Exception */
-    public function testInvokeWithHandlerWithoutType(): void
-    {
-        $handlers = [[]];
-
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $container->expects(self::never())
-            ->method('has');
-        $container->expects(self::never())
-            ->method('get');
-
-        $factory = new WhatFailureGroupHandlerFactory();
-
-        $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Options must contain a type for the handler');
-
-        $factory($container, '', ['handlers' => $handlers]);
-    }
-
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     */
     public function testInvokeWithHandlerWithType(): void
     {
         $handlers = [
@@ -197,19 +78,22 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
-        $monologHandlerPluginManager->expects(self::exactly(3))
+        $matcher = self::exactly(3);
+        $monologHandlerPluginManager->expects($matcher)
             ->method('get')
             ->willReturnCallback(
-                static function (string $with) use ($handler1, $handler2): HandlerInterface {
-                    if ($with === FirePHPHandler::class) {
-                        return $handler1;
-                    }
+                static function (string $with) use ($matcher, $handler1, $handler2): HandlerInterface {
+                    match ($matcher->numberOfInvocations()) {
+                        1 => self::assertSame(FirePHPHandler::class, $with),
+                        2 => self::assertSame(ChromePHPHandler::class, $with),
+                        default => self::assertSame(GelfHandler::class, $with),
+                    };
 
-                    if ($with === ChromePHPHandler::class) {
-                        return $handler2;
-                    }
-
-                    throw new ServiceNotFoundException();
+                    return match ($matcher->numberOfInvocations()) {
+                        1 => $handler1,
+                        2 => $handler2,
+                        default => throw new ServiceNotFoundException(),
+                    };
                 },
             );
 
@@ -225,14 +109,35 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
 
         $factory = new WhatFailureGroupHandlerFactory();
 
-        $this->expectException(ServiceNotFoundException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage(sprintf('Could not load handler class %s', GelfHandler::class));
+        $handler = $factory($container, '', ['handlers' => $handlers]);
 
-        $factory($container, '', ['handlers' => $handlers]);
+        self::assertInstanceOf(WhatFailureGroupHandler::class, $handler);
+
+        $fp = new ReflectionProperty($handler, 'handlers');
+
+        $handlerClasses = $fp->getValue($handler);
+
+        self::assertIsArray($handlerClasses);
+        self::assertCount(2, $handlerClasses);
+        self::assertSame($handler1, $handlerClasses[0]);
+        self::assertSame($handler2, $handlerClasses[1]);
+
+        $bubble = new ReflectionProperty($handler, 'bubble');
+
+        self::assertTrue($bubble->getValue($handler));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     */
     public function testInvokeWithHandlerWithType2(): void
     {
         $handlers = [
@@ -287,29 +192,42 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $container->expects(self::exactly(3))
+        $matcher = self::exactly(3);
+        $container->expects($matcher)
             ->method('get')
             ->with(MonologHandlerPluginManager::class)
             ->willReturnCallback(
-                static function () use ($monologHandlerPluginManager): AbstractPluginManager {
-                    static $number = 0;
-                    ++$number;
-
-                    if (3 > $number) {
-                        return $monologHandlerPluginManager;
-                    }
-
-                    throw new ServiceNotFoundException();
+                static fn (): AbstractPluginManager => match ($matcher->numberOfInvocations()) {
+                        1, 2 => $monologHandlerPluginManager,
+                        default => throw new ServiceNotFoundException(),
                 },
             );
 
         $factory = new WhatFailureGroupHandlerFactory();
 
-        $this->expectException(ServiceNotFoundException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage(sprintf('Could not load handler class %s', GelfHandler::class));
+        $handler = $factory($container, '', ['handlers' => $handlers]);
 
-        $factory($container, '', ['handlers' => $handlers]);
+        self::assertInstanceOf(WhatFailureGroupHandler::class, $handler);
+
+        $fp = new ReflectionProperty($handler, 'handlers');
+
+        $handlerClasses = $fp->getValue($handler);
+
+        self::assertIsArray($handlerClasses);
+        self::assertCount(2, $handlerClasses);
+        self::assertSame($handler1, $handlerClasses[0]);
+        self::assertSame($handler2, $handlerClasses[1]);
+
+        $bubble = new ReflectionProperty($handler, 'bubble');
+
+        self::assertTrue($bubble->getValue($handler));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(0, $processors);
     }
 
     /**
@@ -819,11 +737,13 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
-    public function testInvokeWithConfigAndBoolProcessors(): void
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     */
+    public function testInvokeWithConfigAndProcessors3(): void
     {
-        $processors = true;
-        $handlers   = [
+        $handlers = [
             [
                 'enabled' => false,
                 'type' => FingersCrossedHandler::class,
@@ -839,6 +759,43 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
                 'type' => GelfHandler::class,
             ],
         ];
+
+        $processor3 = static fn (array $record): array => $record;
+        $processors = [
+            [
+                'enabled' => true,
+                'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $processor1 = $this->getMockBuilder(GitProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    ['abc', [], $processor1],
+                    ['xyz', ['efg' => 'ijk'], $processor2],
+                ],
+            );
 
         $handler1 = $this->getMockBuilder(FirePHPHandler::class)
             ->disableOriginalConstructor()
@@ -884,17 +841,43 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $container->expects(self::exactly(3))
+        $container->expects(self::exactly(4))
             ->method('get')
-            ->with(MonologHandlerPluginManager::class)
-            ->willReturn($monologHandlerPluginManager);
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [MonologProcessorPluginManager::class, $monologProcessorPluginManager],
+                ],
+            );
 
         $factory = new WhatFailureGroupHandlerFactory();
 
-        $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('Processors must be an Array');
+        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
 
-        $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
+        self::assertInstanceOf(WhatFailureGroupHandler::class, $handler);
+
+        $fp = new ReflectionProperty($handler, 'handlers');
+
+        $handlerClasses = $fp->getValue($handler);
+
+        self::assertIsArray($handlerClasses);
+        self::assertCount(3, $handlerClasses);
+        self::assertSame($handler1, $handlerClasses[0]);
+        self::assertSame($handler2, $handlerClasses[1]);
+        self::assertSame($handler3, $handlerClasses[2]);
+
+        $bubble = new ReflectionProperty($handler, 'bubble');
+
+        self::assertFalse($bubble->getValue($handler));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(3, $processors);
+        self::assertSame($processor2, $processors[0]);
+        self::assertSame($processor1, $processors[1]);
+        self::assertSame($processor3, $processors[2]);
     }
 }

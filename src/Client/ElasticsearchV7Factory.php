@@ -17,7 +17,6 @@ use Elasticsearch\ClientBuilder;
 use Elasticsearch\Common\Exceptions\AuthenticationConfigException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
 use function array_filter;
@@ -34,7 +33,6 @@ final class ElasticsearchV7Factory implements FactoryInterface
      * @phpstan-param array{hosts?: bool|array<int|string|array{host?: string|int, port?: int|numeric-string, scheme?: string, path?: string, user?: string, pass?: string}>, retries?: int, api-id?: string, api-key?: string, username?: string, password?: string, metadata?: bool}|null $options
      *
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerExceptionInterface if any other error occurs
      * @throws AuthenticationConfigException
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter

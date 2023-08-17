@@ -12,7 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Handler;
 
-use AssertionError;
+use Actived\MicrosoftTeamsNotifier\Handler\MicrosoftTeamsHandler;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\WhatFailureGroupHandlerFactory;
@@ -31,11 +31,15 @@ use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionProperty;
 
-use function sprintf;
+use function class_exists;
+use function extension_loaded;
 
 final class WhatFailureGroupHandlerFactory2Test extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $handlers = [
@@ -134,11 +138,30 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
 
         $factory = new WhatFailureGroupHandlerFactory();
 
-        $this->expectException(ServiceNotFoundException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
+        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
 
-        $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
+        self::assertInstanceOf(WhatFailureGroupHandler::class, $handler);
+
+        $fp = new ReflectionProperty($handler, 'handlers');
+
+        $handlerClasses = $fp->getValue($handler);
+
+        self::assertIsArray($handlerClasses);
+        self::assertCount(3, $handlerClasses);
+        self::assertSame($handler1, $handlerClasses[0]);
+        self::assertSame($handler2, $handlerClasses[1]);
+        self::assertSame($handler3, $handlerClasses[2]);
+
+        $bubble = new ReflectionProperty($handler, 'bubble');
+
+        self::assertFalse($bubble->getValue($handler));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(1, $processors);
     }
 
     /**
@@ -423,7 +446,10 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $handlers = [
@@ -521,12 +547,174 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
 
         $factory = new WhatFailureGroupHandlerFactory();
 
-        $this->expectException(AssertionError::class);
-        $this->expectExceptionCode(1);
-        $this->expectExceptionMessage(
-            '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
-        );
+        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
 
-        $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
+        self::assertInstanceOf(WhatFailureGroupHandler::class, $handler);
+
+        $fp = new ReflectionProperty($handler, 'handlers');
+
+        $handlerClasses = $fp->getValue($handler);
+
+        self::assertIsArray($handlerClasses);
+        self::assertCount(3, $handlerClasses);
+        self::assertSame($handler1, $handlerClasses[0]);
+        self::assertSame($handler2, $handlerClasses[1]);
+        self::assertSame($handler3, $handlerClasses[2]);
+
+        $bubble = new ReflectionProperty($handler, 'bubble');
+
+        self::assertFalse($bubble->getValue($handler));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(0, $processors);
+    }
+
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     */
+    public function testInvokeWithConfigAndProcessors5WithoutCurl(): void
+    {
+        if (extension_loaded('curl')) {
+            self::markTestSkipped('This test checks the exception if the curl extension is missing');
+        }
+
+        if (!class_exists(MicrosoftTeamsHandler::class)) {
+            self::markTestSkipped(
+                'This test only is usefull if class MicrosoftTeamsHandler is available',
+            );
+        }
+
+        $handlers = [
+            [
+                'enabled' => false,
+                'type' => FingersCrossedHandler::class,
+            ],
+            [
+                'enabled' => true,
+                'type' => FirePHPHandler::class,
+            ],
+            [
+                'type' => ChromePHPHandler::class,
+            ],
+            [
+                'type' => GelfHandler::class,
+            ],
+            [
+                'type' => MicrosoftTeamsHandler::class,
+            ],
+        ];
+
+        $processor3 = static fn (array $record): array => $record;
+        $processors = [
+            [
+                'enabled' => true,
+                'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
+
+        $handler1 = $this->getMockBuilder(FirePHPHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $handler1->expects(self::never())
+            ->method('setFormatter');
+        $handler1->expects(self::never())
+            ->method('getFormatter');
+
+        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $handler2->expects(self::never())
+            ->method('setFormatter');
+        $handler2->expects(self::never())
+            ->method('getFormatter');
+
+        $handler3 = $this->getMockBuilder(GelfHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $handler3->expects(self::never())
+            ->method('setFormatter');
+        $handler3->expects(self::never())
+            ->method('getFormatter');
+
+        $handler4 = $this->getMockBuilder(MicrosoftTeamsHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('has');
+        $monologHandlerPluginManager->expects(self::exactly(4))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    [FirePHPHandler::class, [], $handler1],
+                    [ChromePHPHandler::class, [], $handler2],
+                    [GelfHandler::class, [], $handler3],
+                    [MicrosoftTeamsHandler::class, [], $handler4],
+                ],
+            );
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(4))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [MonologProcessorPluginManager::class, null],
+                ],
+            );
+
+        $factory = new WhatFailureGroupHandlerFactory();
+
+        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
+
+        self::assertInstanceOf(WhatFailureGroupHandler::class, $handler);
+
+        $fp = new ReflectionProperty($handler, 'handlers');
+
+        $handlerClasses = $fp->getValue($handler);
+
+        self::assertIsArray($handlerClasses);
+        self::assertCount(3, $handlerClasses);
+        self::assertSame($handler1, $handlerClasses[0]);
+        self::assertSame($handler2, $handlerClasses[1]);
+        self::assertSame($handler3, $handlerClasses[2]);
+
+        $bubble = new ReflectionProperty($handler, 'bubble');
+
+        self::assertFalse($bubble->getValue($handler));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(0, $processors);
     }
 }

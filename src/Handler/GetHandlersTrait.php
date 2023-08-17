@@ -15,7 +15,6 @@ namespace Mimmi20\MonologFactory\Handler;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Monolog\Handler\HandlerInterface;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
@@ -30,9 +29,7 @@ trait GetHandlersTrait
      *
      * @return array<int, HandlerInterface>
      *
-     * @throws ContainerExceptionInterface
      * @throws ServiceNotCreatedException
-     * @throws ServiceNotFoundException
      */
     private function getHandlers(ContainerInterface $container, array $options): array
     {
@@ -49,7 +46,11 @@ trait GetHandlersTrait
                 throw new ServiceNotCreatedException('HandlerConfig must be an Array');
             }
 
-            $handler = $this->getHandler($container, $handler);
+            try {
+                $handler = $this->getHandler($container, $handler);
+            } catch (ServiceNotFoundException) {
+                continue;
+            }
 
             if ($handler === null) {
                 continue;

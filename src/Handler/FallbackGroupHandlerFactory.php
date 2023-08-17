@@ -18,7 +18,6 @@ use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\FallbackGroupHandler;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
@@ -38,7 +37,6 @@ final class FallbackGroupHandlerFactory
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerExceptionInterface if any other error occurs
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint

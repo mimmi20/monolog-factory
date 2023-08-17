@@ -29,7 +29,6 @@ final class MonologHandlerPluginManagerFactory implements FactoryInterface
      * @param array<mixed>|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
-     * @throws ContainerExceptionInterface if any other error occurs
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter

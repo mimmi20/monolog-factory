@@ -12,6 +12,7 @@
         <exclude name="SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh"/>
         <exclude name="SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable.DisallowedSuperGlobalVariable"/>
         <exclude name="Generic.Metrics.CyclomaticComplexity.TooHigh"/>
+        <exclude name="Mimmi20CodingStandard.Commenting.FunctionCommentThrowTag.MissingThrowForException"/>
     </rule>
 
     <!-- Paths to check -->

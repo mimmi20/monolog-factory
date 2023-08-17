@@ -30,8 +30,6 @@ use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionProperty;
 
-use function sprintf;
-
 final class FallbackGroupHandlerFactory1Test extends TestCase
 {
     /** @throws Exception */
@@ -156,7 +154,10 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         $factory($container, '', ['handlers' => $handlers]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     */
     public function testInvokeWithHandlerWithType(): void
     {
         $handlers = [
@@ -197,19 +198,22 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
-        $monologHandlerPluginManager->expects(self::exactly(3))
+        $matcher = self::exactly(3);
+        $monologHandlerPluginManager->expects($matcher)
             ->method('get')
             ->willReturnCallback(
-                static function (string $with) use ($handler1, $handler2): HandlerInterface {
-                    if ($with === FirePHPHandler::class) {
-                        return $handler1;
-                    }
+                static function (string $with) use ($matcher, $handler1, $handler2): HandlerInterface {
+                    match ($matcher->numberOfInvocations()) {
+                        1 => self::assertSame(FirePHPHandler::class, $with),
+                        2 => self::assertSame(ChromePHPHandler::class, $with),
+                        default => self::assertSame(GelfHandler::class, $with),
+                    };
 
-                    if ($with === ChromePHPHandler::class) {
-                        return $handler2;
-                    }
-
-                    throw new ServiceNotFoundException();
+                    return match ($matcher->numberOfInvocations()) {
+                        1 => $handler1,
+                        2 => $handler2,
+                        default => throw new ServiceNotFoundException(),
+                    };
                 },
             );
 
@@ -225,14 +229,35 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
 
         $factory = new FallbackGroupHandlerFactory();
 
-        $this->expectException(ServiceNotFoundException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage(sprintf('Could not load handler class %s', GelfHandler::class));
+        $handler = $factory($container, '', ['handlers' => $handlers]);
 
-        $factory($container, '', ['handlers' => $handlers]);
+        self::assertInstanceOf(FallbackGroupHandler::class, $handler);
+
+        $fp = new ReflectionProperty($handler, 'handlers');
+
+        $handlerClasses = $fp->getValue($handler);
+
+        self::assertIsArray($handlerClasses);
+        self::assertCount(2, $handlerClasses);
+        self::assertSame($handler1, $handlerClasses[0]);
+        self::assertSame($handler2, $handlerClasses[1]);
+
+        $bubble = new ReflectionProperty($handler, 'bubble');
+
+        self::assertTrue($bubble->getValue($handler));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     */
     public function testInvokeWithHandlerWithType2(): void
     {
         $handlers = [
@@ -287,29 +312,42 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $container->expects(self::exactly(3))
+        $matcher = self::exactly(3);
+        $container->expects($matcher)
             ->method('get')
             ->with(MonologHandlerPluginManager::class)
             ->willReturnCallback(
-                static function () use ($monologHandlerPluginManager): AbstractPluginManager {
-                    static $number = 0;
-                    ++$number;
-
-                    if (3 > $number) {
-                        return $monologHandlerPluginManager;
-                    }
-
-                    throw new ServiceNotFoundException();
+                static fn (): AbstractPluginManager => match ($matcher->numberOfInvocations()) {
+                        1, 2 => $monologHandlerPluginManager,
+                        default => throw new ServiceNotFoundException(),
                 },
             );
 
         $factory = new FallbackGroupHandlerFactory();
 
-        $this->expectException(ServiceNotFoundException::class);
-        $this->expectExceptionCode(0);
-        $this->expectExceptionMessage(sprintf('Could not load handler class %s', GelfHandler::class));
+        $handler = $factory($container, '', ['handlers' => $handlers]);
 
-        $factory($container, '', ['handlers' => $handlers]);
+        self::assertInstanceOf(FallbackGroupHandler::class, $handler);
+
+        $fp = new ReflectionProperty($handler, 'handlers');
+
+        $handlerClasses = $fp->getValue($handler);
+
+        self::assertIsArray($handlerClasses);
+        self::assertCount(2, $handlerClasses);
+        self::assertSame($handler1, $handlerClasses[0]);
+        self::assertSame($handler2, $handlerClasses[1]);
+
+        $bubble = new ReflectionProperty($handler, 'bubble');
+
+        self::assertTrue($bubble->getValue($handler));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(0, $processors);
     }
 
     /**

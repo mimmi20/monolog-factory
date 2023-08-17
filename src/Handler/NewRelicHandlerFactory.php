@@ -19,7 +19,6 @@ use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\NewRelicHandler;
 use Monolog\Level;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 
@@ -38,7 +37,6 @@ final class NewRelicHandlerFactory implements FactoryInterface
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerExceptionInterface if any other error occurs
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint

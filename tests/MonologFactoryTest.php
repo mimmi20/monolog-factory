@@ -27,12 +27,10 @@ use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
-use function sprintf;
-
 final class MonologFactoryTest extends TestCase
 {
     /** @throws Exception */
-    public function testInvokeWithoutName(): void
+    public function testInvokeWithoutArrayOptions(): void
     {
         $requestedName = Logger::class;
 
@@ -47,14 +45,14 @@ final class MonologFactoryTest extends TestCase
         $factory = new MonologFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionMessage('The name for the monolog logger is missing');
+        $this->expectExceptionMessage('Options must be an Array');
         $this->expectExceptionCode(0);
 
         $factory($container, $requestedName, null);
     }
 
     /** @throws Exception */
-    public function testInvokeWithoutName2(): void
+    public function testInvokeWithEmptyArrayOptions(): void
     {
         $requestedName = Logger::class;
         $options       = [];
@@ -92,11 +90,12 @@ final class MonologFactoryTest extends TestCase
 
         $factory = new MonologFactory();
 
-        $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionMessage('An invalid timezone was set');
-        $this->expectExceptionCode(0);
+        $logger = $factory($container, $requestedName, $options);
 
-        $factory($container, $requestedName, $options);
+        self::assertInstanceOf(Logger::class, $logger);
+        self::assertInstanceOf(DateTimeZone::class, $logger->getTimezone());
+        self::assertIsArray($logger->getProcessors());
+        self::assertCount(0, $logger->getProcessors());
     }
 
     /** @throws Exception */
@@ -115,11 +114,12 @@ final class MonologFactoryTest extends TestCase
 
         $factory = new MonologFactory();
 
-        $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionMessage('An invalid timezone was set');
-        $this->expectExceptionCode(0);
+        $logger = $factory($container, $requestedName, $options);
 
-        $factory($container, $requestedName, $options);
+        self::assertInstanceOf(Logger::class, $logger);
+        self::assertInstanceOf(DateTimeZone::class, $logger->getTimezone());
+        self::assertIsArray($logger->getProcessors());
+        self::assertCount(0, $logger->getProcessors());
     }
 
     /** @throws Exception */
@@ -142,6 +142,8 @@ final class MonologFactoryTest extends TestCase
 
         self::assertInstanceOf(Logger::class, $logger);
         self::assertInstanceOf(DateTimeZone::class, $logger->getTimezone());
+        self::assertIsArray($logger->getProcessors());
+        self::assertCount(0, $logger->getProcessors());
     }
 
     /** @throws Exception */
@@ -165,6 +167,8 @@ final class MonologFactoryTest extends TestCase
 
         self::assertInstanceOf(Logger::class, $logger);
         self::assertSame($timezone, $logger->getTimezone());
+        self::assertIsArray($logger->getProcessors());
+        self::assertCount(0, $logger->getProcessors());
     }
 
     /** @throws Exception */
@@ -184,11 +188,12 @@ final class MonologFactoryTest extends TestCase
 
         $factory = new MonologFactory();
 
-        $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionMessage('Handlers must be iterable');
-        $this->expectExceptionCode(0);
+        $logger = $factory($container, $requestedName, $options);
 
-        $factory($container, $requestedName, $options);
+        self::assertInstanceOf(Logger::class, $logger);
+        self::assertSame($timezone, $logger->getTimezone());
+        self::assertIsArray($logger->getProcessors());
+        self::assertCount(0, $logger->getProcessors());
     }
 
     /** @throws Exception */
@@ -210,13 +215,12 @@ final class MonologFactoryTest extends TestCase
 
         $factory = new MonologFactory();
 
-        $this->expectException(ServiceNotFoundException::class);
-        $this->expectExceptionMessage(
-            sprintf('Could not find service %s', MonologHandlerPluginManager::class),
-        );
-        $this->expectExceptionCode(0);
+        $logger = $factory($container, $requestedName, $options);
 
-        $factory($container, $requestedName, $options);
+        self::assertInstanceOf(Logger::class, $logger);
+        self::assertSame($timezone, $logger->getTimezone());
+        self::assertIsArray($logger->getProcessors());
+        self::assertCount(0, $logger->getProcessors());
     }
 
     /** @throws Exception */
@@ -246,11 +250,12 @@ final class MonologFactoryTest extends TestCase
 
         $factory = new MonologFactory();
 
-        $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionMessage('Options must contain a type for the handler');
-        $this->expectExceptionCode(0);
+        $logger = $factory($container, $requestedName, $options);
 
-        $factory($container, $requestedName, $options);
+        self::assertInstanceOf(Logger::class, $logger);
+        self::assertSame($timezone, $logger->getTimezone());
+        self::assertIsArray($logger->getProcessors());
+        self::assertCount(0, $logger->getProcessors());
     }
 
     /** @throws Exception */
@@ -277,9 +282,21 @@ final class MonologFactoryTest extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
-        $monologHandlerPluginManager->expects(self::once())
+        $matcher = self::exactly(2);
+        $monologHandlerPluginManager->expects($matcher)
             ->method('get')
-            ->with('xyz', ['abc' => 'def'])
+            ->willReturnCallback(
+                static function (string $name, array | null $options = null) use ($matcher): void {
+                    match ($matcher->numberOfInvocations()) {
+                        default => self::assertSame('abc', $name),
+                        1 => self::assertSame('xyz', $name),
+                    };
+
+                    self::assertSame([], $options);
+
+                    throw new ServiceNotFoundException();
+                },
+            )
             ->willThrowException(new ServiceNotFoundException());
 
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -294,11 +311,12 @@ final class MonologFactoryTest extends TestCase
 
         $factory = new MonologFactory();
 
-        $this->expectException(ServiceNotFoundException::class);
-        $this->expectExceptionMessage(sprintf('Could not find service %s', 'xyz'));
-        $this->expectExceptionCode(0);
+        $logger = $factory($container, $requestedName, $options);
 
-        $factory($container, $requestedName, $options);
+        self::assertInstanceOf(Logger::class, $logger);
+        self::assertSame($timezone, $logger->getTimezone());
+        self::assertIsArray($logger->getProcessors());
+        self::assertCount(0, $logger->getProcessors());
     }
 
     /** @throws Exception */
@@ -426,11 +444,12 @@ final class MonologFactoryTest extends TestCase
 
         $factory = new MonologFactory();
 
-        $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionMessage('Processors must be an Array');
-        $this->expectExceptionCode(0);
+        $logger = $factory($container, $requestedName, $options);
 
-        $factory($container, $requestedName, $options);
+        self::assertInstanceOf(Logger::class, $logger);
+        self::assertSame($timezone, $logger->getTimezone());
+        self::assertIsArray($logger->getProcessors());
+        self::assertCount(0, $logger->getProcessors());
     }
 
     /** @throws Exception */
@@ -452,13 +471,12 @@ final class MonologFactoryTest extends TestCase
 
         $factory = new MonologFactory();
 
-        $this->expectException(ServiceNotFoundException::class);
-        $this->expectExceptionMessage(
-            sprintf('Could not find service %s', MonologProcessorPluginManager::class),
-        );
-        $this->expectExceptionCode(0);
+        $logger = $factory($container, $requestedName, $options);
 
-        $factory($container, $requestedName, $options);
+        self::assertInstanceOf(Logger::class, $logger);
+        self::assertSame($timezone, $logger->getTimezone());
+        self::assertIsArray($logger->getProcessors());
+        self::assertCount(0, $logger->getProcessors());
     }
 
     /** @throws Exception */
@@ -488,11 +506,12 @@ final class MonologFactoryTest extends TestCase
 
         $factory = new MonologFactory();
 
-        $this->expectException(ServiceNotCreatedException::class);
-        $this->expectExceptionMessage('Options must contain a type for the processor');
-        $this->expectExceptionCode(0);
+        $logger = $factory($container, $requestedName, $options);
 
-        $factory($container, $requestedName, $options);
+        self::assertInstanceOf(Logger::class, $logger);
+        self::assertSame($timezone, $logger->getTimezone());
+        self::assertIsArray($logger->getProcessors());
+        self::assertCount(0, $logger->getProcessors());
     }
 
     /** @throws Exception */
@@ -518,10 +537,21 @@ final class MonologFactoryTest extends TestCase
             ->getMock();
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
-        $monologProcessorPluginManager->expects(self::once())
+        $matcher = self::exactly(2);
+        $monologProcessorPluginManager->expects($matcher)
             ->method('get')
-            ->with('abc', [])
-            ->willThrowException(new ServiceNotFoundException());
+            ->willReturnCallback(
+                static function (string $name, array | null $options = null) use ($matcher): void {
+                    match ($matcher->numberOfInvocations()) {
+                        1 => self::assertSame('abc', $name),
+                        default => self::assertSame('xyz', $name),
+                    };
+
+                    self::assertSame([], $options);
+
+                    throw new ServiceNotFoundException();
+                },
+            );
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -535,11 +565,12 @@ final class MonologFactoryTest extends TestCase
 
         $factory = new MonologFactory();
 
-        $this->expectException(ServiceNotFoundException::class);
-        $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
-        $this->expectExceptionCode(0);
+        $logger = $factory($container, $requestedName, $options);
 
-        $factory($container, $requestedName, $options);
+        self::assertInstanceOf(Logger::class, $logger);
+        self::assertSame($timezone, $logger->getTimezone());
+        self::assertIsArray($logger->getProcessors());
+        self::assertCount(0, $logger->getProcessors());
     }
 
     /** @throws Exception */

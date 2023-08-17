@@ -22,7 +22,6 @@ use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Level;
 use Monolog\LogRecord;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use RuntimeException;
@@ -43,7 +42,6 @@ final class CallbackFilterHandlerFactory implements FactoryInterface
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws ContainerExceptionInterface if any other error occurs
      * @throws RuntimeException
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter

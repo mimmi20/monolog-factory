@@ -1367,7 +1367,11 @@ jobs:
   # whenever we touch the matrix.
   tests-status:
     name: "Unit & Integration Tests Status"
+
     runs-on: "ubuntu-22.04"
+
+    if: always()
+
     needs:
       - "tests-monolog-without-extensions"
       - "tests-monolog-with-mongodb"
@@ -1383,7 +1387,7 @@ jobs:
       - "code-coverage-with-curl"
       - "code-coverage-with-mongodb"
       - "code-coverage-with-amqp"
-    if: always()
+
     steps:
       - name: Successful run
         if: ${{ !(contains(needs.*.result, 'failure')) }}

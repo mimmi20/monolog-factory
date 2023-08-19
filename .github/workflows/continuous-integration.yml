@@ -1,5 +1,7 @@
 # https://help.github.com/en/categories/automating-your-workflow-with-github-actions
 
+# file-version: 1.0
+
 name: "Continuous Integration"
 
 on:
@@ -34,7 +36,9 @@ jobs:
     name: "Check composer dependencies"
 
     runs-on: "${{ matrix.operating-system }}"
+
     timeout-minutes: 10
+
     continue-on-error: false
 
     needs: "ci"
@@ -88,6 +92,8 @@ jobs:
     needs: "ci"
 
     runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
 
     continue-on-error: false
 
@@ -156,7 +162,7 @@ jobs:
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Run unit tests with phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
+        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage --display-warnings --display-deprecations"
 
   tests-monolog-with-mongodb:
     name: "UnitTests with PHPUnit for monolog/monolog 3 with mongodb"
@@ -164,6 +170,8 @@ jobs:
     needs: "ci"
 
     runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
 
     continue-on-error: false
 
@@ -240,7 +248,7 @@ jobs:
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Run unit tests with phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
+        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage --display-warnings --display-deprecations"
 
   tests-monolog-with-curl:
     name: "UnitTests with PHPUnit for monolog/monolog 3 with curl"
@@ -248,6 +256,8 @@ jobs:
     needs: "ci"
 
     runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
 
     continue-on-error: false
 
@@ -313,7 +323,7 @@ jobs:
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Run unit tests with phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
+        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage --display-warnings --display-deprecations"
 
   tests-monolog-with-sockets:
     name: "UnitTests with PHPUnit for monolog/monolog 3 with sockets"
@@ -321,6 +331,8 @@ jobs:
     needs: "ci"
 
     runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
 
     continue-on-error: false
 
@@ -389,7 +401,7 @@ jobs:
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Run unit tests with phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
+        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage --display-warnings --display-deprecations"
 
   tests-monolog-with-amqp:
     name: "UnitTests with PHPUnit for monolog/monolog 3 with amqp"
@@ -397,6 +409,8 @@ jobs:
     needs: "ci"
 
     runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
 
     continue-on-error: false
 
@@ -465,7 +479,7 @@ jobs:
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
 
       - name: "Run unit tests with phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage"
+        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage --display-warnings --display-deprecations"
 
   code-coverage-without-extensions:
     name: "Code Coverage with PHPUnit without extensions"
@@ -473,6 +487,8 @@ jobs:
     needs: "tests-monolog-without-extensions"
 
     runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
 
     continue-on-error: false
 
@@ -543,7 +559,7 @@ jobs:
         run: "mkdir -p .build/coverage"
 
       - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
         uses: "codecov/codecov-action@v3.1.4"
@@ -561,6 +577,8 @@ jobs:
     needs: "tests-monolog-without-extensions"
 
     runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
 
     continue-on-error: false
 
@@ -634,7 +652,7 @@ jobs:
         run: "mkdir -p .build/coverage"
 
       - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
         uses: "codecov/codecov-action@v3.1.4"
@@ -652,6 +670,8 @@ jobs:
     needs: "tests-monolog-without-extensions"
 
     runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
 
     continue-on-error: false
 
@@ -725,7 +745,7 @@ jobs:
         run: "mkdir -p .build/coverage"
 
       - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
         uses: "codecov/codecov-action@v3.1.4"
@@ -745,6 +765,8 @@ jobs:
     needs: "tests-monolog-without-extensions"
 
     runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
 
     continue-on-error: false
 
@@ -818,7 +840,7 @@ jobs:
         run: "mkdir -p .build/coverage"
 
       - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
         uses: "codecov/codecov-action@v3.1.4"
@@ -836,6 +858,8 @@ jobs:
     needs: "tests-monolog-without-extensions"
 
     runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
 
     continue-on-error: false
 
@@ -909,7 +933,7 @@ jobs:
         run: "mkdir -p .build/coverage"
 
       - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
         uses: "codecov/codecov-action@v3.1.4"
@@ -1000,7 +1024,7 @@ jobs:
 #        run: "mkdir -p .build/coverage"
 #
 #      - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-#        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+#        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 #
 #      - name: "Upload coverage to Codecov"
 #        uses: "codecov/codecov-action@v3.1.1"
@@ -1018,6 +1042,8 @@ jobs:
     needs: "tests-monolog-with-sockets"
 
     runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
 
     continue-on-error: false
 
@@ -1088,7 +1114,7 @@ jobs:
         run: "mkdir -p .build/coverage"
 
       - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
         uses: "codecov/codecov-action@v3.1.4"
@@ -1106,7 +1132,7 @@ jobs:
     needs: "tests-monolog-with-curl"
 
     runs-on: "${{ matrix.operating-system }}"
-
+    timeout-minutes: 10
     continue-on-error: false
 
     strategy:
@@ -1173,7 +1199,7 @@ jobs:
         run: "mkdir -p .build/coverage"
 
       - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
         uses: "codecov/codecov-action@v3.1.4"
@@ -1193,6 +1219,8 @@ jobs:
     needs: "tests-monolog-with-mongodb"
 
     runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
 
     continue-on-error: false
 
@@ -1263,7 +1291,7 @@ jobs:
         run: "mkdir -p .build/coverage"
 
       - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
         uses: "codecov/codecov-action@v3.1.4"
@@ -1281,6 +1309,8 @@ jobs:
     needs: "tests-monolog-with-amqp"
 
     runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
 
     continue-on-error: false
 
@@ -1351,7 +1381,7 @@ jobs:
         run: "mkdir -p .build/coverage"
 
       - name: "Collect code coverage with Xdebug and phpunit/phpunit"
-        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml"
+        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
         uses: "codecov/codecov-action@v3.1.4"

@@ -40,7 +40,7 @@
     "laminas/laminas-config": "^3.9.0",
     "laminas/laminas-eventmanager": "^3.10.0",
     "laminas/laminas-modulemanager": "^2.14.0",
-    "laminas/laminas-servicemanager": "^3.21.0",
+    "laminas/laminas-servicemanager": "^3.22.0",
     "mikey179/vfsstream": "^1.6.11",
     "mimmi20/coding-standard": "^5.1.18",
     "mimmi20/monolog-callbackfilterhandler": "^3.0.3",

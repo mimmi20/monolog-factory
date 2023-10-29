@@ -36,7 +36,11 @@ use function sprintf;
 
 final class FilterHandlerFactory1Test extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -56,7 +60,11 @@ final class FilterHandlerFactory1Test extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -76,7 +84,11 @@ final class FilterHandlerFactory1Test extends TestCase
         $factory($container, '', []);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutHandlerConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -96,7 +108,11 @@ final class FilterHandlerFactory1Test extends TestCase
         $factory($container, '', ['handler' => true]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithHandlerConfigWithoutType(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -116,7 +132,11 @@ final class FilterHandlerFactory1Test extends TestCase
         $factory($container, '', ['handler' => []]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithHandlerConfigWithDisabledType(): void
     {
         $type = 'abc';
@@ -138,7 +158,11 @@ final class FilterHandlerFactory1Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => false]]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithHandlerConfigWithLoaderError(): void
     {
         $type = 'abc';
@@ -162,7 +186,11 @@ final class FilterHandlerFactory1Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithHandlerConfigWithLoaderError2(): void
     {
         $type = 'abc';
@@ -199,6 +227,8 @@ final class FilterHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithHandlerConfig(): void
     {
@@ -277,6 +307,8 @@ final class FilterHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithHandlerConfig2(): void
     {
@@ -350,6 +382,8 @@ final class FilterHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithHandlerConfig3(): void
     {
@@ -425,7 +459,11 @@ final class FilterHandlerFactory1Test extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $type      = 'abc';
@@ -477,7 +515,11 @@ final class FilterHandlerFactory1Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'minLevelOrList' => $levels, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolFormatter2(): void
     {
         $type      = 'abc';
@@ -529,7 +571,11 @@ final class FilterHandlerFactory1Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'minLevelOrList' => $levels]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter(): void
     {
         $type      = 'abc';
@@ -593,6 +639,8 @@ final class FilterHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -682,7 +730,11 @@ final class FilterHandlerFactory1Test extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $type      = 'abc';
@@ -746,6 +798,8 @@ final class FilterHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter4(): void
     {
@@ -834,7 +888,11 @@ final class FilterHandlerFactory1Test extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter5(): void
     {
         $type           = 'abc';
@@ -895,7 +953,11 @@ final class FilterHandlerFactory1Test extends TestCase
         ]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $type       = 'abc';

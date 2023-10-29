@@ -23,7 +23,10 @@ use function class_exists;
 
 final class ElasticsearchV8FactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         if (!class_exists(V8Client::class)) {
@@ -47,7 +50,10 @@ final class ElasticsearchV8FactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -67,7 +73,10 @@ final class ElasticsearchV8FactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigWithWrongClient(): void
     {
         if (!class_exists(V8Client::class)) {
@@ -93,6 +102,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -119,6 +129,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -145,6 +156,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -171,6 +183,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */

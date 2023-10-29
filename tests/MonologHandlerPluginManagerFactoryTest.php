@@ -24,7 +24,10 @@ use function sprintf;
 
 final class MonologHandlerPluginManagerFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     */
     public function testInvoke1(): void
     {
         $requestedName = HtmlFormatter::class;
@@ -48,7 +51,10 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
         );
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     */
     public function testInvoke2(): void
     {
         $requestedName = HtmlFormatter::class;
@@ -76,7 +82,10 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
         );
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     */
     public function testInvoke3(): void
     {
         $requestedName = HtmlFormatter::class;
@@ -107,7 +116,10 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
         $factory($container, $requestedName, $options);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     */
     public function testInvoke4(): void
     {
         $requestedName = HtmlFormatter::class;
@@ -138,7 +150,10 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
         );
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     */
     public function testInvoke5(): void
     {
         $requestedName = HtmlFormatter::class;
@@ -169,7 +184,10 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
         );
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     */
     public function testInvoke6(): void
     {
         $requestedName = HtmlFormatter::class;

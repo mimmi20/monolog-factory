@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Formatter;
 
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Formatter\NormalizerFormatterFactory;
 use Monolog\Formatter\NormalizerFormatter;
 use PHPUnit\Framework\Exception;
@@ -27,6 +28,7 @@ final class NormalizerFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -63,6 +65,7 @@ final class NormalizerFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -99,6 +102,7 @@ final class NormalizerFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig(): void
     {

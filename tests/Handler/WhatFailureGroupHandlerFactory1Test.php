@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Handler;
 
+use InvalidArgumentException;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\WhatFailureGroupHandlerFactory;
@@ -37,6 +38,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithHandlerWithType(): void
     {
@@ -137,6 +139,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithHandlerWithType2(): void
     {
@@ -233,6 +236,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithHandlerWithType3(): void
     {
@@ -333,6 +337,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithHandlerWithType4(): void
     {
@@ -433,6 +438,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
@@ -534,6 +540,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
@@ -637,6 +644,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -740,6 +748,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {

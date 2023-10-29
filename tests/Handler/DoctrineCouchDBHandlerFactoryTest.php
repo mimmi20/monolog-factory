@@ -38,7 +38,11 @@ use function sprintf;
 
 final class DoctrineCouchDBHandlerFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -58,7 +62,11 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -78,7 +86,11 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig(): void
     {
         $clientName = true;
@@ -100,7 +112,11 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $factory($container, '', ['client' => $clientName]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig2(): void
     {
         $clientName = 'test-client';
@@ -129,6 +145,8 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig3(): void
     {
@@ -173,6 +191,8 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig4(): void
     {
@@ -217,6 +237,8 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig5(): void
     {
@@ -258,6 +280,8 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig6(): void
     {
@@ -296,7 +320,11 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig7(): void
     {
         $clientName = 'test-client';
@@ -320,7 +348,11 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $factory($container, '', ['client' => $clientName]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $client    = $this->getMockBuilder(CouchDBClient::class)
@@ -347,7 +379,11 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $factory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter(): void
     {
         $client    = $this->getMockBuilder(CouchDBClient::class)
@@ -381,6 +417,8 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -432,7 +470,11 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $client    = $this->getMockBuilder(CouchDBClient::class)
@@ -463,7 +505,11 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $factory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $client     = $this->getMockBuilder(CouchDBClient::class)
@@ -488,7 +534,11 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $factory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $client     = $this->getMockBuilder(CouchDBClient::class)
@@ -540,6 +590,8 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -617,7 +669,11 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $client     = $this->getMockBuilder(CouchDBClient::class)
@@ -667,7 +723,11 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $factory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $client     = $this->getMockBuilder(CouchDBClient::class)

@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Mimmi20Test\MonologFactory\Formatter;
 
 use Gelf\Message;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Formatter\GelfMessageFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\NormalizerFormatterFactory;
 use Monolog\Formatter\GelfMessageFormatter;
@@ -30,6 +31,7 @@ final class GelfMessageFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -82,6 +84,7 @@ final class GelfMessageFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -134,6 +137,7 @@ final class GelfMessageFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig(): void
     {

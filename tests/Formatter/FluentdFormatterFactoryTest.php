@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Formatter;
 
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Formatter\FluentdFormatterFactory;
 use Monolog\Formatter\FluentdFormatter;
 use PHPUnit\Framework\Exception;
@@ -20,7 +21,10 @@ use Psr\Container\ContainerInterface;
 
 final class FluentdFormatterFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -39,7 +43,10 @@ final class FluentdFormatterFactoryTest extends TestCase
         self::assertFalse($formatter->isUsingLevelsInTag());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -58,7 +65,10 @@ final class FluentdFormatterFactoryTest extends TestCase
         self::assertFalse($formatter->isUsingLevelsInTag());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)

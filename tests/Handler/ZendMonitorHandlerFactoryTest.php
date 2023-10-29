@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Mimmi20Test\MonologFactory\Handler;
 
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\ZendMonitorHandlerFactory;
 use Monolog\Handler\ZendMonitorHandler;
 use PHPUnit\Framework\Exception;
@@ -23,7 +24,11 @@ use function sprintf;
 
 final class ZendMonitorHandlerFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)

@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Mimmi20Test\MonologFactory\Handler;
 
 use Actived\MicrosoftTeamsNotifier\Handler\MicrosoftTeamsHandler;
+use InvalidArgumentException;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\WhatFailureGroupHandlerFactory;
@@ -39,6 +40,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -167,6 +169,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -311,6 +314,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
@@ -449,6 +453,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
@@ -576,6 +581,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      */
     public function testInvokeWithConfigAndProcessors5WithoutCurl(): void
     {

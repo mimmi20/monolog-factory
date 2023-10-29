@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Mimmi20Test\MonologFactory\Handler;
 
 use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\FingersCrossed\ActivationStrategyPluginManager;
@@ -35,7 +36,12 @@ use function sprintf;
 
 final class FingersCrossedHandlerFactory1Test extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -55,7 +61,12 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -75,7 +86,12 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
         $factory($container, '', []);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithoutHandlerConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -95,7 +111,12 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
         $factory($container, '', ['handler' => true]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithHandlerConfigWithoutType(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -115,7 +136,12 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
         $factory($container, '', ['handler' => []]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithHandlerConfigWithDisabledType(): void
     {
         $type = 'abc';
@@ -137,7 +163,12 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => false]]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithHandlerConfigWithLoaderError(): void
     {
         $type = 'abc';
@@ -161,7 +192,12 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithHandlerConfigWithLoaderError2(): void
     {
         $type = 'abc';
@@ -198,6 +234,9 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
      */
     public function testInvokeWithHandlerConfig(): void
     {
@@ -278,6 +317,9 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
      */
     public function testInvokeWithHandlerConfig2(): void
     {
@@ -358,6 +400,9 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
      */
     public function testInvokeWithHandlerConfig3(): void
     {
@@ -438,6 +483,9 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
      */
     public function testInvokeWithHandlerConfig4(): void
     {
@@ -521,6 +569,9 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
      */
     public function testInvokeWithHandlerConfig5(): void
     {
@@ -616,6 +667,9 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
      */
     public function testInvokeWithHandlerConfig6(): void
     {
@@ -713,7 +767,12 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithHandlerConfig7(): void
     {
         $type     = 'abc';
@@ -765,7 +824,12 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => $strategy, 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithHandlerConfig8(): void
     {
         $type     = 'abc';
@@ -827,6 +891,9 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
      */
     public function testInvokeWithHandlerConfig9(): void
     {
@@ -923,7 +990,12 @@ final class FingersCrossedHandlerFactory1Test extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithHandlerConfig10(): void
     {
         $type            = 'abc';

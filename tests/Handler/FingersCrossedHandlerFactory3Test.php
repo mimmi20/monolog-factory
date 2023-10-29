@@ -14,6 +14,8 @@ namespace Mimmi20Test\MonologFactory\Handler;
 
 use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\Exception\InvalidServiceException;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\FingersCrossed\ActivationStrategyPluginManager;
 use Mimmi20\MonologFactory\Handler\FingersCrossedHandlerFactory;
@@ -36,7 +38,12 @@ use function sprintf;
 
 final class FingersCrossedHandlerFactory3Test extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $type            = 'abc';
@@ -111,7 +118,12 @@ final class FingersCrossedHandlerFactory3Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $type            = 'abc';
@@ -186,6 +198,9 @@ final class FingersCrossedHandlerFactory3Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndProcessors6(): void
     {

@@ -27,7 +27,10 @@ use function sprintf;
 
 final class LoggerAbstractFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigException(): void
     {
         $requestedName = Logger::class;
@@ -56,7 +59,11 @@ final class LoggerAbstractFactoryTest extends TestCase
         }
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutManager(): void
     {
         $requestedName = Logger::class;
@@ -87,7 +94,10 @@ final class LoggerAbstractFactoryTest extends TestCase
         $factory($container, $requestedName);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     */
     public function testInvokeWithManagerException(): void
     {
         $requestedName = Logger::class;
@@ -127,7 +137,10 @@ final class LoggerAbstractFactoryTest extends TestCase
         }
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     */
     public function testInvokeWithLoggerException(): void
     {
         $requestedName = Logger::class;
@@ -172,7 +185,11 @@ final class LoggerAbstractFactoryTest extends TestCase
         }
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $requestedName = Logger::class;
@@ -210,7 +227,11 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertSame($logger, $factory($container, $requestedName));
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig2(): void
     {
         $requestedName = Logger::class;
@@ -248,7 +269,11 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertSame($logger, $factory($container, $requestedName));
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig3(): void
     {
         $requestedName = Logger::class;
@@ -286,7 +311,11 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertSame($logger, $factory($container, $requestedName));
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig4(): void
     {
         $requestedName = Logger::class;
@@ -324,7 +353,11 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertSame($logger, $factory($container, $requestedName));
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig5(): void
     {
         $requestedName = Logger::class;
@@ -362,7 +395,11 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertSame($logger, $factory($container, $requestedName));
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig6(): void
     {
         $requestedName = Logger::class;
@@ -400,7 +437,11 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertSame($logger, $factory($container, $requestedName));
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig7(): void
     {
         $requestedName = Logger::class;

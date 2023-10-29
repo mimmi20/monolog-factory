@@ -43,7 +43,11 @@ use function sprintf;
 
 final class MongoDBHandlerFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -63,7 +67,11 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -83,7 +91,11 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig(): void
     {
         $client = true;
@@ -105,7 +117,11 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $factory($container, '', ['client' => $client]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig2(): void
     {
         $client   = true;
@@ -128,7 +144,11 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $factory($container, '', ['client' => $client, 'database' => $database]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig3(): void
     {
         $client     = true;
@@ -152,7 +172,11 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig4(): void
     {
         $client     = 'test-client';
@@ -183,6 +207,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig5(): void
     {
@@ -238,6 +264,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig6(): void
     {
@@ -292,6 +320,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws RuntimeException
      * @throws InvalidArgumentException
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig7(): void
     {
@@ -338,6 +368,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws RuntimeException
      * @throws InvalidArgumentException
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig8(): void
     {
@@ -379,6 +411,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig9(): void
     {
@@ -437,6 +471,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig10(): void
     {
@@ -493,6 +529,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws RuntimeException
      * @throws InvalidArgumentException
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig11(): void
     {
@@ -542,6 +580,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws RuntimeException
      * @throws InvalidArgumentException
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig12(): void
     {
@@ -583,7 +623,11 @@ final class MongoDBHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig13(): void
     {
         $client     = 'test-client';
@@ -613,6 +657,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws RuntimeException
      * @throws InvalidArgumentException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
@@ -651,6 +697,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws RuntimeException
      * @throws InvalidArgumentException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
@@ -694,6 +742,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws RuntimeException
      * @throws InvalidArgumentException
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -752,6 +802,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws RuntimeException
      * @throws InvalidArgumentException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
@@ -794,6 +846,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws RuntimeException
      * @throws InvalidArgumentException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
@@ -830,6 +884,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws RuntimeException
      * @throws InvalidArgumentException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -891,6 +947,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws RuntimeException
      * @throws InvalidArgumentException
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -975,6 +1033,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws RuntimeException
      * @throws InvalidArgumentException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
@@ -1028,6 +1088,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws RuntimeException
      * @throws InvalidArgumentException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {

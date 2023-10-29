@@ -25,7 +25,10 @@ use function gethostname;
 
 final class LogstashFormatterFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -45,7 +48,10 @@ final class LogstashFormatterFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutApplicationname(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -68,6 +74,7 @@ final class LogstashFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithApplicationname(): void
     {
@@ -107,6 +114,7 @@ final class LogstashFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithApplicationname2(): void
     {

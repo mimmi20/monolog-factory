@@ -37,7 +37,11 @@ use function sprintf;
 
 final class SqsHandlerFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -57,7 +61,11 @@ final class SqsHandlerFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -77,7 +85,11 @@ final class SqsHandlerFactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig(): void
     {
         $sqsClient = true;
@@ -99,7 +111,11 @@ final class SqsHandlerFactoryTest extends TestCase
         $factory($container, '', ['sqsClient' => $sqsClient]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig2(): void
     {
         $sqsClient = 'test-client';
@@ -126,6 +142,8 @@ final class SqsHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig3(): void
     {
@@ -174,6 +192,8 @@ final class SqsHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig4(): void
     {
@@ -223,6 +243,8 @@ final class SqsHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig5(): void
     {
@@ -268,6 +290,8 @@ final class SqsHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig6(): void
     {
@@ -311,7 +335,11 @@ final class SqsHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig7(): void
     {
         $sqsClient = 'test-client';
@@ -335,7 +363,11 @@ final class SqsHandlerFactoryTest extends TestCase
         $factory($container, '', ['sqsClient' => $sqsClient]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $sqsClientClass = $this->getMockBuilder(SqsClient::class)
@@ -363,7 +395,11 @@ final class SqsHandlerFactoryTest extends TestCase
         $factory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter(): void
     {
         $sqsClientClass = $this->getMockBuilder(SqsClient::class)
@@ -398,6 +434,8 @@ final class SqsHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -454,7 +492,11 @@ final class SqsHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $sqsClientClass = $this->getMockBuilder(SqsClient::class)
@@ -486,7 +528,11 @@ final class SqsHandlerFactoryTest extends TestCase
         $factory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $sqsClientClass = $this->getMockBuilder(SqsClient::class)
@@ -512,7 +558,11 @@ final class SqsHandlerFactoryTest extends TestCase
         $factory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $sqsClientClass = $this->getMockBuilder(SqsClient::class)
@@ -565,6 +615,8 @@ final class SqsHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -647,7 +699,11 @@ final class SqsHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $sqsClientClass = $this->getMockBuilder(SqsClient::class)
@@ -690,7 +746,11 @@ final class SqsHandlerFactoryTest extends TestCase
         $factory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $sqsClientClass = $this->getMockBuilder(SqsClient::class)

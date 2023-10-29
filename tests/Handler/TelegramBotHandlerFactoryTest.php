@@ -39,6 +39,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
 {
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -63,6 +65,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -87,6 +91,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -114,6 +120,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -172,6 +180,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -230,6 +240,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -260,6 +272,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -295,6 +309,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -366,6 +382,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -401,6 +419,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -429,6 +449,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -482,6 +504,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -574,6 +598,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -619,6 +645,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -662,7 +690,11 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutExtension(): void
     {
         if (extension_loaded('curl')) {

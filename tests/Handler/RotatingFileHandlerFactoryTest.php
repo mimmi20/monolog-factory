@@ -37,7 +37,11 @@ use function sprintf;
 
 final class RotatingFileHandlerFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -57,7 +61,11 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -80,6 +88,8 @@ final class RotatingFileHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig(): void
     {
@@ -133,6 +143,8 @@ final class RotatingFileHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig2(): void
     {
@@ -187,6 +199,8 @@ final class RotatingFileHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig3(): void
     {
@@ -241,6 +255,8 @@ final class RotatingFileHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig4(): void
     {
@@ -299,6 +315,8 @@ final class RotatingFileHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig5(): void
     {
@@ -358,6 +376,8 @@ final class RotatingFileHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig6(): void
     {
@@ -414,7 +434,11 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $filename       = '/tmp/test-file';
@@ -445,7 +469,11 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter(): void
     {
         $filename       = '/tmp/test-file';
@@ -483,6 +511,8 @@ final class RotatingFileHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -555,6 +585,8 @@ final class RotatingFileHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
@@ -624,7 +656,11 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter4(): void
     {
         $filename       = '/tmp/test-file';
@@ -659,7 +695,11 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $filename       = '/tmp/test-file';
@@ -688,7 +728,11 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $filename       = '/tmp/test-file';
@@ -744,6 +788,8 @@ final class RotatingFileHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -839,7 +885,11 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $filename       = '/tmp/test-file';
@@ -885,7 +935,11 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $filename       = '/tmp/test-file';

@@ -22,7 +22,10 @@ use Psr\Container\ContainerInterface;
 
 final class ElasticaFormatterFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -42,7 +45,10 @@ final class ElasticaFormatterFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutIndex(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -62,7 +68,10 @@ final class ElasticaFormatterFactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithIndex(): void
     {
         $index = 'abc';
@@ -93,7 +102,10 @@ final class ElasticaFormatterFactoryTest extends TestCase
         );
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithIndexAndType(): void
     {
         $maxNormalizeDepth     = 42;

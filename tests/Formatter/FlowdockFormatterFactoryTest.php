@@ -23,7 +23,10 @@ use ReflectionProperty;
 
 final class FlowdockFormatterFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -43,7 +46,10 @@ final class FlowdockFormatterFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutSource(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -63,7 +69,10 @@ final class FlowdockFormatterFactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutSourceEmail(): void
     {
         $source = 'abc';
@@ -88,6 +97,7 @@ final class FlowdockFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithSouceAndSourceEmail(): void
     {

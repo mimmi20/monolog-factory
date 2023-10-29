@@ -41,7 +41,11 @@ use function sprintf;
 /** @requires PHP < 8.1 */
 final class RollbarHandlerFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         if (!class_exists(Config::class)) {
@@ -65,7 +69,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         if (!class_exists(Config::class)) {
@@ -89,7 +97,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithTooShortToken(): void
     {
         if (!class_exists(Config::class)) {
@@ -118,6 +130,8 @@ final class RollbarHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig(): void
     {
@@ -174,6 +188,8 @@ final class RollbarHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig2(): void
     {
@@ -230,7 +246,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         if (!class_exists(Config::class)) {
@@ -262,7 +282,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         $factory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter(): void
     {
         if (!class_exists(Config::class)) {
@@ -301,6 +325,8 @@ final class RollbarHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -370,7 +396,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter3(): void
     {
         if (!class_exists(Config::class)) {
@@ -406,7 +436,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         $factory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         if (!class_exists(Config::class)) {
@@ -436,7 +470,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         $factory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         if (!class_exists(Config::class)) {
@@ -493,6 +531,8 @@ final class RollbarHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -588,7 +628,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         if (!class_exists(Config::class)) {
@@ -635,7 +679,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         $factory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         if (!class_exists(Config::class)) {

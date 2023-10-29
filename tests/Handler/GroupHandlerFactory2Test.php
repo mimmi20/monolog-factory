@@ -14,6 +14,7 @@ namespace Mimmi20Test\MonologFactory\Handler;
 
 use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\GroupHandlerFactory;
 use Mimmi20\MonologFactory\MonologHandlerPluginManager;
@@ -35,7 +36,11 @@ use function sprintf;
 
 final class GroupHandlerFactory2Test extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $processors = [
@@ -144,6 +149,8 @@ final class GroupHandlerFactory2Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -285,7 +292,11 @@ final class GroupHandlerFactory2Test extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $processor3 = static fn (array $record): array => $record;
@@ -395,7 +406,11 @@ final class GroupHandlerFactory2Test extends TestCase
         $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $processor3 = static fn (array $record): array => $record;

@@ -14,6 +14,7 @@ namespace Mimmi20Test\MonologFactory\Handler;
 
 use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\FingersCrossed\ActivationStrategyPluginManager;
@@ -40,7 +41,12 @@ use function sprintf;
 
 final class FingersCrossedHandlerFactory2Test extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithHandlerConfig11(): void
     {
         $type = 'abc';
@@ -94,7 +100,12 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => [], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithHandlerConfig12(): void
     {
         $type     = 'abc';
@@ -151,7 +162,12 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => $strategy, 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $type            = 'abc';
@@ -215,7 +231,12 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithConfigAndBoolFormatter2(): void
     {
         $type            = 'abc';
@@ -262,7 +283,12 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithConfigAndFormatter(): void
     {
         $type            = 'abc';
@@ -338,6 +364,9 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -444,7 +473,12 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $type            = 'abc';
@@ -511,6 +545,9 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndFormatter4(): void
     {
@@ -617,7 +654,12 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithConfigAndFormatter5(): void
     {
         $type            = 'abc';
@@ -670,7 +712,12 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $type            = 'abc';
@@ -732,7 +779,12 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithConfigAndBoolProcessors2(): void
     {
         $type            = 'abc';
@@ -777,7 +829,12 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $type            = 'abc';
@@ -851,6 +908,9 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {

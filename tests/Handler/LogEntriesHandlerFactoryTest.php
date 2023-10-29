@@ -39,6 +39,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
 {
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension openssl
      */
@@ -63,6 +65,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension openssl
      */
@@ -88,6 +92,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension openssl
      */
@@ -135,6 +141,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension openssl
      */
@@ -183,7 +191,11 @@ final class LogEntriesHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutExtension(): void
     {
         if (extension_loaded('openssl')) {
@@ -217,6 +229,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension openssl
      */
@@ -250,6 +264,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension openssl
      */
@@ -288,6 +304,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension openssl
      */
@@ -353,6 +371,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension openssl
      */
@@ -417,6 +437,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension openssl
      */
@@ -455,6 +477,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension openssl
      */
@@ -486,6 +510,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension openssl
      */
@@ -542,6 +568,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension openssl
      */
@@ -632,6 +660,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension openssl
      */
@@ -680,6 +710,8 @@ final class LogEntriesHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension openssl
      */
@@ -726,7 +758,11 @@ final class LogEntriesHandlerFactoryTest extends TestCase
         $factory($container, '', ['token' => $token, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'host' => $host, 'persistent' => true, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithError(): void
     {
         if (extension_loaded('openssl')) {

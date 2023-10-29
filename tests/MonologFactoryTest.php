@@ -29,7 +29,10 @@ use Psr\Container\ContainerInterface;
 
 final class MonologFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutArrayOptions(): void
     {
         $requestedName = Logger::class;
@@ -51,7 +54,10 @@ final class MonologFactoryTest extends TestCase
         $factory($container, $requestedName, null);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyArrayOptions(): void
     {
         $requestedName = Logger::class;
@@ -74,7 +80,10 @@ final class MonologFactoryTest extends TestCase
         $factory($container, $requestedName, $options);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithTimezone(): void
     {
         $requestedName = Logger::class;
@@ -98,7 +107,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(0, $logger->getProcessors());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithTimezone2(): void
     {
         $requestedName = Logger::class;
@@ -122,7 +134,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(0, $logger->getProcessors());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithTimezone3(): void
     {
         $requestedName = Logger::class;
@@ -146,7 +161,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(0, $logger->getProcessors());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithTimezone4(): void
     {
         $requestedName = Logger::class;
@@ -171,7 +189,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(0, $logger->getProcessors());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithHandlers(): void
     {
         $requestedName = Logger::class;
@@ -196,7 +217,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(0, $logger->getProcessors());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithHandlers2(): void
     {
         $requestedName = Logger::class;
@@ -223,7 +247,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(0, $logger->getProcessors());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithHandlers3(): void
     {
         $requestedName = Logger::class;
@@ -258,7 +285,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(0, $logger->getProcessors());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithHandlers4(): void
     {
         $requestedName = Logger::class;
@@ -319,7 +349,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(0, $logger->getProcessors());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithHandlers5(): void
     {
         $requestedName = Logger::class;
@@ -375,7 +408,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(4, $logger->getHandlers());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithHandlers6(): void
     {
         $requestedName = Logger::class;
@@ -427,7 +463,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(3, $logger->getHandlers());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithProcessors(): void
     {
         $requestedName = Logger::class;
@@ -452,7 +491,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(0, $logger->getProcessors());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithProcessors2(): void
     {
         $requestedName = Logger::class;
@@ -479,7 +521,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(0, $logger->getProcessors());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithProcessors3(): void
     {
         $requestedName = Logger::class;
@@ -514,7 +559,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(0, $logger->getProcessors());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithProcessors4(): void
     {
         $requestedName = Logger::class;
@@ -573,7 +621,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(0, $logger->getProcessors());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithProcessors5(): void
     {
         $requestedName = Logger::class;
@@ -629,7 +680,10 @@ final class MonologFactoryTest extends TestCase
         self::assertCount(3, $logger->getProcessors());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithProcessors7(): void
     {
         $requestedName = Logger::class;

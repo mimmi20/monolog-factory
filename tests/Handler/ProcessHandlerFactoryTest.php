@@ -36,7 +36,11 @@ use function sprintf;
 
 final class ProcessHandlerFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -56,7 +60,11 @@ final class ProcessHandlerFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -79,6 +87,8 @@ final class ProcessHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig(): void
     {
@@ -122,6 +132,8 @@ final class ProcessHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig2(): void
     {
@@ -163,7 +175,11 @@ final class ProcessHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig3(): void
     {
         $command = 'test-command';
@@ -185,7 +201,11 @@ final class ProcessHandlerFactoryTest extends TestCase
         $factory($container, '', ['command' => $command, 'cwd' => '', 'level' => LogLevel::ALERT, 'bubble' => false]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $command   = 'test-command';
@@ -211,7 +231,11 @@ final class ProcessHandlerFactoryTest extends TestCase
         $factory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter(): void
     {
         $command   = 'test-command';
@@ -244,6 +268,8 @@ final class ProcessHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -298,7 +324,11 @@ final class ProcessHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $command   = 'test-command';
@@ -328,7 +358,11 @@ final class ProcessHandlerFactoryTest extends TestCase
         $factory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $command    = 'test-command';
@@ -352,7 +386,11 @@ final class ProcessHandlerFactoryTest extends TestCase
         $factory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $command    = 'test-command';
@@ -403,6 +441,8 @@ final class ProcessHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -483,7 +523,11 @@ final class ProcessHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $command    = 'test-command';
@@ -524,7 +568,11 @@ final class ProcessHandlerFactoryTest extends TestCase
         $factory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $command    = 'test-command';

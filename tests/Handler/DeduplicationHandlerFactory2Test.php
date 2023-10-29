@@ -14,6 +14,7 @@ namespace Mimmi20Test\MonologFactory\Handler;
 
 use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\DeduplicationHandlerFactory;
 use Mimmi20\MonologFactory\MonologHandlerPluginManager;
@@ -37,6 +38,8 @@ final class DeduplicationHandlerFactory2Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -153,7 +156,11 @@ final class DeduplicationHandlerFactory2Test extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $type               = 'abc';
@@ -228,7 +235,11 @@ final class DeduplicationHandlerFactory2Test extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $type               = 'abc';
@@ -303,6 +314,8 @@ final class DeduplicationHandlerFactory2Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors6(): void
     {

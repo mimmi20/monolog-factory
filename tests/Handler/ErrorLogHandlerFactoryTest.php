@@ -39,6 +39,8 @@ final class ErrorLogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -80,6 +82,8 @@ final class ErrorLogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -121,6 +125,8 @@ final class ErrorLogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig(): void
     {
@@ -161,7 +167,11 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $messageType = ErrorLogHandler::SAPI;
@@ -186,7 +196,11 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter(): void
     {
         $messageType = ErrorLogHandler::SAPI;
@@ -218,6 +232,8 @@ final class ErrorLogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -271,7 +287,11 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $messageType = ErrorLogHandler::SAPI;
@@ -300,7 +320,11 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $messageType = ErrorLogHandler::SAPI;
@@ -323,7 +347,11 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $messageType = ErrorLogHandler::SAPI;
@@ -373,6 +401,8 @@ final class ErrorLogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -452,7 +482,11 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $messageType = ErrorLogHandler::SAPI;
@@ -500,7 +534,11 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $messageType = ErrorLogHandler::SAPI;

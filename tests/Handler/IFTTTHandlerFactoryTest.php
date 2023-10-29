@@ -39,6 +39,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
 {
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -63,6 +65,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -87,6 +91,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -114,6 +120,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -160,6 +168,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -205,6 +215,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -235,6 +247,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -270,6 +284,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -328,6 +344,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -362,6 +380,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -390,6 +410,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -443,6 +465,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -527,6 +551,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -572,6 +598,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -615,7 +643,11 @@ final class IFTTTHandlerFactoryTest extends TestCase
         $factory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithError(): void
     {
         if (extension_loaded('curl')) {

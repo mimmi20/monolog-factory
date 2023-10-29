@@ -34,7 +34,11 @@ use function sprintf;
 
 final class PsrHandlerFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -54,7 +58,11 @@ final class PsrHandlerFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -74,7 +82,11 @@ final class PsrHandlerFactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig(): void
     {
         $loggerName = true;
@@ -96,7 +108,11 @@ final class PsrHandlerFactoryTest extends TestCase
         $factory($container, '', ['logger' => $loggerName]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig2(): void
     {
         $loggerName = 'test-logger';
@@ -123,6 +139,8 @@ final class PsrHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig3(): void
     {
@@ -158,6 +176,8 @@ final class PsrHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig4(): void
     {
@@ -193,6 +213,8 @@ final class PsrHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig5(): void
     {
@@ -225,6 +247,8 @@ final class PsrHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig6(): void
     {
@@ -254,7 +278,11 @@ final class PsrHandlerFactoryTest extends TestCase
         self::assertSame($logger, $loggerP->getValue($handler));
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig7(): void
     {
         $loggerName = 'test-logger';
@@ -278,7 +306,11 @@ final class PsrHandlerFactoryTest extends TestCase
         $factory($container, '', ['logger' => $loggerName]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $logger    = $this->getMockBuilder(LoggerInterface::class)
@@ -305,7 +337,11 @@ final class PsrHandlerFactoryTest extends TestCase
         $factory($container, '', ['logger' => $logger, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter(): void
     {
         $logger    = $this->getMockBuilder(LoggerInterface::class)
@@ -339,6 +375,8 @@ final class PsrHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -383,7 +421,11 @@ final class PsrHandlerFactoryTest extends TestCase
         self::assertSame($formatter, $handler->getFormatter());
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $logger    = $this->getMockBuilder(LoggerInterface::class)
@@ -417,6 +459,8 @@ final class PsrHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {

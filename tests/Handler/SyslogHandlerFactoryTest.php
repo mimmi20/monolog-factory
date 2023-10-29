@@ -41,7 +41,11 @@ use const LOG_USER;
 
 final class SyslogHandlerFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -61,7 +65,11 @@ final class SyslogHandlerFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -84,6 +92,8 @@ final class SyslogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig(): void
     {
@@ -131,6 +141,8 @@ final class SyslogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig2(): void
     {
@@ -177,7 +189,11 @@ final class SyslogHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $ident     = 'test';
@@ -204,7 +220,11 @@ final class SyslogHandlerFactoryTest extends TestCase
         $factory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter(): void
     {
         $ident     = 'test';
@@ -238,6 +258,8 @@ final class SyslogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -297,7 +319,11 @@ final class SyslogHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $ident     = 'test';
@@ -328,7 +354,11 @@ final class SyslogHandlerFactoryTest extends TestCase
         $factory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $ident      = 'test';
@@ -353,7 +383,11 @@ final class SyslogHandlerFactoryTest extends TestCase
         $factory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $ident      = 'test';
@@ -405,6 +439,8 @@ final class SyslogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -490,7 +526,11 @@ final class SyslogHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $ident      = 'test';
@@ -532,7 +572,11 @@ final class SyslogHandlerFactoryTest extends TestCase
         $factory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $ident      = 'test';

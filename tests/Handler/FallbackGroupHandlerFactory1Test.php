@@ -32,7 +32,11 @@ use ReflectionProperty;
 
 final class FallbackGroupHandlerFactory1Test extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -52,7 +56,11 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -72,7 +80,11 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         $factory($container, '', []);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig2(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -92,7 +104,11 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         $factory($container, '', ['handlers' => true]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutHandlers(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -112,7 +128,11 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         $factory($container, '', ['handlers' => []]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithStringHandlers(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -132,7 +152,11 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         $factory($container, '', ['handlers' => ['test']]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithHandlerWithoutType(): void
     {
         $handlers = [[]];
@@ -157,6 +181,8 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithHandlerWithType(): void
     {
@@ -257,6 +283,8 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithHandlerWithType2(): void
     {
@@ -353,6 +381,8 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithHandlerWithType3(): void
     {
@@ -453,6 +483,8 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithHandlerWithType4(): void
     {
@@ -553,6 +585,8 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
@@ -654,6 +688,8 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
@@ -757,6 +793,8 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -857,7 +895,11 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $handlers   = [

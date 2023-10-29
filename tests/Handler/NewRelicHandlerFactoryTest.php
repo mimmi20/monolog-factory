@@ -40,6 +40,8 @@ final class NewRelicHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -85,6 +87,8 @@ final class NewRelicHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -130,6 +134,8 @@ final class NewRelicHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig(): void
     {
@@ -175,7 +181,11 @@ final class NewRelicHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $appName         = 'test-app';
@@ -201,7 +211,11 @@ final class NewRelicHandlerFactoryTest extends TestCase
         $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'appName' => $appName, 'explodeArrays' => true, 'transactionName' => $transactionName, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter(): void
     {
         $appName         = 'test-app';
@@ -234,6 +248,8 @@ final class NewRelicHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -292,7 +308,11 @@ final class NewRelicHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $appName         = 'test-app';
@@ -322,7 +342,11 @@ final class NewRelicHandlerFactoryTest extends TestCase
         $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'appName' => $appName, 'explodeArrays' => true, 'transactionName' => $transactionName, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $appName         = 'test-app';
@@ -346,7 +370,11 @@ final class NewRelicHandlerFactoryTest extends TestCase
         $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'appName' => $appName, 'explodeArrays' => true, 'transactionName' => $transactionName, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $appName         = 'test-app';
@@ -397,6 +425,8 @@ final class NewRelicHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -481,7 +511,11 @@ final class NewRelicHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $appName         = 'test-app';
@@ -530,7 +564,11 @@ final class NewRelicHandlerFactoryTest extends TestCase
         $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'appName' => $appName, 'explodeArrays' => true, 'transactionName' => $transactionName, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $appName         = 'test-app';

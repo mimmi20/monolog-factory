@@ -39,6 +39,8 @@ final class TeamsLogHandlerFactoryTest extends TestCase
 {
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -69,6 +71,8 @@ final class TeamsLogHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -100,6 +104,8 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -147,6 +153,8 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -193,6 +201,8 @@ final class TeamsLogHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -228,6 +238,8 @@ final class TeamsLogHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -268,6 +280,8 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -327,6 +341,8 @@ final class TeamsLogHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -366,6 +382,8 @@ final class TeamsLogHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -397,7 +415,11 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
@@ -453,6 +475,8 @@ final class TeamsLogHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -534,7 +558,11 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
@@ -580,7 +608,11 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {

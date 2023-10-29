@@ -43,6 +43,8 @@ final class WebProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -83,6 +85,8 @@ final class WebProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -123,6 +127,8 @@ final class WebProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithEmptyServerdataConfig(): void
     {
@@ -163,6 +169,8 @@ final class WebProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithServerdataConfig(): void
     {
@@ -203,6 +211,8 @@ final class WebProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithServerdataArrayaccess(): void
     {
@@ -240,7 +250,11 @@ final class WebProcessorFactoryTest extends TestCase
         );
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithServerdataInt(): void
     {
         $serverData = 42;
@@ -262,7 +276,11 @@ final class WebProcessorFactoryTest extends TestCase
         $factory($container, '', ['serverData' => $serverData]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithServerdataString(): void
     {
         $serverData = 'xyz';
@@ -289,6 +307,8 @@ final class WebProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithServerdataString2(): void
     {
@@ -331,7 +351,11 @@ final class WebProcessorFactoryTest extends TestCase
         );
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithServerdataString3(): void
     {
         $serverData = 'xyz';
@@ -360,6 +384,8 @@ final class WebProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithServerdataString4(): void
     {
@@ -400,6 +426,8 @@ final class WebProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithServerdataString5(): void
     {

@@ -38,7 +38,11 @@ use function sprintf;
 
 final class ElasticsearchHandlerFactory1Test extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -58,7 +62,11 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -78,7 +86,11 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         $factory($container, '', []);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigWithWrongClient(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -98,7 +110,11 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         $factory($container, '', ['client' => true]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigWithWrongClientString(): void
     {
         $client = 'xyz';
@@ -124,7 +140,11 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         $factory($container, '', ['client' => $client]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigError(): void
     {
         $client = 'xyz';
@@ -151,6 +171,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigWithV7ClientClass(): void
     {
@@ -206,6 +228,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigWithV7ClassString(): void
     {
@@ -263,7 +287,11 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithV7ClientAndConfigAndBoolFormatter(): void
     {
         if (!class_exists(V7Client::class)) {
@@ -299,7 +327,11 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeV7ClientAndWithConfigAndFormatter(): void
     {
         if (!class_exists(V7Client::class)) {
@@ -347,6 +379,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter2(): void
     {
@@ -422,6 +456,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter3(): void
     {
@@ -498,6 +534,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter4(): void
     {
@@ -574,6 +612,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter5(): void
     {
@@ -650,6 +690,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter6(): void
     {
@@ -723,7 +765,11 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithV7ClientAndConfigAndBoolProcessors(): void
     {
         if (!class_exists(V7Client::class)) {
@@ -757,7 +803,11 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithV7ClientAndConfigAndProcessors2(): void
     {
         if (!class_exists(V7Client::class)) {
@@ -820,6 +870,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithV7ClientAndConfigAndProcessors3(): void
     {
@@ -918,7 +970,11 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithV7ClientAndConfigAndProcessors4(): void
     {
         if (!class_exists(V7Client::class)) {

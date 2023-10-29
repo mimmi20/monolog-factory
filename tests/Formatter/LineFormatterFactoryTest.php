@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Formatter;
 
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Formatter\LineFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\NormalizerFormatterFactory;
 use Monolog\Formatter\LineFormatter;
@@ -27,6 +28,7 @@ final class LineFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -73,6 +75,7 @@ final class LineFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -119,6 +122,7 @@ final class LineFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig(): void
     {

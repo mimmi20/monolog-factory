@@ -39,6 +39,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 {
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -63,6 +65,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -87,6 +91,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -114,6 +120,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -182,6 +190,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -252,6 +262,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -285,6 +297,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -323,6 +337,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -406,6 +422,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -443,6 +461,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -474,6 +494,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -530,6 +552,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -639,6 +663,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -687,6 +713,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      *
      * @requires extension curl
      */
@@ -733,7 +761,11 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithError(): void
     {
         if (extension_loaded('curl')) {

@@ -34,12 +34,18 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
+use RuntimeException;
 
 use function sprintf;
 
 final class CallbackFilterHandlerFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -59,7 +65,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -79,7 +90,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
+     */
     public function testInvokeWithoutHandlerConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -99,7 +115,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $factory($container, '', ['handler' => true]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
+     */
     public function testInvokeWithHandlerConfigWithoutType(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -119,7 +140,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $factory($container, '', ['handler' => []]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
+     */
     public function testInvokeWithHandlerConfigWithDisabledType(): void
     {
         $type = 'abc';
@@ -141,7 +167,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => false]]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
+     */
     public function testInvokeWithHandlerConfigWithLoaderError(): void
     {
         $type = 'abc';
@@ -165,7 +196,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
+     */
     public function testInvokeWithHandlerConfigWithLoaderError2(): void
     {
         $type = 'abc';
@@ -202,6 +238,9 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
      */
     public function testInvokeWithHandlerConfig(): void
     {
@@ -267,6 +306,9 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
      */
     public function testInvokeWithHandlerConfig2(): void
     {
@@ -342,6 +384,9 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
      */
     public function testInvokeWithHandlerConfig3(): void
     {
@@ -427,6 +472,9 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
@@ -511,7 +559,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
+     */
     public function testInvokeWithConfigAndBoolFormatter2(): void
     {
         $type = 'abc';
@@ -580,6 +633,9 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
@@ -669,6 +725,9 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -768,7 +827,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
+     */
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $type = 'abc';
@@ -840,7 +904,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $type = 'abc';
@@ -904,7 +973,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2], 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
+     */
     public function testInvokeWithConfigAndBoolProcessors2(): void
     {
         $type = 'abc';
@@ -968,7 +1042,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $type = 'abc';
@@ -1061,6 +1140,9 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -1184,7 +1266,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $type = 'abc';
@@ -1278,7 +1365,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $type = 'abc';
@@ -1364,6 +1456,9 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     * @throws RuntimeException
      */
     public function testInvokeWithConfigAndProcessors6(): void
     {

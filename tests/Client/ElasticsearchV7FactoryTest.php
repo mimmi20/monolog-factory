@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Mimmi20Test\MonologFactory\Client;
 
 use Elasticsearch\Client as V7Client;
+use Elasticsearch\Common\Exceptions\AuthenticationConfigException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Client\ElasticsearchV7Factory;
 use PHPUnit\Framework\Exception;
@@ -23,7 +24,11 @@ use function class_exists;
 
 final class ElasticsearchV7FactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     * @throws AuthenticationConfigException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -43,7 +48,11 @@ final class ElasticsearchV7FactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotCreatedException
+     * @throws AuthenticationConfigException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -65,6 +74,8 @@ final class ElasticsearchV7FactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotCreatedException
+     * @throws AuthenticationConfigException
      *
      * @requires extension curl
      */
@@ -93,6 +104,8 @@ final class ElasticsearchV7FactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotCreatedException
+     * @throws AuthenticationConfigException
      *
      * @requires extension curl
      */
@@ -119,6 +132,8 @@ final class ElasticsearchV7FactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotCreatedException
+     * @throws AuthenticationConfigException
      *
      * @requires extension curl
      */
@@ -145,6 +160,8 @@ final class ElasticsearchV7FactoryTest extends TestCase
 
     /**
      * @throws Exception
+     * @throws ServiceNotCreatedException
+     * @throws AuthenticationConfigException
      *
      * @requires extension curl
      */

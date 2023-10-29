@@ -14,6 +14,7 @@ namespace Mimmi20Test\MonologFactory\Handler;
 
 use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\FallbackGroupHandlerFactory;
 use Mimmi20\MonologFactory\MonologHandlerPluginManager;
@@ -35,7 +36,11 @@ use function sprintf;
 
 final class FallbackGroupHandlerFactory2Test extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $handlers   = [
@@ -143,6 +148,8 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -283,7 +290,11 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $handlers   = [
@@ -392,7 +403,11 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
         $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $handlers   = [

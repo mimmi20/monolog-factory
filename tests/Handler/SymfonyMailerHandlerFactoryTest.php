@@ -39,7 +39,11 @@ use function sprintf;
 
 final class SymfonyMailerHandlerFactoryTest extends TestCase
 {
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -59,7 +63,11 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $factory($container, '');
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -79,7 +87,11 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $factory($container, '', []);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig(): void
     {
         $mailer = true;
@@ -101,7 +113,11 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $factory($container, '', ['mailer' => $mailer]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig2(): void
     {
         $mailer = 'test-mailer';
@@ -125,7 +141,11 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $factory($container, '', ['mailer' => $mailer]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig3(): void
     {
         $mailerName = 'test-mailer';
@@ -152,7 +172,11 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $factory($container, '', ['mailer' => $mailerName]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig4(): void
     {
         $mailerName = 'test-mailer';
@@ -183,6 +207,8 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig5(): void
     {
@@ -227,7 +253,11 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfig6(): void
     {
         $mailer = 'test-mailer';
@@ -251,7 +281,11 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $factory($container, '', ['mailer' => $mailer]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $mailer        = $this->getMockBuilder(MailerInterface::class)
@@ -281,7 +315,11 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $factory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter(): void
     {
         $mailer        = $this->getMockBuilder(MailerInterface::class)
@@ -318,6 +356,8 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -376,7 +416,11 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         self::assertCount(0, $processors);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $mailer        = $this->getMockBuilder(MailerInterface::class)
@@ -410,7 +454,11 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $factory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $mailer        = $this->getMockBuilder(MailerInterface::class)
@@ -438,7 +486,11 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $factory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $mailer        = $this->getMockBuilder(MailerInterface::class)
@@ -494,6 +546,8 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -579,7 +633,11 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         self::assertSame($processor3, $processors[2]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $mailer        = $this->getMockBuilder(MailerInterface::class)
@@ -624,7 +682,11 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $factory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $mailer        = $this->getMockBuilder(MailerInterface::class)

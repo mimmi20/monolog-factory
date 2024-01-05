@@ -21,10 +21,11 @@ jobs:
 
     uses: "mimmi20/ci/.github/workflows/validate.yml@master"
     with:
-      extensions: "curl, iconv, mbstring, intl, dom, simplexml, tokenizer, xml, xmlwriter, openssl, amqp, sockets"
+      extensions: "ctype, curl, iconv, mbstring, intl, dom, simplexml, tokenizer, xml, xmlwriter, openssl, amqp, sockets"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
       composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
       skip-phplint: false
+      skip-check-composer: false
 
   install:
     name: "Install Project"
@@ -33,10 +34,9 @@ jobs:
 
     uses: "mimmi20/ci/.github/workflows/install.yml@master"
     with:
-      extensions: "curl, iconv, mbstring, intl, dom, simplexml, tokenizer, xml, xmlwriter, openssl, amqp, sockets"
+      extensions: "ctype, curl, iconv, mbstring, intl, dom, simplexml, tokenizer, xml, xmlwriter, openssl, amqp, sockets"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
       composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
-      composer-outdated-option: ""
 
   analytics:
     name: "Project Analysis"
@@ -45,66 +45,12 @@ jobs:
 
     uses: "mimmi20/ci/.github/workflows/analytics.yml@master"
     with:
-      extensions: "curl, iconv, mbstring, intl, dom, simplexml, tokenizer, xml, xmlwriter, openssl, amqp, sockets"
+      extensions: "ctype, curl, iconv, mbstring, intl, dom, simplexml, tokenizer, xml, xmlwriter, openssl, amqp, sockets"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
       composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
       skip-phpstan: false
       skip-rector: false
       skip-phpmd: false
-
-  check-composer:
-    name: "Check composer dependencies"
-
-    runs-on: "${{ matrix.operating-system }}"
-
-    timeout-minutes: 10
-
-    continue-on-error: false
-
-    needs: "analytics"
-
-    strategy:
-      fail-fast: false
-
-      matrix:
-        operating-system:
-          - "ubuntu-20.04"
-
-        php-version:
-          # Should use the lowest supported version
-          - "8.1"
-
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v4"
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-          lfs: false
-          persist-credentials: false
-
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.28.0"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, curl, iconv, mbstring, ctype, dom, intl, simplexml, tokenizer, xml, xmlwriter"
-          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
-          coverage: "none"
-          tools: "composer:v2, composer-unused"
-        env:
-          fail-fast: true
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          phpts: "nts"
-          debug: true
-
-      - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
-        with:
-          dependency-versions: "${{ matrix.dependencies }}"
-          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
-
-      - name: "Check composer.json"
-        run: "composer-unused unused --ansi --no-progress --no-interaction --output-format=github"
 
   tests-monolog-without-extensions:
     name: "UnitTests with PHPUnit for monolog/monolog 3 without extensions"
@@ -155,7 +101,7 @@ jobs:
         uses: "shivammathur/setup-php@2.28.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter"
+          extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
@@ -238,7 +184,7 @@ jobs:
         uses: "shivammathur/setup-php@2.28.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, mongodb"
+          extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, mongodb"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
@@ -319,7 +265,7 @@ jobs:
         uses: "shivammathur/setup-php@2.28.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter"
+          extensions: "none, phar, json, opcache, ctype, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
@@ -394,7 +340,7 @@ jobs:
         uses: "shivammathur/setup-php@2.28.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, sockets"
+          extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, sockets"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
@@ -472,7 +418,7 @@ jobs:
         uses: "shivammathur/setup-php@2.28.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, amqp"
+          extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, amqp"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "none"
           tools: "composer:v2"
@@ -549,7 +495,7 @@ jobs:
         uses: "shivammathur/setup-php@2.28.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, ctype"
+          extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -639,7 +585,7 @@ jobs:
         uses: "shivammathur/setup-php@2.28.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, ctype"
+          extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -732,7 +678,7 @@ jobs:
         uses: "shivammathur/setup-php@2.28.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, ctype"
+          extensions: "none, phar, json, opcache, ctype, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -827,7 +773,7 @@ jobs:
         uses: "shivammathur/setup-php@2.28.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, sockets, ctype"
+          extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, sockets"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -920,7 +866,7 @@ jobs:
         uses: "shivammathur/setup-php@2.28.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, ctype"
+          extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -1011,7 +957,7 @@ jobs:
 #        uses: "shivammathur/setup-php@2.24.0"
 #        with:
 #          php-version: "${{ matrix.php-version }}"
-#          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, ctype"
+#          extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
 #          ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
 #          coverage: "xdebug"
 #          tools: "composer:v2"
@@ -1104,7 +1050,7 @@ jobs:
         uses: "shivammathur/setup-php@2.28.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, sockets, ctype"
+          extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, sockets"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -1192,7 +1138,7 @@ jobs:
         uses: "shivammathur/setup-php@2.28.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, ctype"
+          extensions: "none, phar, json, opcache, ctype, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -1281,7 +1227,7 @@ jobs:
         uses: "shivammathur/setup-php@2.28.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, mongodb, ctype"
+          extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, mongodb"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"
@@ -1371,7 +1317,7 @@ jobs:
         uses: "shivammathur/setup-php@2.28.0"
         with:
           php-version: "${{ matrix.php-version }}"
-          extensions: "none, phar, json, opcache, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, amqp, ctype"
+          extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, amqp"
           ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0, xdebug.mode=coverage"
           coverage: "xdebug"
           tools: "composer:v2"

@@ -538,8 +538,6 @@ jobs:
           CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
       - name: "Upload coverage to Codeclimate"
@@ -643,8 +641,6 @@ jobs:
           CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   code-coverage-with-curl-for-elaticsearch-8:
@@ -837,8 +833,6 @@ jobs:
           CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "vendor/bin/infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   code-coverage-without-extensions-for-swiftmailer:
@@ -934,8 +928,6 @@ jobs:
           CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
 #  code-coverage-without-extensions-for-cmdisp-monolog-microsoft-teams:
@@ -1029,8 +1021,6 @@ jobs:
 #          verbose: false
 #
 #      - name: "Run mutation tests with infection/infection"
-#        env:
-#          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 #        run: "vendor/bin/infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   code-coverage-with-sockets:
@@ -1123,8 +1113,6 @@ jobs:
           CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   code-coverage-with-curl:
@@ -1306,8 +1294,6 @@ jobs:
           CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "vendor/bin/infection --show-mutations --min-covered-msi=90 --min-msi=90 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   code-coverage-with-amqp:
@@ -1400,8 +1386,6 @@ jobs:
           CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
-        env:
-          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   # This is a meta job to avoid to have to constantly change the protection rules

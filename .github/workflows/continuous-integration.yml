@@ -53,24 +53,6 @@ jobs:
       skip-rector: false
       skip-phpmd: false
 
-  tests:
-    name: "UnitTests & Code Coverage"
-
-    needs: "analytics"
-
-    uses: "mimmi20/ci/.github/workflows/test.yml@master"
-    with:
-      extensions: "ctype, curl, dom, iconv, intl, mbstring, simplexml, tokenizer, xml, xmlwriter"
-      ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
-      composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
-      skip-phpunit: false
-      skip-vitest: true
-      skip-stryker: true
-      min-msi: 89
-      min-covered-msi: 89
-      upload-codecov: true
-      upload-codeclimate: false
-
   tests-monolog-without-extensions:
     name: "UnitTests with PHPUnit for monolog/monolog 3 without extensions"
 
@@ -552,9 +534,19 @@ jobs:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},without-extensions"
           verbose: false
+        env:
+          CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
+
+      - name: "Upload coverage to Codeclimate"
+        uses: "paambaati/codeclimate-action@v5.0.0"
+        env:
+          CC_TEST_REPORTER_ID: "${{ secrets.CODECLIMATE_API_KEY }}"
+        with:
+          coverageLocations: ".build/coverage/clover.xml:clover"
+          debug: false
 
   code-coverage-without-extensions-for-elaticsearch-8:
     name: "Code Coverage with PHPUnit for Elasticsearch 8"
@@ -645,6 +637,8 @@ jobs:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},elasticsearch-8"
           verbose: false
+        env:
+          CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
@@ -738,6 +732,8 @@ jobs:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},elasticsearch-8,with-curl"
           verbose: false
+        env:
+          CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
         env:
@@ -833,6 +829,8 @@ jobs:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},php-amqplib,with-sockets"
           verbose: false
+        env:
+          CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
         run: "vendor/bin/infection --show-mutations --min-covered-msi=90 --min-msi=87 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
@@ -926,6 +924,8 @@ jobs:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},swiftmailer"
           verbose: false
+        env:
+          CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
@@ -1013,6 +1013,8 @@ jobs:
 #
 #      - name: "Upload coverage to Codecov"
 #        uses: "codecov/codecov-action@v3.1.1"
+#        env:
+#          CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 #        with:
 #          file: ".build/coverage/clover.xml"
 #          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},cmdisp-monolog-microsoft-teams"
@@ -1107,6 +1109,8 @@ jobs:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-sockets"
           verbose: false
+        env:
+          CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
@@ -1192,6 +1196,8 @@ jobs:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-curl"
           verbose: false
+        env:
+          CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
         env:
@@ -1284,6 +1290,8 @@ jobs:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-mongodb"
           verbose: false
+        env:
+          CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
         run: "vendor/bin/infection --show-mutations --min-covered-msi=90 --min-msi=90 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
@@ -1374,6 +1382,8 @@ jobs:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-amqp"
           verbose: false
+        env:
+          CODECOV_TOKEN: "${{ secrets.CODECOV_TOKEN }}"
 
       - name: "Run mutation tests with infection/infection"
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
@@ -1388,7 +1398,6 @@ jobs:
     if: always()
 
     needs:
-      - "tests"
       - "tests-monolog-without-extensions"
       - "tests-monolog-with-mongodb"
       - "tests-monolog-with-curl"

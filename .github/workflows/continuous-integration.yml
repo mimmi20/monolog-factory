@@ -99,7 +99,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.29.0"
+        uses: "shivammathur/setup-php@2.30.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter"
@@ -123,7 +123,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
+        uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -182,7 +182,7 @@ jobs:
           mongodb-version: "5.0"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.29.0"
+        uses: "shivammathur/setup-php@2.30.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, mongodb"
@@ -209,7 +209,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
+        uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -263,7 +263,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.29.0"
+        uses: "shivammathur/setup-php@2.30.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter"
@@ -284,7 +284,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
+        uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -338,7 +338,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.29.0"
+        uses: "shivammathur/setup-php@2.30.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, sockets"
@@ -362,7 +362,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
+        uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -416,7 +416,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.29.0"
+        uses: "shivammathur/setup-php@2.30.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, amqp"
@@ -440,7 +440,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
+        uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -493,7 +493,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.29.0"
+        uses: "shivammathur/setup-php@2.30.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
@@ -517,7 +517,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
+        uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -529,7 +529,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.0.2"
+        uses: "codecov/codecov-action@v4.1.0"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},without-extensions"
@@ -593,7 +593,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.29.0"
+        uses: "shivammathur/setup-php@2.30.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
@@ -620,7 +620,7 @@ jobs:
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:^8\""
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
+        uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -632,7 +632,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.0.2"
+        uses: "codecov/codecov-action@v4.1.0"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},elasticsearch-8"
@@ -688,7 +688,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.29.0"
+        uses: "shivammathur/setup-php@2.30.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
@@ -715,7 +715,7 @@ jobs:
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:^8\""
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
+        uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -727,7 +727,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.0.2"
+        uses: "codecov/codecov-action@v4.1.0"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},elasticsearch-8,with-curl"
@@ -785,7 +785,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.29.0"
+        uses: "shivammathur/setup-php@2.30.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, sockets"
@@ -812,7 +812,7 @@ jobs:
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"php-amqplib/php-amqplib:^3.3.1\""
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
+        uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -824,7 +824,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.0.2"
+        uses: "codecov/codecov-action@v4.1.0"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},php-amqplib,with-sockets"
@@ -880,7 +880,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.29.0"
+        uses: "shivammathur/setup-php@2.30.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
@@ -907,7 +907,7 @@ jobs:
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"swiftmailer/swiftmailer:6.3.0\""
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
+        uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -919,7 +919,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.0.2"
+        uses: "codecov/codecov-action@v4.1.0"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},swiftmailer"
@@ -1068,7 +1068,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.29.0"
+        uses: "shivammathur/setup-php@2.30.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, sockets"
@@ -1092,7 +1092,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
+        uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -1104,7 +1104,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.0.2"
+        uses: "codecov/codecov-action@v4.1.0"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-sockets"
@@ -1158,7 +1158,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.29.0"
+        uses: "shivammathur/setup-php@2.30.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
@@ -1179,7 +1179,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
+        uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -1191,7 +1191,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.0.2"
+        uses: "codecov/codecov-action@v4.1.0"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-curl"
@@ -1249,7 +1249,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.29.0"
+        uses: "shivammathur/setup-php@2.30.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, mongodb"
@@ -1273,7 +1273,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
+        uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -1285,7 +1285,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.0.2"
+        uses: "codecov/codecov-action@v4.1.0"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-mongodb"
@@ -1341,7 +1341,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.29.0"
+        uses: "shivammathur/setup-php@2.30.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, amqp"
@@ -1365,7 +1365,7 @@ jobs:
         run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@2.2.0"
+        uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -1377,7 +1377,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.0.2"
+        uses: "codecov/codecov-action@v4.1.0"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-amqp"

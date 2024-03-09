@@ -55,6 +55,9 @@ updates:
       - dependency-name: "elasticsearch/elasticsearch"
         versions:
           - ">= 8"
+      - dependency-name: "laminas/laminas-servicemanager"
+        versions:
+          - ">= 0"
 
   - package-ecosystem: "github-actions"
 

@@ -100,7 +100,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.0"
+        uses: "shivammathur/setup-php@2.30.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter"
@@ -183,7 +183,7 @@ jobs:
           mongodb-version: "5.0"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.0"
+        uses: "shivammathur/setup-php@2.30.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, mongodb"
@@ -264,7 +264,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.0"
+        uses: "shivammathur/setup-php@2.30.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter"
@@ -339,7 +339,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.0"
+        uses: "shivammathur/setup-php@2.30.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, sockets"
@@ -417,7 +417,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.0"
+        uses: "shivammathur/setup-php@2.30.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, amqp"
@@ -494,7 +494,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.0"
+        uses: "shivammathur/setup-php@2.30.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
@@ -530,7 +530,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.1.0"
+        uses: "codecov/codecov-action@v4.1.1"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},without-extensions"
@@ -604,7 +604,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.0"
+        uses: "shivammathur/setup-php@2.30.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
@@ -643,7 +643,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.1.0"
+        uses: "codecov/codecov-action@v4.1.1"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},elasticsearch-8"
@@ -717,7 +717,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.0"
+        uses: "shivammathur/setup-php@2.30.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
@@ -756,7 +756,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.1.0"
+        uses: "codecov/codecov-action@v4.1.1"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},elasticsearch-8,with-curl"
@@ -832,7 +832,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.0"
+        uses: "shivammathur/setup-php@2.30.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, sockets"
@@ -871,7 +871,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.1.0"
+        uses: "codecov/codecov-action@v4.1.1"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},php-amqplib,with-sockets"
@@ -945,7 +945,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.0"
+        uses: "shivammathur/setup-php@2.30.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
@@ -984,7 +984,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.1.0"
+        uses: "codecov/codecov-action@v4.1.1"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},swiftmailer"
@@ -1169,7 +1169,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.0"
+        uses: "shivammathur/setup-php@2.30.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, sockets"
@@ -1205,7 +1205,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.1.0"
+        uses: "codecov/codecov-action@v4.1.1"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-sockets"
@@ -1277,7 +1277,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.0"
+        uses: "shivammathur/setup-php@2.30.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, curl, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl"
@@ -1310,7 +1310,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.1.0"
+        uses: "codecov/codecov-action@v4.1.1"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-curl"
@@ -1386,7 +1386,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.0"
+        uses: "shivammathur/setup-php@2.30.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, mongodb"
@@ -1422,7 +1422,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.1.0"
+        uses: "codecov/codecov-action@v4.1.1"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-mongodb"
@@ -1496,7 +1496,7 @@ jobs:
           couchdb version: "2.3.1"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.30.0"
+        uses: "shivammathur/setup-php@2.30.1"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, ctype, iconv, mbstring, dom, intl, simplexml, tokenizer, xml, xmlwriter, openssl, amqp"
@@ -1532,7 +1532,7 @@ jobs:
         run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v4.1.0"
+        uses: "codecov/codecov-action@v4.1.1"
         with:
           file: ".build/coverage/clover.xml"
           flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},with-amqp"

@@ -21,6 +21,7 @@ use function is_array;
 
 final class MongoDBFormatterFactory implements FactoryInterface
 {
+    /** @api */
     public const DEFAULT_NESTING_LEVEL = 3;
 
     /**

@@ -60,9 +60,9 @@ final class OverflowHandlerFactory implements FactoryInterface
             throw new ServiceNotCreatedException('HandlerConfig must be an Array');
         }
 
-        $handler = $this->getHandler($container, $options['handler']);
+        $childHandler = $this->getHandler($container, $options['handler']);
 
-        if (!$handler instanceof HandlerInterface) {
+        if (!$childHandler instanceof HandlerInterface) {
             throw new ServiceNotCreatedException('No active handler specified');
         }
 
@@ -88,7 +88,7 @@ final class OverflowHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new OverflowHandler($handler, $thresholdMap, $level, $bubble);
+        $handler = new OverflowHandler($childHandler, $thresholdMap, $level, $bubble);
 
         $this->addFormatter($container, $handler, $options);
 

@@ -58,9 +58,9 @@ final class SamplingHandlerFactory implements FactoryInterface
             throw new ServiceNotCreatedException('HandlerConfig must be an Array');
         }
 
-        $handler = $this->getHandler($container, $options['handler']);
+        $childHandler = $this->getHandler($container, $options['handler']);
 
-        if (!$handler instanceof HandlerInterface) {
+        if (!$childHandler instanceof HandlerInterface) {
             throw new ServiceNotCreatedException('No active handler specified');
         }
 
@@ -74,7 +74,7 @@ final class SamplingHandlerFactory implements FactoryInterface
             throw new ServiceNotCreatedException('Factor is missing or is less then 1');
         }
 
-        $handler = new SamplingHandler($handler, $factor);
+        $handler = new SamplingHandler($childHandler, $factor);
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

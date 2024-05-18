@@ -64,9 +64,9 @@ final class CallbackFilterHandlerFactory implements FactoryInterface
             throw new ServiceNotCreatedException('HandlerConfig must be an Array');
         }
 
-        $handler = $this->getHandler($container, $options['handler']);
+        $childHandler = $this->getHandler($container, $options['handler']);
 
-        if (!$handler instanceof HandlerInterface) {
+        if (!$childHandler instanceof HandlerInterface) {
             throw new ServiceNotCreatedException('No active handler specified');
         }
 
@@ -86,7 +86,7 @@ final class CallbackFilterHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new CallbackFilterHandler($handler, $filters, $level, $bubble);
+        $handler = new CallbackFilterHandler($childHandler, $filters, $level, $bubble);
 
         $this->addProcessor($container, $handler, $options);
 

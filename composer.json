@@ -37,7 +37,7 @@
     "graylog2/gelf-php": "^2.0.1",
     "guzzlehttp/guzzle": "^7.8.1",
     "guzzlehttp/psr7": "^2.6.2",
-    "infection/infection": "^0.27.11",
+    "infection/infection": "^0.27.11 || ^0.28.1",
     "jk/monolog-request-header-processor": "^1.0.0",
     "laminas/laminas-config": "^3.9.0",
     "laminas/laminas-eventmanager": "^3.13.0",
@@ -47,7 +47,7 @@
     "mimmi20/coding-standard": "^5.2.30",
     "mimmi20/monolog-callbackfilterhandler": "^3.0.5",
     "mimmi20/monolog-streamformatter": "^3.1.2",
-    "nikic/php-parser": "^v4.19.1",
+    "nikic/php-parser": "^v4.19.1 || ^v5.0.2",
     "php-console/php-console": "^3.1.8",
     "phpstan/extension-installer": "^1.3.1",
     "phpstan/phpstan": "^1.11.1",
@@ -58,7 +58,11 @@
     "rector/rector": "^1.0.5",
     "ruflin/elastica": "^7.3.2",
     "symfony/mailer": "^v6.4.7",
-    "symfony/mime": "^v6.4.7"
+    "symfony/mime": "^v6.4.7",
+    "symplify/phpstan-rules": "^12.4.9",
+    "tomasvotruba/cognitive-complexity": "^0.2.3",
+    "tomasvotruba/type-coverage": "^0.2.8",
+    "tomasvotruba/unused-public": "^0.3.9"
   },
   "suggest": {
     "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",

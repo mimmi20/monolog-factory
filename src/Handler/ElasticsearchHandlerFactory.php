@@ -44,10 +44,13 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
     use AddFormatterTrait;
     use AddProcessorTrait;
 
+    /** @api */
     public const INDEX_PER_DAY = 'Y-m-d';
 
+    /** @api */
     public const INDEX_PER_MONTH = 'Y-m';
 
+    /** @api */
     public const INDEX_PER_YEAR = 'Y';
 
     /**

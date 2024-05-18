@@ -72,9 +72,9 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
             throw new ServiceNotCreatedException('HandlerConfig must be an Array');
         }
 
-        $handler = $this->getHandler($container, $options['handler']);
+        $childHandler = $this->getHandler($container, $options['handler']);
 
-        if (!$handler instanceof HandlerInterface) {
+        if (!$childHandler instanceof HandlerInterface) {
             throw new ServiceNotCreatedException('No active handler specified');
         }
 
@@ -108,7 +108,7 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
         }
 
         $handler = new FingersCrossedHandler(
-            $handler,
+            $childHandler,
             $activationStrategy,
             $bufferSize,
             $bubble,

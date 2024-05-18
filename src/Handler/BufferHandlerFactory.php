@@ -60,9 +60,9 @@ final class BufferHandlerFactory implements FactoryInterface
             throw new ServiceNotCreatedException('HandlerConfig must be an Array');
         }
 
-        $handler = $this->getHandler($container, $options['handler']);
+        $childHandler = $this->getHandler($container, $options['handler']);
 
-        if (!$handler instanceof HandlerInterface) {
+        if (!$childHandler instanceof HandlerInterface) {
             throw new ServiceNotCreatedException('No active handler specified');
         }
 
@@ -87,7 +87,7 @@ final class BufferHandlerFactory implements FactoryInterface
             $flushOnOverflow = $options['flushOnOverflow'];
         }
 
-        $handler = new BufferHandler($handler, $bufferLimit, $level, $bubble, $flushOnOverflow);
+        $handler = new BufferHandler($childHandler, $bufferLimit, $level, $bubble, $flushOnOverflow);
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

@@ -60,9 +60,9 @@ final class FilterHandlerFactory implements FactoryInterface
             throw new ServiceNotCreatedException('HandlerConfig must be an Array');
         }
 
-        $handler = $this->getHandler($container, $options['handler']);
+        $childHandler = $this->getHandler($container, $options['handler']);
 
-        if (!$handler instanceof HandlerInterface) {
+        if (!$childHandler instanceof HandlerInterface) {
             throw new ServiceNotCreatedException('No active handler specified');
         }
 
@@ -82,7 +82,7 @@ final class FilterHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new FilterHandler($handler, $minLevelOrList, $maxLevel, $bubble);
+        $handler = new FilterHandler($childHandler, $minLevelOrList, $maxLevel, $bubble);
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

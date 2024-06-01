@@ -17,9 +17,16 @@
   "dependencyDashboard": false,
   "dependencyDashboardApproval": false,
   "dependencyDashboardOSVVulnerabilitySummary": "all",
+  // "enabledManagers": ["composer", "github-actions", "npm"],
+  "ignoreTests": false,
+  "ignoreUnstable": true,
+  "internalChecksFilter": "strict",
   "labels": [
     "dependencies"
   ],
+  "lockFileMaintenance": {
+    "enabled": false
+  },
   "osvVulnerabilityAlerts": true,
   "platformAutomerge": false,
   "prBodyColumns": [
@@ -42,6 +49,7 @@
   "reviewers": [
     "mimmi20"
   ],
+  "rollbackPrs": true,
   "schedule": ["at 4:00 am on Saturday"],
   "semanticCommits": "disabled",
   "separateMajorMinor": true,

@@ -103,8 +103,8 @@
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "infection/extension-installer": true,
-      "phpstan/extension-installer": true,
-      "php-http/discovery": true
+      "php-http/discovery": true,
+      "phpstan/extension-installer": true
     },
     "lock": false,
     "preferred-install": "dist",

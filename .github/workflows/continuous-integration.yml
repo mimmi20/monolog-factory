@@ -73,10 +73,12 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-22.04"
+          - "ubuntu-24.04"
 
         php-version:
           - "8.1"
           - "8.2"
+          - "8.3"
 
         dependencies:
           - "lowest"
@@ -160,10 +162,12 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-22.04"
+          - "ubuntu-24.04"
 
         php-version:
           - "8.1"
           - "8.2"
+          - "8.3"
 
         dependencies:
           - "lowest"
@@ -255,10 +259,12 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-22.04"
+          - "ubuntu-24.04"
 
         php-version:
           - "8.1"
           - "8.2"
+          - "8.3"
 
         dependencies:
           - "lowest"
@@ -339,10 +345,12 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-22.04"
+          - "ubuntu-24.04"
 
         php-version:
           - "8.1"
           - "8.2"
+          - "8.3"
 
         dependencies:
           - "lowest"
@@ -426,10 +434,12 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-22.04"
+          - "ubuntu-24.04"
 
         php-version:
           - "8.1"
           - "8.2"
+          - "8.3"
 
         dependencies:
           - "lowest"
@@ -513,6 +523,7 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-22.04"
+          - "ubuntu-24.04"
 
         php-version:
           - "8.1"
@@ -623,6 +634,7 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-22.04"
+          - "ubuntu-24.04"
 
         php-version:
           - "8.1"
@@ -736,6 +748,7 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-22.04"
+          - "ubuntu-24.04"
 
         php-version:
           - "8.1"
@@ -851,6 +864,7 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-22.04"
+          - "ubuntu-24.04"
 
         php-version:
           - "8.1"
@@ -964,6 +978,7 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-22.04"
+          - "ubuntu-24.04"
 
         php-version:
           - "8.1"
@@ -1075,6 +1090,7 @@ jobs:
 #      matrix:
 #        operating-system:
 #          - "ubuntu-22.04"
+#          - "ubuntu-24.04"
 #
 #        php-version:
 #          - "8.1"
@@ -1188,6 +1204,7 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-22.04"
+          - "ubuntu-24.04"
 
         php-version:
           - "8.1"
@@ -1296,6 +1313,7 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-22.04"
+          - "ubuntu-24.04"
 
         php-version:
           - "8.1"
@@ -1405,6 +1423,7 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-22.04"
+          - "ubuntu-24.04"
 
         php-version:
           - "8.1"
@@ -1515,6 +1534,7 @@ jobs:
       matrix:
         operating-system:
           - "ubuntu-22.04"
+          - "ubuntu-24.04"
 
         php-version:
           - "8.1"
@@ -1609,7 +1629,7 @@ jobs:
         run: "vendor/bin/infection --show-mutations --min-covered-msi=89 --min-msi=89 --coverage=.build/coverage --only-covered --logger-github --no-progress -vv"
 
   finish-code-coverage:
-    runs-on: "ubuntu-22.04"
+    runs-on: "ubuntu-24.04"
 
     needs:
       - "code-coverage-without-extensions"
@@ -1635,7 +1655,7 @@ jobs:
   tests-status:
     name: "Unit & Integration Tests Status"
 
-    runs-on: "ubuntu-22.04"
+    runs-on: "ubuntu-24.04"
 
     if: always()
 

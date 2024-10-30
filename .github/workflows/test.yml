@@ -49,6 +49,10 @@ on:
         required: false
         type: boolean
         default: false
+      add-curl:
+        required: false
+        type: boolean
+        default: false
       skip-infection:
         required: false
         type: boolean
@@ -139,6 +143,10 @@ jobs:
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        if: inputs.add-curl == false
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
 
       - name: "Remove dependencies with composer"
         if: "matrix.elasticsearch-version == '7'"
@@ -247,6 +255,10 @@ jobs:
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        if: inputs.add-curl == false
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
 
       - name: "Remove dependencies with composer"
         if: "matrix.elasticsearch-version == '7'"

@@ -1,0 +1,128 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+on:
+  workflow_call:
+    inputs:
+      extensions:
+        required: true
+        type: string
+      ini-values:
+        required: true
+        type: string
+      composer-options:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  install-php:
+    name: "Install PHP dependencies for Elasticsearch ${{ matrix.elasticsearch-version }} and PSR-Log ${{ matrix.psr-log-version }}"
+
+    runs-on: "${{ matrix.operating-system }}"
+    timeout-minutes: 10
+    continue-on-error: ${{ '8.4' == matrix.php-version }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-24.04"
+
+        php-version:
+          - "8.1"
+          - "8.2"
+          - "8.3"
+          - "8.4"
+
+        dependencies:
+          - "highest"
+          - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
+
+        elasticsearch-version:
+          - "7"
+          - "8"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.31.1"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "none, phar, json, opcache, curl, iconv, mbstring, ${{ inputs.extensions }}"
+          ini-values: "${{ inputs.ini-values }}"
+          coverage: "none"
+          tools: "composer:v2"
+        env:
+          fail-fast: true
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          phpts: "nts"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier ezimuel/ringphp"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.elasticsearch-version == '7'"
+        run: "composer remove --no-update --dev ruflin/elastica"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
+
+      - name: "Require elasticsearch/elasticsearch:v${{ matrix.elasticsearch-version }}"
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:^${{ matrix.elasticsearch-version }}\""
+
+      - name: "Update dependencies with composer"
+        if: ${{ '8.4' != matrix.php-version }}
+        uses: "ramsey/composer-install@3.0.0"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "${{ inputs.composer-options }}"
+
+      - name: "Update dependencies with composer"
+        if: ${{ '8.4' == matrix.php-version }}
+        uses: "ramsey/composer-install@3.0.0"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "${{ inputs.composer-options }} --ignore-platform-reqs"
+
+      - name: "Check dependencies with composer"
+        if: ${{ '8.4' != matrix.php-version }}
+        run: "composer outdated --direct"
+
+  # This is a meta job to avoid to have to constantly change the protection rules
+  # whenever we touch the matrix.
+  install-status:
+    name: "Install Status"
+
+    runs-on: "ubuntu-24.04"
+
+    if: always()
+
+    needs:
+      - "install-php"
+
+    steps:
+      - name: Failing run
+        if: ${{ contains(needs.*.result, 'failure') }}
+        run: exit 1
+
+      - name: Successful run
+        if: ${{ !(contains(needs.*.result, 'failure')) }}
+        run: exit 0

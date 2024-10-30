@@ -1,0 +1,363 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+on:
+  workflow_call:
+    inputs:
+      extensions:
+        required: false
+        type: string
+        default: ""
+      ini-values:
+        required: true
+        type: string
+      coverage:
+        required: true
+        type: string
+      composer-options:
+        required: true
+        type: string
+      test-name:
+        required: true
+        type: string
+      min-msi:
+        required: true
+        type: number
+      min-covered-msi:
+        required: true
+        type: number
+      upload-codecov:
+        required: true
+        type: boolean
+      upload-codeclimate:
+        required: true
+        type: boolean
+      upload-coveralls:
+        required: true
+        type: boolean
+      upload-flag:
+        required: true
+        type: string
+      add-amqplib:
+        required: false
+        type: boolean
+        default: false
+      add-swiftmailer:
+        required: false
+        type: boolean
+        default: false
+      add-mongodb:
+        required: false
+        type: boolean
+        default: false
+      add-curl:
+        required: false
+        type: boolean
+        default: false
+      skip-infection:
+        required: false
+        type: boolean
+        default: false
+    secrets:
+      ENV_CODECLIMATE_API_KEY:
+        required: true
+      ENV_CODECOV_TOKEN:
+        required: true
+      ENV_STRYKER_DASHBOARD_API_KEY:
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  phpunit:
+    name: "UnitTests with PHPUnit${{ inputs.test-name }} for Elasticsearch ${{ matrix.elasticsearch-version }} and PSR-Log ${{ matrix.psr-log-version }}"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
+
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-24.04"
+
+        php-version:
+          - "8.1"
+          - "8.2"
+          - "8.3"
+
+        dependencies:
+          - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
+
+        elasticsearch-version:
+          - "7"
+          - "8"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
+      - name: "Run MongoDB"
+        if: inputs.add-mongodb == true
+        uses: "supercharge/mongodb-github-action@1.11.0"
+        with:
+          mongodb-version: "5.0"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.31.1"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "none, phar, json, opcache, iconv, mbstring, ${{ inputs.extensions }}"
+          ini-values: "${{ inputs.ini-values }}"
+          coverage: "none"
+          tools: "composer:v2"
+        env:
+          fail-fast: true
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          phpts: "nts"
+          debug: true
+
+      - name: "Add require for mongodb/mongodb to make tests runnable"
+        if: inputs.add-mongodb == true
+        run: "composer require mongodb/mongodb --dev --no-update"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        if: inputs.add-curl == false
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.elasticsearch-version == '7'"
+        run: "composer remove --no-update --dev ruflin/elastica"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
+
+      - name: "Require elasticsearch/elasticsearch:v${{ matrix.elasticsearch-version }}"
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:^${{ matrix.elasticsearch-version }}\""
+
+      - name: "Require php-amqplib/php-amqplib:^3.3.1"
+        if: inputs.add-amqplib == true
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"php-amqplib/php-amqplib:^3.3.1\""
+
+      - name: "Require swiftmailer/swiftmailer:6.3.0"
+        if: inputs.add-swiftmailer == true
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"swiftmailer/swiftmailer:6.3.0\""
+
+      - name: "Update dependencies with composer"
+        uses: "ramsey/composer-install@3.0.0"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+
+      - name: "Run unit tests with phpunit/phpunit"
+        run: "vendor/bin/phpunit -c phpunit.xml --no-coverage --display-warnings --display-deprecations"
+
+      - name: "Enable annotations for validation errors and warnings"
+        uses: "korelstar/xmllint-problem-matcher@v1"
+
+  phpunit-code-coverage:
+    name: "Code Coverage with PHPUnit${{ inputs.test-name }} for Elasticsearch ${{ matrix.elasticsearch-version }} and PSR-Log ${{ matrix.psr-log-version }}"
+
+    runs-on: "${{ matrix.operating-system }}"
+
+    timeout-minutes: 10
+
+    continue-on-error: false
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        operating-system:
+          - "ubuntu-24.04"
+
+        php-version:
+          - "8.1"
+
+        dependencies:
+          - "lowest"
+
+        psr-log-version:
+          - "2"
+          - "3"
+
+        elasticsearch-version:
+          - "7"
+          - "8"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: "Run CouchDB"
+        timeout-minutes: 3
+        continue-on-error: true
+        uses: "cobot/couchdb-action@master"
+        with:
+          couchdb version: "2.3.1"
+
+      - name: "Run MongoDB"
+        if: inputs.add-mongodb == true
+        uses: "supercharge/mongodb-github-action@1.11.0"
+        with:
+          mongodb-version: "5.0"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@2.31.1"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: "none, phar, json, opcache, iconv, mbstring, ${{ inputs.extensions }}"
+          ini-values: "${{ inputs.ini-values }}"
+          coverage: "${{ inputs.coverage }}"
+          tools: "composer:v2"
+        env:
+          fail-fast: true
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          phpts: "nts"
+          debug: true
+
+      - name: "Add require for mongodb/mongodb to make tests runnable"
+        if: inputs.add-mongodb == true
+        run: "composer require mongodb/mongodb --dev --no-update"
+
+      - name: "Require psr/log ${{ matrix.psr-log-version }}"
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        if: inputs.add-curl == false
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.elasticsearch-version == '7'"
+        run: "composer remove --no-update --dev ruflin/elastica"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
+
+      - name: "Require elasticsearch/elasticsearch:v${{ matrix.elasticsearch-version }}"
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:^${{ matrix.elasticsearch-version }}\""
+
+      - name: "Require php-amqplib/php-amqplib:^3.3.1"
+        if: inputs.add-amqplib == true
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"php-amqplib/php-amqplib:^3.3.1\""
+
+      - name: "Require swiftmailer/swiftmailer:6.3.0"
+        if: inputs.add-swiftmailer == true
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"swiftmailer/swiftmailer:6.3.0\""
+
+      - name: "Update dependencies with composer"
+        uses: "ramsey/composer-install@3.0.0"
+        with:
+          dependency-versions: "${{ matrix.dependencies }}"
+          composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
+
+      - name: "Create cache directory for phpunit/phpunit"
+        run: "mkdir -p .build/coverage"
+
+      - name: "Collect code coverage with Xdebug and phpunit/phpunit"
+        run: "vendor/bin/phpunit -c phpunit.xml --coverage-clover=.build/coverage/clover.xml --coverage-text --coverage-xml=.build/coverage/coverage-xml --log-junit=.build/coverage/phpunit.junit.xml --display-warnings --display-deprecations"
+
+      - name: "Upload coverage to Codecov"
+        uses: "codecov/codecov-action@v4.6.0"
+        if: inputs.upload-codecov == true
+        with:
+          file: ".build/coverage/clover.xml"
+          flags: "phpunit,php-${{ matrix.php-version }},${{ matrix.operating-system }},${{ inputs.upload-flag }}"
+          verbose: false
+        env:
+          CODECOV_TOKEN: "${{ secrets.ENV_CODECOV_TOKEN }}"
+
+      - name: "Upload coverage to Codeclimate"
+        uses: "paambaati/codeclimate-action@v9.0.0"
+        if: inputs.upload-codeclimate == true
+        env:
+          CC_TEST_REPORTER_ID: "${{ secrets.ENV_CODECLIMATE_API_KEY }}"
+        with:
+          coverageLocations: ".build/coverage/clover.xml:clover"
+          debug: false
+
+      - name: "Upload coverage to Coveralls"
+        uses: "coverallsapp/github-action@v2"
+        if: inputs.upload-coveralls == true
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          flag-name: "php ${{ matrix.php-version }} on ${{ matrix.operating-system }}: ${{ inputs.upload-flag }}"
+          parallel: true
+          file: ".build/coverage/clover.xml"
+          format: "clover"
+          debug: false
+
+      - name: "Run mutation tests with infection/infection"
+        if: inputs.skip-infection == false
+        env:
+          STRYKER_DASHBOARD_API_KEY: "${{ secrets.ENV_STRYKER_DASHBOARD_API_KEY }}"
+        run: "vendor/bin/infection --show-mutations --only-covered --min-covered-msi=${{ inputs.min-covered-msi }} --min-msi=${{ inputs.min-msi }} --coverage=.build/coverage --logger-github --no-progress -vv"
+
+  finish-code-coverage:
+    runs-on: "ubuntu-24.04"
+
+    needs: "phpunit-code-coverage"
+
+    if: always()
+
+    steps:
+      - name: "Coveralls Finished"
+        uses: "coverallsapp/github-action@v2"
+        with:
+          parallel-finished: true
+
+  # This is a meta job to avoid to have to constantly change the protection rules
+  # whenever we touch the matrix.
+  tests-status:
+    name: "Unit & Integration Tests Status"
+
+    runs-on: "ubuntu-24.04"
+
+    if: always()
+
+    needs:
+      - "phpunit"
+      - "phpunit-code-coverage"
+
+    steps:
+      - name: Successful run
+        if: ${{ !(contains(needs.*.result, 'failure')) }}
+        run: exit 0
+
+      - name: Failing run
+        if: ${{ contains(needs.*.result, 'failure') }}
+        run: exit 1

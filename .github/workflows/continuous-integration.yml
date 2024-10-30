@@ -79,7 +79,6 @@ jobs:
       test-name: " without extensions"
       min-msi: 89
       min-covered-msi: 89
-      skip-phpunit: false
       upload-codecov: true
       upload-codeclimate: true
       upload-coveralls: true
@@ -103,7 +102,6 @@ jobs:
       test-name: " with sockets"
       min-msi: 89
       min-covered-msi: 89
-      skip-phpunit: false
       upload-codecov: true
       upload-codeclimate: true
       upload-coveralls: true
@@ -127,7 +125,6 @@ jobs:
       test-name: " with sockets for php-amqplib/php-amqplib"
       min-msi: 89
       min-covered-msi: 89
-      skip-phpunit: false
       upload-codecov: true
       upload-codeclimate: true
       upload-coveralls: true
@@ -152,7 +149,6 @@ jobs:
       test-name: " with openssl for php-amqplib/php-amqplib"
       min-msi: 89
       min-covered-msi: 89
-      skip-phpunit: false
       upload-codecov: true
       upload-codeclimate: true
       upload-coveralls: true
@@ -177,7 +173,6 @@ jobs:
       test-name: " with mongodb"
       min-msi: 90
       min-covered-msi: 90
-      skip-phpunit: false
       upload-codecov: true
       upload-codeclimate: true
       upload-coveralls: true
@@ -202,7 +197,6 @@ jobs:
       test-name: " with curl"
       min-msi: 89
       min-covered-msi: 89
-      skip-phpunit: false
       upload-codecov: true
       upload-codeclimate: true
       upload-coveralls: true
@@ -227,7 +221,6 @@ jobs:
       test-name: " with amqp"
       min-msi: 89
       min-covered-msi: 89
-      skip-phpunit: false
       upload-codecov: true
       upload-codeclimate: true
       upload-coveralls: true

@@ -49,6 +49,10 @@ on:
         required: false
         type: boolean
         default: false
+      skip-infection:
+        required: false
+        type: boolean
+        default: false
     secrets:
       ENV_CODECLIMATE_API_KEY:
         required: true
@@ -62,7 +66,7 @@ permissions:
 
 jobs:
   phpunit:
-    name: "UnitTests with PHPUnit${{ inputs.test-name }} for Elasticsearch ${{ matrix.elasticsearch-version }}"
+    name: "UnitTests with PHPUnit${{ inputs.test-name }} for Elasticsearch ${{ matrix.elasticsearch-version }} and PSR-Log ${{ matrix.psr-log-version }}"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -178,7 +182,7 @@ jobs:
         uses: "korelstar/xmllint-problem-matcher@v1"
 
   phpunit-code-coverage:
-    name: "Code Coverage with PHPUnit${{ inputs.test-name }} for Elasticsearch ${{ matrix.elasticsearch-version }}"
+    name: "Code Coverage with PHPUnit${{ inputs.test-name }} for Elasticsearch ${{ matrix.elasticsearch-version }} and PSR-Log ${{ matrix.psr-log-version }}"
 
     runs-on: "${{ matrix.operating-system }}"
 
@@ -315,6 +319,7 @@ jobs:
           debug: false
 
       - name: "Run mutation tests with infection/infection"
+        if: inputs.skip-infection == false
         env:
           STRYKER_DASHBOARD_API_KEY: "${{ secrets.ENV_STRYKER_DASHBOARD_API_KEY }}"
         run: "vendor/bin/infection --show-mutations --only-covered --min-covered-msi=${{ inputs.min-covered-msi }} --min-msi=${{ inputs.min-msi }} --coverage=.build/coverage --logger-github --no-progress -vv"

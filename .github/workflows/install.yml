@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   install-php:
-    name: "Install PHP dependencies"
+    name: "Install PHP dependencies for Elasticsearch ${{ matrix.elasticsearch-version }} and PSR-Log ${{ matrix.psr-log-version }}"
 
     runs-on: "${{ matrix.operating-system }}"
     timeout-minutes: 10

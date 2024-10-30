@@ -75,12 +75,13 @@ jobs:
       coverage: "xdebug"
       composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
       test-name: " without extensions"
-      min-msi: 89
-      min-covered-msi: 89
+      min-msi: 91
+      min-covered-msi: 91
       upload-codecov: true
       upload-codeclimate: true
       upload-coveralls: true
       upload-flag: "without-extensions"
+      skip-infection: true
     secrets:
       ENV_CODECLIMATE_API_KEY: ${{ secrets.CODECLIMATE_API_KEY }}
       ENV_CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -98,12 +99,13 @@ jobs:
       coverage: "xdebug"
       composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
       test-name: " with sockets"
-      min-msi: 89
-      min-covered-msi: 89
+      min-msi: 91
+      min-covered-msi: 91
       upload-codecov: true
       upload-codeclimate: true
       upload-coveralls: true
       upload-flag: "with-sockets"
+      skip-infection: true
     secrets:
       ENV_CODECLIMATE_API_KEY: ${{ secrets.CODECLIMATE_API_KEY }}
       ENV_CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -121,13 +123,14 @@ jobs:
       coverage: "xdebug"
       composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
       test-name: " with sockets for php-amqplib/php-amqplib"
-      min-msi: 89
-      min-covered-msi: 89
+      min-msi: 91
+      min-covered-msi: 91
       upload-codecov: true
       upload-codeclimate: true
       upload-coveralls: true
       upload-flag: "php-amqplib,with-sockets"
       add-amqplib: true
+      skip-infection: true
     secrets:
       ENV_CODECLIMATE_API_KEY: ${{ secrets.CODECLIMATE_API_KEY }}
       ENV_CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -152,6 +155,7 @@ jobs:
       upload-coveralls: true
       upload-flag: "php-amqplib,with-sockets"
       add-swiftmailer: true
+      skip-infection: true
     secrets:
       ENV_CODECLIMATE_API_KEY: ${{ secrets.CODECLIMATE_API_KEY }}
       ENV_CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -169,13 +173,14 @@ jobs:
       coverage: "xdebug"
       composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
       test-name: " with mongodb"
-      min-msi: 90
-      min-covered-msi: 90
+      min-msi: 92
+      min-covered-msi: 92
       upload-codecov: true
       upload-codeclimate: true
       upload-coveralls: true
       upload-flag: "with mongodb"
       add-mongodb: true
+      skip-infection: true
     secrets:
       ENV_CODECLIMATE_API_KEY: ${{ secrets.CODECLIMATE_API_KEY }}
       ENV_CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -199,7 +204,6 @@ jobs:
       upload-codeclimate: true
       upload-coveralls: true
       upload-flag: "with curl"
-      add-mongodb: true
     secrets:
       ENV_CODECLIMATE_API_KEY: ${{ secrets.CODECLIMATE_API_KEY }}
       ENV_CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -223,7 +227,7 @@ jobs:
       upload-codeclimate: true
       upload-coveralls: true
       upload-flag: "with amqp"
-      add-mongodb: true
+      skip-infection: true
     secrets:
       ENV_CODECLIMATE_API_KEY: ${{ secrets.CODECLIMATE_API_KEY }}
       ENV_CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

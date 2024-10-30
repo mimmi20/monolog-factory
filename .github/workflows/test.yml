@@ -134,7 +134,18 @@ jobs:
         run: "composer require mongodb/mongodb --dev --no-update"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
-        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable psr/log:^${{ matrix.psr-log-version }}"
+
+      - name: "Remove dependencies with composer"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier ezimuel/ringphp"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.elasticsearch-version == '7'"
+        run: "composer remove --no-update --dev ruflin/elastica"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.psr-log-version >= '3'"
+        run: "composer remove --no-update --dev graylog2/gelf-php"
 
       - name: "Remove dependencies with composer"
         run: "composer remove --no-update --dev actived/microsoft-teams-notifier"
@@ -237,10 +248,14 @@ jobs:
         run: "composer require mongodb/mongodb --dev --no-update"
 
       - name: "Require psr/log ${{ matrix.psr-log-version }}"
-        run: "composer require --no-update psr/log:^${{ matrix.psr-log-version }}"
+        run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable psr/log:^${{ matrix.psr-log-version }}"
 
       - name: "Remove dependencies with composer"
-        run: "composer remove --no-update --dev actived/microsoft-teams-notifier ruflin/elastica ezimuel/ringphp"
+        run: "composer remove --no-update --dev actived/microsoft-teams-notifier ezimuel/ringphp"
+
+      - name: "Remove dependencies with composer"
+        if: "matrix.elasticsearch-version == '7'"
+        run: "composer remove --no-update --dev ruflin/elastica"
 
       - name: "Remove dependencies with composer"
         if: "matrix.psr-log-version >= '3'"

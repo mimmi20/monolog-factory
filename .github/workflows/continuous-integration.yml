@@ -70,7 +70,7 @@ jobs:
 
     needs: "analytics"
 
-    uses: "./test.yml"
+    uses: "./.github/workflows/test.yml"
     with:
       extensions: "ctype, dom, fileinfo, intl, simplexml, tokenizer, xml, xmlwriter"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
@@ -94,7 +94,7 @@ jobs:
 
     needs: "analytics"
 
-    uses: "./test.yml"
+    uses: "./.github/workflows/test.yml"
     with:
       extensions: "ctype, dom, fileinfo, intl, simplexml, tokenizer, xml, xmlwriter"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
@@ -118,7 +118,7 @@ jobs:
 
     needs: "analytics"
 
-    uses: "./test.yml"
+    uses: "./.github/workflows/test.yml"
     with:
       extensions: "ctype, dom, fileinfo, intl, simplexml, tokenizer, xml, xmlwriter, openssl, sockets"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
@@ -143,7 +143,7 @@ jobs:
 
     needs: "analytics"
 
-    uses: "./test.yml"
+    uses: "./.github/workflows/test.yml"
     with:
       extensions: "ctype, dom, fileinfo, intl, simplexml, tokenizer, xml, xmlwriter, openssl, sockets"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
@@ -168,7 +168,7 @@ jobs:
 
     needs: "analytics"
 
-    uses: "./test.yml"
+    uses: "./.github/workflows/test.yml"
     with:
       extensions: "ctype, dom, fileinfo, intl, simplexml, tokenizer, xml, xmlwriter, mongodb"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
@@ -193,7 +193,7 @@ jobs:
 
     needs: "analytics"
 
-    uses: "./test.yml"
+    uses: "./.github/workflows/test.yml"
     with:
       extensions: "ctype, dom, fileinfo, intl, simplexml, tokenizer, xml, xmlwriter, curl"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
@@ -218,7 +218,7 @@ jobs:
 
     needs: "analytics"
 
-    uses: "./test.yml"
+    uses: "./.github/workflows/test.yml"
     with:
       extensions: "ctype, dom, fileinfo, intl, simplexml, tokenizer, xml, xmlwriter, amqp"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"

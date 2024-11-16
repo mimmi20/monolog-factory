@@ -36,6 +36,7 @@ jobs:
           - "8.2"
           - "8.3"
           - "8.4"
+          - "8.5"
 
         dependencies:
           - "highest"
@@ -89,21 +90,21 @@ jobs:
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:^${{ matrix.elasticsearch-version }}\""
 
       - name: "Update dependencies with composer"
-        if: ${{ '8.4' != matrix.php-version }}
+        if: ${{ '8.5' != matrix.php-version }}
         uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ inputs.composer-options }}"
 
       - name: "Update dependencies with composer"
-        if: ${{ '8.4' == matrix.php-version }}
+        if: ${{ '8.5' == matrix.php-version }}
         uses: "ramsey/composer-install@3.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ inputs.composer-options }} --ignore-platform-reqs"
 
       - name: "Check dependencies with composer"
-        if: ${{ '8.4' != matrix.php-version }}
+        if: ${{ '8.5' != matrix.php-version }}
         run: "composer outdated --direct"
 
   # This is a meta job to avoid to have to constantly change the protection rules

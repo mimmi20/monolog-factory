@@ -21,11 +21,9 @@ use Monolog\Handler\ChromePHPHandler;
 use Monolog\Level;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
-use RuntimeException;
 
 use function array_key_exists;
 use function is_array;
-use function sprintf;
 
 final class ChromePHPHandlerFactory implements FactoryInterface
 {
@@ -61,15 +59,7 @@ final class ChromePHPHandlerFactory implements FactoryInterface
             }
         }
 
-        try {
-            $handler = new ChromePHPHandler($level, $bubble);
-        } catch (RuntimeException $e) {
-            throw new ServiceNotCreatedException(
-                sprintf('Could not create %s', ChromePHPHandler::class),
-                0,
-                $e,
-            );
-        }
+        $handler = new ChromePHPHandler($level, $bubble);
 
         $this->addFormatter($container, $handler, $options);
         $this->addProcessor($container, $handler, $options);

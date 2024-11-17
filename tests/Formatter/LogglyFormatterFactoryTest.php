@@ -12,7 +12,6 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Formatter;
 
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Formatter\LogglyFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\NormalizerFormatterFactory;
 use Monolog\Formatter\JsonFormatter;
@@ -29,7 +28,6 @@ final class LogglyFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -70,7 +68,6 @@ final class LogglyFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -111,7 +108,6 @@ final class LogglyFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig(): void
     {
@@ -153,7 +149,6 @@ final class LogglyFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
-     * @throws ServiceNotCreatedException
      */
     public function testInvokeWithConfig2(): void
     {

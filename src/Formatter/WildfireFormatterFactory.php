@@ -12,15 +12,12 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Formatter;
 
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Formatter\WildfireFormatter;
 use Psr\Container\ContainerInterface;
-use RuntimeException;
 
 use function array_key_exists;
 use function is_array;
-use function sprintf;
 
 final class WildfireFormatterFactory implements FactoryInterface
 {
@@ -29,7 +26,7 @@ final class WildfireFormatterFactory implements FactoryInterface
      * @param array<string, bool|int|string>|null $options
      * @phpstan-param array{dateFormat?: string, maxNormalizeDepth?: int, maxNormalizeItemCount?: int, prettyPrint?: bool}|null $options
      *
-     * @throws ServiceNotCreatedException
+     * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
@@ -62,15 +59,7 @@ final class WildfireFormatterFactory implements FactoryInterface
             }
         }
 
-        try {
-            $formatter = new WildfireFormatter($dateFormat);
-        } catch (RuntimeException $e) {
-            throw new ServiceNotCreatedException(
-                sprintf('Could not create %s', WildfireFormatter::class),
-                0,
-                $e,
-            );
-        }
+        $formatter = new WildfireFormatter($dateFormat);
 
         $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
         $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);

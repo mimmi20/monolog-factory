@@ -12,16 +12,13 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Formatter;
 
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Formatter\NormalizerFormatter;
 use Psr\Container\ContainerInterface;
-use RuntimeException;
 
 use function array_key_exists;
 use function is_array;
-use function sprintf;
 
 final class JsonFormatterFactory implements FactoryInterface
 {
@@ -30,7 +27,7 @@ final class JsonFormatterFactory implements FactoryInterface
      * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{batchMode?: JsonFormatter::BATCH_MODE_*, appendNewline?: bool, ignoreEmptyContextAndExtra?: bool, includeStacktraces?: bool, dateFormat?: string, maxNormalizeDepth?: int, maxNormalizeItemCount?: int, prettyPrint?: bool}|null $options
      *
-     * @throws ServiceNotCreatedException
+     * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
@@ -83,20 +80,12 @@ final class JsonFormatterFactory implements FactoryInterface
             }
         }
 
-        try {
-            $formatter = new JsonFormatter(
-                $batchMode,
-                $appendNewline,
-                $ignoreEmptyContextAndExtra,
-                $includeStacktraces,
-            );
-        } catch (RuntimeException $e) {
-            throw new ServiceNotCreatedException(
-                sprintf('Could not create %s', JsonFormatter::class),
-                0,
-                $e,
-            );
-        }
+        $formatter = new JsonFormatter(
+            $batchMode,
+            $appendNewline,
+            $ignoreEmptyContextAndExtra,
+            $includeStacktraces,
+        );
 
         $formatter->setDateFormat($dateFormat);
         $formatter->setMaxNormalizeDepth($maxNormalizeDepth);

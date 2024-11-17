@@ -12,7 +12,6 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Formatter;
 
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Formatter\HtmlFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\NormalizerFormatterFactory;
 use Monolog\Formatter\HtmlFormatter;
@@ -23,10 +22,7 @@ use Psr\Container\ContainerInterface;
 
 final class HtmlFormatterFactoryTest extends TestCase
 {
-    /**
-     * @throws Exception
-     * @throws ServiceNotCreatedException
-     */
+    /** @throws Exception */
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -53,10 +49,7 @@ final class HtmlFormatterFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @throws Exception
-     * @throws ServiceNotCreatedException
-     */
+    /** @throws Exception */
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -83,10 +76,7 @@ final class HtmlFormatterFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @throws Exception
-     * @throws ServiceNotCreatedException
-     */
+    /** @throws Exception */
     public function testInvokeWithConfig(): void
     {
         $dateFormat            = 'xxx__Y-m-d\TH:i:sP__xxx';

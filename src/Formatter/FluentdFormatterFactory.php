@@ -12,15 +12,12 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Formatter;
 
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Formatter\FluentdFormatter;
 use Psr\Container\ContainerInterface;
-use RuntimeException;
 
 use function array_key_exists;
 use function is_array;
-use function sprintf;
 
 final class FluentdFormatterFactory implements FactoryInterface
 {
@@ -29,7 +26,7 @@ final class FluentdFormatterFactory implements FactoryInterface
      * @param array<string, bool>|null $options
      * @phpstan-param array{levelTag?: bool}|null $options
      *
-     * @throws ServiceNotCreatedException
+     * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
@@ -45,14 +42,6 @@ final class FluentdFormatterFactory implements FactoryInterface
             $levelTag = $options['levelTag'];
         }
 
-        try {
-            return new FluentdFormatter($levelTag);
-        } catch (RuntimeException $e) {
-            throw new ServiceNotCreatedException(
-                sprintf('Could not create %s', FluentdFormatter::class),
-                0,
-                $e,
-            );
-        }
+        return new FluentdFormatter($levelTag);
     }
 }

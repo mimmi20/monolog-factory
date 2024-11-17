@@ -16,11 +16,9 @@ use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Formatter\ElasticaFormatter;
 use Psr\Container\ContainerInterface;
-use RuntimeException;
 
 use function array_key_exists;
 use function is_array;
-use function sprintf;
 
 final class ElasticaFormatterFactory implements FactoryInterface
 {
@@ -57,15 +55,7 @@ final class ElasticaFormatterFactory implements FactoryInterface
             $type = $options['type'];
         }
 
-        try {
-            $formatter = new ElasticaFormatter($index, $type);
-        } catch (RuntimeException $e) {
-            throw new ServiceNotCreatedException(
-                sprintf('Could not create %s', ElasticaFormatter::class),
-                0,
-                $e,
-            );
-        }
+        $formatter = new ElasticaFormatter($index, $type);
 
         if (array_key_exists('maxNormalizeDepth', $options)) {
             $maxNormalizeDepth = $options['maxNormalizeDepth'];

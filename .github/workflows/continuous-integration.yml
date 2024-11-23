@@ -30,7 +30,7 @@ jobs:
       skip-phplint: false
       skip-check-composer: false
       skip-ec-checker: false
-      dependency-analyser-options: "--ignore-dev-in-prod-deps --ignore-unknown-classes"
+      dependency-analyser-options: "--ignore-dev-in-prod-deps --ignore-unknown-classes --ignore-shadow-deps"
 
   install:
     name: "Install Project"

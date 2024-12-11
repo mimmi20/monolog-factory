@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -14,6 +15,7 @@ namespace Mimmi20\MonologFactory\Formatter;
 
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Formatter\NormalizerFormatter;
+use Override;
 use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
@@ -21,9 +23,9 @@ use function is_array;
 
 final class NormalizerFormatterFactory implements FactoryInterface
 {
-    public const DEFAULT_NORMALIZER_DEPTH = 9;
+    public const int DEFAULT_NORMALIZER_DEPTH = 9;
 
-    public const DEFAULT_NORMALIZER_ITEM_COUNT = 1000;
+    public const int DEFAULT_NORMALIZER_ITEM_COUNT = 1000;
 
     /**
      * @param string                              $requestedName
@@ -35,6 +37,7 @@ final class NormalizerFormatterFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    #[Override]
     public function __invoke(
         ContainerInterface $container,
         $requestedName,

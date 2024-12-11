@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -14,6 +15,7 @@ namespace Mimmi20\MonologFactory\Formatter;
 
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Formatter\MongoDBFormatter;
+use Override;
 use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
@@ -22,7 +24,7 @@ use function is_array;
 final class MongoDBFormatterFactory implements FactoryInterface
 {
     /** @api */
-    public const DEFAULT_NESTING_LEVEL = 3;
+    public const int DEFAULT_NESTING_LEVEL = 3;
 
     /**
      * @param string                         $requestedName
@@ -34,6 +36,7 @@ final class MongoDBFormatterFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    #[Override]
     public function __invoke(
         ContainerInterface $container,
         $requestedName,

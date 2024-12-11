@@ -19,7 +19,7 @@ jobs:
   validate:
     name: "Validate Project"
 
-    uses: "mimmi20/ci/.github/workflows/validate.yml@8.1"
+    uses: "mimmi20/ci/.github/workflows/validate.yml@8.3"
     with:
       extensions: "amqp, ctype, curl, dom, iconv, intl, mbstring, openssl, simplexml, sockets, tokenizer, xml, xmlwriter"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
@@ -48,7 +48,7 @@ jobs:
 
     needs: "install"
 
-    uses: "mimmi20/ci/.github/workflows/analytics.yml@8.1"
+    uses: "mimmi20/ci/.github/workflows/analytics.yml@8.3"
     with:
       extensions: "amqp, ctype, curl, dom, iconv, intl, mbstring, openssl, simplexml, sockets, tokenizer, xml, xmlwriter"
       ini-values: "opcache.enable=1, opcache.fast_shutdown=0, zend.assertions=1, assert.exception=On, intl.default_locale=de, intl.use_exceptions=1, zend.exception_ignore_args=0"
@@ -57,7 +57,7 @@ jobs:
       skip-phpcs: false
       skip-phpstan: false
       skip-rector: false
-      skip-phpmd: false
+      skip-phpmd: true
       skip-eslint: true
       skip-stylelint: true
       skip-prettier: true

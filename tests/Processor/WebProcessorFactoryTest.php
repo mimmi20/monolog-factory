@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -17,6 +18,7 @@ use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Processor\WebProcessorFactory;
 use Monolog\Processor\WebProcessor;
+use Override;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -29,12 +31,14 @@ final class WebProcessorFactoryTest extends TestCase
     private array | null $serverVar = null;
 
     /** @throws void */
+    #[Override]
     protected function setUp(): void
     {
         $this->serverVar = $_SERVER;
     }
 
     /** @throws void */
+    #[Override]
     protected function tearDown(): void
     {
         $_SERVER = $this->serverVar;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -23,6 +24,7 @@ use Mimmi20\MonologFactory\AddProcessorTrait;
 use Mimmi20\MonologFactory\ClientPluginManager;
 use Monolog\Handler\ElasticsearchHandler;
 use Monolog\Level;
+use Override;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
@@ -45,13 +47,13 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
     use AddProcessorTrait;
 
     /** @api */
-    public const INDEX_PER_DAY = 'Y-m-d';
+    public const string INDEX_PER_DAY = 'Y-m-d';
 
     /** @api */
-    public const INDEX_PER_MONTH = 'Y-m';
+    public const string INDEX_PER_MONTH = 'Y-m';
 
     /** @api */
-    public const INDEX_PER_YEAR = 'Y';
+    public const string INDEX_PER_YEAR = 'Y';
 
     /**
      * @param string                                                  $requestedName
@@ -64,6 +66,7 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    #[Override]
     public function __invoke(
         ContainerInterface $container,
         $requestedName,

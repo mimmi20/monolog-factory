@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -14,6 +15,7 @@ namespace Mimmi20\MonologFactory\Processor;
 
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Processor\HostnameProcessor;
+use Override;
 use Psr\Container\ContainerInterface;
 
 final class HostnameProcessorFactory implements FactoryInterface
@@ -27,6 +29,7 @@ final class HostnameProcessorFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    #[Override]
     public function __invoke(
         ContainerInterface $container,
         $requestedName,

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -14,6 +15,7 @@ namespace Mimmi20\MonologFactory\Formatter;
 
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Formatter\HtmlFormatter;
+use Override;
 use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
@@ -31,6 +33,7 @@ final class HtmlFormatterFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    #[Override]
     public function __invoke(
         ContainerInterface $container,
         $requestedName,

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -14,6 +15,7 @@ namespace Mimmi20\MonologFactory\Processor;
 
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Monolog\Processor\UidProcessor;
+use Override;
 use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
@@ -21,7 +23,7 @@ use function is_array;
 
 final class UidProcessorFactory implements FactoryInterface
 {
-    private const DEFAULT_LENGTH = 7;
+    private const int DEFAULT_LENGTH = 7;
 
     /**
      * @param string                  $requestedName
@@ -33,6 +35,7 @@ final class UidProcessorFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    #[Override]
     public function __invoke(
         ContainerInterface $container,
         $requestedName,

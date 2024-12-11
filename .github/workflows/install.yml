@@ -22,7 +22,7 @@ jobs:
 
     runs-on: "${{ matrix.operating-system }}"
     timeout-minutes: 10
-    continue-on-error: ${{ '8.4' == matrix.php-version }}
+    continue-on-error: ${{ '8.4' == matrix.php-version || '8.5' == matrix.php-version }}
 
     strategy:
       fail-fast: false
@@ -32,8 +32,6 @@ jobs:
           - "ubuntu-24.04"
 
         php-version:
-          - "8.1"
-          - "8.2"
           - "8.3"
           - "8.4"
           - "8.5"

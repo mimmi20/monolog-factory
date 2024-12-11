@@ -26,6 +26,7 @@ use Monolog\Handler\RedisHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Predis\Client;
@@ -36,6 +37,7 @@ use ReflectionProperty;
 
 use function sprintf;
 
+#[IgnoreDeprecations]
 final class RedisHandlerFactoryTest extends TestCase
 {
     /**

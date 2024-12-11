@@ -26,6 +26,7 @@ use Monolog\Handler\ElasticsearchHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -37,6 +38,7 @@ use function class_exists;
 use function date;
 use function sprintf;
 
+#[IgnoreDeprecations]
 final class ElasticsearchHandlerFactory1Test extends TestCase
 {
     /**

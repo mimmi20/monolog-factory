@@ -27,6 +27,7 @@ use Monolog\Handler\FlowdockHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -43,9 +44,8 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -69,9 +69,8 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -96,9 +95,8 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfig(): void
     {
         $apiToken = 'test-token';
@@ -143,9 +141,8 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfig2(): void
     {
         $apiToken     = 'test-token';
@@ -195,9 +192,8 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $apiToken     = 'test-token';
@@ -232,9 +228,8 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $apiToken     = 'test-token';
@@ -274,9 +269,8 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $apiToken          = 'test-token';
@@ -343,9 +337,8 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $apiToken          = 'test-token';
@@ -411,9 +404,8 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter4(): void
     {
         $apiToken          = 'test-token';
@@ -453,9 +445,8 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $apiToken     = 'test-token';
@@ -488,9 +479,8 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $apiToken     = 'test-token';
@@ -548,9 +538,8 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $apiToken          = 'test-token';
@@ -642,9 +631,8 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $apiToken     = 'test-token';
@@ -694,9 +682,8 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $apiToken     = 'test-token';

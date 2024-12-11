@@ -26,6 +26,7 @@ use Monolog\Handler\IFTTTHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -42,9 +43,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -68,9 +68,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -94,9 +93,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfig(): void
     {
         $eventName = 'test-event';
@@ -123,9 +121,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfig2(): void
     {
         $eventName = 'test-event';
@@ -171,9 +168,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfig3(): void
     {
         $eventName = 'test-event';
@@ -218,9 +214,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $eventName = 'test-event';
@@ -250,9 +245,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $eventName = 'test-event';
@@ -287,9 +281,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $eventName = 'test-event';
@@ -347,9 +340,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $eventName = 'test-event';
@@ -383,9 +375,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $eventName  = 'test-event';
@@ -413,9 +404,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $eventName  = 'test-event';
@@ -468,9 +458,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $eventName  = 'test-event';
@@ -554,9 +543,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $eventName  = 'test-event';
@@ -601,9 +589,8 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $eventName  = 'test-event';

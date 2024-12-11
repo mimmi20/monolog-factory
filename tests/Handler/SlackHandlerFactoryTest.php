@@ -26,6 +26,7 @@ use Monolog\Handler\SlackHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -42,9 +43,8 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -68,9 +68,8 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -94,9 +93,8 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigWithoutChannel(): void
     {
         $token = 'token';
@@ -123,9 +121,8 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfig(): void
     {
         $token   = 'token';
@@ -199,9 +196,8 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfig2(): void
     {
         $token             = 'token';
@@ -283,9 +279,8 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfig3(): void
     {
         $token             = 'token';
@@ -366,9 +361,8 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $token         = 'token';
@@ -405,9 +399,8 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $token         = 'token';
@@ -449,9 +442,8 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $token         = 'token';
@@ -544,9 +536,8 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $token         = 'token';
@@ -587,9 +578,8 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $token         = 'token';

@@ -26,6 +26,7 @@ use Monolog\Handler\PushoverHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -43,9 +44,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -69,9 +69,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -95,9 +94,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigWithoutUsers(): void
     {
         $token = 'token';
@@ -124,9 +122,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndUsers(): void
     {
         $token = 'token';
@@ -197,9 +194,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndUsers2(): void
     {
         $token        = 'token';
@@ -277,9 +273,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $token        = 'token';
@@ -316,9 +311,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $token        = 'token';
@@ -360,9 +354,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $token        = 'token';
@@ -454,9 +447,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $token  = 'token';
@@ -550,9 +542,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndFormatter4(): void
     {
         $token  = 'token';
@@ -596,9 +587,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $token        = 'token';
@@ -633,9 +623,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $token        = 'token';
@@ -695,9 +684,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $token             = 'token';
@@ -815,9 +803,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $token        = 'token';
@@ -869,9 +856,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $token        = 'token';
@@ -963,9 +949,8 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithNegativeTimeout(): void
     {
         $token        = 'token';

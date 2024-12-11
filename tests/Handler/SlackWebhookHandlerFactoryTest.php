@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -25,6 +26,7 @@ use Monolog\Handler\SlackWebhookHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -41,9 +43,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -67,9 +68,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -93,9 +93,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithoutChannel(): void
     {
         $webhookUrl = 'http://test.test';
@@ -122,9 +121,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfig(): void
     {
         $webhookUrl = 'http://test.test';
@@ -192,9 +190,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfig2(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -264,9 +261,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -299,9 +295,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -339,9 +334,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -424,9 +418,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -463,9 +456,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -496,9 +488,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -554,9 +545,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -665,9 +655,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -715,9 +704,8 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $webhookUrl    = 'http://test.test';

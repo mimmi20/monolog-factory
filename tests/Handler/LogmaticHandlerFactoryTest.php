@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -26,6 +27,7 @@ use Monolog\Handler\LogmaticHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -42,9 +44,8 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -68,9 +69,8 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -95,9 +95,8 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfig(): void
     {
         $token = 'token';
@@ -152,9 +151,8 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfig2(): void
     {
         $token        = 'token';
@@ -252,9 +250,8 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $token        = 'token';
@@ -289,9 +286,8 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $token        = 'token';
@@ -331,9 +327,8 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $token             = 'token';
@@ -408,9 +403,8 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $token             = 'token';
@@ -484,9 +478,8 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter4(): void
     {
         $token             = 'token';
@@ -526,9 +519,8 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $token        = 'token';
@@ -561,9 +553,8 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $token        = 'token';
@@ -621,9 +612,8 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $token             = 'token';
@@ -723,9 +713,8 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $token        = 'token';
@@ -775,9 +764,8 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $token        = 'token';

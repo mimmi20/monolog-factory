@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -26,6 +27,7 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -43,9 +45,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -69,9 +70,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -96,9 +96,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfig(): void
     {
         $url = 'test-url';
@@ -159,9 +158,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfig2(): void
     {
         $url     = 'test-url';
@@ -226,9 +224,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $url       = 'test-url';
@@ -257,9 +254,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $url       = 'test-url';
@@ -293,9 +289,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $url       = 'test-url';
@@ -368,9 +363,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $url       = 'test-url';
@@ -403,9 +397,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $url        = 'test-url';
@@ -432,9 +425,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $url        = 'test-url';
@@ -486,9 +478,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $url        = 'test-url';
@@ -587,9 +578,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $url        = 'test-url';
@@ -641,9 +631,8 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $url        = 'test-url';

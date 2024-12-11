@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -25,6 +26,7 @@ use Monolog\Handler\FleepHookHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -41,9 +43,8 @@ final class FleepHookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -67,9 +68,8 @@ final class FleepHookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -94,9 +94,8 @@ final class FleepHookHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeConfig(): void
     {
         $token = 'test-token';
@@ -143,9 +142,8 @@ final class FleepHookHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeConfig2(): void
     {
         $token        = 'test-token';
@@ -197,9 +195,8 @@ final class FleepHookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $token        = 'test-token';
@@ -234,9 +231,8 @@ final class FleepHookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $token        = 'test-token';
@@ -276,9 +272,8 @@ final class FleepHookHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $token             = 'test-token';
@@ -345,9 +340,8 @@ final class FleepHookHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $token             = 'test-token';
@@ -413,9 +407,8 @@ final class FleepHookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter4(): void
     {
         $token             = 'test-token';
@@ -455,9 +448,8 @@ final class FleepHookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $token        = 'test-token';
@@ -490,9 +482,8 @@ final class FleepHookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $token        = 'test-token';
@@ -550,9 +541,8 @@ final class FleepHookHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $token             = 'test-token';
@@ -644,9 +634,8 @@ final class FleepHookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $token        = 'test-token';
@@ -704,9 +693,8 @@ final class FleepHookHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension openssl
      */
+    #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $token        = 'test-token';

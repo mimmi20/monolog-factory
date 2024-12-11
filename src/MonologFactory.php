@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -21,6 +22,7 @@ use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use Monolog\LogRecord;
+use Override;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Throwable;
@@ -50,6 +52,7 @@ final class MonologFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
+    #[Override]
     public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): Logger
     {
         if (!is_array($options)) {

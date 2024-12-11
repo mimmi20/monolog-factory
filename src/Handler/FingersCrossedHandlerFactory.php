@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -25,6 +26,7 @@ use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Level;
 use Monolog\Logger;
+use Override;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\InvalidArgumentException;
@@ -55,6 +57,7 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    #[Override]
     public function __invoke(
         ContainerInterface $container,
         $requestedName,

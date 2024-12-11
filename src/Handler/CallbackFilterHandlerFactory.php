@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -22,6 +23,7 @@ use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Level;
 use Monolog\LogRecord;
+use Override;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 use RuntimeException;
@@ -47,6 +49,7 @@ final class CallbackFilterHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    #[Override]
     public function __invoke(
         ContainerInterface $container,
         $requestedName,

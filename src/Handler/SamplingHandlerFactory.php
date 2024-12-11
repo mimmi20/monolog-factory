@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -19,6 +20,7 @@ use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\SamplingHandler;
+use Override;
 use Psr\Container\ContainerInterface;
 
 use function array_key_exists;
@@ -41,6 +43,7 @@ final class SamplingHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    #[Override]
     public function __invoke(
         ContainerInterface $container,
         $requestedName,

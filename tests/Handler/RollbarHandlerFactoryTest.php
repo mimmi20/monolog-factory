@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -25,6 +26,7 @@ use Monolog\Handler\RollbarHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -38,7 +40,7 @@ use function assert;
 use function class_exists;
 use function sprintf;
 
-/** @requires PHP < 8.1 */
+#[RequiresPhp('< 8.1.0')]
 final class RollbarHandlerFactoryTest extends TestCase
 {
     /**

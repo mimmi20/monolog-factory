@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -20,6 +21,7 @@ use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\MissingExtensionException;
 use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Level;
+use Override;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
 
@@ -34,7 +36,7 @@ final class SyslogUdpHandlerFactory implements FactoryInterface
     use AddFormatterTrait;
     use AddProcessorTrait;
 
-    private const DEFAULT_PORT = 514;
+    private const int DEFAULT_PORT = 514;
 
     /**
      * @param string                                $requestedName
@@ -47,6 +49,7 @@ final class SyslogUdpHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    #[Override]
     public function __invoke(
         ContainerInterface $container,
         $requestedName,

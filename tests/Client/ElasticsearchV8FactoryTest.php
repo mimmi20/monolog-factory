@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -15,12 +16,15 @@ namespace Mimmi20Test\MonologFactory\Client;
 use Elastic\Elasticsearch\Client as V8Client;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Client\ElasticsearchV8Factory;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
 use function class_exists;
 
+#[IgnoreDeprecations]
 final class ElasticsearchV8FactoryTest extends TestCase
 {
     /**
@@ -103,9 +107,8 @@ final class ElasticsearchV8FactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig(): void
     {
         if (!class_exists(V8Client::class)) {
@@ -130,9 +133,8 @@ final class ElasticsearchV8FactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig2(): void
     {
         if (!class_exists(V8Client::class)) {
@@ -157,9 +159,8 @@ final class ElasticsearchV8FactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig3(): void
     {
         if (!class_exists(V8Client::class)) {
@@ -184,9 +185,8 @@ final class ElasticsearchV8FactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig4(): void
     {
         if (!class_exists(V8Client::class)) {

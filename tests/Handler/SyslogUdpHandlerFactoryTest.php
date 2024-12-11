@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -25,6 +26,7 @@ use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -44,9 +46,8 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -70,9 +71,8 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -97,9 +97,8 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfig(): void
     {
         $host = 'test-host';
@@ -160,9 +159,8 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfig2(): void
     {
         $host     = 'test-host';
@@ -226,9 +224,8 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $host      = 'test-host';
@@ -261,9 +258,8 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $host      = 'test-host';
@@ -301,9 +297,8 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $host      = 'test-host';
@@ -380,9 +375,8 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $host      = 'test-host';
@@ -419,9 +413,8 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $host       = 'test-host';
@@ -452,9 +445,8 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $host       = 'test-host';
@@ -510,9 +502,8 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $host       = 'test-host';
@@ -615,9 +606,8 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $host       = 'test-host';
@@ -665,9 +655,8 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     *
-     * @requires extension sockets
      */
+    #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $host       = 'test-host';

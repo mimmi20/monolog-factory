@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -13,6 +14,7 @@ declare(strict_types = 1);
 namespace Mimmi20\MonologFactory\Handler\FingersCrossed;
 
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Override;
 use Psr\Container\ContainerInterface;
 
 final class ActivationStrategyPluginManagerFactory implements FactoryInterface
@@ -26,6 +28,7 @@ final class ActivationStrategyPluginManagerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
+    #[Override]
     public function __invoke(
         ContainerInterface $container,
         $requestedName,

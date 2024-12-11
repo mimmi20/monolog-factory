@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -16,12 +17,15 @@ use Elasticsearch\Client as V7Client;
 use Elasticsearch\Common\Exceptions\AuthenticationConfigException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Client\ElasticsearchV7Factory;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
 use function class_exists;
 
+#[IgnoreDeprecations]
 final class ElasticsearchV7FactoryTest extends TestCase
 {
     /**
@@ -76,9 +80,8 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithWrongHostConfig(): void
     {
         if (!class_exists(V7Client::class)) {
@@ -106,9 +109,8 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig(): void
     {
         if (!class_exists(V7Client::class)) {
@@ -134,9 +136,8 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig2(): void
     {
         if (!class_exists(V7Client::class)) {
@@ -162,9 +163,8 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
-     *
-     * @requires extension curl
      */
+    #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig3(): void
     {
         if (!class_exists(V7Client::class)) {

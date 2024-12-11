@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -16,6 +17,7 @@ use Laminas\ModuleManager\Feature\ConfigProviderInterface;
 use Laminas\ModuleManager\Feature\InitProviderInterface;
 use Laminas\ModuleManager\Listener\ServiceListenerInterface;
 use Laminas\ModuleManager\ModuleManagerInterface;
+use Override;
 
 use function assert;
 
@@ -29,6 +31,7 @@ final class Module implements ConfigProviderInterface, InitProviderInterface
      *
      * @throws void
      */
+    #[Override]
     public function getConfig(): array
     {
         $provider = new ConfigProvider();
@@ -48,6 +51,7 @@ final class Module implements ConfigProviderInterface, InitProviderInterface
      *
      * @throws void
      */
+    #[Override]
     public function init(ModuleManagerInterface $manager): void
     {
         $event     = $manager->getEvent();

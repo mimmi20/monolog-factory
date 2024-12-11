@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -19,6 +20,7 @@ use Mimmi20\MonologFactory\AddFormatterTrait;
 use Mimmi20\MonologFactory\AddProcessorTrait;
 use Monolog\Handler\RedisHandler;
 use Monolog\Level;
+use Override;
 use Predis\Client;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -46,6 +48,7 @@ final class RedisHandlerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    #[Override]
     public function __invoke(
         ContainerInterface $container,
         $requestedName,

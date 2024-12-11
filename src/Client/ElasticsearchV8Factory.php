@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
@@ -16,6 +17,7 @@ use Elastic\Elasticsearch\Client as V8Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Override;
 use Psr\Container\ContainerInterface;
 
 use function array_filter;
@@ -36,6 +38,7 @@ final class ElasticsearchV8Factory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    #[Override]
     public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): V8Client
     {
         if (!is_array($options)) {

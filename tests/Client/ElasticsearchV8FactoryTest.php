@@ -16,6 +16,7 @@ namespace Mimmi20Test\MonologFactory\Client;
 use Elastic\Elasticsearch\Client as V8Client;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Client\ElasticsearchV8Factory;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +24,7 @@ use Psr\Container\ContainerInterface;
 
 use function class_exists;
 
+#[IgnoreDeprecations]
 final class ElasticsearchV8FactoryTest extends TestCase
 {
     /**

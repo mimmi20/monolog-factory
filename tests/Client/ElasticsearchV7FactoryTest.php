@@ -17,6 +17,7 @@ use Elasticsearch\Client as V7Client;
 use Elasticsearch\Common\Exceptions\AuthenticationConfigException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Client\ElasticsearchV7Factory;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
@@ -24,6 +25,7 @@ use Psr\Container\ContainerInterface;
 
 use function class_exists;
 
+#[IgnoreDeprecations]
 final class ElasticsearchV7FactoryTest extends TestCase
 {
     /**

@@ -3,7 +3,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022-2024, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2025, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -52,7 +52,6 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws InvalidServiceException
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
@@ -133,7 +132,6 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
-     * @throws InvalidServiceException
      */
     private function getActivationStrategy(
         ContainerInterface $container,
@@ -181,7 +179,7 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
                     $activationStrategy['type'],
                     $activationStrategy['options'] ?? [],
                 );
-            } catch (ServiceNotFoundException | ServiceNotCreatedException $e) {
+            } catch (ServiceNotFoundException | InvalidServiceException $e) {
                 throw new ServiceNotFoundException('Could not load ActivationStrategy class', 0, $e);
             }
 
@@ -196,7 +194,7 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
         ) {
             try {
                 $strategy = $activationStrategyPluginManager->get($activationStrategy);
-            } catch (ServiceNotFoundException | ServiceNotCreatedException $e) {
+            } catch (ServiceNotFoundException | InvalidServiceException $e) {
                 throw new ServiceNotFoundException('Could not load ActivationStrategy class', 0, $e);
             }
 

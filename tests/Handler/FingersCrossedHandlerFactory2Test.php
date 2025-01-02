@@ -3,7 +3,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022-2024, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2025, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,6 @@ namespace Mimmi20Test\MonologFactory\Handler;
 
 use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
-use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\Handler\FingersCrossed\ActivationStrategyPluginManager;
@@ -46,7 +45,6 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     * @throws InvalidServiceException
      */
     public function testInvokeWithHandlerConfig11(): void
     {
@@ -105,7 +103,6 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     * @throws InvalidServiceException
      */
     public function testInvokeWithHandlerConfig12(): void
     {
@@ -167,7 +164,6 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
@@ -236,7 +232,6 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndBoolFormatter2(): void
     {
@@ -288,7 +283,6 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
@@ -367,7 +361,6 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -478,7 +471,6 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
@@ -548,7 +540,6 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndFormatter4(): void
     {
@@ -659,7 +650,6 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndFormatter5(): void
     {
@@ -717,7 +707,6 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
@@ -784,7 +773,6 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndBoolProcessors2(): void
     {
@@ -834,7 +822,6 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -911,7 +898,6 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
-     * @throws InvalidServiceException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {

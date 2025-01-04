@@ -123,7 +123,7 @@ jobs:
           mongodb-version: "5.0"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.31.1"
+        uses: "shivammathur/setup-php@2.32.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, iconv, mbstring, ${{ inputs.extensions }}"
@@ -235,7 +235,7 @@ jobs:
           mongodb-version: "5.0"
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.31.1"
+        uses: "shivammathur/setup-php@2.32.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, iconv, mbstring, ${{ inputs.extensions }}"

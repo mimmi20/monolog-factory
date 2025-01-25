@@ -34,7 +34,7 @@
     "doctrine/couchdb": "1.0.0-beta4",
     "elasticsearch/elasticsearch": "^7.17.2 || ^8.17.0",
     "ezimuel/ringphp": "^1.2.3",
-    "graylog2/gelf-php": "^2.0.1",
+    "graylog2/gelf-php": "^2.0.2",
     "guzzlehttp/guzzle": "^7.9.2",
     "guzzlehttp/psr7": "^2.7.0",
     "infection/infection": "^0.29.10",

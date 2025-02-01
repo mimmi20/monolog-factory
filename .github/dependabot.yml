@@ -74,7 +74,6 @@ updates:
     # Disable rebasing for all pull requests
     rebase-strategy: "disabled"
 
-
   - package-ecosystem: "composer"
 
     directory: "/"

@@ -36,6 +36,7 @@ updates:
 
     ignore:
       - dependency-name: "elasticsearch/elasticsearch"
+      - dependency-name: "laminas/laminas-servicemanager"
       - dependency-name: "predis/predis"
       - dependency-name: "psr/container"
 
@@ -64,6 +65,76 @@ updates:
       - "dependencies"
 
     target-branch: "master"
+
+    commit-message:
+      prefix: "github-actions"
+
+    ignore:
+      - dependency-name: "mimmi20/ci"
+
+    # Disable rebasing for all pull requests
+    rebase-strategy: "disabled"
+
+
+  - package-ecosystem: "composer"
+
+    directory: "/"
+
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "04:00"
+      timezone: "Europe/Berlin"
+
+    open-pull-requests-limit: 10
+
+    reviewers:
+      - "mimmi20"
+
+    assignees:
+      - "mimmi20"
+
+    labels:
+      - "dependencies"
+
+    versioning-strategy: "increase"
+
+    target-branch: "4.x"
+
+    commit-message:
+      include: "scope"
+      prefix: "composer"
+
+    ignore:
+      - dependency-name: "elasticsearch/elasticsearch"
+      - dependency-name: "predis/predis"
+      - dependency-name: "psr/container"
+
+    # Disable rebasing for all pull requests
+    rebase-strategy: "disabled"
+
+  - package-ecosystem: "github-actions"
+
+    directory: "/"
+
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "04:00"
+      timezone: "Europe/Berlin"
+
+    open-pull-requests-limit: 10
+
+    reviewers:
+      - "mimmi20"
+
+    assignees:
+      - "mimmi20"
+
+    labels:
+      - "dependencies"
+
+    target-branch: "4.x"
 
     commit-message:
       prefix: "github-actions"

@@ -36,7 +36,6 @@ updates:
 
     ignore:
       - dependency-name: "elasticsearch/elasticsearch"
-      - dependency-name: "laminas/laminas-servicemanager"
       - dependency-name: "predis/predis"
       - dependency-name: "psr/container"
 
@@ -107,6 +106,7 @@ updates:
 
     ignore:
       - dependency-name: "elasticsearch/elasticsearch"
+      - dependency-name: "laminas/laminas-servicemanager"
       - dependency-name: "predis/predis"
       - dependency-name: "psr/container"
 

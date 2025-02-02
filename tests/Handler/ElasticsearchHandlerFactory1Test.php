@@ -22,7 +22,6 @@ use Mimmi20\MonologFactory\MonologFormatterPluginManager;
 use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Monolog\Formatter\ElasticsearchFormatter;
 use Monolog\Formatter\FormatterInterface;
-use Monolog\Handler\ChromePHPHandler;
 use Monolog\Handler\ElasticsearchHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
@@ -366,7 +365,11 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
 
                     match ($invocation) {
                         1 => self::assertSame($client, $id, (string) $invocation),
-                        default => self::assertSame(ChromePHPHandler::class, $id, (string) $invocation),
+                        default => self::assertSame(
+                            MonologFormatterPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
                     };
 
                     return match ($invocation) {
@@ -1051,7 +1054,11 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
 
                     match ($invocation) {
                         1 => self::assertSame($client, $id, (string) $invocation),
-                        default => self::assertSame(ChromePHPHandler::class, $id, (string) $invocation),
+                        default => self::assertSame(
+                            MonologProcessorPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
                     };
 
                     return match ($invocation) {

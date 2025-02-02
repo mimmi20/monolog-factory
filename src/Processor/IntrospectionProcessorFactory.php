@@ -26,19 +26,17 @@ use function is_array;
 final class IntrospectionProcessorFactory implements FactoryInterface
 {
     /**
-     * @param string                                              $requestedName
      * @param array<string, (array<int, string>|int|string)>|null $options
      * @phpstan-param array{level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), skipClassesPartials?: array<int, string>|string, skipStackFramesCount?: int}|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): IntrospectionProcessor {
         $level          = LogLevel::DEBUG;

@@ -112,7 +112,6 @@ parameters:
     - '~MongoDB\\Client~'
     - '~Call to deprecated method getType\(\) of class Monolog\\Formatter\\ElasticaFormatter~'
     - '~Parameter #1 \$stream of class Monolog\\Handler\\StreamHandler constructor expects~'
-    - '~overridden property~'
     - '~Elasticsearch\\(Client(Builder)?|Common)~'
     - '~CMDISP\\MonologMicrosoftTeams\\TeamsLogHandler~'
     - '~PhpAmqpLib\\Channel\\AMQPChannel~'
@@ -125,7 +124,6 @@ parameters:
     - '~Monolog\\(Formatter|Handler)\\Flowdock(Formatter|Handler)~'
     - '~will always evaluate to true~'
     - '~no value type specified in iterable type~'
-    - '~deprecated class Laminas\\ServiceManager\\Config~'
 
 rules:
   # code complexity

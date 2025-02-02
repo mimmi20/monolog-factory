@@ -24,19 +24,17 @@ use function is_array;
 final class ScalarFormatterFactory implements FactoryInterface
 {
     /**
-     * @param string                              $requestedName
      * @param array<string, bool|int|string>|null $options
      * @phpstan-param array{dateFormat?: string, maxNormalizeDepth?: int, maxNormalizeItemCount?: int, prettyPrint?: bool}|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): ScalarFormatter {
         $maxNormalizeDepth     = NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH;

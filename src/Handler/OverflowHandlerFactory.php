@@ -35,7 +35,6 @@ final class OverflowHandlerFactory implements FactoryInterface
     use GetHandlerTrait;
 
     /**
-     * @param string                                $requestedName
      * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{handler?: bool|array{type?: string, enabled?: bool, options?: array<mixed>}, thresholdMap?: array{debug?: int, info?: int, notice?: int, warning?: int, error?: int, critical?: int, alert?: int, emergency?: int}, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
@@ -43,12 +42,11 @@ final class OverflowHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): OverflowHandler {
         if (!is_array($options)) {

@@ -13,17 +13,17 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory;
 
-use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\AbstractSingleInstancePluginManager;
 use Monolog\Handler\HandlerInterface;
 
-/** @extends AbstractPluginManager<HandlerInterface> */
-final class MonologHandlerPluginManager extends AbstractPluginManager
+/** @extends AbstractSingleInstancePluginManager<HandlerInterface> */
+final class MonologHandlerPluginManager extends AbstractSingleInstancePluginManager
 {
+    /** @var class-string<HandlerInterface> */
+    protected string $instanceOf = HandlerInterface::class;
+
     /**
      * Allow many processors of the same type (v3)
-     *
-     * @var bool
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
      */
-    protected $sharedByDefault = false;
+    protected bool $sharedByDefault = false;
 }

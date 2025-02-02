@@ -38,7 +38,6 @@ final class CallbackFilterHandlerFactory implements FactoryInterface
     use GetHandlerTrait;
 
     /**
-     * @param string                                                                                                           $requestedName
      * @param array<string, (array<(array<(int|string), mixed>|bool|Closure|int|string), mixed>|bool|Closure|int|string)>|null $options
      * @phpstan-param array{handler?: (bool|array{type?: string, enabled?: bool, options?: array<(int|string), mixed>}), filters?: array<int|string, (Closure(LogRecord, Level): bool)>|(Closure(LogRecord, Level): bool), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
@@ -47,12 +46,11 @@ final class CallbackFilterHandlerFactory implements FactoryInterface
      * @throws RuntimeException
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): CallbackFilterHandler {
         if (!is_array($options)) {

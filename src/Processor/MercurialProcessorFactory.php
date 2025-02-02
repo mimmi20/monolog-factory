@@ -26,19 +26,17 @@ use function is_array;
 final class MercurialProcessorFactory implements FactoryInterface
 {
     /**
-     * @param string                           $requestedName
      * @param array<string, (int|string)>|null $options
      * @phpstan-param array{level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*)}|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): MercurialProcessor {
         $level = LogLevel::DEBUG;

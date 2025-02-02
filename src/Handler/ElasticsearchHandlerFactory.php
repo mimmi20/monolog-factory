@@ -56,7 +56,6 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
     public const string INDEX_PER_YEAR = 'Y';
 
     /**
-     * @param string                                                  $requestedName
      * @param array<string, (bool|int|string|V7Client|V8Client)>|null $options
      * @phpstan-param array{client?: (bool|string|V7Client|V8Client), index?: string, type?: string, ignoreError?: bool, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
@@ -64,12 +63,11 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): ElasticsearchHandler {
         if (!is_array($options)) {
@@ -107,7 +105,7 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
             );
 
             try {
-                $client = $monologClientPluginManager->get($clientType, $options['client']);
+                $client = $monologClientPluginManager->build($clientType, $options['client']);
             } catch (ContainerExceptionInterface $e) {
                 throw new ServiceNotFoundException(
                     sprintf('Could not find service %s', $clientType),

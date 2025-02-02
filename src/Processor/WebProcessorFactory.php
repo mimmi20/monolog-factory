@@ -29,7 +29,6 @@ use function is_string;
 final class WebProcessorFactory implements FactoryInterface
 {
     /**
-     * @param string                                                                                         $requestedName
      * @param array<string, (array<(int|string), string>|ArrayAccess<(int|string), string>|int|string)>|null $options
      * @phpstan-param array{extraFields?: array<int|string, string>|string, serverData?: (array<string, string>|ArrayAccess<string, string>|int|string)}|null $options
      *
@@ -37,12 +36,11 @@ final class WebProcessorFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): WebProcessor {
         $serverData  = null;

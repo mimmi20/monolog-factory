@@ -37,7 +37,6 @@ final class MandrillHandlerFactory implements FactoryInterface
     use SwiftMessageTrait;
 
     /**
-     * @param string                                         $requestedName
      * @param array<string, (bool|callable|int|string)>|null $options
      * @phpstan-param array{message?: (string|Swift_Message|callable(): Swift_Message), apiKey?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
@@ -45,12 +44,11 @@ final class MandrillHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): MandrillHandler {
         if (!is_array($options)) {

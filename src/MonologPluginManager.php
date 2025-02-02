@@ -13,17 +13,17 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory;
 
-use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\AbstractSingleInstancePluginManager;
 use Monolog\Logger;
 
-/** @extends AbstractPluginManager<Logger> */
-final class MonologPluginManager extends AbstractPluginManager
+/** @extends AbstractSingleInstancePluginManager<Logger> */
+final class MonologPluginManager extends AbstractSingleInstancePluginManager
 {
+    /** @var class-string<Logger> */
+    protected string $instanceOf = Logger::class;
+
     /**
      * Allow many processors of the same type (v3)
-     *
-     * @var bool
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
      */
-    protected $sharedByDefault = false;
+    protected bool $sharedByDefault = false;
 }

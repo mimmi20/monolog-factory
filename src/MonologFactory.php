@@ -44,17 +44,18 @@ final class MonologFactory implements FactoryInterface
     use CreateProcessorTrait;
 
     /**
-     * @param string $requestedName
      * @phpstan-param array{name?: string, timezone?: (bool|string|DateTimeZone), handlers?: string|array{HandlerInterface|array{enabled?: bool, type?: string, options?: array<mixed>}}, processors?: string|array<((callable(LogRecord): LogRecord)|array{enabled?: bool, type?: string, options?: array<mixed>})>}|null $options
      *
      * @throws ServiceNotCreatedException
      *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
     #[Override]
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): Logger
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        array | null $options = null,
+    ): Logger {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
         }
@@ -151,7 +152,7 @@ final class MonologFactory implements FactoryInterface
             }
 
             try {
-                $handler = $monologHandlerPluginManager->get(
+                $handler = $monologHandlerPluginManager->build(
                     $handlerArray['type'],
                     $handlerArray['options'] ?? [],
                 );

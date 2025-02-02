@@ -24,19 +24,17 @@ use function is_array;
 final class TagProcessorFactory implements FactoryInterface
 {
     /**
-     * @param string                                   $requestedName
      * @param array<string, array<string>|string>|null $options
      * @phpstan-param array{tags?: array<string>|string}|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): TagProcessor {
         $tags = [];

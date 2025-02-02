@@ -25,19 +25,17 @@ use function is_array;
 final class LogstashFormatterFactory implements FactoryInterface
 {
     /**
-     * @param string                              $requestedName
      * @param array<string, bool|int|string>|null $options
      * @phpstan-param array{applicationName?: string, systemName?: string, extraPrefix?: string, contextPrefix?: string, maxNormalizeDepth?: int, maxNormalizeItemCount?: int, prettyPrint?: bool}|null $options
      *
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): LogstashFormatter {
         if (!is_array($options)) {

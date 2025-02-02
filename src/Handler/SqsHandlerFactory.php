@@ -37,7 +37,6 @@ final class SqsHandlerFactory implements FactoryInterface
     use AddProcessorTrait;
 
     /**
-     * @param string                                          $requestedName
      * @param array<string, (bool|int|SqsClient|string)>|null $options
      * @phpstan-param array{sqsClient?: (bool|string|SqsClient), queueUrl?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
@@ -45,11 +44,13 @@ final class SqsHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): SqsHandler
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        array | null $options = null,
+    ): SqsHandler {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
         }

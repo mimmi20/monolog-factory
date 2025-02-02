@@ -33,7 +33,6 @@ final class SamplingHandlerFactory implements FactoryInterface
     use GetHandlerTrait;
 
     /**
-     * @param string                                 $requestedName
      * @param array<string, (float|int|string)>|null $options
      * @phpstan-param array{handler?: bool|array{type?: string, enabled?: bool, options?: array<mixed>}, factor?: int|float}|null $options
      *
@@ -41,12 +40,11 @@ final class SamplingHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): SamplingHandler {
         if (!is_array($options)) {

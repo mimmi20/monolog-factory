@@ -26,19 +26,17 @@ use function is_array;
 final class ChannelLevelActivationStrategyFactory implements FactoryInterface
 {
     /**
-     * @param string                                                  $requestedName
      * @param array<string, array<string,int|string>|int|string>|null $options
      * @phpstan-param array{defaultActionLevel?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), channelToActionLevel?: array<(value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*)>|null}|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): ChannelLevelActivationStrategy {
         $defaultActionLevel   = LogLevel::DEBUG;

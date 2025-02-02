@@ -395,6 +395,8 @@ final class PsrHandlerFactoryTest extends TestCase
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
+        $monologFormatterPluginManager->expects(self::never())
+            ->method('build');
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()

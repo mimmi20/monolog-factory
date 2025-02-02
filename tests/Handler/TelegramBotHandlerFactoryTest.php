@@ -324,6 +324,8 @@ final class TelegramBotHandlerFactoryTest extends TestCase
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
+        $monologFormatterPluginManager->expects(self::never())
+            ->method('build');
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -468,8 +470,10 @@ final class TelegramBotHandlerFactoryTest extends TestCase
             ->getMock();
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
         $monologProcessorPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
@@ -531,8 +535,10 @@ final class TelegramBotHandlerFactoryTest extends TestCase
             ->getMock();
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
         $monologProcessorPluginManager->expects(self::exactly(2))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     ['abc', [], $processor1],

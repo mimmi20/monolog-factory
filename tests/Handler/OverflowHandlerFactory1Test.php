@@ -200,8 +200,10 @@ final class OverflowHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, [])
             ->willThrowException(new ServiceNotFoundException());
 
@@ -261,8 +263,10 @@ final class OverflowHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, [])
             ->willReturn($handler2);
 
@@ -344,8 +348,10 @@ final class OverflowHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, [])
             ->willReturn($handler2);
 
@@ -413,8 +419,10 @@ final class OverflowHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, [])
             ->willReturn($handler2);
 
@@ -473,8 +481,10 @@ final class OverflowHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, ['formatter' => $formatter])
             ->willReturn($handler2);
 
@@ -535,8 +545,10 @@ final class OverflowHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, [])
             ->willReturn($handler2);
 
@@ -545,15 +557,30 @@ final class OverflowHandlerFactory1Test extends TestCase
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $container->expects(self::exactly(2))
+        $matcher = self::exactly(2);
+        $container->expects($matcher)
             ->method('get')
             ->willReturnCallback(
-                static function (string $var) use ($monologHandlerPluginManager): AbstractPluginManager {
-                    if ($var === MonologHandlerPluginManager::class) {
-                        return $monologHandlerPluginManager;
-                    }
+                static function (string $id) use ($matcher, $monologHandlerPluginManager): AbstractPluginManager {
+                    $invocation = $matcher->numberOfInvocations();
 
-                    throw new ServiceNotFoundException();
+                    match ($invocation) {
+                        1 => self::assertSame(
+                            MonologHandlerPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                        default => self::assertSame(
+                            MonologFormatterPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                    };
+
+                    return match ($invocation) {
+                        1 => $monologHandlerPluginManager,
+                        default => throw new ServiceNotFoundException(),
+                    };
                 },
             );
 
@@ -619,14 +646,18 @@ final class OverflowHandlerFactory1Test extends TestCase
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
+        $monologFormatterPluginManager->expects(self::never())
+            ->method('build');
 
         $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, [])
             ->willReturn($handler2);
 
@@ -700,8 +731,10 @@ final class OverflowHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, ['formatter' => $formatter])
             ->willReturn($handler2);
 
@@ -710,15 +743,30 @@ final class OverflowHandlerFactory1Test extends TestCase
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $container->expects(self::exactly(2))
+        $matcher = self::exactly(2);
+        $container->expects($matcher)
             ->method('get')
             ->willReturnCallback(
-                static function (string $var) use ($monologHandlerPluginManager): AbstractPluginManager {
-                    if ($var === MonologHandlerPluginManager::class) {
-                        return $monologHandlerPluginManager;
-                    }
+                static function (string $id) use ($matcher, $monologHandlerPluginManager): AbstractPluginManager {
+                    $invocation = $matcher->numberOfInvocations();
 
-                    throw new ServiceNotFoundException();
+                    match ($invocation) {
+                        1 => self::assertSame(
+                            MonologHandlerPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                        default => self::assertSame(
+                            MonologFormatterPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                    };
+
+                    return match ($invocation) {
+                        1 => $monologHandlerPluginManager,
+                        default => throw new ServiceNotFoundException(),
+                    };
                 },
             );
 
@@ -784,14 +832,18 @@ final class OverflowHandlerFactory1Test extends TestCase
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
+        $monologFormatterPluginManager->expects(self::never())
+            ->method('build');
 
         $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, ['formatter' => $formatterClass])
             ->willReturn($handler2);
 
@@ -865,8 +917,10 @@ final class OverflowHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, ['formatter' => $formatterClass])
             ->willReturn($handler2);
 
@@ -940,8 +994,10 @@ final class OverflowHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, [])
             ->willReturn($handler2);
 
@@ -1007,8 +1063,10 @@ final class OverflowHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 

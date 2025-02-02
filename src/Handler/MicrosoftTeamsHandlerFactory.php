@@ -35,7 +35,6 @@ final class MicrosoftTeamsHandlerFactory implements FactoryInterface
     use AddProcessorTrait;
 
     /**
-     * @param string                                $requestedName
      * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{url?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
@@ -43,12 +42,11 @@ final class MicrosoftTeamsHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): MicrosoftTeamsHandler {
         if (!extension_loaded('curl')) {

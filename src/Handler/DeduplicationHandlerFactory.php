@@ -35,7 +35,6 @@ final class DeduplicationHandlerFactory implements FactoryInterface
     use GetHandlerTrait;
 
     /**
-     * @param string                           $requestedName
      * @param array<string, (int|string)>|null $options
      * @phpstan-param array{handler?: bool|array{type?: string, enabled?: bool, options?: array<mixed>}, deduplicationStore?: string, deduplicationLevel?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), time?: int, bubble?: bool}|null $options
      *
@@ -43,12 +42,11 @@ final class DeduplicationHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): DeduplicationHandler {
         if (!is_array($options)) {

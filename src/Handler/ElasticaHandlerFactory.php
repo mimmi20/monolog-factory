@@ -37,7 +37,6 @@ final class ElasticaHandlerFactory implements FactoryInterface
     use AddProcessorTrait;
 
     /**
-     * @param string                                       $requestedName
      * @param array<string, (bool|Client|int|string)>|null $options
      * @phpstan-param array{client?: (bool|string|Client), index?: string, type?: string, ignoreError?: bool, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
@@ -45,12 +44,11 @@ final class ElasticaHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): ElasticaHandler {
         if (!is_array($options)) {

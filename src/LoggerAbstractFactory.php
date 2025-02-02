@@ -36,18 +36,19 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
     /**
      * Factory for laminas-servicemanager v3.
      *
-     * @param string            $requestedName
      * @param array<mixed>|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
     #[Override]
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): Logger
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        array | null $options = null,
+    ): Logger {
         try {
             $config = $container->get('config');
         } catch (ContainerExceptionInterface $e) {
@@ -86,7 +87,7 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
         );
 
         try {
-            $monolog = $pluginManager->get(Logger::class, $logConfig);
+            $monolog = $pluginManager->build(Logger::class, $logConfig);
         } catch (ContainerExceptionInterface $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not find service %s', Logger::class),
@@ -101,14 +102,10 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
     /**
      * Can the factory create an instance for the service?
      *
-     * @param string $requestedName
-     *
      * @throws void
-     *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
-    public function canCreate(ContainerInterface $container, $requestedName): bool
+    public function canCreate(ContainerInterface $container, string $requestedName): bool
     {
         try {
             $config = $container->get('config');

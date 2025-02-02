@@ -33,7 +33,6 @@ final class NativeMailerHandlerFactory implements FactoryInterface
     use AddProcessorTrait;
 
     /**
-     * @param string                                $requestedName
      * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{to?: array<string>|string, subject?: string, from?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, maxColumnWidth?: int, contentType?: string, encoding?: string}|null $options
      *
@@ -41,12 +40,11 @@ final class NativeMailerHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): NativeMailerHandler {
         if (!is_array($options)) {

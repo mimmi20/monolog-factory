@@ -25,19 +25,17 @@ use function is_array;
 final class LogmaticFormatterFactory implements FactoryInterface
 {
     /**
-     * @param string                                $requestedName
      * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{batchMode?: JsonFormatter::BATCH_MODE_*, appendNewline?: bool, hostname?: string, appName?: string, includeStacktraces?: bool, ignoreEmptyContextAndExtra?: bool, dateFormat?: string, maxNormalizeDepth?: int, maxNormalizeItemCount?: int, prettyPrint?: bool}|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): LogmaticFormatter {
         $batchMode                  = JsonFormatter::BATCH_MODE_JSON;

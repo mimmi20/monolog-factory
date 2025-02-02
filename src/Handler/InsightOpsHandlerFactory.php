@@ -35,7 +35,6 @@ final class InsightOpsHandlerFactory implements FactoryInterface
     use AddProcessorTrait;
 
     /**
-     * @param string                                $requestedName
      * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{token?: string, region?: string, useSSL?: bool, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, timeout?: float, writeTimeout?: float, persistent?: bool, chunkSize?: int}|null $options
      *
@@ -43,12 +42,11 @@ final class InsightOpsHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): InsightOpsHandler {
         if (!is_array($options)) {

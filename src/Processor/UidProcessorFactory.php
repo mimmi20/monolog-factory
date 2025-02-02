@@ -26,19 +26,17 @@ final class UidProcessorFactory implements FactoryInterface
     private const int DEFAULT_LENGTH = 7;
 
     /**
-     * @param string                  $requestedName
      * @param array<string, int>|null $options
      * @phpstan-param array{length?: int<1, 32>}|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): UidProcessor {
         $length = self::DEFAULT_LENGTH;

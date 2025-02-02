@@ -79,8 +79,10 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
             ->getMock();
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
         $monologProcessorPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
@@ -113,8 +115,10 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::exactly(3))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     [FirePHPHandler::class, [], $handler1],
@@ -198,8 +202,10 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
             ->getMock();
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
         $monologProcessorPluginManager->expects(self::exactly(2))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     ['abc', [], $processor1],
@@ -236,8 +242,10 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::exactly(3))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     [FirePHPHandler::class, [], $handler1],
@@ -336,6 +344,8 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
             ->method('get');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('build');
 
         $handler1 = $this->getMockBuilder(FirePHPHandler::class)
             ->disableOriginalConstructor()
@@ -366,8 +376,10 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::exactly(3))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     [FirePHPHandler::class, [], $handler1],
@@ -381,15 +393,30 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $container->expects(self::exactly(4))
+        $matcher = self::exactly(4);
+        $container->expects($matcher)
             ->method('get')
             ->willReturnCallback(
-                static function (string $var) use ($monologHandlerPluginManager) {
-                    if ($var === MonologHandlerPluginManager::class) {
-                        return $monologHandlerPluginManager;
-                    }
+                static function (string $id) use ($matcher, $monologHandlerPluginManager) {
+                    $invocation = $matcher->numberOfInvocations();
 
-                    throw new ServiceNotFoundException();
+                    match ($invocation) {
+                        1,2,3 => self::assertSame(
+                            MonologHandlerPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                        default => self::assertSame(
+                            MonologProcessorPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                    };
+
+                    return match ($invocation) {
+                        1,2,3 => $monologHandlerPluginManager,
+                        default => throw new ServiceNotFoundException(),
+                    };
                 },
             );
 
@@ -471,8 +498,10 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::exactly(3))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     [FirePHPHandler::class, [], $handler1],

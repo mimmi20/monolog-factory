@@ -13,7 +13,9 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory;
 
-use Laminas\ServiceManager\Config;
+use Laminas\ServiceManager\Exception\ContainerModificationsNotAllowedException;
+use Laminas\ServiceManager\Exception\CyclicAliasException;
+use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Override;
@@ -27,18 +29,19 @@ use function sprintf;
 final class MonologFormatterPluginManagerFactory implements FactoryInterface
 {
     /**
-     * @param string            $requestedName
      * @param array<mixed>|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
+     * @throws ContainerModificationsNotAllowedException
+     * @throws CyclicAliasException
+     * @throws InvalidServiceException
      *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): MonologFormatterPluginManager {
         $pluginManager = new MonologFormatterPluginManager($container, $options ?: []);
@@ -68,7 +71,7 @@ final class MonologFormatterPluginManagerFactory implements FactoryInterface
         }
 
         // Wire service configuration for formatter
-        (new Config($config['monolog_formatters']))->configureServiceManager($pluginManager);
+        $pluginManager->configure($config['monolog_formatters']);
 
         return $pluginManager;
     }

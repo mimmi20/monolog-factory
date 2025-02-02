@@ -27,19 +27,17 @@ final class MongoDBFormatterFactory implements FactoryInterface
     public const int DEFAULT_NESTING_LEVEL = 3;
 
     /**
-     * @param string                         $requestedName
      * @param array<string, (bool|int)>|null $options
      * @phpstan-param array{maxNestingLevel?: int, exceptionTraceAsString?: bool}|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): MongoDBFormatter {
         $maxNestingLevel        = self::DEFAULT_NESTING_LEVEL;

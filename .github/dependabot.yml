@@ -32,7 +32,7 @@ updates:
 
     commit-message:
       include: "scope"
-      prefix: "composer"
+      prefix: "composer (master)"
 
     ignore:
       - dependency-name: "elasticsearch/elasticsearch"
@@ -66,7 +66,7 @@ updates:
     target-branch: "master"
 
     commit-message:
-      prefix: "github-actions"
+      prefix: "github-actions (master)"
 
     ignore:
       - dependency-name: "mimmi20/ci"
@@ -101,7 +101,7 @@ updates:
 
     commit-message:
       include: "scope"
-      prefix: "composer"
+      prefix: "composer (4.x)"
 
     ignore:
       - dependency-name: "elasticsearch/elasticsearch"
@@ -136,7 +136,7 @@ updates:
     target-branch: "4.x"
 
     commit-message:
-      prefix: "github-actions"
+      prefix: "github-actions (4.x)"
 
     ignore:
       - dependency-name: "mimmi20/ci"

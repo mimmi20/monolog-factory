@@ -21,18 +21,16 @@ use Psr\Container\ContainerInterface;
 final class ChromePHPFormatterFactory implements FactoryInterface
 {
     /**
-     * @param string            $requestedName
      * @param array<mixed>|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): ChromePHPFormatter {
         return new ChromePHPFormatter();

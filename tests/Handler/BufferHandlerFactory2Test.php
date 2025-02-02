@@ -17,25 +17,24 @@ use AssertionError;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
-use Mimmi20\MonologFactory\Handler\GroupHandlerFactory;
+use Mimmi20\MonologFactory\Handler\BufferHandlerFactory;
 use Mimmi20\MonologFactory\MonologHandlerPluginManager;
 use Mimmi20\MonologFactory\MonologProcessorPluginManager;
+use Monolog\Handler\BufferHandler;
 use Monolog\Handler\ChromePHPHandler;
-use Monolog\Handler\FingersCrossedHandler;
-use Monolog\Handler\FirePHPHandler;
-use Monolog\Handler\GelfHandler;
-use Monolog\Handler\GroupHandler;
+use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
 
 use function sprintf;
 
-final class GroupHandlerFactory2Test extends TestCase
+final class BufferHandlerFactory2Test extends TestCase
 {
     /**
      * @throws Exception
@@ -44,7 +43,9 @@ final class GroupHandlerFactory2Test extends TestCase
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
-        $processors = [
+        $type        = 'abc';
+        $bufferLimit = 42;
+        $processors  = [
             [
                 'enabled' => true,
                 'options' => ['efg' => 'ijk'],
@@ -70,45 +71,12 @@ final class GroupHandlerFactory2Test extends TestCase
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
-        $handlers = [
-            [
-                'enabled' => false,
-                'type' => FingersCrossedHandler::class,
-            ],
-            [
-                'enabled' => true,
-                'type' => FirePHPHandler::class,
-            ],
-            [
-                'type' => ChromePHPHandler::class,
-            ],
-            [
-                'type' => GelfHandler::class,
-            ],
-        ];
-
-        $handler1 = $this->getMockBuilder(FirePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $handler1->expects(self::never())
-            ->method('setFormatter');
-        $handler1->expects(self::never())
-            ->method('getFormatter');
-
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
             ->disableOriginalConstructor()
             ->getMock();
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
-            ->method('getFormatter');
-
-        $handler3 = $this->getMockBuilder(GelfHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $handler3->expects(self::never())
-            ->method('setFormatter');
-        $handler3->expects(self::never())
             ->method('getFormatter');
 
         $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
@@ -118,22 +86,17 @@ final class GroupHandlerFactory2Test extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
             ->method('get');
-        $monologHandlerPluginManager->expects(self::exactly(3))
+        $monologHandlerPluginManager->expects(self::once())
             ->method('build')
-            ->willReturnMap(
-                [
-                    [FirePHPHandler::class, [], $handler1],
-                    [ChromePHPHandler::class, [], $handler2],
-                    [GelfHandler::class, [], $handler3],
-                ],
-            );
+            ->with($type, ['processors' => $processors])
+            ->willReturn($handler2);
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $container->expects(self::exactly(4))
+        $container->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap(
                 [
@@ -142,13 +105,13 @@ final class GroupHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new GroupHandlerFactory();
+        $factory = new BufferHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
+        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
     }
 
     /**
@@ -159,8 +122,10 @@ final class GroupHandlerFactory2Test extends TestCase
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
-        $processor3 = static fn (array $record): array => $record;
-        $processors = [
+        $type        = 'abc';
+        $bufferLimit = 42;
+        $processor3  = static fn (array $record): array => $record;
+        $processors  = [
             [
                 'enabled' => true,
                 'options' => ['efg' => 'ijk'],
@@ -198,45 +163,12 @@ final class GroupHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $handlers = [
-            [
-                'enabled' => false,
-                'type' => FingersCrossedHandler::class,
-            ],
-            [
-                'enabled' => true,
-                'type' => FirePHPHandler::class,
-            ],
-            [
-                'type' => ChromePHPHandler::class,
-            ],
-            [
-                'type' => GelfHandler::class,
-            ],
-        ];
-
-        $handler1 = $this->getMockBuilder(FirePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $handler1->expects(self::never())
-            ->method('setFormatter');
-        $handler1->expects(self::never())
-            ->method('getFormatter');
-
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
             ->disableOriginalConstructor()
             ->getMock();
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
-            ->method('getFormatter');
-
-        $handler3 = $this->getMockBuilder(GelfHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $handler3->expects(self::never())
-            ->method('setFormatter');
-        $handler3->expects(self::never())
             ->method('getFormatter');
 
         $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
@@ -246,22 +178,17 @@ final class GroupHandlerFactory2Test extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
             ->method('get');
-        $monologHandlerPluginManager->expects(self::exactly(3))
+        $monologHandlerPluginManager->expects(self::once())
             ->method('build')
-            ->willReturnMap(
-                [
-                    [FirePHPHandler::class, [], $handler1],
-                    [ChromePHPHandler::class, [], $handler2],
-                    [GelfHandler::class, [], $handler3],
-                ],
-            );
+            ->with($type, ['processors' => $processors])
+            ->willReturn($handler2);
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $container->expects(self::exactly(4))
+        $container->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap(
                 [
@@ -270,35 +197,33 @@ final class GroupHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new GroupHandlerFactory();
+        $factory = new BufferHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
+        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
 
-        self::assertInstanceOf(GroupHandler::class, $handler);
+        self::assertInstanceOf(BufferHandler::class, $handler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        self::assertSame(Level::Alert, $handler->getLevel());
+        self::assertFalse($handler->getBubble());
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerP = new ReflectionProperty($handler, 'handler');
 
-        self::assertIsArray($handlerClasses);
-        self::assertCount(3, $handlerClasses);
-        self::assertSame($handler1, $handlerClasses[0]);
-        self::assertSame($handler2, $handlerClasses[1]);
-        self::assertSame($handler3, $handlerClasses[2]);
+        self::assertSame($handler2, $handlerP->getValue($handler));
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bl = new ReflectionProperty($handler, 'bufferLimit');
 
-        self::assertFalse($bubble->getValue($handler));
+        self::assertSame($bufferLimit, $bl->getValue($handler));
+
+        $fof = new ReflectionProperty($handler, 'flushOnOverflow');
+
+        self::assertFalse($fof->getValue($handler));
 
         $proc = new ReflectionProperty($handler, 'processors');
 
         $processors = $proc->getValue($handler);
 
         self::assertIsArray($processors);
-        self::assertCount(3, $processors);
-        self::assertSame($processor2, $processors[0]);
-        self::assertSame($processor1, $processors[1]);
-        self::assertSame($processor3, $processors[2]);
+        self::assertCount(0, $processors);
     }
 
     /**
@@ -308,8 +233,10 @@ final class GroupHandlerFactory2Test extends TestCase
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
-        $processor3 = static fn (array $record): array => $record;
-        $processors = [
+        $type        = 'abc';
+        $bufferLimit = 42;
+        $processor3  = static fn (array $record): array => $record;
+        $processors  = [
             [
                 'enabled' => true,
                 'options' => ['efg' => 'ijk'],
@@ -333,45 +260,12 @@ final class GroupHandlerFactory2Test extends TestCase
         $monologProcessorPluginManager->expects(self::never())
             ->method('build');
 
-        $handlers = [
-            [
-                'enabled' => false,
-                'type' => FingersCrossedHandler::class,
-            ],
-            [
-                'enabled' => true,
-                'type' => FirePHPHandler::class,
-            ],
-            [
-                'type' => ChromePHPHandler::class,
-            ],
-            [
-                'type' => GelfHandler::class,
-            ],
-        ];
-
-        $handler1 = $this->getMockBuilder(FirePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $handler1->expects(self::never())
-            ->method('setFormatter');
-        $handler1->expects(self::never())
-            ->method('getFormatter');
-
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
             ->disableOriginalConstructor()
             ->getMock();
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
-            ->method('getFormatter');
-
-        $handler3 = $this->getMockBuilder(GelfHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $handler3->expects(self::never())
-            ->method('setFormatter');
-        $handler3->expects(self::never())
             ->method('getFormatter');
 
         $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
@@ -381,22 +275,17 @@ final class GroupHandlerFactory2Test extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
             ->method('get');
-        $monologHandlerPluginManager->expects(self::exactly(3))
+        $monologHandlerPluginManager->expects(self::once())
             ->method('build')
-            ->willReturnMap(
-                [
-                    [FirePHPHandler::class, [], $handler1],
-                    [ChromePHPHandler::class, [], $handler2],
-                    [GelfHandler::class, [], $handler3],
-                ],
-            );
+            ->with($type, ['processors' => $processors])
+            ->willReturn($handler2);
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(4);
+        $matcher = self::exactly(2);
         $container->expects($matcher)
             ->method('get')
             ->willReturnCallback(
@@ -404,7 +293,7 @@ final class GroupHandlerFactory2Test extends TestCase
                     $invocation = $matcher->numberOfInvocations();
 
                     match ($invocation) {
-                        1,2,3 => self::assertSame(
+                        1 => self::assertSame(
                             MonologHandlerPluginManager::class,
                             $id,
                             (string) $invocation,
@@ -417,13 +306,13 @@ final class GroupHandlerFactory2Test extends TestCase
                     };
 
                     return match ($invocation) {
-                        1,2,3 => $monologHandlerPluginManager,
+                        1 => $monologHandlerPluginManager,
                         default => throw new ServiceNotFoundException(),
                     };
                 },
             );
 
-        $factory = new GroupHandlerFactory();
+        $factory = new BufferHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -431,7 +320,7 @@ final class GroupHandlerFactory2Test extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
+        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
     }
 
     /**
@@ -441,8 +330,10 @@ final class GroupHandlerFactory2Test extends TestCase
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
-        $processor3 = static fn (array $record): array => $record;
-        $processors = [
+        $type        = 'abc';
+        $bufferLimit = 42;
+        $processor3  = static fn (array $record): array => $record;
+        $processors  = [
             [
                 'enabled' => true,
                 'options' => ['efg' => 'ijk'],
@@ -466,45 +357,12 @@ final class GroupHandlerFactory2Test extends TestCase
         $monologProcessorPluginManager->expects(self::never())
             ->method('build');
 
-        $handlers = [
-            [
-                'enabled' => false,
-                'type' => FingersCrossedHandler::class,
-            ],
-            [
-                'enabled' => true,
-                'type' => FirePHPHandler::class,
-            ],
-            [
-                'type' => ChromePHPHandler::class,
-            ],
-            [
-                'type' => GelfHandler::class,
-            ],
-        ];
-
-        $handler1 = $this->getMockBuilder(FirePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $handler1->expects(self::never())
-            ->method('setFormatter');
-        $handler1->expects(self::never())
-            ->method('getFormatter');
-
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
             ->disableOriginalConstructor()
             ->getMock();
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
-            ->method('getFormatter');
-
-        $handler3 = $this->getMockBuilder(GelfHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $handler3->expects(self::never())
-            ->method('setFormatter');
-        $handler3->expects(self::never())
             ->method('getFormatter');
 
         $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
@@ -514,22 +372,17 @@ final class GroupHandlerFactory2Test extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
             ->method('get');
-        $monologHandlerPluginManager->expects(self::exactly(3))
+        $monologHandlerPluginManager->expects(self::once())
             ->method('build')
-            ->willReturnMap(
-                [
-                    [FirePHPHandler::class, [], $handler1],
-                    [ChromePHPHandler::class, [], $handler2],
-                    [GelfHandler::class, [], $handler3],
-                ],
-            );
+            ->with($type, ['processors' => $processors])
+            ->willReturn($handler2);
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $container->expects(self::exactly(4))
+        $container->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap(
                 [
@@ -538,7 +391,7 @@ final class GroupHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new GroupHandlerFactory();
+        $factory = new BufferHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -546,6 +399,121 @@ final class GroupHandlerFactory2Test extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
+        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
+    }
+
+    /**
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws ServiceNotFoundException
+     * @throws ServiceNotCreatedException
+     */
+    public function testInvokeWithConfigAndProcessors6(): void
+    {
+        $type        = 'abc';
+        $bufferLimit = 42;
+        $processor3  = static fn (array $record): array => $record;
+        $processors  = [
+            [
+                'enabled' => true,
+                'options' => ['efg' => 'ijk'],
+                'type' => 'xyz',
+            ],
+            [
+                'enabled' => false,
+                'type' => 'def',
+            ],
+            ['type' => 'abc'],
+            $processor3,
+        ];
+
+        $processor1 = $this->getMockBuilder(GitProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
+        $monologProcessorPluginManager->expects(self::exactly(2))
+            ->method('build')
+            ->willReturnMap(
+                [
+                    ['abc', [], $processor1],
+                    ['xyz', ['efg' => 'ijk'], $processor2],
+                ],
+            );
+
+        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $handler2->expects(self::never())
+            ->method('setFormatter');
+        $handler2->expects(self::never())
+            ->method('getFormatter');
+
+        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
+        $monologHandlerPluginManager->expects(self::once())
+            ->method('build')
+            ->with($type, [])
+            ->willReturn($handler2);
+
+        $container = $this->getMockBuilder(ContainerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $container->expects(self::never())
+            ->method('has');
+        $container->expects(self::exactly(2))
+            ->method('get')
+            ->willReturnMap(
+                [
+                    [MonologHandlerPluginManager::class, $monologHandlerPluginManager],
+                    [MonologProcessorPluginManager::class, $monologProcessorPluginManager],
+                ],
+            );
+
+        $factory = new BufferHandlerFactory();
+
+        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false, 'processors' => $processors]);
+
+        self::assertInstanceOf(BufferHandler::class, $handler);
+
+        self::assertSame(Level::Alert, $handler->getLevel());
+        self::assertFalse($handler->getBubble());
+
+        $handlerP = new ReflectionProperty($handler, 'handler');
+
+        self::assertSame($handler2, $handlerP->getValue($handler));
+
+        $bl = new ReflectionProperty($handler, 'bufferLimit');
+
+        self::assertSame($bufferLimit, $bl->getValue($handler));
+
+        $fof = new ReflectionProperty($handler, 'flushOnOverflow');
+
+        self::assertFalse($fof->getValue($handler));
+
+        $proc = new ReflectionProperty($handler, 'processors');
+
+        $processors = $proc->getValue($handler);
+
+        self::assertIsArray($processors);
+        self::assertCount(3, $processors);
+        self::assertSame($processor2, $processors[0]);
+        self::assertSame($processor1, $processors[1]);
+        self::assertSame($processor3, $processors[2]);
     }
 }

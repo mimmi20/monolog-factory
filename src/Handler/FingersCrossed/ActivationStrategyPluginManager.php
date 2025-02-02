@@ -13,39 +13,33 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory\Handler\FingersCrossed;
 
-use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\AbstractSingleInstancePluginManager;
 use Monolog\Handler\FingersCrossed\ActivationStrategyInterface;
 use Monolog\Handler\FingersCrossed\ChannelLevelActivationStrategy;
 use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
 use Psr\Container\ContainerInterface;
 
-/** @extends AbstractPluginManager<ActivationStrategyInterface> */
-final class ActivationStrategyPluginManager extends AbstractPluginManager
+/** @extends AbstractSingleInstancePluginManager<ActivationStrategyInterface> */
+final class ActivationStrategyPluginManager extends AbstractSingleInstancePluginManager
 {
     /**
      * Allow many processors of the same type (v3)
-     *
-     * @var bool
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
      */
-    protected $sharedByDefault = false;
+    protected bool $sharedByDefault = false;
 
     /**
      * An object type that the created instance must be instanced of
      *
-     * @var string|null
-     * @phpstan-var class-string|null
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+     * @var class-string<ActivationStrategyInterface>
      */
-    protected $instanceOf = ActivationStrategyInterface::class;
+    protected string $instanceOf = ActivationStrategyInterface::class;
 
     /**
      * A list of factories (either as string name or callable)
      *
-     * @phpstan-var array<string|class-string, class-string|(callable(ContainerInterface, string, array|null):ActivationStrategyInterface)>
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+     * @phpstan-var array<string, (callable(ContainerInterface, string, array<mixed>|null): mixed)|class-string<callable(ContainerInterface, string, array<mixed>|null): mixed&object>>
      */
-    protected $factories = [
+    protected array $factories = [
         ChannelLevelActivationStrategy::class => ChannelLevelActivationStrategyFactory::class,
         ErrorLevelActivationStrategy::class => ErrorLevelActivationStrategyFactory::class,
     ];

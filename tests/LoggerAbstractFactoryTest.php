@@ -110,15 +110,26 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $container->expects(self::exactly(2))
+        $matcher = self::exactly(2);
+        $container->expects($matcher)
             ->method('get')
             ->willReturnCallback(
-                static function (string $var) use ($config, $exception): array {
-                    if ($var === 'config') {
-                        return $config;
-                    }
+                static function (string $id) use ($matcher, $config, $exception): array {
+                    $invocation = $matcher->numberOfInvocations();
 
-                    throw $exception;
+                    match ($invocation) {
+                        1 => self::assertSame('config', $id, (string) $invocation),
+                        default => self::assertSame(
+                            MonologPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                    };
+
+                    return match ($invocation) {
+                        1 => $config,
+                        default => throw $exception,
+                    };
                 },
             );
 
@@ -154,8 +165,10 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->getMock();
         $pluginManager->expects(self::never())
             ->method('has');
+        $pluginManager->expects(self::never())
+            ->method('get');
         $pluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with(Logger::class, $logConfig)
             ->willThrowException($exception);
 
@@ -204,8 +217,10 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->getMock();
         $pluginManager->expects(self::never())
             ->method('has');
+        $pluginManager->expects(self::never())
+            ->method('get');
         $pluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with(Logger::class, $logConfig)
             ->willReturn($logger);
 
@@ -246,8 +261,10 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->getMock();
         $pluginManager->expects(self::never())
             ->method('has');
+        $pluginManager->expects(self::never())
+            ->method('get');
         $pluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with(Logger::class, $logConfig)
             ->willReturn($logger);
 
@@ -288,8 +305,10 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->getMock();
         $pluginManager->expects(self::never())
             ->method('has');
+        $pluginManager->expects(self::never())
+            ->method('get');
         $pluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with(Logger::class, $logConfig)
             ->willReturn($logger);
 
@@ -330,8 +349,10 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->getMock();
         $pluginManager->expects(self::never())
             ->method('has');
+        $pluginManager->expects(self::never())
+            ->method('get');
         $pluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with(Logger::class, $logConfig)
             ->willReturn($logger);
 
@@ -372,8 +393,10 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->getMock();
         $pluginManager->expects(self::never())
             ->method('has');
+        $pluginManager->expects(self::never())
+            ->method('get');
         $pluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with(Logger::class, $logConfig)
             ->willReturn($logger);
 
@@ -414,8 +437,10 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->getMock();
         $pluginManager->expects(self::never())
             ->method('has');
+        $pluginManager->expects(self::never())
+            ->method('get');
         $pluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with(Logger::class, $logConfig)
             ->willReturn($logger);
 
@@ -456,8 +481,10 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->getMock();
         $pluginManager->expects(self::never())
             ->method('has');
+        $pluginManager->expects(self::never())
+            ->method('get');
         $pluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with(Logger::class, $logConfig)
             ->willReturn($logger);
 

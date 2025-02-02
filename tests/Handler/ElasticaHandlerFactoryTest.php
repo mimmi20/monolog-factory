@@ -337,15 +337,26 @@ final class ElasticaHandlerFactoryTest extends TestCase
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $container->expects(self::exactly(2))
+        $matcher = self::exactly(2);
+        $container->expects($matcher)
             ->method('get')
             ->willReturnCallback(
-                static function (string $var) use ($client, $clientClass): Client {
-                    if ($var === $client) {
-                        return $clientClass;
-                    }
+                static function (string $id) use ($matcher, $client, $clientClass): Client {
+                    $invocation = $matcher->numberOfInvocations();
 
-                    throw new ServiceNotFoundException();
+                    match ($invocation) {
+                        1 => self::assertSame($client, $id, (string) $invocation),
+                        default => self::assertSame(
+                            MonologFormatterPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                    };
+
+                    return match ($invocation) {
+                        1 => $clientClass,
+                        default => throw new ServiceNotFoundException(),
+                    };
                 },
             );
 
@@ -385,6 +396,8 @@ final class ElasticaHandlerFactoryTest extends TestCase
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
+        $monologFormatterPluginManager->expects(self::never())
+            ->method('build');
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -541,8 +554,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
             ->getMock();
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
         $monologProcessorPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
@@ -611,8 +626,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
             ->getMock();
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
         $monologProcessorPluginManager->expects(self::exactly(2))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     ['abc', [], $processor1],
@@ -703,21 +720,34 @@ final class ElasticaHandlerFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
             ->method('get');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('build');
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $container->expects(self::exactly(2))
+        $matcher = self::exactly(2);
+        $container->expects($matcher)
             ->method('get')
             ->willReturnCallback(
-                static function (string $var) use ($client, $clientClass) {
-                    if ($var === $client) {
-                        return $clientClass;
-                    }
+                static function (string $id) use ($matcher, $client, $clientClass) {
+                    $invocation = $matcher->numberOfInvocations();
 
-                    throw new ServiceNotFoundException();
+                    match ($invocation) {
+                        1 => self::assertSame($client, $id, (string) $invocation),
+                        default => self::assertSame(
+                            MonologProcessorPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                    };
+
+                    return match ($invocation) {
+                        1 => $clientClass,
+                        default => throw new ServiceNotFoundException(),
+                    };
                 },
             );
 

@@ -42,7 +42,6 @@ final class SymfonyMailerHandlerFactory implements FactoryInterface
     use SwiftMessageTrait;
 
     /**
-     * @param string                                   $requestedName
      * @param array<string, (Closure|int|string)>|null $options
      * @phpstan-param array{mailer?: (bool|string|MailerInterface|TransportInterface), email-template?: (string|Email|Closure(string, array|null<LogRecord>): Email), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
@@ -50,12 +49,11 @@ final class SymfonyMailerHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): SymfonyMailerHandler {
         if (!is_array($options)) {

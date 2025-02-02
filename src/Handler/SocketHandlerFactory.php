@@ -35,7 +35,6 @@ final class SocketHandlerFactory implements FactoryInterface
     use AddProcessorTrait;
 
     /**
-     * @param string                                      $requestedName
      * @param array<string, (bool|float|int|string)>|null $options
      * @phpstan-param array{connectionString?: string, timeout?: float, writingTimeout?: float, writeTimeout?: float, connectionTimeout?: float, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, persistent?: bool, chunkSize?: int}|null $options
      *
@@ -43,12 +42,11 @@ final class SocketHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): SocketHandler {
         if (!is_array($options)) {

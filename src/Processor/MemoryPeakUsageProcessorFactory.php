@@ -24,19 +24,17 @@ use function is_array;
 final class MemoryPeakUsageProcessorFactory implements FactoryInterface
 {
     /**
-     * @param string           $requestedName
      * @param array<bool>|null $options
      * @phpstan-param array{realUsage?: bool, useFormatting?: bool} $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): MemoryPeakUsageProcessor {
         $realUsage     = true;

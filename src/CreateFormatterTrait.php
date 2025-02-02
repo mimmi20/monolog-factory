@@ -50,7 +50,7 @@ trait CreateFormatterTrait
         }
 
         try {
-            $formatter = $monologFormatterPluginManager->get(
+            $formatter = $monologFormatterPluginManager->build(
                 $formatterConfig['type'],
                 $formatterConfig['options'] ?? [],
             );

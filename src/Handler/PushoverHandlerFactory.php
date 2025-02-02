@@ -36,7 +36,6 @@ final class PushoverHandlerFactory implements FactoryInterface
     use AddProcessorTrait;
 
     /**
-     * @param string                                              $requestedName
      * @param array<string, (array<string>|bool|int|string)>|null $options
      * @phpstan-param array{token?: string, users?: array<string>|string, title?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, useSSL?: bool, highPriorityLevel?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), emergencyLevel?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), retry?: int, expire?: int, timeout?: float, writingTimeout?: float, writeTimeout?: float, connectionTimeout?: float, persistent?: bool, chunkSize?: int}|null $options
      *
@@ -44,12 +43,11 @@ final class PushoverHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): PushoverHandler {
         if (!extension_loaded('sockets')) {

@@ -16,15 +16,34 @@ namespace Mimmi20\MonologFactory;
 use Elastic\Elasticsearch\Client as V8Client;
 use Elasticsearch\Client as V7Client;
 use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\Exception\InvalidServiceException;
+
+use function get_debug_type;
+use function sprintf;
 
 /** @extends AbstractPluginManager<V7Client|V8Client> */
 final class ClientPluginManager extends AbstractPluginManager
 {
+    protected string $instanceOf = V8Client::class;
+
     /**
      * Allow many processors of the same type (v3)
-     *
-     * @var bool
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
      */
-    protected $sharedByDefault = false;
+    protected bool $sharedByDefault = false;
+
+    /** @throws InvalidServiceException */
+    public function validate(mixed $instance): void
+    {
+        if ($instance instanceof V8Client || $instance instanceof V7Client) {
+            return;
+        }
+
+        throw new InvalidServiceException(sprintf(
+            'Plugin manager "%s" expected an instance of type "%s" or of type "%s", but "%s" was received',
+            self::class,
+            V8Client::class,
+            V7Client::class,
+            get_debug_type($instance),
+        ));
+    }
 }

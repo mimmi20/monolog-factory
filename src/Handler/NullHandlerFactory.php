@@ -26,18 +26,19 @@ use function is_array;
 final class NullHandlerFactory implements FactoryInterface
 {
     /**
-     * @param string                         $requestedName
      * @param array<string, int|string>|null $options
      * @phpstan-param array{level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*)}|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): NullHandler
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        array | null $options = null,
+    ): NullHandler {
         $level = LogLevel::DEBUG;
 
         if (is_array($options) && array_key_exists('level', $options)) {

@@ -404,15 +404,26 @@ final class StreamHandlerFactoryTest extends TestCase
             ->method('has')
             ->with($streamName)
             ->willReturn(true);
-        $container->expects(self::exactly(2))
+        $matcher = self::exactly(2);
+        $container->expects($matcher)
             ->method('get')
             ->willReturnCallback(
-                static function (string $var) use ($streamName, $stream): string {
-                    if ($var === $streamName) {
-                        return $stream;
-                    }
+                static function (string $id) use ($matcher, $streamName, $stream): string {
+                    $invocation = $matcher->numberOfInvocations();
 
-                    throw new ServiceNotFoundException();
+                    match ($invocation) {
+                        1 => self::assertSame($streamName, $id, (string) $invocation),
+                        default => self::assertSame(
+                            MonologFormatterPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                    };
+
+                    return match ($invocation) {
+                        1 => $stream,
+                        default => throw new ServiceNotFoundException(),
+                    };
                 },
             );
 
@@ -452,6 +463,8 @@ final class StreamHandlerFactoryTest extends TestCase
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
+        $monologFormatterPluginManager->expects(self::never())
+            ->method('build');
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -520,6 +533,8 @@ final class StreamHandlerFactoryTest extends TestCase
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
+        $monologFormatterPluginManager->expects(self::never())
+            ->method('build');
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -587,6 +602,8 @@ final class StreamHandlerFactoryTest extends TestCase
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
+        $monologFormatterPluginManager->expects(self::never())
+            ->method('build');
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -638,8 +655,10 @@ final class StreamHandlerFactoryTest extends TestCase
             ->getMock();
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
+        $monologFormatterPluginManager->expects(self::never())
+            ->method('get');
         $monologFormatterPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, [])
             ->willReturn($formatterClass);
 
@@ -713,8 +732,10 @@ final class StreamHandlerFactoryTest extends TestCase
             ->getMock();
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
+        $monologFormatterPluginManager->expects(self::never())
+            ->method('get');
         $monologFormatterPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, $options)
             ->willReturn($formatterClass);
 
@@ -784,8 +805,10 @@ final class StreamHandlerFactoryTest extends TestCase
             ->getMock();
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
+        $monologFormatterPluginManager->expects(self::never())
+            ->method('get');
         $monologFormatterPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, $options)
             ->willThrowException(new ServiceNotFoundException());
 
@@ -926,8 +949,10 @@ final class StreamHandlerFactoryTest extends TestCase
             ->getMock();
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
         $monologProcessorPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
@@ -998,8 +1023,10 @@ final class StreamHandlerFactoryTest extends TestCase
             ->getMock();
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
         $monologProcessorPluginManager->expects(self::exactly(2))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     ['abc', [], $processor1],
@@ -1089,6 +1116,8 @@ final class StreamHandlerFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
             ->method('get');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('build');
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -1097,15 +1126,26 @@ final class StreamHandlerFactoryTest extends TestCase
             ->method('has')
             ->with($streamName)
             ->willReturn(true);
-        $container->expects(self::exactly(2))
+        $matcher = self::exactly(2);
+        $container->expects($matcher)
             ->method('get')
             ->willReturnCallback(
-                static function (string $var) use ($streamName, $stream) {
-                    if ($var === $streamName) {
-                        return $stream;
-                    }
+                static function (string $id) use ($matcher, $streamName, $stream) {
+                    $invocation = $matcher->numberOfInvocations();
 
-                    throw new ServiceNotFoundException();
+                    match ($invocation) {
+                        1 => self::assertSame($streamName, $id, (string) $invocation),
+                        default => self::assertSame(
+                            MonologProcessorPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                    };
+
+                    return match ($invocation) {
+                        1 => $stream,
+                        default => throw new ServiceNotFoundException(),
+                    };
                 },
             );
 
@@ -1155,6 +1195,8 @@ final class StreamHandlerFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
             ->method('get');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('build');
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()

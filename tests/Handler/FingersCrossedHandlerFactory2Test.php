@@ -65,14 +65,18 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->method('has');
         $activationStrategyPluginManager->expects(self::never())
             ->method('get');
+        $activationStrategyPluginManager->expects(self::never())
+            ->method('build');
 
         $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, [])
             ->willReturn($handler2);
 
@@ -118,6 +122,8 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->willReturn(false);
         $activationStrategyPluginManager->expects(self::never())
             ->method('get');
+        $activationStrategyPluginManager->expects(self::never())
+            ->method('build');
 
         $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
             ->disableOriginalConstructor()
@@ -132,8 +138,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, [])
             ->willReturn($handler2);
 
@@ -188,8 +196,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $activationStrategyPluginManager->expects(self::never())
             ->method('has');
+        $activationStrategyPluginManager->expects(self::never())
+            ->method('get');
         $activationStrategyPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($strategyName, $strategyOptions)
             ->willReturn($strategyClass);
 
@@ -198,8 +208,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, [])
             ->willReturn($handler2);
 
@@ -253,8 +265,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, ['formatter' => $formatter])
             ->willReturn($handler2);
 
@@ -309,8 +323,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $activationStrategyPluginManager->expects(self::never())
             ->method('has');
+        $activationStrategyPluginManager->expects(self::never())
+            ->method('get');
         $activationStrategyPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($strategyName, $strategyOptions)
             ->willReturn($strategyClass);
 
@@ -319,8 +335,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, [])
             ->willReturn($handler2);
 
@@ -329,19 +347,36 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $container->expects(self::exactly(3))
+        $matcher = self::exactly(3);
+        $container->expects($matcher)
             ->method('get')
             ->willReturnCallback(
-                static function (string $var) use ($monologHandlerPluginManager, $activationStrategyPluginManager) {
-                    if ($var === MonologHandlerPluginManager::class) {
-                        return $monologHandlerPluginManager;
-                    }
+                static function (string $id) use ($matcher, $monologHandlerPluginManager, $activationStrategyPluginManager) {
+                    $invocation = $matcher->numberOfInvocations();
 
-                    if ($var === ActivationStrategyPluginManager::class) {
-                        return $activationStrategyPluginManager;
-                    }
+                    match ($invocation) {
+                        1 => self::assertSame(
+                            MonologHandlerPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                        2 => self::assertSame(
+                            ActivationStrategyPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                        default => self::assertSame(
+                            MonologFormatterPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                    };
 
-                    throw new ServiceNotFoundException();
+                    return match ($invocation) {
+                        1 => $monologHandlerPluginManager,
+                        2 => $activationStrategyPluginManager,
+                        default => throw new ServiceNotFoundException(),
+                    };
                 },
             );
 
@@ -391,14 +426,18 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
+        $monologFormatterPluginManager->expects(self::never())
+            ->method('build');
 
         $activationStrategyPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $activationStrategyPluginManager->expects(self::never())
             ->method('has');
+        $activationStrategyPluginManager->expects(self::never())
+            ->method('get');
         $activationStrategyPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($strategyName, $strategyOptions)
             ->willReturn($strategyClass);
 
@@ -407,8 +446,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, [])
             ->willReturn($handler2);
 
@@ -496,14 +537,18 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
+        $monologFormatterPluginManager->expects(self::never())
+            ->method('build');
 
         $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, ['formatter' => $formatter])
             ->willReturn($handler2);
 
@@ -512,15 +557,30 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $container->expects(self::never())
             ->method('has');
-        $container->expects(self::exactly(2))
+        $matcher = self::exactly(2);
+        $container->expects($matcher)
             ->method('get')
             ->willReturnCallback(
-                static function (string $var) use ($monologHandlerPluginManager) {
-                    if ($var === MonologHandlerPluginManager::class) {
-                        return $monologHandlerPluginManager;
-                    }
+                static function (string $id) use ($matcher, $monologHandlerPluginManager) {
+                    $invocation = $matcher->numberOfInvocations();
 
-                    throw new ServiceNotFoundException();
+                    match ($invocation) {
+                        1 => self::assertSame(
+                            MonologHandlerPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                        default => self::assertSame(
+                            MonologFormatterPluginManager::class,
+                            $id,
+                            (string) $invocation,
+                        ),
+                    };
+
+                    return match ($invocation) {
+                        1 => $monologHandlerPluginManager,
+                        default => throw new ServiceNotFoundException(),
+                    };
                 },
             );
 
@@ -570,14 +630,18 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
+        $monologFormatterPluginManager->expects(self::never())
+            ->method('build');
 
         $activationStrategyPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
             ->disableOriginalConstructor()
             ->getMock();
         $activationStrategyPluginManager->expects(self::never())
             ->method('has');
+        $activationStrategyPluginManager->expects(self::never())
+            ->method('get');
         $activationStrategyPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($strategyName, $strategyOptions)
             ->willReturn($strategyClass);
 
@@ -586,8 +650,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, ['formatter' => $formatter])
             ->willReturn($handler2);
 
@@ -673,8 +739,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, ['formatter' => $formatter])
             ->willReturn($handler2);
 
@@ -731,8 +799,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $activationStrategyPluginManager->expects(self::never())
             ->method('has');
+        $activationStrategyPluginManager->expects(self::never())
+            ->method('get');
         $activationStrategyPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($strategyName, $strategyOptions)
             ->willReturn($strategyClass);
 
@@ -741,8 +811,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, [])
             ->willReturn($handler2);
 
@@ -794,8 +866,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 
@@ -847,8 +921,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
         $monologProcessorPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
@@ -865,8 +941,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 
@@ -935,8 +1013,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
         $monologProcessorPluginManager->expects(self::exactly(2))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     ['abc', [], $processor1],
@@ -957,8 +1037,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $activationStrategyPluginManager->expects(self::never())
             ->method('has');
+        $activationStrategyPluginManager->expects(self::never())
+            ->method('get');
         $activationStrategyPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($strategyName, $strategyOptions)
             ->willReturn($strategyClass);
 
@@ -967,8 +1049,10 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 

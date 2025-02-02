@@ -39,7 +39,6 @@ final class SyslogUdpHandlerFactory implements FactoryInterface
     private const int DEFAULT_PORT = 514;
 
     /**
-     * @param string                                $requestedName
      * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{host?: string, port?: int, facility?: (int|string), level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool, ident?: string, rfc?: SyslogUdpHandler::RFC*}|null $options
      *
@@ -47,12 +46,11 @@ final class SyslogUdpHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): SyslogUdpHandler {
         if (!is_array($options)) {

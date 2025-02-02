@@ -48,7 +48,7 @@ trait GetHandlerTrait
         }
 
         try {
-            $handler = $container->get(MonologHandlerPluginManager::class)->get(
+            $handler = $container->get(MonologHandlerPluginManager::class)->build(
                 $options['type'],
                 $options['options'] ?? [],
             );

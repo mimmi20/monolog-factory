@@ -225,18 +225,22 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $matcher = self::exactly(3);
         $monologHandlerPluginManager->expects($matcher)
-            ->method('get')
+            ->method('build')
             ->willReturnCallback(
-                static function (string $with) use ($matcher, $handler1, $handler2): HandlerInterface {
-                    match ($matcher->numberOfInvocations()) {
-                        1 => self::assertSame(FirePHPHandler::class, $with),
-                        2 => self::assertSame(ChromePHPHandler::class, $with),
-                        default => self::assertSame(GelfHandler::class, $with),
+                static function (string $id) use ($matcher, $handler1, $handler2): HandlerInterface {
+                    $invocation = $matcher->numberOfInvocations();
+
+                    match ($invocation) {
+                        1 => self::assertSame(FirePHPHandler::class, $id, (string) $invocation),
+                        2 => self::assertSame(ChromePHPHandler::class, $id, (string) $invocation),
+                        default => self::assertSame(GelfHandler::class, $id, (string) $invocation),
                     };
 
-                    return match ($matcher->numberOfInvocations()) {
+                    return match ($invocation) {
                         1 => $handler1,
                         2 => $handler2,
                         default => throw new ServiceNotFoundException(),
@@ -327,8 +331,10 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::exactly(2))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     [FirePHPHandler::class, [], $handler1],
@@ -344,11 +350,16 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         $matcher = self::exactly(3);
         $container->expects($matcher)
             ->method('get')
-            ->with(MonologHandlerPluginManager::class)
             ->willReturnCallback(
-                static fn (): AbstractPluginManager => match ($matcher->numberOfInvocations()) {
+                static function (string $id) use ($matcher, $monologHandlerPluginManager): AbstractPluginManager {
+                    $invocation = $matcher->numberOfInvocations();
+
+                    self::assertSame(MonologHandlerPluginManager::class, $id, (string) $invocation);
+
+                    return match ($invocation) {
                         1, 2 => $monologHandlerPluginManager,
                         default => throw new ServiceNotFoundException(),
+                    };
                 },
             );
 
@@ -433,8 +444,10 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::exactly(3))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     [FirePHPHandler::class, [], $handler1],
@@ -535,8 +548,10 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::exactly(3))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     [FirePHPHandler::class, [], $handler1],
@@ -638,8 +653,10 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::exactly(3))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     [FirePHPHandler::class, [], $handler1],
@@ -743,8 +760,10 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::exactly(3))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     [FirePHPHandler::class, [], $handler1],
@@ -848,8 +867,10 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::exactly(3))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     [FirePHPHandler::class, [], $handler1],
@@ -950,8 +971,10 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::exactly(3))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     [FirePHPHandler::class, [], $handler1],

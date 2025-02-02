@@ -37,7 +37,6 @@ final class DynamoDbHandlerFactory implements FactoryInterface
     use AddProcessorTrait;
 
     /**
-     * @param string                                               $requestedName
      * @param array<string, (bool|DynamoDbClient|int|string)>|null $options
      * @phpstan-param array{client?: (bool|string|DynamoDbClient), table?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
@@ -45,12 +44,11 @@ final class DynamoDbHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): DynamoDbHandler {
         if (!is_array($options)) {

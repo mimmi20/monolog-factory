@@ -21,17 +21,18 @@ use Psr\Container\ContainerInterface;
 final class NoopHandlerFactory implements FactoryInterface
 {
     /**
-     * @param string            $requestedName
      * @param array<mixed>|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): NoopHandler
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        array | null $options = null,
+    ): NoopHandler {
         return new NoopHandler();
     }
 }

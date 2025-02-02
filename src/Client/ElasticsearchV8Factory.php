@@ -29,18 +29,19 @@ use function is_string;
 final class ElasticsearchV8Factory implements FactoryInterface
 {
     /**
-     * @param string                                              $requestedName
      * @param array<string, (array<string>|bool|int|string)>|null $options
      * @phpstan-param array{hosts?: bool|array<string>, retries?: int, api-id?: string, api-key?: string, username?: string, password?: string, metadata?: bool|int}|null $options
      *
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
-    public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): V8Client
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        array | null $options = null,
+    ): V8Client {
         if (!is_array($options)) {
             throw new ServiceNotCreatedException('Options must be an Array');
         }

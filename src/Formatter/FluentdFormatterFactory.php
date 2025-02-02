@@ -24,19 +24,17 @@ use function is_array;
 final class FluentdFormatterFactory implements FactoryInterface
 {
     /**
-     * @param string                   $requestedName
      * @param array<string, bool>|null $options
      * @phpstan-param array{levelTag?: bool}|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): FluentdFormatter {
         $levelTag = false;

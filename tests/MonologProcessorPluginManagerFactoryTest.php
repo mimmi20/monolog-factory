@@ -13,6 +13,9 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory;
 
+use Laminas\ServiceManager\Exception\ContainerModificationsNotAllowedException;
+use Laminas\ServiceManager\Exception\CyclicAliasException;
+use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Mimmi20\MonologFactory\MonologProcessorPluginManagerFactory;
@@ -28,6 +31,9 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotFoundException
+     * @throws ContainerModificationsNotAllowedException
+     * @throws CyclicAliasException
+     * @throws InvalidServiceException
      */
     public function testInvoke1(): void
     {
@@ -55,6 +61,9 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotFoundException
+     * @throws ContainerModificationsNotAllowedException
+     * @throws CyclicAliasException
+     * @throws InvalidServiceException
      */
     public function testInvoke2(): void
     {
@@ -86,6 +95,9 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotFoundException
+     * @throws ContainerModificationsNotAllowedException
+     * @throws CyclicAliasException
+     * @throws InvalidServiceException
      */
     public function testInvoke3(): void
     {
@@ -120,6 +132,9 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotFoundException
+     * @throws ContainerModificationsNotAllowedException
+     * @throws CyclicAliasException
+     * @throws InvalidServiceException
      */
     public function testInvoke4(): void
     {
@@ -154,6 +169,9 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotFoundException
+     * @throws ContainerModificationsNotAllowedException
+     * @throws CyclicAliasException
+     * @throws InvalidServiceException
      */
     public function testInvoke5(): void
     {
@@ -188,6 +206,9 @@ final class MonologProcessorPluginManagerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotFoundException
+     * @throws ContainerModificationsNotAllowedException
+     * @throws CyclicAliasException
+     * @throws InvalidServiceException
      */
     public function testInvoke6(): void
     {

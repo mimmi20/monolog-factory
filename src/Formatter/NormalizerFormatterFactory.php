@@ -28,19 +28,17 @@ final class NormalizerFormatterFactory implements FactoryInterface
     public const int DEFAULT_NORMALIZER_ITEM_COUNT = 1000;
 
     /**
-     * @param string                              $requestedName
      * @param array<string, bool|int|string>|null $options
      * @phpstan-param array{dateFormat?: string, maxNormalizeDepth?: int, maxNormalizeItemCount?: int, prettyPrint?: bool}|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): NormalizerFormatter {
         $dateFormat            = null;

@@ -265,6 +265,8 @@ final class MonologFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
             ->method('get');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('build');
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -313,17 +315,21 @@ final class MonologFactoryTest extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $matcher = self::exactly(2);
         $monologHandlerPluginManager->expects($matcher)
-            ->method('get')
+            ->method('build')
             ->willReturnCallback(
                 static function (string $name, array | null $options = null) use ($matcher): void {
-                    match ($matcher->numberOfInvocations()) {
-                        default => self::assertSame('abc', $name),
-                        1 => self::assertSame('xyz', $name),
+                    $invocation = $matcher->numberOfInvocations();
+
+                    match ($invocation) {
+                        default => self::assertSame('abc', $name, (string) $invocation),
+                        1 => self::assertSame('xyz', $name, (string) $invocation),
                     };
 
-                    self::assertSame([], $options);
+                    self::assertSame([], $options, (string) $invocation);
 
                     throw new ServiceNotFoundException();
                 },
@@ -380,8 +386,10 @@ final class MonologFactoryTest extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::exactly(2))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     ['xyz', ['abc' => 'def'], $handler],
@@ -439,8 +447,10 @@ final class MonologFactoryTest extends TestCase
             ->getMock();
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
+        $monologHandlerPluginManager->expects(self::never())
+            ->method('get');
         $monologHandlerPluginManager->expects(self::once())
-            ->method('get')
+            ->method('build')
             ->with('xyz', ['abc' => 'def'])
             ->willReturn($handler);
 
@@ -539,6 +549,8 @@ final class MonologFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
             ->method('get');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('build');
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
@@ -586,17 +598,21 @@ final class MonologFactoryTest extends TestCase
             ->getMock();
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
         $matcher = self::exactly(2);
         $monologProcessorPluginManager->expects($matcher)
-            ->method('get')
+            ->method('build')
             ->willReturnCallback(
                 static function (string $name, array | null $options = null) use ($matcher): void {
-                    match ($matcher->numberOfInvocations()) {
-                        1 => self::assertSame('abc', $name),
-                        default => self::assertSame('xyz', $name),
+                    $invocation = $matcher->numberOfInvocations();
+
+                    match ($invocation) {
+                        1 => self::assertSame('abc', $name, (string) $invocation),
+                        default => self::assertSame('xyz', $name, (string) $invocation),
                     };
 
-                    self::assertSame([], $options);
+                    self::assertSame([], $options, (string) $invocation);
 
                     throw new ServiceNotFoundException();
                 },
@@ -652,8 +668,10 @@ final class MonologFactoryTest extends TestCase
             ->getMock();
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
         $monologProcessorPluginManager->expects(self::exactly(2))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     ['abc', [], $processor],
@@ -711,8 +729,10 @@ final class MonologFactoryTest extends TestCase
             ->getMock();
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
+        $monologProcessorPluginManager->expects(self::never())
+            ->method('get');
         $monologProcessorPluginManager->expects(self::exactly(2))
-            ->method('get')
+            ->method('build')
             ->willReturnMap(
                 [
                     ['abc', [], $processor],

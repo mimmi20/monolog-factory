@@ -13,17 +13,14 @@ declare(strict_types = 1);
 
 namespace Mimmi20\MonologFactory;
 
-use Laminas\ServiceManager\Config;
-
 interface MonologProviderInterface
 {
     /**
-     * Expected to return \Laminas\ServiceManager\Config object or array to
-     * seed such an object.
+     * Expected to return array to seed such an object.
      *
-     * @return array<string, array<string, string>>|Config
+     * @return array<string, array<string, string>>
      *
      * @throws void
      */
-    public function getMonologConfig(): array | Config;
+    public function getMonologConfig(): array;
 }

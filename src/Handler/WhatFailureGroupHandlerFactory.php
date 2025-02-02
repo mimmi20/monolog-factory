@@ -31,18 +31,16 @@ final class WhatFailureGroupHandlerFactory
     use GetHandlersTrait;
 
     /**
-     * @param string                                            $requestedName
      * @param array<string, (array<string>|bool|iterable)>|null $options
      * @phpstan-param array{handlers?: bool|array<string|array{type?: string, enabled?: bool, options?: array<mixed>}>, bubble?: bool}|null $options
      *
      * @throws InvalidArgumentException
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): WhatFailureGroupHandler {
         if (!is_array($options)) {

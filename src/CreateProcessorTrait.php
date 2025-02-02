@@ -54,7 +54,7 @@ trait CreateProcessorTrait
         }
 
         try {
-            $processor = $monologProcessorPluginManager->get(
+            $processor = $monologProcessorPluginManager->build(
                 $processorConfig['type'],
                 $processorConfig['options'] ?? [],
             );

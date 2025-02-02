@@ -46,7 +46,6 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
     use GetHandlerTrait;
 
     /**
-     * @param string                                                       $requestedName
      * @param array<string, (ActivationStrategyInterface|int|string)>|null $options
      * @phpstan-param array{handler?: bool|array{type?: string, enabled?: bool, options?: array<mixed>}, activationStrategy?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*|ActivationStrategyInterface|array{type?: string, options?: array<mixed>}|string|null), bufferSize?: int, bubble?: bool, stopBuffering?: bool, passthruLevel?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*)}|null $options
      *
@@ -54,12 +53,11 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        $requestedName,
+        string $requestedName,
         array | null $options = null,
     ): FingersCrossedHandler {
         if (!is_array($options)) {
@@ -175,11 +173,11 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
             }
 
             try {
-                $strategy = $activationStrategyPluginManager->get(
+                $strategy = $activationStrategyPluginManager->build(
                     $activationStrategy['type'],
                     $activationStrategy['options'] ?? [],
                 );
-            } catch (ServiceNotFoundException | InvalidServiceException $e) {
+            } catch (ServiceNotFoundException | InvalidServiceException | ContainerExceptionInterface $e) {
                 throw new ServiceNotFoundException('Could not load ActivationStrategy class', 0, $e);
             }
 

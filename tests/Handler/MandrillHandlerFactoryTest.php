@@ -35,6 +35,7 @@ use ReflectionException;
 use ReflectionProperty;
 use Swift_Message;
 
+use function class_exists;
 use function sprintf;
 
 final class MandrillHandlerFactoryTest extends TestCase
@@ -181,6 +182,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfig4(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey      = 'test-key';
         $messageName = 'test-message';
         $message     = $this->getMockBuilder(Swift_Message::class)
@@ -234,6 +239,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfig6(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey      = 'test-key';
         $messageName = 'test-message';
         $message     = $this->getMockBuilder(Swift_Message::class)
@@ -287,6 +296,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfig7(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey  = 'test-key';
         $message = $this->getMockBuilder(Swift_Message::class)
             ->disableOriginalConstructor()
@@ -335,6 +348,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfig8(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey  = 'test-key';
         $message = $this->getMockBuilder(Swift_Message::class)
             ->disableOriginalConstructor()
@@ -383,6 +400,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfig9(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey       = 'test-key';
         $messageClass = $this->getMockBuilder(Swift_Message::class)
             ->disableOriginalConstructor()
@@ -432,6 +453,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfig10(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey       = 'test-key';
         $messageClass = $this->getMockBuilder(Swift_Message::class)
             ->disableOriginalConstructor()
@@ -509,6 +534,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey       = 'test-key';
         $messageClass = $this->getMockBuilder(Swift_Message::class)
             ->disableOriginalConstructor()
@@ -542,6 +571,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey       = 'test-key';
         $messageClass = $this->getMockBuilder(Swift_Message::class)
             ->disableOriginalConstructor()
@@ -580,6 +613,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey       = 'test-key';
         $messageClass = $this->getMockBuilder(Swift_Message::class)
             ->disableOriginalConstructor()
@@ -641,6 +678,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey       = 'test-key';
         $messageClass = $this->getMockBuilder(Swift_Message::class)
             ->disableOriginalConstructor()
@@ -678,6 +719,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey       = 'test-key';
         $messageClass = $this->getMockBuilder(Swift_Message::class)
             ->disableOriginalConstructor()
@@ -709,6 +754,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey       = 'test-key';
         $messageClass = $this->getMockBuilder(Swift_Message::class)
             ->disableOriginalConstructor()
@@ -765,6 +814,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey       = 'test-key';
         $messageClass = $this->getMockBuilder(Swift_Message::class)
             ->disableOriginalConstructor()
@@ -852,6 +905,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey       = 'test-key';
         $messageClass = $this->getMockBuilder(Swift_Message::class)
             ->disableOriginalConstructor()
@@ -900,6 +957,10 @@ final class MandrillHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
+        if (!class_exists(Swift_Message::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Swift_Message::class));
+        }
+
         $apiKey       = 'test-key';
         $messageClass = $this->getMockBuilder(Swift_Message::class)
             ->disableOriginalConstructor()

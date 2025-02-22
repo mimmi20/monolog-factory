@@ -34,6 +34,7 @@ use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
 
+use function class_exists;
 use function sprintf;
 
 final class ElasticaHandlerFactoryTest extends TestCase
@@ -176,6 +177,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigWithClientClass(): void
     {
+        if (!class_exists(Client::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
+        }
+
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -229,6 +234,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigWithClassString(): void
     {
+        if (!class_exists(Client::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
+        }
+
         $client      = 'xyz';
         $clientClass = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
@@ -286,6 +295,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
+        if (!class_exists(Client::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
+        }
+
         $client      = 'xyz';
         $clientClass = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
@@ -322,6 +335,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
+        if (!class_exists(Client::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
+        }
+
         $client      = 'xyz';
         $clientClass = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
@@ -368,6 +385,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
+        if (!class_exists(Client::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
+        }
+
         $client      = 'xyz';
         $clientClass = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
@@ -440,6 +461,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
+        if (!class_exists(Client::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
+        }
+
         $client      = 'xyz';
         $clientClass = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
@@ -482,6 +507,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
+        if (!class_exists(Client::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
+        }
+
         $client      = 'xyz';
         $clientClass = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
@@ -516,6 +545,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
+        if (!class_exists(Client::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
+        }
+
         $client      = 'xyz';
         $clientClass = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
@@ -577,6 +610,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
+        if (!class_exists(Client::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
+        }
+
         $client      = 'xyz';
         $clientClass = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
@@ -675,6 +712,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
+        if (!class_exists(Client::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
+        }
+
         $client      = 'xyz';
         $clientClass = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
@@ -739,6 +780,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
+        if (!class_exists(Client::class)) {
+            self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
+        }
+
         $client      = 'xyz';
         $clientClass = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()

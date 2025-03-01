@@ -34,7 +34,7 @@
     "aws/aws-sdk-php": "^3.339.19",
     "doctrine/couchdb": "1.0.0-beta4",
     "elasticsearch/elasticsearch": "^7.17.2 || ^8.17.0",
-    "ezimuel/ringphp": "^1.2.3",
+    "ezimuel/ringphp": "^1.3.0",
     "graylog2/gelf-php": "^2.0.2",
     "guzzlehttp/guzzle": "^7.9.2",
     "guzzlehttp/psr7": "^2.7.0",

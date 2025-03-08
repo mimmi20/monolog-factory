@@ -89,14 +89,14 @@ jobs:
 
       - name: "Update dependencies with composer"
         if: ${{ '8.4' != matrix.php-version && '8.5' != matrix.php-version }}
-        uses: "ramsey/composer-install@3.0.0"
+        uses: "ramsey/composer-install@3.1.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ inputs.composer-options }}"
 
       - name: "Update dependencies with composer"
         if: ${{ '8.4' == matrix.php-version || '8.5' == matrix.php-version }}
-        uses: "ramsey/composer-install@3.0.0"
+        uses: "ramsey/composer-install@3.1.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ inputs.composer-options }} --ignore-platform-reqs"

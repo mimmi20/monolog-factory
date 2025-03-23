@@ -23,26 +23,16 @@ use Mimmi20\MonologFactory\MonologHandlerPluginManager;
 use Mimmi20\MonologFactory\MonologPluginManager;
 use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Monolog\Logger;
-use Override;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 final class ConfigProviderTest extends TestCase
 {
-    private ConfigProvider $provider;
-
-    /** @throws void */
-    #[Override]
-    protected function setUp(): void
-    {
-        $this->provider = new ConfigProvider();
-    }
-
     /** @throws Exception */
     public function testGetDependencyConfig(): void
     {
-        $dependencyConfig = $this->provider->getDependencyConfig();
+        $dependencyConfig = (new ConfigProvider())->getDependencyConfig();
         self::assertIsArray($dependencyConfig);
         self::assertCount(2, $dependencyConfig);
 
@@ -72,7 +62,7 @@ final class ConfigProviderTest extends TestCase
     /** @throws Exception */
     public function testGetMonologHandlerConfig(): void
     {
-        $monologHandlerConfig = $this->provider->getMonologHandlerConfig();
+        $monologHandlerConfig = (new ConfigProvider())->getMonologHandlerConfig();
         self::assertIsArray($monologHandlerConfig);
         self::assertCount(2, $monologHandlerConfig);
 
@@ -97,7 +87,7 @@ final class ConfigProviderTest extends TestCase
     /** @throws Exception */
     public function testGetMonologProcessorConfig(): void
     {
-        $monologProcessorConfig = $this->provider->getMonologProcessorConfig();
+        $monologProcessorConfig = (new ConfigProvider())->getMonologProcessorConfig();
         self::assertIsArray($monologProcessorConfig);
         self::assertCount(2, $monologProcessorConfig);
 
@@ -122,7 +112,7 @@ final class ConfigProviderTest extends TestCase
     /** @throws Exception */
     public function testGetMonologFormatterConfig(): void
     {
-        $monologFormatterConfig = $this->provider->getMonologFormatterConfig();
+        $monologFormatterConfig = (new ConfigProvider())->getMonologFormatterConfig();
         self::assertIsArray($monologFormatterConfig);
         self::assertCount(2, $monologFormatterConfig);
 
@@ -147,7 +137,7 @@ final class ConfigProviderTest extends TestCase
     /** @throws Exception */
     public function testGetMonologConfig(): void
     {
-        $monologConfig = $this->provider->getMonologConfig();
+        $monologConfig = (new ConfigProvider())->getMonologConfig();
         self::assertIsArray($monologConfig);
         self::assertCount(2, $monologConfig);
 
@@ -174,7 +164,7 @@ final class ConfigProviderTest extends TestCase
     /** @throws Exception */
     public function testGetMonologClientConfig(): void
     {
-        $monologConfig = $this->provider->getMonologClientConfig();
+        $monologConfig = (new ConfigProvider())->getMonologClientConfig();
         self::assertIsArray($monologConfig);
         self::assertCount(2, $monologConfig);
 
@@ -203,7 +193,7 @@ final class ConfigProviderTest extends TestCase
     /** @throws Exception */
     public function testInvocationReturnsArrayWithDependencies(): void
     {
-        $config = ($this->provider)();
+        $config = (new ConfigProvider())();
 
         self::assertIsArray($config);
         self::assertCount(6, $config);

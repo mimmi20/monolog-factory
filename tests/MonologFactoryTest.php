@@ -24,6 +24,7 @@ use Monolog\Handler\HandlerInterface;
 use Monolog\Logger;
 use Monolog\LogRecord;
 use Monolog\Processor\ProcessorInterface;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -353,6 +354,8 @@ final class MonologFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
      */
     public function testInvokeWithHandlers5(): void
     {
@@ -412,6 +415,8 @@ final class MonologFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
      */
     public function testInvokeWithHandlers6(): void
     {
@@ -625,6 +630,8 @@ final class MonologFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
      */
     public function testInvokeWithProcessors5(): void
     {
@@ -684,6 +691,8 @@ final class MonologFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
      */
     public function testInvokeWithProcessors7(): void
     {

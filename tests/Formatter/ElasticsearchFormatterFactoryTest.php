@@ -13,7 +13,6 @@ declare(strict_types = 1);
 
 namespace Mimmi20Test\MonologFactory\Formatter;
 
-use DateTimeInterface;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Formatter\ElasticsearchFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\NormalizerFormatterFactory;
@@ -93,7 +92,7 @@ final class ElasticsearchFormatterFactoryTest extends TestCase
         self::assertInstanceOf(ElasticsearchFormatter::class, $formatter);
         self::assertSame($index, $formatter->getIndex());
         self::assertSame('', $formatter->getType());
-        self::assertSame(DateTimeInterface::ISO8601, $formatter->getDateFormat());
+        self::assertSame('Y-m-d\TH:i:sP', $formatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
             $formatter->getMaxNormalizeDepth(),
@@ -130,7 +129,7 @@ final class ElasticsearchFormatterFactoryTest extends TestCase
         self::assertInstanceOf(ElasticsearchFormatter::class, $formatter);
         self::assertSame($index, $formatter->getIndex());
         self::assertSame($type, $formatter->getType());
-        self::assertSame(DateTimeInterface::ISO8601, $formatter->getDateFormat());
+        self::assertSame('Y-m-d\TH:i:sP', $formatter->getDateFormat());
         self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
         self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
     }

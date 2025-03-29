@@ -36,7 +36,7 @@
     "elasticsearch/elasticsearch": "^7.17.2 || ^8.17.0",
     "ezimuel/ringphp": "^1.3.0",
     "graylog2/gelf-php": "^2.0.2",
-    "guzzlehttp/guzzle": "^7.9.2",
+    "guzzlehttp/guzzle": "^7.9.3",
     "guzzlehttp/psr7": "^2.7.1",
     "infection/infection": "^0.29.14",
     "jk/monolog-request-header-processor": "^1.0.0",

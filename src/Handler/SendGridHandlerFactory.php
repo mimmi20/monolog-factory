@@ -36,7 +36,7 @@ final class SendGridHandlerFactory implements FactoryInterface
 
     /**
      * @param array<string, (bool|int|string)>|null $options
-     * @phpstan-param array{apiUser?: string, apiKey?: string, from?: string, to?: (string|array<string>), subject?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
+     * @phpstan-param array{apiUser?: string, apiKey?: string, from?: string, to?: (string|list<string>), subject?: string, level?: (value-of<Level::VALUES>|value-of<Level::NAMES>|Level|LogLevel::*), bubble?: bool}|null $options
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service

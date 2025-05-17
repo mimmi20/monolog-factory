@@ -55,7 +55,7 @@
     "rector/rector": "^2.0.16",
     "rector/type-perfect": "^2.1.0",
     "ruflin/elastica": "^8.1.0",
-    "shipmonk/composer-dependency-analyser": "^1.8.2",
+    "shipmonk/composer-dependency-analyser": "^1.8.3",
     "symfony/mailer": "^7.2.6",
     "symfony/mime": "^7.2.6",
     "symfony/process": "^7.2.5",

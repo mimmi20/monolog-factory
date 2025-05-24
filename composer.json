@@ -50,7 +50,7 @@
     "phpstan/extension-installer": "^1.4.3",
     "phpstan/phpstan": "^2.1.17",
     "phpstan/phpstan-deprecation-rules": "^2.0.3",
-    "phpunit/phpunit": "^12.1.5",
+    "phpunit/phpunit": "^12.1.6",
     "predis/predis": "^1.1.10 || ^2.1.2",
     "rector/rector": "^2.0.16",
     "rector/type-perfect": "^2.1.0",

@@ -171,7 +171,7 @@ jobs:
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"swiftmailer/swiftmailer:6.3.0\""
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@3.1.0"
+        uses: "ramsey/composer-install@3.1.1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"
@@ -279,7 +279,7 @@ jobs:
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"swiftmailer/swiftmailer:6.3.0\""
 
       - name: "Update dependencies with composer"
-        uses: "ramsey/composer-install@3.1.0"
+        uses: "ramsey/composer-install@3.1.1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "--optimize-autoloader --prefer-dist --prefer-stable -v"

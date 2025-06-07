@@ -57,6 +57,10 @@ on:
         required: false
         type: boolean
         default: false
+      skip-librabbitmq-install:
+        required: false
+        type: boolean
+        default: true
     secrets:
       ENV_CODECLIMATE_API_KEY:
         required: true
@@ -121,6 +125,10 @@ jobs:
         uses: "supercharge/mongodb-github-action@1.12.0"
         with:
           mongodb-version: "5.0"
+
+      - name: "install librabbitmq-dev"
+        run: "sudo apt-get install librabbitmq-dev -y"
+        if: inputs.skip-librabbitmq-install == false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.33.0"
@@ -233,6 +241,10 @@ jobs:
         uses: "supercharge/mongodb-github-action@1.12.0"
         with:
           mongodb-version: "5.0"
+
+      - name: "install librabbitmq-dev"
+        run: "sudo apt-get install librabbitmq-dev -y"
+        if: inputs.skip-librabbitmq-install == false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.33.0"

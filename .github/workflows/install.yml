@@ -12,6 +12,10 @@ on:
       composer-options:
         required: true
         type: string
+      skip-librabbitmq-install:
+        required: false
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -56,6 +60,10 @@ jobs:
           fetch-depth: 0
           lfs: false
           persist-credentials: false
+
+      - name: "install librabbitmq-dev"
+        run: "sudo apt-get install librabbitmq-dev -y"
+        if: inputs.skip-librabbitmq-install == false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.33.0"

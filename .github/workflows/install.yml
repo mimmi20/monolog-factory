@@ -12,6 +12,10 @@ on:
       composer-options:
         required: true
         type: string
+      skip-librabbitmq-install:
+        required: false
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -57,6 +61,10 @@ jobs:
           lfs: false
           persist-credentials: false
 
+      - name: "install librabbitmq-dev"
+        run: "sudo apt-get install librabbitmq-dev -y"
+        if: inputs.skip-librabbitmq-install == false
+
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.33.0"
         with:
@@ -88,21 +96,21 @@ jobs:
         run: "composer require --no-update --no-interaction --prefer-dist --prefer-stable --dev \"elasticsearch/elasticsearch:^${{ matrix.elasticsearch-version }}\""
 
       - name: "Update dependencies with composer"
-        if: ${{ '8.4' != matrix.php-version && '8.5' != matrix.php-version }}
+        if: ${{ '8.5' != matrix.php-version }}
         uses: "ramsey/composer-install@3.1.1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ inputs.composer-options }}"
 
       - name: "Update dependencies with composer"
-        if: ${{ '8.4' == matrix.php-version || '8.5' == matrix.php-version }}
+        if: ${{ '8.5' == matrix.php-version }}
         uses: "ramsey/composer-install@3.1.1"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ inputs.composer-options }} --ignore-platform-reqs"
 
       - name: "Check dependencies with composer"
-        if: ${{ '8.4' != matrix.php-version && '8.5' != matrix.php-version }}
+        if: ${{ '8.5' != matrix.php-version }}
         run: "composer outdated --direct"
 
   # This is a meta job to avoid to have to constantly change the protection rules

@@ -57,6 +57,10 @@ on:
         required: false
         type: boolean
         default: false
+      skip-librabbitmq-install:
+        required: false
+        type: boolean
+        default: true
     secrets:
       ENV_CODECLIMATE_API_KEY:
         required: true
@@ -112,7 +116,7 @@ jobs:
       - name: "Run CouchDB"
         timeout-minutes: 3
         continue-on-error: true
-        uses: "cobot/couchdb-action@master"
+        uses: "cobot/couchdb-action@v5"
         with:
           couchdb version: "2.3.1"
 
@@ -121,6 +125,10 @@ jobs:
         uses: "supercharge/mongodb-github-action@1.12.0"
         with:
           mongodb-version: "5.0"
+
+      - name: "install librabbitmq-dev"
+        run: "sudo apt-get install librabbitmq-dev -y"
+        if: inputs.skip-librabbitmq-install == false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.33.0"
@@ -224,7 +232,7 @@ jobs:
       - name: "Run CouchDB"
         timeout-minutes: 3
         continue-on-error: true
-        uses: "cobot/couchdb-action@master"
+        uses: "cobot/couchdb-action@v5"
         with:
           couchdb version: "2.3.1"
 
@@ -233,6 +241,10 @@ jobs:
         uses: "supercharge/mongodb-github-action@1.12.0"
         with:
           mongodb-version: "5.0"
+
+      - name: "install librabbitmq-dev"
+        run: "sudo apt-get install librabbitmq-dev -y"
+        if: inputs.skip-librabbitmq-install == false
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@2.33.0"

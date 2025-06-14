@@ -52,7 +52,7 @@
     "phpstan/phpstan-deprecation-rules": "^2.0.3",
     "phpunit/phpunit": "^12.2.0",
     "predis/predis": "^1.1.10 || ^2.1.2",
-    "rector/rector": "^2.0.17",
+    "rector/rector": "^2.0.18",
     "rector/type-perfect": "^2.1.0",
     "ruflin/elastica": "^8.1.0",
     "shipmonk/composer-dependency-analyser": "^1.8.3",

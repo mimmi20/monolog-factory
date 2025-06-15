@@ -27,6 +27,7 @@ use Mimmi20\MonologFactory\Formatter\ElasticsearchFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\FlowdockFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\FluentdFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\GelfMessageFormatterFactory;
+use Mimmi20\MonologFactory\Formatter\GoogleCloudLoggingFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\HtmlFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\JsonFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\LineFormatterFactory;
@@ -36,6 +37,7 @@ use Mimmi20\MonologFactory\Formatter\LogstashFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\MongoDBFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\NormalizerFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\ScalarFormatterFactory;
+use Mimmi20\MonologFactory\Formatter\SyslogFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\WildfireFormatterFactory;
 use Mimmi20\MonologFactory\Handler\AmqpHandlerFactory;
 use Mimmi20\MonologFactory\Handler\BrowserConsoleHandlerFactory;
@@ -94,9 +96,11 @@ use Mimmi20\MonologFactory\Handler\TelegramBotHandlerFactory;
 use Mimmi20\MonologFactory\Handler\TestHandlerFactory;
 use Mimmi20\MonologFactory\Handler\WhatFailureGroupHandlerFactory;
 use Mimmi20\MonologFactory\Handler\ZendMonitorHandlerFactory;
+use Mimmi20\MonologFactory\Processor\ClosureContextProcessorFactory;
 use Mimmi20\MonologFactory\Processor\GitProcessorFactory;
 use Mimmi20\MonologFactory\Processor\HostnameProcessorFactory;
 use Mimmi20\MonologFactory\Processor\IntrospectionProcessorFactory;
+use Mimmi20\MonologFactory\Processor\LoadAverageProcessorFactory;
 use Mimmi20\MonologFactory\Processor\MemoryPeakUsageProcessorFactory;
 use Mimmi20\MonologFactory\Processor\MemoryUsageProcessorFactory;
 use Mimmi20\MonologFactory\Processor\MercurialProcessorFactory;
@@ -112,6 +116,7 @@ use Monolog\Formatter\ElasticsearchFormatter;
 use Monolog\Formatter\FlowdockFormatter;
 use Monolog\Formatter\FluentdFormatter;
 use Monolog\Formatter\GelfMessageFormatter;
+use Monolog\Formatter\GoogleCloudLoggingFormatter;
 use Monolog\Formatter\HtmlFormatter;
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Formatter\LineFormatter;
@@ -121,6 +126,7 @@ use Monolog\Formatter\LogstashFormatter;
 use Monolog\Formatter\MongoDBFormatter;
 use Monolog\Formatter\NormalizerFormatter;
 use Monolog\Formatter\ScalarFormatter;
+use Monolog\Formatter\SyslogFormatter;
 use Monolog\Formatter\WildfireFormatter;
 use Monolog\Handler\AmqpHandler;
 use Monolog\Handler\BrowserConsoleHandler;
@@ -175,9 +181,11 @@ use Monolog\Handler\TestHandler;
 use Monolog\Handler\WhatFailureGroupHandler;
 use Monolog\Handler\ZendMonitorHandler;
 use Monolog\Logger;
+use Monolog\Processor\ClosureContextProcessor;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
 use Monolog\Processor\IntrospectionProcessor;
+use Monolog\Processor\LoadAverageProcessor;
 use Monolog\Processor\MemoryPeakUsageProcessor;
 use Monolog\Processor\MemoryUsageProcessor;
 use Monolog\Processor\MercurialProcessor;
@@ -370,9 +378,11 @@ final class ConfigProvider
     {
         return [
             'aliases' => [
+                'closure' => ClosureContextProcessor::class,
                 'git' => GitProcessor::class,
                 'hostname' => HostnameProcessor::class,
                 'introspection' => IntrospectionProcessor::class,
+                'load-average' => LoadAverageProcessor::class,
                 'memoryPeak' => MemoryPeakUsageProcessor::class,
                 'memoryUsage' => MemoryUsageProcessor::class,
                 'mercurial' => MercurialProcessor::class,
@@ -384,9 +394,11 @@ final class ConfigProvider
                 'web' => WebProcessor::class,
             ],
             'factories' => [
+                ClosureContextProcessor::class => ClosureContextProcessorFactory::class,
                 GitProcessor::class => GitProcessorFactory::class,
                 HostnameProcessor::class => HostnameProcessorFactory::class,
                 IntrospectionProcessor::class => IntrospectionProcessorFactory::class,
+                LoadAverageProcessor::class => LoadAverageProcessorFactory::class,
                 MemoryPeakUsageProcessor::class => MemoryPeakUsageProcessorFactory::class,
                 MemoryUsageProcessor::class => MemoryUsageProcessorFactory::class,
                 MercurialProcessor::class => MercurialProcessorFactory::class,
@@ -416,6 +428,7 @@ final class ConfigProvider
                 'flowdock' => FlowdockFormatter::class,
                 'fluentd' => FluentdFormatter::class,
                 'gelf' => GelfMessageFormatter::class,
+                'google-cloud' => GoogleCloudLoggingFormatter::class,
                 'html' => HtmlFormatter::class,
                 'json' => JsonFormatter::class,
                 'line' => LineFormatter::class,
@@ -425,6 +438,7 @@ final class ConfigProvider
                 'mongodb' => MongoDBFormatter::class,
                 'normalizer' => NormalizerFormatter::class,
                 'scalar' => ScalarFormatter::class,
+                'syslog' => SyslogFormatter::class,
                 'wildfire' => WildfireFormatter::class,
             ],
             'factories' => [
@@ -434,6 +448,7 @@ final class ConfigProvider
                 FlowdockFormatter::class => FlowdockFormatterFactory::class,
                 FluentdFormatter::class => FluentdFormatterFactory::class,
                 GelfMessageFormatter::class => GelfMessageFormatterFactory::class,
+                GoogleCloudLoggingFormatter::class => GoogleCloudLoggingFormatterFactory::class,
                 HtmlFormatter::class => HtmlFormatterFactory::class,
                 JsonFormatter::class => JsonFormatterFactory::class,
                 LineFormatter::class => LineFormatterFactory::class,
@@ -443,6 +458,7 @@ final class ConfigProvider
                 MongoDBFormatter::class => MongoDBFormatterFactory::class,
                 NormalizerFormatter::class => NormalizerFormatterFactory::class,
                 ScalarFormatter::class => ScalarFormatterFactory::class,
+                SyslogFormatter::class => SyslogFormatterFactory::class,
                 WildfireFormatter::class => WildfireFormatterFactory::class,
             ],
         ];

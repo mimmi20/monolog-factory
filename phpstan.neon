@@ -123,6 +123,12 @@ parameters:
     - '~Monolog\\(Formatter|Handler)\\Flowdock(Formatter|Handler)~'
     - '~will always evaluate to true~'
     - '~no value type specified in iterable type~'
+    -
+      message: '~Dead catch~'
+      path: src/Processor/LoadAverageProcessorFactory.php
+    -
+      identifier: argument.type
+      path: tests/Processor/LoadAverageProcessorFactoryTest.php
 
 rules:
   # code complexity

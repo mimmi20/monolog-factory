@@ -24,17 +24,19 @@ use function is_array;
 final class SyslogFormatterFactory implements FactoryInterface
 {
     /**
+     * @param string                                $requestedName
      * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{ maxNormalizeDepth?: int, maxNormalizeItemCount?: int, prettyPrint?: bool, applicationName?: string}|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        string $requestedName,
+        $requestedName,
         array | null $options = null,
     ): SyslogFormatter {
         $maxNormalizeDepth     = NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH;

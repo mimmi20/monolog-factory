@@ -26,17 +26,19 @@ use function is_array;
 final class GoogleCloudLoggingFormatterFactory implements FactoryInterface
 {
     /**
+     * @param string                                $requestedName
      * @param array<string, (bool|int|string)>|null $options
      * @phpstan-param array{batchMode?: JsonFormatter::BATCH_MODE_*, appendNewline?: bool, includeStacktraces?: bool, dateFormat?: string, maxNormalizeDepth?: int, maxNormalizeItemCount?: int, prettyPrint?: bool}|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        string $requestedName,
+        $requestedName,
         array | null $options = null,
     ): GoogleCloudLoggingFormatter {
         $batchMode                  = JsonFormatter::BATCH_MODE_JSON;

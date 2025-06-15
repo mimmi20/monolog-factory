@@ -27,17 +27,19 @@ use function sprintf;
 final class LoadAverageProcessorFactory implements FactoryInterface
 {
     /**
+     * @param string                  $requestedName
      * @param array<string, int>|null $options
      * @phpstan-param array{load?: LoadAverageProcessor::LOAD_*}|null $options
      *
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(
         ContainerInterface $container,
-        string $requestedName,
+        $requestedName,
         array | null $options = null,
     ): LoadAverageProcessor {
         $avgSystemLoad = LoadAverageProcessor::LOAD_1_MINUTE;

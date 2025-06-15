@@ -101,12 +101,12 @@ final class ConfigProviderTest extends TestCase
         self::assertArrayHasKey('aliases', $monologProcessorConfig);
         $aliases = $monologProcessorConfig['aliases'];
         self::assertIsArray($aliases);
-        self::assertCount(12, $aliases);
+        self::assertCount(14, $aliases);
 
         self::assertArrayHasKey('factories', $monologProcessorConfig);
         $factories = $monologProcessorConfig['factories'];
         self::assertIsArray($factories);
-        self::assertCount(12, $factories);
+        self::assertCount(14, $factories);
     }
 
     /** @throws Exception */
@@ -126,12 +126,12 @@ final class ConfigProviderTest extends TestCase
         self::assertArrayHasKey('aliases', $monologFormatterConfig);
         $aliases = $monologFormatterConfig['aliases'];
         self::assertIsArray($aliases);
-        self::assertCount(16, $aliases);
+        self::assertCount(18, $aliases);
 
         self::assertArrayHasKey('factories', $monologFormatterConfig);
         $factories = $monologFormatterConfig['factories'];
         self::assertIsArray($factories);
-        self::assertCount(16, $factories);
+        self::assertCount(18, $factories);
     }
 
     /** @throws Exception */

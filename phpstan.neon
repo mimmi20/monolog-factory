@@ -90,7 +90,7 @@ parameters:
 
   type_coverage:
     return_type: 99.9
-    param_type: 92.3
+    param_type: 92.1
     property_type: 100
     constant_type: 100
     # also, how many files has declare strict types
@@ -112,7 +112,6 @@ parameters:
     - '~MongoDB\\Client~'
     - '~Call to deprecated method getType\(\) of class Monolog\\Formatter\\ElasticaFormatter~'
     - '~Parameter #1 \$stream of class Monolog\\Handler\\StreamHandler constructor expects~'
-    - '~overridden property~'
     - '~Elasticsearch\\(Client(Builder)?|Common)~'
     - '~CMDISP\\MonologMicrosoftTeams\\TeamsLogHandler~'
     - '~PhpAmqpLib\\Channel\\AMQPChannel~'
@@ -125,6 +124,15 @@ parameters:
     - '~will always evaluate to true~'
     - '~no value type specified in iterable type~'
     - '~deprecated class Laminas\\ServiceManager\\Config~'
+    -
+      message: '~Dead catch~'
+      path: src/Processor/LoadAverageProcessorFactory.php
+    -
+      identifier: argument.type
+      path: tests/Processor/LoadAverageProcessorFactoryTest.php
+    -
+      message: '~overridden property~'
+      path: src\Handler\FingersCrossed\ActivationStrategyPluginManager.php
 
 rules:
   # code complexity

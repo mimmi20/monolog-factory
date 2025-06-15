@@ -125,6 +125,12 @@ parameters:
     - '~will always evaluate to true~'
     - '~no value type specified in iterable type~'
     - '~deprecated class Laminas\\ServiceManager\\Config~'
+    -
+      message: '~Dead catch~'
+      path: src/Processor/LoadAverageProcessorFactory.php
+    -
+      identifier: argument.type
+      path: tests/Processor/LoadAverageProcessorFactoryTest.php
 
 rules:
   # code complexity

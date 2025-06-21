@@ -202,8 +202,8 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturnCallback(
                 static fn (): AbstractPluginManager => match ($matcher->numberOfInvocations()) {
-                        1, 2 => $monologHandlerPluginManager,
-                        default => throw new ServiceNotFoundException(),
+                    1, 2 => $monologHandlerPluginManager,
+                    default => throw new ServiceNotFoundException(),
                 },
             );
 

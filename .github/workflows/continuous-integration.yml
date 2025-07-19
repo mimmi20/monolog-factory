@@ -204,7 +204,7 @@ jobs:
       min-msi: 89
       min-covered-msi: 89
       upload-codecov: true
-      upload-codeclimate: true
+      upload-codeclimate: false
       upload-coveralls: false
       upload-flag: "with curl"
       add-curl: true

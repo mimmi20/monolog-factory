@@ -79,7 +79,7 @@ jobs:
       min-msi: 91
       min-covered-msi: 91
       upload-codecov: true
-      upload-codeclimate: true
+      upload-codeclimate: false
       upload-coveralls: true
       upload-flag: "without-extensions"
       skip-infection: true
@@ -103,7 +103,7 @@ jobs:
       min-msi: 91
       min-covered-msi: 91
       upload-codecov: true
-      upload-codeclimate: true
+      upload-codeclimate: false
       upload-coveralls: false
       upload-flag: "with-sockets"
       skip-infection: true
@@ -127,7 +127,7 @@ jobs:
       min-msi: 91
       min-covered-msi: 91
       upload-codecov: true
-      upload-codeclimate: true
+      upload-codeclimate: false
       upload-coveralls: false
       upload-flag: "php-amqplib,with-sockets"
       add-amqplib: true
@@ -153,7 +153,7 @@ jobs:
       min-msi: 89
       min-covered-msi: 89
       upload-codecov: true
-      upload-codeclimate: true
+      upload-codeclimate: false
       upload-coveralls: false
       upload-flag: "php-amqplib,with-sockets"
       add-swiftmailer: true
@@ -179,7 +179,7 @@ jobs:
       min-msi: 92
       min-covered-msi: 92
       upload-codecov: true
-      upload-codeclimate: true
+      upload-codeclimate: false
       upload-coveralls: false
       upload-flag: "with mongodb"
       add-mongodb: true
@@ -228,7 +228,7 @@ jobs:
       min-msi: 89
       min-covered-msi: 89
       upload-codecov: true
-      upload-codeclimate: true
+      upload-codeclimate: false
       upload-coveralls: false
       upload-flag: "with amqp"
       skip-infection: true

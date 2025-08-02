@@ -42,7 +42,6 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
      * @throws ServiceNotFoundException   if unable to resolve the service
      * @throws ServiceNotCreatedException if an exception is raised when creating a service
      *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
     #[Override]
@@ -104,8 +103,6 @@ final class LoggerAbstractFactory implements AbstractFactoryInterface
      * @param string $requestedName
      *
      * @throws void
-     *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function canCreate(ContainerInterface $container, $requestedName): bool

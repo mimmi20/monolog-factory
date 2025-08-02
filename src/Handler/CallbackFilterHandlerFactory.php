@@ -47,7 +47,6 @@ final class CallbackFilterHandlerFactory implements FactoryInterface
      * @throws RuntimeException
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(

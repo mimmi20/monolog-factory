@@ -33,7 +33,6 @@ final class NullHandlerFactory implements FactoryInterface
      * @throws void
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): NullHandler

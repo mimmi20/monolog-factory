@@ -49,7 +49,6 @@ final class MonologFactory implements FactoryInterface
      *
      * @throws ServiceNotCreatedException
      *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
     #[Override]

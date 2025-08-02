@@ -38,7 +38,6 @@ final class ElasticsearchV7Factory implements FactoryInterface
      * @throws AuthenticationConfigException
      *
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     #[Override]
     public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): V7Client

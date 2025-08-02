@@ -32,7 +32,6 @@ final class MonologFormatterPluginManagerFactory implements FactoryInterface
      *
      * @throws ServiceNotFoundException   if unable to resolve the service
      *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
     #[Override]

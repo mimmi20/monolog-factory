@@ -25,7 +25,6 @@ final class ActivationStrategyPluginManagerFactory implements FactoryInterface
      *
      * @throws void
      *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      */
     #[Override]

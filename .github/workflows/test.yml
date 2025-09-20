@@ -131,7 +131,7 @@ jobs:
         if: inputs.skip-librabbitmq-install == false
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.35.4"
+        uses: "shivammathur/setup-php@2.35.5"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, iconv, mbstring, ${{ inputs.extensions }}"
@@ -247,7 +247,7 @@ jobs:
         if: inputs.skip-librabbitmq-install == false
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.35.4"
+        uses: "shivammathur/setup-php@2.35.5"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, iconv, mbstring, ${{ inputs.extensions }}"

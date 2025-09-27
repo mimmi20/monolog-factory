@@ -33,7 +33,7 @@ jobs:
 
       matrix:
         operating-system:
-          - "ubuntu-24.04"
+          - "ubuntu-latest"
 
         php-version:
           - "8.3"
@@ -118,7 +118,7 @@ jobs:
   install-status:
     name: "Install Status"
 
-    runs-on: "ubuntu-24.04"
+    runs-on: "ubuntu-latest"
 
     if: always()
 

@@ -87,7 +87,7 @@ jobs:
 
       matrix:
         operating-system:
-          - "ubuntu-24.04"
+          - "ubuntu-latest"
 
         php-version:
           - "8.3"
@@ -204,7 +204,7 @@ jobs:
 
       matrix:
         operating-system:
-          - "ubuntu-24.04"
+          - "ubuntu-latest"
 
         php-version:
           - "8.3"
@@ -341,7 +341,7 @@ jobs:
         run: "vendor/bin/infection --show-mutations --min-covered-msi=${{ inputs.min-covered-msi }} --min-msi=${{ inputs.min-msi }} --coverage=.build/coverage --logger-github --no-progress -vv"
 
   finish-code-coverage:
-    runs-on: "ubuntu-24.04"
+    runs-on: "ubuntu-latest"
 
     needs: "phpunit-code-coverage"
 
@@ -358,7 +358,7 @@ jobs:
   tests-status:
     name: "Unit & Integration Tests Status"
 
-    runs-on: "ubuntu-24.04"
+    runs-on: "ubuntu-latest"
 
     if: always()
 

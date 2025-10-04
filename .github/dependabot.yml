@@ -92,6 +92,7 @@ updates:
     multi-ecosystem-group: "maintenance-master"
 
     patterns: [ "*" ]
+
   - package-ecosystem: "composer"
 
     directory: "/"

@@ -10,9 +10,8 @@ updates:
     directory: "/"
 
     schedule:
-      interval: "weekly"
-      day: "saturday"
-      time: "04:00"
+      interval: "cron"
+      cronjob: "0 4 21 * *"
       timezone: "Europe/Berlin"
 
     cooldown:
@@ -48,9 +47,8 @@ updates:
     directory: "/"
 
     schedule:
-      interval: "weekly"
-      day: "saturday"
-      time: "04:00"
+      interval: "cron"
+      cronjob: "0 4 21 * *"
       timezone: "Europe/Berlin"
 
     cooldown:
@@ -82,9 +80,8 @@ updates:
     directory: "/"
 
     schedule:
-      interval: "weekly"
-      day: "saturday"
-      time: "04:00"
+      interval: "cron"
+      cronjob: "0 4 21 * *"
       timezone: "Europe/Berlin"
 
     cooldown:
@@ -123,9 +120,8 @@ updates:
     directory: "/"
 
     schedule:
-      interval: "weekly"
-      day: "saturday"
-      time: "04:00"
+      interval: "cron"
+      cronjob: "0 4 21 * *"
       timezone: "Europe/Berlin"
 
     cooldown:

@@ -30,6 +30,7 @@ use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -45,30 +46,26 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithHandlerConfig11(): void
     {
         $type = 'abc';
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $activationStrategyPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $activationStrategyPluginManager = $this->createMock(AbstractPluginManager::class);
         $activationStrategyPluginManager->expects(self::never())
             ->method('has');
         $activationStrategyPluginManager->expects(self::never())
             ->method('get');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::once())
@@ -76,9 +73,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($type, [])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -103,15 +98,15 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithHandlerConfig12(): void
     {
         $type     = 'abc';
         $strategy = 'xyz';
 
-        $activationStrategyPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $activationStrategyPluginManager = $this->createMock(AbstractPluginManager::class);
         $activationStrategyPluginManager->expects(self::once())
             ->method('has')
             ->with($strategy)
@@ -119,17 +114,13 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $activationStrategyPluginManager->expects(self::never())
             ->method('get');
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::once())
@@ -137,9 +128,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($type, [])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -164,28 +153,24 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $strategyClass   = $this->getMockBuilder(ChannelLevelActivationStrategy::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $strategyClass   = $this->createMock(ChannelLevelActivationStrategy::class);
         $formatter       = true;
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $activationStrategyPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $activationStrategyPluginManager = $this->createMock(AbstractPluginManager::class);
         $activationStrategyPluginManager->expects(self::never())
             ->method('has');
         $activationStrategyPluginManager->expects(self::once())
@@ -193,9 +178,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($strategyName, $strategyOptions)
             ->willReturn($strategyClass);
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::once())
@@ -203,9 +186,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($type, [])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -232,6 +213,8 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolFormatter2(): void
     {
@@ -240,17 +223,13 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $strategyOptions = ['level' => 123];
         $formatter       = true;
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::once())
@@ -258,9 +237,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($type, ['formatter' => $formatter])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -283,30 +260,24 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $strategyClass   = $this->getMockBuilder(ChannelLevelActivationStrategy::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $formatter       = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $strategyClass   = $this->createMock(ChannelLevelActivationStrategy::class);
+        $formatter       = $this->createMock(LineFormatter::class);
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $activationStrategyPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $activationStrategyPluginManager = $this->createMock(AbstractPluginManager::class);
         $activationStrategyPluginManager->expects(self::never())
             ->method('has');
         $activationStrategyPluginManager->expects(self::once())
@@ -314,9 +285,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($strategyName, $strategyOptions)
             ->willReturn($strategyClass);
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::once())
@@ -324,9 +293,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($type, [])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(3))
@@ -361,22 +328,18 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $strategyClass   = $this->getMockBuilder(ChannelLevelActivationStrategy::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $formatter       = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $strategyClass   = $this->createMock(ChannelLevelActivationStrategy::class);
+        $formatter       = $this->createMock(LineFormatter::class);
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::once())
             ->method('setFormatter')
             ->with($formatter);
@@ -384,17 +347,13 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->method('getFormatter')
             ->willReturn($formatter);
 
-        $monologFormatterPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
 
-        $activationStrategyPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $activationStrategyPluginManager = $this->createMock(AbstractPluginManager::class);
         $activationStrategyPluginManager->expects(self::never())
             ->method('has');
         $activationStrategyPluginManager->expects(self::once())
@@ -402,9 +361,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($strategyName, $strategyOptions)
             ->willReturn($strategyClass);
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::once())
@@ -412,9 +369,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($type, [])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(3))
@@ -471,35 +426,29 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $formatter       = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter       = $this->createMock(LineFormatter::class);
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologFormatterPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::once())
@@ -507,9 +456,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($type, ['formatter' => $formatter])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -540,22 +487,18 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter4(): void
     {
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $strategyClass   = $this->getMockBuilder(ChannelLevelActivationStrategy::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $formatter       = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $strategyClass   = $this->createMock(ChannelLevelActivationStrategy::class);
+        $formatter       = $this->createMock(LineFormatter::class);
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::once())
             ->method('setFormatter')
             ->with($formatter);
@@ -563,17 +506,13 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->method('getFormatter')
             ->willReturn($formatter);
 
-        $monologFormatterPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
 
-        $activationStrategyPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $activationStrategyPluginManager = $this->createMock(AbstractPluginManager::class);
         $activationStrategyPluginManager->expects(self::never())
             ->method('has');
         $activationStrategyPluginManager->expects(self::once())
@@ -581,9 +520,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($strategyName, $strategyOptions)
             ->willReturn($strategyClass);
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::once())
@@ -591,9 +528,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($type, ['formatter' => $formatter])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(3))
@@ -650,27 +585,23 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter5(): void
     {
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $formatter       = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter       = $this->createMock(LineFormatter::class);
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::once())
@@ -678,9 +609,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($type, ['formatter' => $formatter])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -707,28 +636,24 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $strategyClass   = $this->getMockBuilder(ChannelLevelActivationStrategy::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $strategyClass   = $this->createMock(ChannelLevelActivationStrategy::class);
         $processors      = true;
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $activationStrategyPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $activationStrategyPluginManager = $this->createMock(AbstractPluginManager::class);
         $activationStrategyPluginManager->expects(self::never())
             ->method('has');
         $activationStrategyPluginManager->expects(self::once())
@@ -736,9 +661,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($strategyName, $strategyOptions)
             ->willReturn($strategyClass);
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::once())
@@ -746,9 +669,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($type, [])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -773,6 +694,8 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolProcessors2(): void
     {
@@ -781,17 +704,13 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $strategyOptions = ['level' => 123];
         $processors      = true;
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::once())
@@ -799,9 +718,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -822,6 +739,8 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -842,9 +761,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             static fn (array $record): array => $record,
         ];
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::once())
@@ -852,17 +769,13 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::once())
@@ -870,9 +783,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -898,15 +809,15 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $strategyClass   = $this->getMockBuilder(ChannelLevelActivationStrategy::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $strategyClass   = $this->createMock(ChannelLevelActivationStrategy::class);
         $processor3      = static fn (array $record): array => $record;
         $processors      = [
             [
@@ -922,17 +833,11 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->getMockBuilder(GitProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor1 = $this->createMock(GitProcessor::class);
 
-        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor2 = $this->createMock(HostnameProcessor::class);
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::exactly(2))
@@ -944,17 +849,13 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $activationStrategyPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $activationStrategyPluginManager = $this->createMock(AbstractPluginManager::class);
         $activationStrategyPluginManager->expects(self::never())
             ->method('has');
         $activationStrategyPluginManager->expects(self::once())
@@ -962,9 +863,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($strategyName, $strategyOptions)
             ->willReturn($strategyClass);
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::once())
@@ -972,9 +871,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(3))

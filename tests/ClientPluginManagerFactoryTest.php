@@ -17,6 +17,7 @@ use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\ClientPluginManager;
 use Mimmi20\MonologFactory\ClientPluginManagerFactory;
 use Monolog\Formatter\HtmlFormatter;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -28,15 +29,15 @@ final class ClientPluginManagerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotFoundException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvoke1(): void
     {
         $requestedName = HtmlFormatter::class;
         $options       = ['abc' => 'xyz'];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::once())
             ->method('has')
             ->with('ServiceListener')
@@ -55,15 +56,15 @@ final class ClientPluginManagerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotFoundException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvoke2(): void
     {
         $requestedName = HtmlFormatter::class;
         $options       = ['abc' => 'xyz'];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::exactly(2))
             ->method('has')
             ->willReturnMap(
@@ -86,15 +87,15 @@ final class ClientPluginManagerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotFoundException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvoke3(): void
     {
         $requestedName = HtmlFormatter::class;
         $options       = ['abc' => 'xyz'];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::exactly(2))
             ->method('has')
             ->willReturnMap(
@@ -120,6 +121,8 @@ final class ClientPluginManagerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotFoundException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvoke4(): void
     {
@@ -127,9 +130,7 @@ final class ClientPluginManagerFactoryTest extends TestCase
         $options       = ['abc' => 'xyz'];
         $config        = [];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::exactly(2))
             ->method('has')
             ->willReturnMap(
@@ -154,6 +155,8 @@ final class ClientPluginManagerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotFoundException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvoke5(): void
     {
@@ -161,9 +164,7 @@ final class ClientPluginManagerFactoryTest extends TestCase
         $options       = ['abc' => 'xyz'];
         $config        = ['monolog_service_clients' => 'test'];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::exactly(2))
             ->method('has')
             ->willReturnMap(
@@ -188,6 +189,8 @@ final class ClientPluginManagerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotFoundException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvoke6(): void
     {
@@ -195,9 +198,7 @@ final class ClientPluginManagerFactoryTest extends TestCase
         $options       = ['abc' => 'xyz'];
         $config        = ['monolog_service_clients' => []];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::exactly(2))
             ->method('has')
             ->willReturnMap(

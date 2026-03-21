@@ -16,6 +16,7 @@ namespace Mimmi20Test\MonologFactory\Client;
 use Elastic\Elasticsearch\Client as V8Client;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Client\ElasticsearchV8Factory;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
@@ -31,7 +32,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -58,7 +59,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -81,7 +82,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithWrongClient(): void
     {
@@ -108,7 +109,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig(): void
@@ -134,7 +135,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig2(): void
@@ -160,7 +161,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig3(): void
@@ -186,7 +187,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig4(): void

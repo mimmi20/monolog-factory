@@ -30,6 +30,7 @@ use Monolog\Handler\ElasticsearchHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
@@ -49,7 +50,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV7ClientAndConfigAndProcessors5(): void
     {
@@ -112,7 +113,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithArrayConfigForV7ClientButLoaderError(): void
     {
@@ -144,7 +145,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithArrayConfigForV7ClientButLoaderError2(): void
     {
@@ -187,7 +188,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithArrayConfigForV7ClientButLoaderError3(): void
     {
@@ -259,7 +260,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithArrayConfigForV7ClientButLoaderError4(): void
     {
@@ -327,7 +328,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithV8ClientClass(): void
     {
@@ -383,7 +384,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithV8ClassString(): void
     {
@@ -443,7 +444,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV8ClientAndConfigAndBoolFormatter(): void
     {
@@ -482,7 +483,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeV8ClientAndWithConfigAndFormatter(): void
     {
@@ -540,7 +541,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV8ClientAndConfigAndFormatter2(): void
     {
@@ -613,7 +614,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV8ClientAndConfigAndFormatter3(): void
     {
@@ -656,7 +657,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV8ClientAndConfigAndBoolProcessors(): void
     {
@@ -693,7 +694,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV8ClientAndConfigAndProcessors2(): void
     {
@@ -757,7 +758,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV8ClientAndConfigAndProcessors3(): void
     {
@@ -854,7 +855,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV8ClientAndConfigAndProcessors4(): void
     {
@@ -932,7 +933,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV8ClientAndConfigAndProcessors5(): void
     {
@@ -996,7 +997,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithArrayConfigForV8ClientButLoaderError(): void
     {
@@ -1028,7 +1029,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithArrayConfigForV8ClientButLoaderError2(): void
     {
@@ -1070,7 +1071,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithArrayConfigForV8ClientButLoaderError3(): void
     {
@@ -1114,7 +1115,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithArrayConfigForV8ClientButLoaderError4(): void
     {

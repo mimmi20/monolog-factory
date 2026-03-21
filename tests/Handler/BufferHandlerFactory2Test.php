@@ -25,6 +25,7 @@ use Monolog\Handler\ChromePHPHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -41,7 +42,7 @@ final class BufferHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -114,7 +115,7 @@ final class BufferHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -215,7 +216,7 @@ final class BufferHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
@@ -306,7 +307,7 @@ final class BufferHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
@@ -380,7 +381,7 @@ final class BufferHandlerFactory2Test extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors6(): void
     {

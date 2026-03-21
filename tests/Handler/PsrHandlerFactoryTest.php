@@ -23,6 +23,7 @@ use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\PsrHandler;
 use Monolog\Level;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -40,7 +41,7 @@ final class PsrHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -64,7 +65,7 @@ final class PsrHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -88,7 +89,7 @@ final class PsrHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig(): void
     {
@@ -114,7 +115,7 @@ final class PsrHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig2(): void
     {
@@ -143,7 +144,7 @@ final class PsrHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig3(): void
     {
@@ -178,7 +179,7 @@ final class PsrHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig4(): void
     {
@@ -213,7 +214,7 @@ final class PsrHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig5(): void
     {
@@ -245,7 +246,7 @@ final class PsrHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig6(): void
     {
@@ -276,7 +277,7 @@ final class PsrHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig7(): void
     {
@@ -304,7 +305,7 @@ final class PsrHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
@@ -333,7 +334,7 @@ final class PsrHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
@@ -365,7 +366,7 @@ final class PsrHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -409,7 +410,7 @@ final class PsrHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
@@ -441,7 +442,7 @@ final class PsrHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {

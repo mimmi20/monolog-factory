@@ -17,6 +17,7 @@ use Elasticsearch\Client as V7Client;
 use Elasticsearch\Common\Exceptions\AuthenticationConfigException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Client\ElasticsearchV7Factory;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
@@ -33,7 +34,7 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -57,7 +58,7 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -81,7 +82,7 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithWrongHostConfig(): void
@@ -110,7 +111,7 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig(): void
@@ -137,7 +138,7 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig2(): void
@@ -164,7 +165,7 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig3(): void

@@ -26,6 +26,7 @@ use Monolog\Handler\RotatingFileHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -43,7 +44,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -67,7 +68,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -92,7 +93,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig(): void
     {
@@ -147,7 +148,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig2(): void
     {
@@ -203,7 +204,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig3(): void
     {
@@ -259,7 +260,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig4(): void
     {
@@ -319,7 +320,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig5(): void
     {
@@ -380,7 +381,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig6(): void
     {
@@ -440,7 +441,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
@@ -475,7 +476,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
@@ -513,7 +514,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -585,7 +586,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
@@ -656,7 +657,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter4(): void
     {
@@ -693,7 +694,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
@@ -726,7 +727,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -784,7 +785,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -879,7 +880,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
@@ -929,7 +930,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {

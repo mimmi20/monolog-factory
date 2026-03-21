@@ -16,6 +16,7 @@ namespace Mimmi20Test\MonologFactory\Formatter;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Formatter\LogstashFormatterFactory;
 use Monolog\Formatter\LogstashFormatter;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -30,7 +31,7 @@ final class LogstashFormatterFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -53,7 +54,7 @@ final class LogstashFormatterFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutApplicationname(): void
     {
@@ -77,7 +78,7 @@ final class LogstashFormatterFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithApplicationname(): void
     {
@@ -117,7 +118,7 @@ final class LogstashFormatterFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithApplicationname2(): void
     {

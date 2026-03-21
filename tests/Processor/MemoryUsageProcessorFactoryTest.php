@@ -15,6 +15,7 @@ namespace Mimmi20Test\MonologFactory\Processor;
 
 use Mimmi20\MonologFactory\Processor\MemoryUsageProcessorFactory;
 use Monolog\Processor\MemoryUsageProcessor;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -27,7 +28,7 @@ final class MemoryUsageProcessorFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -56,7 +57,7 @@ final class MemoryUsageProcessorFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -85,7 +86,7 @@ final class MemoryUsageProcessorFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig(): void
     {

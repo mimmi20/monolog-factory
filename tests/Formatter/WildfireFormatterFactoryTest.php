@@ -17,6 +17,7 @@ use Mimmi20\MonologFactory\Formatter\NormalizerFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\WildfireFormatterFactory;
 use Monolog\Formatter\NormalizerFormatter;
 use Monolog\Formatter\WildfireFormatter;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -26,7 +27,7 @@ final class WildfireFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -55,7 +56,7 @@ final class WildfireFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -84,7 +85,7 @@ final class WildfireFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig(): void
     {

@@ -26,6 +26,7 @@ use Monolog\Handler\SlackHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
@@ -44,7 +45,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('openssl')]
     public function testInvokeWithoutConfig(): void
@@ -69,7 +70,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('openssl')]
     public function testInvokeWithEmptyConfig(): void
@@ -94,7 +95,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigWithoutChannel(): void
@@ -122,7 +123,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfig(): void
@@ -197,7 +198,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfig2(): void
@@ -280,7 +281,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfig3(): void
@@ -362,7 +363,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
@@ -400,7 +401,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter(): void
@@ -441,7 +442,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter2(): void
@@ -533,7 +534,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndFormatter3(): void
@@ -573,7 +574,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('openssl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
@@ -609,7 +610,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -669,7 +670,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -784,7 +785,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
@@ -836,7 +837,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
@@ -888,7 +889,7 @@ final class SlackHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithError(): void
     {

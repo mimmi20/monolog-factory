@@ -20,6 +20,7 @@ use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Mimmi20\MonologFactory\MonologHandlerPluginManager;
 use Mimmi20\MonologFactory\MonologHandlerPluginManagerFactory;
 use Monolog\Formatter\HtmlFormatter;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -35,7 +36,7 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
      * @throws CyclicAliasException
      * @throws InvalidServiceException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvoke1(): void
     {
@@ -65,7 +66,7 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
      * @throws CyclicAliasException
      * @throws InvalidServiceException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvoke2(): void
     {
@@ -99,7 +100,7 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
      * @throws CyclicAliasException
      * @throws InvalidServiceException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvoke3(): void
     {
@@ -136,7 +137,7 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
      * @throws CyclicAliasException
      * @throws InvalidServiceException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvoke4(): void
     {
@@ -173,7 +174,7 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
      * @throws CyclicAliasException
      * @throws InvalidServiceException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvoke5(): void
     {
@@ -210,7 +211,7 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
      * @throws CyclicAliasException
      * @throws InvalidServiceException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvoke6(): void
     {

@@ -15,6 +15,7 @@ namespace Mimmi20Test\MonologFactory\Handler;
 
 use Mimmi20\MonologFactory\Handler\NoopHandlerFactory;
 use Monolog\Handler\NoopHandler;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -24,7 +25,7 @@ final class NoopHandlerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvoke(): void
     {

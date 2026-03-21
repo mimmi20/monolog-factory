@@ -16,6 +16,7 @@ namespace Mimmi20Test\MonologFactory\Processor;
 use Mimmi20\MonologFactory\Processor\IntrospectionProcessorFactory;
 use Monolog\Level;
 use Monolog\Processor\IntrospectionProcessor;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -29,7 +30,7 @@ final class IntrospectionProcessorFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -62,7 +63,7 @@ final class IntrospectionProcessorFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -95,7 +96,7 @@ final class IntrospectionProcessorFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig(): void
     {
@@ -132,7 +133,7 @@ final class IntrospectionProcessorFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig2(): void
     {

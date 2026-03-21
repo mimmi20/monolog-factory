@@ -16,6 +16,7 @@ namespace Mimmi20Test\MonologFactory\Formatter;
 use Mimmi20\MonologFactory\Formatter\NormalizerFormatterFactory;
 use Mimmi20\MonologFactory\Formatter\SyslogFormatterFactory;
 use Monolog\Formatter\SyslogFormatter;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -28,7 +29,7 @@ final class SyslogFormatterFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -61,7 +62,7 @@ final class SyslogFormatterFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -94,7 +95,7 @@ final class SyslogFormatterFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig(): void
     {

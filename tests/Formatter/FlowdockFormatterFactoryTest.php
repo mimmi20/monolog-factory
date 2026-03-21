@@ -16,6 +16,7 @@ namespace Mimmi20Test\MonologFactory\Formatter;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Formatter\FlowdockFormatterFactory;
 use Monolog\Formatter\FlowdockFormatter;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -28,7 +29,7 @@ final class FlowdockFormatterFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -51,7 +52,7 @@ final class FlowdockFormatterFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutSource(): void
     {
@@ -74,7 +75,7 @@ final class FlowdockFormatterFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutSourceEmail(): void
     {
@@ -100,7 +101,7 @@ final class FlowdockFormatterFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithSouceAndSourceEmail(): void
     {

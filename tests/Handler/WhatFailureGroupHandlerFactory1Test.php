@@ -28,6 +28,7 @@ use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\WhatFailureGroupHandler;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -41,7 +42,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws InvalidArgumentException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithHandlerWithType(): void
     {
@@ -140,7 +141,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws InvalidArgumentException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithHandlerWithType2(): void
     {
@@ -238,7 +239,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws InvalidArgumentException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithHandlerWithType3(): void
     {
@@ -333,7 +334,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws InvalidArgumentException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithHandlerWithType4(): void
     {
@@ -428,7 +429,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws InvalidArgumentException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
@@ -524,7 +525,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws InvalidArgumentException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
@@ -620,7 +621,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws InvalidArgumentException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -716,7 +717,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws InvalidArgumentException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {

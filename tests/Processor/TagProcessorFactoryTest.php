@@ -15,6 +15,7 @@ namespace Mimmi20Test\MonologFactory\Processor;
 
 use Mimmi20\MonologFactory\Processor\TagProcessorFactory;
 use Monolog\Processor\TagProcessor;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -27,7 +28,7 @@ final class TagProcessorFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -52,7 +53,7 @@ final class TagProcessorFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -77,7 +78,7 @@ final class TagProcessorFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithLevel(): void
     {
@@ -104,7 +105,7 @@ final class TagProcessorFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithTagsAsString(): void
     {

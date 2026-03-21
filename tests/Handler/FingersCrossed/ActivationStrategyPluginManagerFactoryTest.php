@@ -15,6 +15,7 @@ namespace Mimmi20Test\MonologFactory\Handler\FingersCrossed;
 
 use Mimmi20\MonologFactory\Handler\FingersCrossed\ActivationStrategyPluginManager;
 use Mimmi20\MonologFactory\Handler\FingersCrossed\ActivationStrategyPluginManagerFactory;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -24,7 +25,7 @@ final class ActivationStrategyPluginManagerFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {

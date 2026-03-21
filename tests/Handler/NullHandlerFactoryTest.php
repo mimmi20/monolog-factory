@@ -16,6 +16,7 @@ namespace Mimmi20Test\MonologFactory\Handler;
 use Mimmi20\MonologFactory\Handler\NullHandlerFactory;
 use Monolog\Handler\NullHandler;
 use Monolog\Level;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -29,7 +30,7 @@ final class NullHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -54,7 +55,7 @@ final class NullHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
@@ -79,7 +80,7 @@ final class NullHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfig(): void
     {

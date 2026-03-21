@@ -27,6 +27,7 @@ use Mimmi20\MonologFactory\MonologPluginManager;
 use Mimmi20\MonologFactory\MonologProcessorPluginManager;
 use Mimmi20\MonologFactory\MonologProcessorProviderInterface;
 use Mimmi20\MonologFactory\MonologProviderInterface;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -53,7 +54,7 @@ final class ModuleTest extends TestCase
     /**
      * @throws Exception
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInit(): void
     {

@@ -28,6 +28,7 @@ use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\WhatFailureGroupHandler;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -44,7 +45,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
      * @throws ReflectionException
      * @throws InvalidArgumentException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -180,7 +181,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
      * @throws ReflectionException
      * @throws InvalidArgumentException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -315,7 +316,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
      * @throws ReflectionException
      * @throws InvalidArgumentException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
@@ -448,7 +449,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
      * @throws ReflectionException
      * @throws InvalidArgumentException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
@@ -570,7 +571,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
      * @throws ReflectionException
      * @throws InvalidArgumentException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors5WithoutCurl(): void
     {

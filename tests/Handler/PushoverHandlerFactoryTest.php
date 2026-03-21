@@ -26,6 +26,7 @@ use Monolog\Handler\PushoverHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
@@ -45,7 +46,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithoutConfig(): void
@@ -70,7 +71,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithEmptyConfig(): void
@@ -95,7 +96,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigWithoutUsers(): void
@@ -123,7 +124,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndUsers(): void
@@ -195,7 +196,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndUsers2(): void
@@ -274,7 +275,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndBoolFormatter(): void
@@ -312,7 +313,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndFormatter(): void
@@ -353,7 +354,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndFormatter2(): void
@@ -444,7 +445,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndFormatter3(): void
@@ -537,7 +538,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndFormatter4(): void
@@ -580,7 +581,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndBoolProcessors(): void
@@ -616,7 +617,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndProcessors2(): void
@@ -677,7 +678,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndProcessors3(): void
@@ -792,7 +793,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndProcessors4(): void
@@ -845,7 +846,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithConfigAndProcessors5(): void
@@ -898,7 +899,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutExtension(): void
     {
@@ -938,7 +939,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws \PHPUnit\Framework\MockObject\Exception
-     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('sockets')]
     public function testInvokeWithNegativeTimeout(): void

@@ -38,6 +38,8 @@ final class SamplingHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -56,9 +58,7 @@ final class SamplingHandlerFactory2Test extends TestCase
             static fn (array $record): array => $record,
         ];
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -68,17 +68,13 @@ final class SamplingHandlerFactory2Test extends TestCase
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -88,9 +84,7 @@ final class SamplingHandlerFactory2Test extends TestCase
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -116,6 +110,8 @@ final class SamplingHandlerFactory2Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -135,17 +131,11 @@ final class SamplingHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->getMockBuilder(GitProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor1 = $this->createMock(GitProcessor::class);
 
-        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor2 = $this->createMock(HostnameProcessor::class);
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -159,17 +149,13 @@ final class SamplingHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -179,9 +165,7 @@ final class SamplingHandlerFactory2Test extends TestCase
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -211,6 +195,8 @@ final class SamplingHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
@@ -230,17 +216,13 @@ final class SamplingHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -250,9 +232,7 @@ final class SamplingHandlerFactory2Test extends TestCase
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $matcher = self::exactly(2);
@@ -297,6 +277,8 @@ final class SamplingHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
@@ -316,17 +298,13 @@ final class SamplingHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -336,9 +314,7 @@ final class SamplingHandlerFactory2Test extends TestCase
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -366,6 +342,8 @@ final class SamplingHandlerFactory2Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors6(): void
     {
@@ -385,17 +363,11 @@ final class SamplingHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->getMockBuilder(GitProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor1 = $this->createMock(GitProcessor::class);
 
-        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor2 = $this->createMock(HostnameProcessor::class);
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -409,17 +381,13 @@ final class SamplingHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -429,9 +397,7 @@ final class SamplingHandlerFactory2Test extends TestCase
             ->with($type, [])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))

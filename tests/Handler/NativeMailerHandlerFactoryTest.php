@@ -42,12 +42,12 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -66,12 +66,12 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -90,14 +90,14 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig(): void
     {
         $to = 'test-to';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -116,15 +116,15 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig2(): void
     {
         $to      = 'test-to';
         $subject = 'test-subject';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -144,6 +144,8 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig3(): void
     {
@@ -151,9 +153,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $subject = 'test-subject';
         $from    = 'test-from';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -201,6 +201,8 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig4(): void
     {
@@ -211,9 +213,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $contentType    = 'test/fake';
         $encoding       = 'iso-42';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -260,6 +260,8 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
@@ -271,9 +273,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $encoding       = 'iso-42';
         $formatter      = true;
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -294,6 +294,8 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
@@ -303,13 +305,9 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $maxColumnWidth = 120;
         $contentType    = 'test/fake';
         $encoding       = 'iso-42';
-        $formatter      = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter      = $this->createMock(LineFormatter::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -333,6 +331,8 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -342,13 +342,9 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $maxColumnWidth = 120;
         $contentType    = 'test/fake';
         $encoding       = 'iso-42';
-        $formatter      = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter      = $this->createMock(LineFormatter::class);
 
-        $monologFormatterPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
@@ -356,9 +352,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $monologFormatterPluginManager->expects(self::never())
             ->method('build');
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -407,6 +401,8 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
@@ -416,13 +412,9 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $maxColumnWidth = 120;
         $contentType    = 'test/fake';
         $encoding       = 'iso-42';
-        $formatter      = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter      = $this->createMock(LineFormatter::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -445,6 +437,8 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
@@ -456,9 +450,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $encoding       = 'iso-42';
         $processors     = true;
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -477,6 +469,8 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -500,9 +494,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             static fn (array $record): array => $record,
         ];
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -512,9 +504,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -536,6 +526,8 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -560,17 +552,11 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->getMockBuilder(GitProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor1 = $this->createMock(GitProcessor::class);
 
-        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor2 = $this->createMock(HostnameProcessor::class);
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -584,9 +570,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -636,6 +620,8 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
@@ -660,9 +646,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -685,6 +669,8 @@ final class NativeMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
@@ -709,9 +695,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())

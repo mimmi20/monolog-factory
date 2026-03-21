@@ -29,12 +29,12 @@ final class LoadAverageProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -54,12 +54,12 @@ final class LoadAverageProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -79,14 +79,14 @@ final class LoadAverageProcessorFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithLoad(): void
     {
         $load = LoadAverageProcessor::LOAD_5_MINUTE;
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -103,14 +103,16 @@ final class LoadAverageProcessorFactoryTest extends TestCase
         self::assertSame($load, $asl->getValue($processor));
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     */
     public function testInvokeWithLoadWithWrongValue(): void
     {
         $load = 123;
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())

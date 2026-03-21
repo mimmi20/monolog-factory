@@ -27,12 +27,12 @@ final class FlowdockFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -50,12 +50,12 @@ final class FlowdockFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithoutSource(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -73,14 +73,14 @@ final class FlowdockFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithoutSourceEmail(): void
     {
         $source = 'abc';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -99,15 +99,15 @@ final class FlowdockFormatterFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithSouceAndSourceEmail(): void
     {
         $source      = 'abc';
         $sourceEmail = 'xyz';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())

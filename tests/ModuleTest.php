@@ -50,12 +50,14 @@ final class ModuleTest extends TestCase
         self::assertArrayHasKey('monolog_service_clients', $config);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
+     */
     public function testInit(): void
     {
-        $serviceListener = $this->getMockBuilder(ServiceListenerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $serviceListener = $this->createMock(ServiceListenerInterface::class);
         $serviceListener->expects(self::exactly(5))
             ->method('addServiceManager')
             ->willReturnMap(
@@ -68,25 +70,19 @@ final class ModuleTest extends TestCase
                 ],
             );
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::once())
             ->method('get')
             ->with('ServiceListener')
             ->willReturn($serviceListener);
 
-        $event = $this->getMockBuilder(ModuleEvent::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $event = $this->createMock(ModuleEvent::class);
         $event->expects(self::once())
             ->method('getParam')
             ->with('ServiceManager')
             ->willReturn($container);
 
-        $manager = $this->getMockBuilder(ModuleManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $manager = $this->createMock(ModuleManager::class);
         $manager->expects(self::once())
             ->method('getEvent')
             ->willReturn($event);

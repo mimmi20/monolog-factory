@@ -48,12 +48,12 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -72,12 +72,12 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -96,14 +96,14 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig(): void
     {
         $client = true;
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -122,15 +122,15 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig2(): void
     {
         $client   = true;
         $database = 'test-database';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -149,6 +149,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig3(): void
     {
@@ -156,9 +158,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -177,6 +177,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig4(): void
     {
@@ -184,9 +186,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -210,6 +210,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig5(): void
     {
@@ -221,21 +223,15 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $mongoCollection = $this->getMockBuilder(Collection::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mongoCollection = $this->createMock(Collection::class);
 
-        $clientClass = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(Client::class);
         $clientClass->expects(self::never())
             ->method('selectCollection')
             ->with($database, $collection)
             ->willReturn($mongoCollection);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -267,6 +263,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig6(): void
     {
@@ -277,21 +275,15 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $mongoCollection = $this->getMockBuilder(Collection::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mongoCollection = $this->createMock(Collection::class);
 
-        $client = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $client = $this->createMock(Client::class);
         $client->expects(self::never())
             ->method('selectCollection')
             ->with($database, $collection)
             ->willReturn($mongoCollection);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -323,6 +315,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig7(): void
     {
@@ -335,9 +329,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database    = 'test-database';
         $collection  = 'test-collection';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -371,6 +363,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig8(): void
     {
@@ -382,9 +376,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -414,6 +406,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig9(): void
     {
@@ -428,21 +422,15 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $mongoCollection = $this->getMockBuilder(Collection::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mongoCollection = $this->createMock(Collection::class);
 
-        $clientClass = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(Client::class);
         $clientClass->expects(self::never())
             ->method('selectCollection')
             ->with($database, $collection)
             ->willReturn($mongoCollection);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -474,6 +462,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig10(): void
     {
@@ -486,21 +476,15 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $mongoCollection = $this->getMockBuilder(Collection::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mongoCollection = $this->createMock(Collection::class);
 
-        $client = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $client = $this->createMock(Client::class);
         $client->expects(self::never())
             ->method('selectCollection')
             ->with($database, $collection)
             ->willReturn($mongoCollection);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -532,6 +516,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig11(): void
     {
@@ -547,9 +533,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database    = 'test-database';
         $collection  = 'test-collection';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -583,6 +567,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig12(): void
     {
@@ -597,9 +583,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -628,6 +612,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig13(): void
     {
@@ -635,9 +621,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -660,6 +644,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws InvalidArgumentException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
@@ -675,9 +661,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -700,6 +684,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws InvalidArgumentException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
@@ -709,17 +695,13 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
         $level     = LogLevel::ALERT;
         $bubble    = false;
-        $formatter = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter = $this->createMock(LineFormatter::class);
 
         $client     = new Manager('mongodb://example.com:27017');
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -745,6 +727,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -754,17 +738,13 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
         $level     = LogLevel::ALERT;
         $bubble    = false;
-        $formatter = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter = $this->createMock(LineFormatter::class);
 
         $client     = new Manager('mongodb://example.com:27017');
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $monologFormatterPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
@@ -772,9 +752,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $monologFormatterPluginManager->expects(self::never())
             ->method('build');
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -807,6 +785,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws InvalidArgumentException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
@@ -816,17 +796,13 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
         $level     = LogLevel::ALERT;
         $bubble    = false;
-        $formatter = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter = $this->createMock(LineFormatter::class);
 
         $client     = new Manager('mongodb://example.com:27017');
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -851,6 +827,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws InvalidArgumentException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
@@ -866,9 +844,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -889,6 +865,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws InvalidArgumentException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -916,9 +894,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -928,9 +904,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -954,6 +928,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -982,17 +958,11 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $processor1 = $this->getMockBuilder(GitProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor1 = $this->createMock(GitProcessor::class);
 
-        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor2 = $this->createMock(HostnameProcessor::class);
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -1006,9 +976,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -1042,6 +1010,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws InvalidArgumentException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
@@ -1070,9 +1040,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -1097,6 +1065,8 @@ final class MongoDBHandlerFactoryTest extends TestCase
      * @throws InvalidArgumentException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
@@ -1125,9 +1095,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())

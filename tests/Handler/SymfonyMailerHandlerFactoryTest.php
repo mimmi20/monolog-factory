@@ -44,12 +44,12 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -68,12 +68,12 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -92,14 +92,14 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig(): void
     {
         $mailer = true;
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -118,14 +118,14 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig2(): void
     {
         $mailer = 'test-mailer';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -146,17 +146,15 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig3(): void
     {
         $mailerName = 'test-mailer';
-        $mailer     = $this->getMockBuilder(MailerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mailer     = $this->createMock(MailerInterface::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -177,18 +175,16 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig4(): void
     {
         $mailerName = 'test-mailer';
-        $mailer     = $this->getMockBuilder(MailerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mailer     = $this->createMock(MailerInterface::class);
         $message    = 'test-message';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -210,20 +206,16 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig5(): void
     {
         $mailerName    = 'test-mailer';
-        $mailer        = $this->getMockBuilder(MailerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $emailTemplate = $this->getMockBuilder(Email::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mailer        = $this->createMock(MailerInterface::class);
+        $emailTemplate = $this->createMock(Email::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -258,14 +250,14 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig6(): void
     {
         $mailer = 'test-mailer';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -286,20 +278,16 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
-        $mailer        = $this->getMockBuilder(MailerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mailer        = $this->createMock(MailerInterface::class);
         $formatter     = true;
-        $emailTemplate = $this->getMockBuilder(Email::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $emailTemplate = $this->createMock(Email::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -320,22 +308,16 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
-        $mailer        = $this->getMockBuilder(MailerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $emailTemplate = $this->getMockBuilder(Email::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $formatter     = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mailer        = $this->createMock(MailerInterface::class);
+        $emailTemplate = $this->createMock(Email::class);
+        $formatter     = $this->createMock(LineFormatter::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -359,22 +341,16 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
-        $mailer        = $this->getMockBuilder(MailerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $emailTemplate = $this->getMockBuilder(Email::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $formatter     = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mailer        = $this->createMock(MailerInterface::class);
+        $emailTemplate = $this->createMock(Email::class);
+        $formatter     = $this->createMock(LineFormatter::class);
 
-        $monologFormatterPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
@@ -382,9 +358,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $monologFormatterPluginManager->expects(self::never())
             ->method('build');
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -423,22 +397,16 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
-        $mailer        = $this->getMockBuilder(MailerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $emailTemplate = $this->getMockBuilder(Email::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $formatter     = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mailer        = $this->createMock(MailerInterface::class);
+        $emailTemplate = $this->createMock(Email::class);
+        $formatter     = $this->createMock(LineFormatter::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -461,20 +429,16 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
-        $mailer        = $this->getMockBuilder(MailerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $emailTemplate = $this->getMockBuilder(Email::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mailer        = $this->createMock(MailerInterface::class);
+        $emailTemplate = $this->createMock(Email::class);
         $processors    = true;
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -493,15 +457,13 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
-        $mailer        = $this->getMockBuilder(MailerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $emailTemplate = $this->getMockBuilder(Email::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mailer        = $this->createMock(MailerInterface::class);
+        $emailTemplate = $this->createMock(Email::class);
 
         $processors = [
             [
@@ -517,9 +479,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             static fn (array $record): array => $record,
         ];
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -529,9 +489,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -553,15 +511,13 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
-        $mailer        = $this->getMockBuilder(MailerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $emailTemplate = $this->getMockBuilder(Email::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mailer        = $this->createMock(MailerInterface::class);
+        $emailTemplate = $this->createMock(Email::class);
 
         $processor3 = static fn (array $record): array => $record;
         $processors = [
@@ -578,17 +534,11 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->getMockBuilder(GitProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor1 = $this->createMock(GitProcessor::class);
 
-        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor2 = $this->createMock(HostnameProcessor::class);
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -602,9 +552,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -644,15 +592,13 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
-        $mailer        = $this->getMockBuilder(MailerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $emailTemplate = $this->getMockBuilder(Email::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mailer        = $this->createMock(MailerInterface::class);
+        $emailTemplate = $this->createMock(Email::class);
         $processor3    = static fn (array $record): array => $record;
         $processors    = [
             [
@@ -668,9 +614,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -693,15 +637,13 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
-        $mailer        = $this->getMockBuilder(MailerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $emailTemplate = $this->getMockBuilder(Email::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mailer        = $this->createMock(MailerInterface::class);
+        $emailTemplate = $this->createMock(Email::class);
 
         $processor3 = static fn (array $record): array => $record;
         $processors = [
@@ -718,9 +660,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())

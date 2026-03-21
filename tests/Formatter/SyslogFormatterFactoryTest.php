@@ -27,12 +27,12 @@ final class SyslogFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -60,12 +60,12 @@ final class SyslogFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -93,6 +93,8 @@ final class SyslogFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ReflectionException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig(): void
     {
@@ -100,9 +102,7 @@ final class SyslogFormatterFactoryTest extends TestCase
         $maxNormalizeItemCount = 4711;
         $applicationName       = 'test-app';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())

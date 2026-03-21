@@ -32,15 +32,15 @@ final class LoggerAbstractFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigException(): void
     {
         $requestedName = Logger::class;
         $exception     = new ServiceNotFoundException();
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -65,15 +65,15 @@ final class LoggerAbstractFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutManager(): void
     {
         $requestedName = Logger::class;
         $config        = [];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -99,6 +99,8 @@ final class LoggerAbstractFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotFoundException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithManagerException(): void
     {
@@ -106,9 +108,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         $config        = [];
         $exception     = new ServiceNotFoundException();
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $matcher = self::exactly(2);
@@ -153,6 +153,8 @@ final class LoggerAbstractFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotFoundException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithLoggerException(): void
     {
@@ -161,9 +163,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         $logConfig     = [];
         $exception     = new ServiceNotFoundException();
 
-        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
             ->method('has');
         $pluginManager->expects(self::never())
@@ -173,9 +173,7 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with(Logger::class, $logConfig)
             ->willThrowException($exception);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -215,9 +213,7 @@ final class LoggerAbstractFactoryTest extends TestCase
 
         $logger = $this->createMock(Logger::class);
 
-        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
             ->method('has');
         $pluginManager->expects(self::never())
@@ -227,9 +223,7 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with(Logger::class, $logConfig)
             ->willReturn($logger);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -261,9 +255,7 @@ final class LoggerAbstractFactoryTest extends TestCase
 
         $logger = $this->createMock(Logger::class);
 
-        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
             ->method('has');
         $pluginManager->expects(self::never())
@@ -273,9 +265,7 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with(Logger::class, $logConfig)
             ->willReturn($logger);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -307,9 +297,7 @@ final class LoggerAbstractFactoryTest extends TestCase
 
         $logger = $this->createMock(Logger::class);
 
-        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
             ->method('has');
         $pluginManager->expects(self::never())
@@ -319,9 +307,7 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with(Logger::class, $logConfig)
             ->willReturn($logger);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -353,9 +339,7 @@ final class LoggerAbstractFactoryTest extends TestCase
 
         $logger = $this->createMock(Logger::class);
 
-        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
             ->method('has');
         $pluginManager->expects(self::never())
@@ -365,9 +349,7 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with(Logger::class, $logConfig)
             ->willReturn($logger);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -399,9 +381,7 @@ final class LoggerAbstractFactoryTest extends TestCase
 
         $logger = $this->createMock(Logger::class);
 
-        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
             ->method('has');
         $pluginManager->expects(self::never())
@@ -411,9 +391,7 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with(Logger::class, $logConfig)
             ->willReturn($logger);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -445,9 +423,7 @@ final class LoggerAbstractFactoryTest extends TestCase
 
         $logger = $this->createMock(Logger::class);
 
-        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
             ->method('has');
         $pluginManager->expects(self::never())
@@ -457,9 +433,7 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with(Logger::class, $logConfig)
             ->willReturn($logger);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -491,9 +465,7 @@ final class LoggerAbstractFactoryTest extends TestCase
 
         $logger = $this->createMock(Logger::class);
 
-        $pluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
             ->method('has');
         $pluginManager->expects(self::never())
@@ -503,9 +475,7 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with(Logger::class, $logConfig)
             ->willReturn($logger);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -522,14 +492,16 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertSame($logger, $factory($container, $requestedName));
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
+     */
     public function testCanCreateWithConfigException(): void
     {
         $requestedName = Logger::class;
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -544,15 +516,17 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertFalse($cando);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
+     */
     public function testCanCreateWithoutConfig(): void
     {
         $requestedName = Logger::class;
         $config        = null;
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -567,15 +541,17 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertFalse($cando);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
+     */
     public function testCanCreateWithEmptyConfig(): void
     {
         $requestedName = Logger::class;
         $config        = [];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -590,15 +566,17 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertFalse($cando);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
+     */
     public function testCanCreateWithConfig(): void
     {
         $requestedName = Logger::class;
         $config        = ['log' => null];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -613,7 +591,11 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertFalse($cando);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
+     */
     public function testCanCreateWithConfig2(): void
     {
         $requestedName = Logger::class;
@@ -621,9 +603,7 @@ final class LoggerAbstractFactoryTest extends TestCase
             'log' => [],
         ];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -638,7 +618,11 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertFalse($cando);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
+     */
     public function testCanCreateWithConfig3(): void
     {
         $requestedName = Logger::class;
@@ -646,9 +630,7 @@ final class LoggerAbstractFactoryTest extends TestCase
             'log' => [$requestedName => null],
         ];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -663,7 +645,11 @@ final class LoggerAbstractFactoryTest extends TestCase
         self::assertFalse($cando);
     }
 
-    /** @throws Exception */
+    /**
+     * @throws Exception
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
+     */
     public function testCanCreateWithConfig4(): void
     {
         $requestedName = Logger::class;
@@ -673,9 +659,7 @@ final class LoggerAbstractFactoryTest extends TestCase
             ],
         ];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())

@@ -34,15 +34,15 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
      * @throws ContainerModificationsNotAllowedException
      * @throws CyclicAliasException
      * @throws InvalidServiceException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvoke1(): void
     {
         $requestedName = HtmlFormatter::class;
         $options       = ['abc' => 'xyz'];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::once())
             ->method('has')
             ->with('ServiceListener')
@@ -64,15 +64,15 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
      * @throws ContainerModificationsNotAllowedException
      * @throws CyclicAliasException
      * @throws InvalidServiceException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvoke2(): void
     {
         $requestedName = HtmlFormatter::class;
         $options       = ['abc' => 'xyz'];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::exactly(2))
             ->method('has')
             ->willReturnMap(
@@ -98,15 +98,15 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
      * @throws ContainerModificationsNotAllowedException
      * @throws CyclicAliasException
      * @throws InvalidServiceException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvoke3(): void
     {
         $requestedName = HtmlFormatter::class;
         $options       = ['abc' => 'xyz'];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::exactly(2))
             ->method('has')
             ->willReturnMap(
@@ -135,6 +135,8 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
      * @throws ContainerModificationsNotAllowedException
      * @throws CyclicAliasException
      * @throws InvalidServiceException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvoke4(): void
     {
@@ -142,9 +144,7 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
         $options       = ['abc' => 'xyz'];
         $config        = [];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::exactly(2))
             ->method('has')
             ->willReturnMap(
@@ -172,6 +172,8 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
      * @throws ContainerModificationsNotAllowedException
      * @throws CyclicAliasException
      * @throws InvalidServiceException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvoke5(): void
     {
@@ -179,9 +181,7 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
         $options       = ['abc' => 'xyz'];
         $config        = ['monolog_handlers' => 'test'];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::exactly(2))
             ->method('has')
             ->willReturnMap(
@@ -209,6 +209,8 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
      * @throws ContainerModificationsNotAllowedException
      * @throws CyclicAliasException
      * @throws InvalidServiceException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvoke6(): void
     {
@@ -216,9 +218,7 @@ final class MonologHandlerPluginManagerFactoryTest extends TestCase
         $options       = ['abc' => 'xyz'];
         $config        = ['monolog_handlers' => []];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::exactly(2))
             ->method('has')
             ->willReturnMap(

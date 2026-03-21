@@ -37,12 +37,12 @@ final class AmqpHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -61,12 +61,12 @@ final class AmqpHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -85,14 +85,14 @@ final class AmqpHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithWrongExchange(): void
     {
         $exchange = true;
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -111,14 +111,14 @@ final class AmqpHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithWrongExchange2(): void
     {
         $exchange = 'test';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -140,6 +140,8 @@ final class AmqpHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig(): void
     {
@@ -148,13 +150,9 @@ final class AmqpHandlerFactoryTest extends TestCase
         }
 
         $exchange      = 'test';
-        $exchangeClass = $this->getMockBuilder(AMQPExchange::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $exchangeClass = $this->createMock(AMQPExchange::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -190,6 +188,8 @@ final class AmqpHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig2(): void
     {
@@ -198,13 +198,9 @@ final class AmqpHandlerFactoryTest extends TestCase
         }
 
         $exchange      = 'test';
-        $exchangeClass = $this->getMockBuilder(AMQPExchange::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $exchangeClass = $this->createMock(AMQPExchange::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -240,6 +236,8 @@ final class AmqpHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig3(): void
     {
@@ -247,13 +245,9 @@ final class AmqpHandlerFactoryTest extends TestCase
             self::markTestSkipped(sprintf('class %s is required for this test', AMQPExchange::class));
         }
 
-        $exchangeClass = $this->getMockBuilder(AMQPExchange::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $exchangeClass = $this->createMock(AMQPExchange::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -287,6 +281,8 @@ final class AmqpHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig4(): void
     {
@@ -294,13 +290,9 @@ final class AmqpHandlerFactoryTest extends TestCase
             self::markTestSkipped(sprintf('class %s is required for this test', AMQPExchange::class));
         }
 
-        $exchangeClass = $this->getMockBuilder(AMQPExchange::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $exchangeClass = $this->createMock(AMQPExchange::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -334,6 +326,8 @@ final class AmqpHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig5(): void
     {
@@ -342,13 +336,9 @@ final class AmqpHandlerFactoryTest extends TestCase
         }
 
         $exchange      = 'test';
-        $exchangeClass = $this->getMockBuilder(AMQPChannel::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $exchangeClass = $this->createMock(AMQPChannel::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -388,6 +378,8 @@ final class AmqpHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig6(): void
     {
@@ -397,13 +389,9 @@ final class AmqpHandlerFactoryTest extends TestCase
 
         $exchange      = 'test';
         $exchangeName  = 'exchange-name-test';
-        $exchangeClass = $this->getMockBuilder(AMQPChannel::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $exchangeClass = $this->createMock(AMQPChannel::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -443,6 +431,8 @@ final class AmqpHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig7(): void
     {
@@ -450,13 +440,9 @@ final class AmqpHandlerFactoryTest extends TestCase
             self::markTestSkipped(sprintf('class %s is required for this test', AMQPChannel::class));
         }
 
-        $exchangeClass = $this->getMockBuilder(AMQPChannel::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $exchangeClass = $this->createMock(AMQPChannel::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -494,6 +480,8 @@ final class AmqpHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig8(): void
     {
@@ -502,13 +490,9 @@ final class AmqpHandlerFactoryTest extends TestCase
         }
 
         $exchangeName  = 'exchange-name-test';
-        $exchangeClass = $this->getMockBuilder(AMQPChannel::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $exchangeClass = $this->createMock(AMQPChannel::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -545,14 +529,14 @@ final class AmqpHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfig9(): void
     {
         $exchange = 'test';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())

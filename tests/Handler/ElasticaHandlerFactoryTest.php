@@ -43,12 +43,12 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -67,12 +67,12 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -91,12 +91,12 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithWrongClient(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -115,14 +115,14 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithWrongClientString(): void
     {
         $client = 'xyz';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -145,14 +145,14 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigError(): void
     {
         $client = 'xyz';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -174,6 +174,8 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithClientClass(): void
     {
@@ -181,13 +183,9 @@ final class ElasticaHandlerFactoryTest extends TestCase
             self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
         }
 
-        $client = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $client = $this->createMock(Client::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -231,6 +229,8 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithClassString(): void
     {
@@ -239,15 +239,11 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -292,6 +288,8 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
@@ -300,16 +298,12 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $formatter   = true;
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -332,6 +326,8 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
@@ -340,18 +336,12 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
-        $formatter   = $this->getMockBuilder(ElasticaFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter   = $this->createMock(ElasticaFormatter::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $matcher = self::exactly(2);
@@ -393,6 +383,8 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -401,18 +393,12 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
-        $formatter   = $this->getMockBuilder(ElasticaFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter   = $this->createMock(ElasticaFormatter::class);
 
-        $monologFormatterPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
@@ -420,9 +406,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
         $monologFormatterPluginManager->expects(self::never())
             ->method('build');
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -471,6 +455,8 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
@@ -479,18 +465,12 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
-        $formatter   = $this->getMockBuilder(ElasticaFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter   = $this->createMock(ElasticaFormatter::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -517,6 +497,8 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
@@ -525,16 +507,12 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processors  = true;
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -555,6 +533,8 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -563,9 +543,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processors  = [
@@ -582,9 +560,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
             static fn (array $record): array => $record,
         ];
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -594,9 +570,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -622,6 +596,8 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -630,9 +606,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processor3  = static fn (array $record): array => $record;
@@ -650,17 +624,11 @@ final class ElasticaHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->getMockBuilder(GitProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor1 = $this->createMock(GitProcessor::class);
 
-        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor2 = $this->createMock(HostnameProcessor::class);
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -674,9 +642,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -726,6 +692,8 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
@@ -734,9 +702,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processor3  = static fn (array $record): array => $record;
@@ -754,9 +720,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -764,9 +728,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
         $monologProcessorPluginManager->expects(self::never())
             ->method('build');
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $matcher = self::exactly(2);
@@ -807,6 +769,8 @@ final class ElasticaHandlerFactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
@@ -815,9 +779,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processor3  = static fn (array $record): array => $record;
@@ -835,9 +797,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))

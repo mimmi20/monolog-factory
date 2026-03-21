@@ -46,12 +46,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -71,12 +71,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -96,12 +96,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithoutHandlerConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -121,12 +121,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithHandlerConfigWithoutType(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -146,14 +146,14 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithHandlerConfigWithDisabledType(): void
     {
         $type = 'abc';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -173,14 +173,14 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithHandlerConfigWithLoaderError(): void
     {
         $type = 'abc';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -202,14 +202,14 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithHandlerConfigWithLoaderError2(): void
     {
         $type = 'abc';
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -219,9 +219,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, [])
             ->willThrowException(new ServiceNotFoundException());
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -244,22 +242,20 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithHandlerConfig(): void
     {
         $type = 'abc';
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -269,9 +265,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, [])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -314,6 +308,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithHandlerConfig2(): void
     {
@@ -329,17 +325,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          */
         $filter = static fn (LogRecord $record, Level $level): bool => true;
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -349,9 +341,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, [])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -394,6 +384,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithHandlerConfig3(): void
     {
@@ -419,17 +411,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          */
         $filter2 = static fn (LogRecord $record, Level $level): bool => true;
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -439,9 +427,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, [])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -484,6 +470,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
@@ -511,17 +499,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
 
         $formatter = true;
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -531,9 +515,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, [])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -575,6 +557,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolFormatter2(): void
     {
@@ -602,17 +586,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
 
         $formatter = true;
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -622,9 +602,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, ['formatter' => $formatter])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -649,6 +627,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
@@ -674,21 +654,15 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          */
         $filter2 = static fn (LogRecord $record, Level $level): bool => true;
 
-        $formatter = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter = $this->createMock(LineFormatter::class);
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -698,9 +672,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, [])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -743,6 +715,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
@@ -768,22 +742,16 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          */
         $filter2 = static fn (LogRecord $record, Level $level): bool => true;
 
-        $formatter = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter = $this->createMock(LineFormatter::class);
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::once())
             ->method('setFormatter')
             ->with($formatter);
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologFormatterPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
@@ -791,9 +759,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $monologFormatterPluginManager->expects(self::never())
             ->method('build');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -803,9 +769,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, ['formatter' => $formatter])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -851,6 +815,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
@@ -876,21 +842,15 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          */
         $filter2 = static fn (LogRecord $record, Level $level): bool => true;
 
-        $formatter = $this->getMockBuilder(LineFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter = $this->createMock(LineFormatter::class);
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -900,9 +860,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, ['formatter' => $formatter])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -930,6 +888,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
@@ -957,17 +917,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
 
         $processors = true;
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -977,9 +933,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, [])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -1001,6 +955,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndBoolProcessors2(): void
     {
@@ -1028,17 +984,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
 
         $processors = true;
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -1048,9 +1000,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -1072,6 +1022,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -1111,9 +1063,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             static fn (array $record): array => $record,
         ];
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -1123,17 +1073,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -1143,9 +1089,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -1172,6 +1116,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -1212,17 +1158,11 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->getMockBuilder(GitProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor1 = $this->createMock(GitProcessor::class);
 
-        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor2 = $this->createMock(HostnameProcessor::class);
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -1236,17 +1176,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -1256,9 +1192,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -1304,6 +1238,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
@@ -1344,9 +1280,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -1354,17 +1288,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $monologProcessorPluginManager->expects(self::never())
             ->method('build');
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -1374,9 +1304,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $matcher = self::exactly(2);
@@ -1422,6 +1350,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
@@ -1462,17 +1392,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -1482,9 +1408,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, ['processors' => $processors])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -1513,6 +1437,8 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
      * @throws RuntimeException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Event\NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors6(): void
     {
@@ -1553,17 +1479,11 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->getMockBuilder(GitProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor1 = $this->createMock(GitProcessor::class);
 
-        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor2 = $this->createMock(HostnameProcessor::class);
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -1577,17 +1497,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -1597,9 +1513,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with($type, [])
             ->willReturn($handler2);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))

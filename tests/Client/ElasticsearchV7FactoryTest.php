@@ -3,7 +3,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022-2025, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2026, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,6 +17,7 @@ use Elasticsearch\Client as V7Client;
 use Elasticsearch\Common\Exceptions\AuthenticationConfigException;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Client\ElasticsearchV7Factory;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
@@ -32,12 +33,12 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -56,12 +57,12 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -80,6 +81,8 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithWrongHostConfig(): void
@@ -88,9 +91,7 @@ final class ElasticsearchV7FactoryTest extends TestCase
             self::markTestSkipped('requires elasticsearch/elasticsearch V7');
         }
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -109,6 +110,8 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig(): void
@@ -117,9 +120,7 @@ final class ElasticsearchV7FactoryTest extends TestCase
             self::markTestSkipped('requires elasticsearch/elasticsearch V7');
         }
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -136,6 +137,8 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig2(): void
@@ -144,9 +147,7 @@ final class ElasticsearchV7FactoryTest extends TestCase
             self::markTestSkipped('requires elasticsearch/elasticsearch V7');
         }
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -163,6 +164,8 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws Exception
      * @throws ServiceNotCreatedException
      * @throws AuthenticationConfigException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig3(): void
@@ -171,9 +174,7 @@ final class ElasticsearchV7FactoryTest extends TestCase
             self::markTestSkipped('requires elasticsearch/elasticsearch V7');
         }
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())

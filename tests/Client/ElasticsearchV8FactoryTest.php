@@ -3,7 +3,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022-2025, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2026, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,6 +16,7 @@ namespace Mimmi20Test\MonologFactory\Client;
 use Elastic\Elasticsearch\Client as V8Client;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Client\ElasticsearchV8Factory;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Exception;
@@ -30,6 +31,8 @@ final class ElasticsearchV8FactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -37,9 +40,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
             self::markTestSkipped('requires elasticsearch/elasticsearch V8');
         }
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -57,12 +58,12 @@ final class ElasticsearchV8FactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -80,6 +81,8 @@ final class ElasticsearchV8FactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithWrongClient(): void
     {
@@ -87,9 +90,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
             self::markTestSkipped('requires elasticsearch/elasticsearch V8');
         }
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -107,6 +108,8 @@ final class ElasticsearchV8FactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig(): void
@@ -115,9 +118,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
             self::markTestSkipped('requires elasticsearch/elasticsearch V8');
         }
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -133,6 +134,8 @@ final class ElasticsearchV8FactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig2(): void
@@ -141,9 +144,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
             self::markTestSkipped('requires elasticsearch/elasticsearch V8');
         }
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -159,6 +160,8 @@ final class ElasticsearchV8FactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig3(): void
@@ -167,9 +170,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
             self::markTestSkipped('requires elasticsearch/elasticsearch V8');
         }
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -185,6 +186,8 @@ final class ElasticsearchV8FactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     #[RequiresPhpExtension('curl')]
     public function testInvokeWithConfigWithConfig4(): void
@@ -193,9 +196,7 @@ final class ElasticsearchV8FactoryTest extends TestCase
             self::markTestSkipped('requires elasticsearch/elasticsearch V8');
         }
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())

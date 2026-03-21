@@ -3,7 +3,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022-2025, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2026, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -26,6 +26,7 @@ use Monolog\Handler\ElasticsearchHandler;
 use Monolog\Level;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
@@ -45,12 +46,12 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -69,12 +70,12 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithEmptyConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -93,12 +94,12 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithWrongClient(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -117,14 +118,14 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithWrongClientString(): void
     {
         $client = 'xyz';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -147,14 +148,14 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigError(): void
     {
         $client = 'xyz';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -176,6 +177,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithV7ClientClass(): void
     {
@@ -183,13 +186,9 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
             self::markTestSkipped('requires elasticsearch/elasticsearch V7');
         }
 
-        $client = $this->getMockBuilder(V7Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $client = $this->createMock(V7Client::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -233,6 +232,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigWithV7ClassString(): void
     {
@@ -241,15 +242,11 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(V7Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(V7Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -294,6 +291,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV7ClientAndConfigAndBoolFormatter(): void
     {
@@ -302,16 +301,12 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(V7Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(V7Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $formatter   = true;
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -334,6 +329,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeV7ClientAndWithConfigAndFormatter(): void
     {
@@ -342,18 +339,12 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(V7Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(V7Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
-        $formatter   = $this->getMockBuilder(ElasticsearchFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter   = $this->createMock(ElasticsearchFormatter::class);
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -384,6 +375,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter2(): void
     {
@@ -392,26 +385,18 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(V7Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(V7Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
-        $formatter   = $this->getMockBuilder(ElasticsearchFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter   = $this->createMock(ElasticsearchFormatter::class);
 
-        $monologFormatterPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -461,6 +446,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter3(): void
     {
@@ -469,27 +456,19 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(V7Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(V7Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $dateFormat  = ElasticsearchHandlerFactory::INDEX_PER_MONTH;
-        $formatter   = $this->getMockBuilder(ElasticsearchFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter   = $this->createMock(ElasticsearchFormatter::class);
 
-        $monologFormatterPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -539,6 +518,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter4(): void
     {
@@ -547,27 +528,19 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(V7Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(V7Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $dateFormat  = ElasticsearchHandlerFactory::INDEX_PER_MONTH;
-        $formatter   = $this->getMockBuilder(ElasticsearchFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter   = $this->createMock(ElasticsearchFormatter::class);
 
-        $monologFormatterPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -617,6 +590,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter5(): void
     {
@@ -625,27 +600,19 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(V7Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(V7Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $dateFormat  = ElasticsearchHandlerFactory::INDEX_PER_YEAR;
-        $formatter   = $this->getMockBuilder(ElasticsearchFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter   = $this->createMock(ElasticsearchFormatter::class);
 
-        $monologFormatterPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -695,6 +662,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV7ClientAndConfigAndFormatter6(): void
     {
@@ -703,27 +672,19 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(V7Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(V7Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $dateFormat  = ElasticsearchHandlerFactory::INDEX_PER_DAY;
-        $formatter   = $this->getMockBuilder(ElasticsearchFormatter::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $formatter   = $this->createMock(ElasticsearchFormatter::class);
 
-        $monologFormatterPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
             ->method('has');
         $monologFormatterPluginManager->expects(self::never())
             ->method('get');
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -772,6 +733,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV7ClientAndConfigAndBoolProcessors(): void
     {
@@ -780,16 +743,12 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(V7Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(V7Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processors  = true;
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::once())
@@ -810,6 +769,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV7ClientAndConfigAndProcessors2(): void
     {
@@ -818,9 +779,7 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(V7Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(V7Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processors  = [
@@ -837,9 +796,7 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
             static fn (array $record): array => $record,
         ];
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::once())
@@ -847,9 +804,7 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -875,6 +830,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws ReflectionException
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV7ClientAndConfigAndProcessors3(): void
     {
@@ -883,9 +840,7 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(V7Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(V7Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processor3  = static fn (array $record): array => $record;
@@ -903,17 +858,11 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->getMockBuilder(GitProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor1 = $this->createMock(GitProcessor::class);
 
-        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor2 = $this->createMock(HostnameProcessor::class);
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::exactly(2))
@@ -925,9 +874,7 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
                 ],
             );
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))
@@ -977,6 +924,8 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
      * @throws Exception
      * @throws ServiceNotFoundException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithV7ClientAndConfigAndProcessors4(): void
     {
@@ -985,9 +934,7 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->getMockBuilder(V7Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $clientClass = $this->createMock(V7Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processor3  = static fn (array $record): array => $record;
@@ -1005,17 +952,13 @@ final class ElasticsearchHandlerFactory1Test extends TestCase
             $processor3,
         ];
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
             ->method('get');
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(2))

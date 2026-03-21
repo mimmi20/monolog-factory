@@ -3,7 +3,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022-2025, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2026, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -28,6 +28,7 @@ use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\WhatFailureGroupHandler;
 use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -43,6 +44,8 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
@@ -77,33 +80,25 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
             static fn (array $record): array => $record,
         ];
 
-        $handler1 = $this->getMockBuilder(FirePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler1 = $this->createMock(FirePHPHandler::class);
         $handler1->expects(self::never())
             ->method('setFormatter');
         $handler1->expects(self::never())
             ->method('getFormatter');
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $handler3 = $this->getMockBuilder(GelfHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler3 = $this->createMock(GelfHandler::class);
         $handler3->expects(self::never())
             ->method('setFormatter');
         $handler3->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -131,9 +126,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
                 },
             );
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -143,9 +136,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
             ->with('abc', [])
             ->willThrowException(new ServiceNotFoundException());
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(4))
@@ -189,6 +180,8 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
@@ -224,17 +217,11 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->getMockBuilder(GitProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor1 = $this->createMock(GitProcessor::class);
 
-        $processor2 = $this->getMockBuilder(HostnameProcessor::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $processor2 = $this->createMock(HostnameProcessor::class);
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -248,33 +235,25 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $handler1 = $this->getMockBuilder(FirePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler1 = $this->createMock(FirePHPHandler::class);
         $handler1->expects(self::never())
             ->method('setFormatter');
         $handler1->expects(self::never())
             ->method('getFormatter');
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $handler3 = $this->getMockBuilder(GelfHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler3 = $this->createMock(GelfHandler::class);
         $handler3->expects(self::never())
             ->method('setFormatter');
         $handler3->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -289,9 +268,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(4))
@@ -338,6 +315,8 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
@@ -375,9 +354,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -391,33 +368,25 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $handler1 = $this->getMockBuilder(FirePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler1 = $this->createMock(FirePHPHandler::class);
         $handler1->expects(self::never())
             ->method('setFormatter');
         $handler1->expects(self::never())
             ->method('getFormatter');
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $handler3 = $this->getMockBuilder(GelfHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler3 = $this->createMock(GelfHandler::class);
         $handler3->expects(self::never())
             ->method('setFormatter');
         $handler3->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -432,9 +401,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(4))
@@ -481,6 +448,8 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
@@ -516,9 +485,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -526,33 +493,25 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
         $monologProcessorPluginManager->expects(self::never())
             ->method('build');
 
-        $handler1 = $this->getMockBuilder(FirePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler1 = $this->createMock(FirePHPHandler::class);
         $handler1->expects(self::never())
             ->method('setFormatter');
         $handler1->expects(self::never())
             ->method('getFormatter');
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $handler3 = $this->getMockBuilder(GelfHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler3 = $this->createMock(GelfHandler::class);
         $handler3->expects(self::never())
             ->method('setFormatter');
         $handler3->expects(self::never())
             ->method('getFormatter');
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -567,9 +526,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(4))
@@ -613,6 +570,8 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws InvalidArgumentException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithConfigAndProcessors5WithoutCurl(): void
     {
@@ -661,9 +620,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $monologProcessorPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
@@ -671,37 +628,27 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
         $monologProcessorPluginManager->expects(self::never())
             ->method('build');
 
-        $handler1 = $this->getMockBuilder(FirePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler1 = $this->createMock(FirePHPHandler::class);
         $handler1->expects(self::never())
             ->method('setFormatter');
         $handler1->expects(self::never())
             ->method('getFormatter');
 
-        $handler2 = $this->getMockBuilder(ChromePHPHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
             ->method('setFormatter');
         $handler2->expects(self::never())
             ->method('getFormatter');
 
-        $handler3 = $this->getMockBuilder(GelfHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler3 = $this->createMock(GelfHandler::class);
         $handler3->expects(self::never())
             ->method('setFormatter');
         $handler3->expects(self::never())
             ->method('getFormatter');
 
-        $handler4 = $this->getMockBuilder(MicrosoftTeamsHandler::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $handler4 = $this->createMock(MicrosoftTeamsHandler::class);
 
-        $monologHandlerPluginManager = $this->getMockBuilder(AbstractPluginManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
@@ -717,9 +664,7 @@ final class WhatFailureGroupHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::exactly(4))

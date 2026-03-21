@@ -3,7 +3,7 @@
 /**
  * This file is part of the mimmi20/monolog-factory package.
  *
- * Copyright (c) 2022-2025, Thomas Mueller <mimmi20@live.de>
+ * Copyright (c) 2022-2026, Thomas Mueller <mimmi20@live.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,6 +16,7 @@ namespace Mimmi20Test\MonologFactory\Formatter;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Mimmi20\MonologFactory\Formatter\LogstashFormatterFactory;
 use Monolog\Formatter\LogstashFormatter;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -29,12 +30,12 @@ final class LogstashFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutConfig(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -52,12 +53,12 @@ final class LogstashFormatterFactoryTest extends TestCase
     /**
      * @throws Exception
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithoutApplicationname(): void
     {
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -76,14 +77,14 @@ final class LogstashFormatterFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithApplicationname(): void
     {
         $applicationName = 'abc';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())
@@ -116,6 +117,8 @@ final class LogstashFormatterFactoryTest extends TestCase
      * @throws Exception
      * @throws ReflectionException
      * @throws ServiceNotCreatedException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws NoPreviousThrowableException
      */
     public function testInvokeWithApplicationname2(): void
     {
@@ -124,9 +127,7 @@ final class LogstashFormatterFactoryTest extends TestCase
         $extraKey        = 'xtra';
         $contextKey      = 'new-context';
 
-        $container = $this->getMockBuilder(ContainerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
         $container->expects(self::never())

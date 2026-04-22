@@ -16,7 +16,7 @@
     "source": "https://github.com/mimmi20/monolog-factory"
   },
   "require": {
-    "php": "~8.3.0 || ~8.4.0 || ~8.5.0",
+    "php": "~8.3.0 || ~8.4.0 || ~8.5.0 || ~8.6.0",
     "ext-mbstring": "*",
     "laminas/laminas-servicemanager": "^3.22.1",
     "monolog/monolog": "^3.10.0",
@@ -34,11 +34,13 @@
     "aws/aws-sdk-php": "^3.373.2",
     "doctrine/couchdb": "1.0.0-beta4",
     "elasticsearch/elasticsearch": "^7.17.2 || ^8.17.0",
+    "ergebnis/composer-normalize": "^2.50.0",
     "ezimuel/ringphp": "^1.4.1",
     "graylog2/gelf-php": "^2.0.2",
     "guzzlehttp/guzzle": "^7.10.0",
     "guzzlehttp/psr7": "^2.9.0",
     "infection/infection": "^0.32.6",
+    "jbelien/phpstan-sarif-formatter": "^1.2.0",
     "jk/monolog-request-header-processor": "^1.0.0",
     "laminas/laminas-eventmanager": "^3.15.0",
     "laminas/laminas-modulemanager": "^2.19.0",
@@ -100,6 +102,7 @@
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
+      "ergebnis/composer-normalize": true,
       "infection/extension-installer": true,
       "php-http/discovery": true,
       "phpstan/extension-installer": true
@@ -109,6 +112,10 @@
     "sort-packages": true
   },
   "extra": {
+    "composer-normalize": {
+      "indent-size": 2,
+      "indent-style": "space"
+    },
     "laminas": {
       "component": "Mimmi20\\MonologFactory",
       "config-provider": "Mimmi20\\MonologFactory\\ConfigProvider"

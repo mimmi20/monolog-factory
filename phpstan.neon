@@ -130,6 +130,14 @@ parameters:
       identifier: argument.type
       path: tests/Processor/LoadAverageProcessorFactoryTest.php
 
+services:
+  errorFormatter.sarif:
+    class: PHPStanSarifErrorFormatter\SarifErrorFormatter
+    arguments:
+      relativePathHelper: @simpleRelativePathHelper
+      currentWorkingDirectory: %currentWorkingDirectory%
+      pretty: true
+
 rules:
   # code complexity
   - Symplify\PHPStanRules\Rules\NoDynamicNameRule

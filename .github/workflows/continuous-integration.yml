@@ -97,7 +97,7 @@ jobs:
       min-covered-msi: 91
       upload-codecov: true
       upload-codeclimate: false
-      upload-coveralls: true
+      upload-coveralls: false
       upload-flag: "without-extensions"
       skip-infection: true
     secrets:

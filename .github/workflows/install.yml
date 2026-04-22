@@ -67,7 +67,7 @@ jobs:
         if: inputs.skip-librabbitmq-install == false
 
       - name: "Install PHP"
-        uses: "shivammathur/setup-php@2.36.0"
+        uses: "shivammathur/setup-php@2.37.0"
         with:
           php-version: "${{ matrix.php-version }}"
           extensions: "none, phar, json, opcache, curl, iconv, mbstring, ${{ inputs.extensions }}"
@@ -98,14 +98,14 @@ jobs:
 
       - name: "Update dependencies with composer"
         if: ${{ '8.5' != matrix.php-version && '8.6' != matrix.php-version }}
-        uses: "ramsey/composer-install@3.1.1"
+        uses: "ramsey/composer-install@4.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ inputs.composer-options }}"
 
       - name: "Update dependencies with composer"
         if: ${{ '8.5' == matrix.php-version || '8.6' == matrix.php-version }}
-        uses: "ramsey/composer-install@3.1.1"
+        uses: "ramsey/composer-install@4.0.0"
         with:
           dependency-versions: "${{ matrix.dependencies }}"
           composer-options: "${{ inputs.composer-options }} --ignore-platform-reqs"

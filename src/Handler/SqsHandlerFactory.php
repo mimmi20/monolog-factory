@@ -97,11 +97,11 @@ final class SqsHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new SqsHandler($sqsClient, $queueUrl, $level, $bubble);
+        $sqsHandler = new SqsHandler($sqsClient, $queueUrl, $level, $bubble);
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $sqsHandler, $options);
+        $this->addProcessor($container, $sqsHandler, $options);
 
-        return $handler;
+        return $sqsHandler;
     }
 }

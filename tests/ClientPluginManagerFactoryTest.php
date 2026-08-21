@@ -47,15 +47,15 @@ final class ClientPluginManagerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with('ServiceListener')
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ClientPluginManagerFactory();
+        $clientPluginManagerFactory = new ClientPluginManagerFactory();
 
         self::assertInstanceOf(
             ClientPluginManager::class,
-            $factory($container, $requestedName, $options),
+            $clientPluginManagerFactory($container, $requestedName, $options),
         );
     }
 
@@ -85,11 +85,11 @@ final class ClientPluginManagerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ClientPluginManagerFactory();
+        $clientPluginManagerFactory = new ClientPluginManagerFactory();
 
         self::assertInstanceOf(
             ClientPluginManager::class,
-            $factory($container, $requestedName, $options),
+            $clientPluginManagerFactory($container, $requestedName, $options),
         );
     }
 
@@ -121,13 +121,13 @@ final class ClientPluginManagerFactoryTest extends TestCase
             ->with('config')
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new ClientPluginManagerFactory();
+        $clientPluginManagerFactory = new ClientPluginManagerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'config'));
         $this->expectExceptionCode(0);
 
-        $factory($container, $requestedName, $options);
+        $clientPluginManagerFactory($container, $requestedName, $options);
     }
 
     /**
@@ -159,11 +159,11 @@ final class ClientPluginManagerFactoryTest extends TestCase
             ->with('config')
             ->willReturn($config);
 
-        $factory = new ClientPluginManagerFactory();
+        $clientPluginManagerFactory = new ClientPluginManagerFactory();
 
         self::assertInstanceOf(
             ClientPluginManager::class,
-            $factory($container, $requestedName, $options),
+            $clientPluginManagerFactory($container, $requestedName, $options),
         );
     }
 
@@ -196,11 +196,11 @@ final class ClientPluginManagerFactoryTest extends TestCase
             ->with('config')
             ->willReturn($config);
 
-        $factory = new ClientPluginManagerFactory();
+        $clientPluginManagerFactory = new ClientPluginManagerFactory();
 
         self::assertInstanceOf(
             ClientPluginManager::class,
-            $factory($container, $requestedName, $options),
+            $clientPluginManagerFactory($container, $requestedName, $options),
         );
     }
 
@@ -233,11 +233,11 @@ final class ClientPluginManagerFactoryTest extends TestCase
             ->with('config')
             ->willReturn($config);
 
-        $factory = new ClientPluginManagerFactory();
+        $clientPluginManagerFactory = new ClientPluginManagerFactory();
 
         self::assertInstanceOf(
             ClientPluginManager::class,
-            $factory($container, $requestedName, $options),
+            $clientPluginManagerFactory($container, $requestedName, $options),
         );
     }
 }

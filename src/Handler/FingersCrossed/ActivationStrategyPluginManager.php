@@ -38,6 +38,7 @@ final class ActivationStrategyPluginManager extends AbstractSingleInstancePlugin
      * A list of factories (either as string name or callable)
      *
      * @phpstan-var array<string, (callable(ContainerInterface, string, array<mixed>|null): mixed)|class-string<callable(ContainerInterface, string, array<mixed>|null): mixed&object>>
+     * @var array<string, class-string<ChannelLevelActivationStrategyFactory>|class-string<ErrorLevelActivationStrategyFactory>>
      */
     protected array $factories = [
         ChannelLevelActivationStrategy::class => ChannelLevelActivationStrategyFactory::class,

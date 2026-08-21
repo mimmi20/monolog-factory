@@ -36,7 +36,6 @@ use Psr\Log\LogLevel;
 use ReflectionException;
 use ReflectionProperty;
 
-use function assert;
 use function extension_loaded;
 use function sprintf;
 
@@ -49,7 +48,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -58,13 +57,13 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MicrosoftTeamsHandlerFactory();
+        $microsoftTeamsHandlerFactory = new MicrosoftTeamsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $microsoftTeamsHandlerFactory($container, '');
     }
 
     /**
@@ -74,7 +73,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -83,13 +82,13 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MicrosoftTeamsHandlerFactory();
+        $microsoftTeamsHandlerFactory = new MicrosoftTeamsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No url provided');
 
-        $factory($container, '', []);
+        $microsoftTeamsHandlerFactory($container, '', []);
     }
 
     /**
@@ -100,7 +99,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig(): void
     {
         $url = 'test-url';
@@ -111,27 +110,27 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MicrosoftTeamsHandlerFactory();
+        $microsoftTeamsHandlerFactory = new MicrosoftTeamsHandlerFactory();
 
-        $handler = $factory($container, '', ['url' => $url]);
+        $microsoftTeamsHandler = $microsoftTeamsHandlerFactory($container, '', ['url' => $url]);
 
-        self::assertInstanceOf(MicrosoftTeamsHandler::class, $handler);
+        self::assertInstanceOf(MicrosoftTeamsHandler::class, $microsoftTeamsHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $microsoftTeamsHandler->getLevel());
+        self::assertTrue($microsoftTeamsHandler->getBubble());
 
-        $urlP = new ReflectionProperty($handler, 'webhookDsn');
+        $urlP = new ReflectionProperty($microsoftTeamsHandler, 'webhookDsn');
 
-        self::assertSame($url, $urlP->getValue($handler));
+        self::assertSame($url, $urlP->getValue($microsoftTeamsHandler));
 
-        $formatP = new ReflectionProperty($handler, 'format');
+        $formatP = new ReflectionProperty($microsoftTeamsHandler, 'format');
 
-        self::assertSame('%message%', $formatP->getValue($handler));
+        self::assertSame('%message%', $formatP->getValue($microsoftTeamsHandler));
 
-        $microsoftTeamsRecord = new ReflectionProperty($handler, 'microsoftTeamsRecord');
+        $microsoftTeamsRecord = new ReflectionProperty($microsoftTeamsHandler, 'microsoftTeamsRecord');
 
-        $mtr = $microsoftTeamsRecord->getValue($handler);
-        assert($mtr instanceof MicrosoftTeamsRecord);
+        $mtr = $microsoftTeamsRecord->getValue($microsoftTeamsHandler);
+        $this->assertInstanceOf(MicrosoftTeamsRecord::class, $mtr);
 
         self::assertSame('Message', $mtr->getTitle());
         self::assertSame('Date', $mtr->getSubject());
@@ -144,11 +143,11 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
 
         self::assertNull($colorP->getValue($mtr));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $microsoftTeamsHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($microsoftTeamsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($microsoftTeamsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -162,7 +161,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig2(): void
     {
         $url     = 'test-url';
@@ -178,27 +177,27 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MicrosoftTeamsHandlerFactory();
+        $microsoftTeamsHandlerFactory = new MicrosoftTeamsHandlerFactory();
 
-        $handler = $factory($container, '', ['url' => $url, 'title' => $title, 'subject' => $subject, 'emoji' => $emoji, 'color' => $color, 'format' => $format, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $microsoftTeamsHandler = $microsoftTeamsHandlerFactory($container, '', ['url' => $url, 'title' => $title, 'subject' => $subject, 'emoji' => $emoji, 'color' => $color, 'format' => $format, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(MicrosoftTeamsHandler::class, $handler);
+        self::assertInstanceOf(MicrosoftTeamsHandler::class, $microsoftTeamsHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $microsoftTeamsHandler->getLevel());
+        self::assertFalse($microsoftTeamsHandler->getBubble());
 
-        $urlP = new ReflectionProperty($handler, 'webhookDsn');
+        $urlP = new ReflectionProperty($microsoftTeamsHandler, 'webhookDsn');
 
-        self::assertSame($url, $urlP->getValue($handler));
+        self::assertSame($url, $urlP->getValue($microsoftTeamsHandler));
 
-        $formatP = new ReflectionProperty($handler, 'format');
+        $formatP = new ReflectionProperty($microsoftTeamsHandler, 'format');
 
-        self::assertSame($format, $formatP->getValue($handler));
+        self::assertSame($format, $formatP->getValue($microsoftTeamsHandler));
 
-        $microsoftTeamsRecord = new ReflectionProperty($handler, 'microsoftTeamsRecord');
+        $microsoftTeamsRecord = new ReflectionProperty($microsoftTeamsHandler, 'microsoftTeamsRecord');
 
-        $mtr = $microsoftTeamsRecord->getValue($handler);
-        assert($mtr instanceof MicrosoftTeamsRecord);
+        $mtr = $microsoftTeamsRecord->getValue($microsoftTeamsHandler);
+        $this->assertInstanceOf(MicrosoftTeamsRecord::class, $mtr);
 
         self::assertSame($title, $mtr->getTitle());
         self::assertSame($subject, $mtr->getSubject());
@@ -211,11 +210,11 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
 
         self::assertSame($color, $colorP->getValue($mtr));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $microsoftTeamsHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($microsoftTeamsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($microsoftTeamsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -228,7 +227,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $url       = 'test-url';
@@ -240,7 +239,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MicrosoftTeamsHandlerFactory();
+        $microsoftTeamsHandlerFactory = new MicrosoftTeamsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -248,7 +247,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $microsoftTeamsHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -258,11 +257,11 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $url       = 'test-url';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -272,7 +271,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new MicrosoftTeamsHandlerFactory();
+        $microsoftTeamsHandlerFactory = new MicrosoftTeamsHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -280,7 +279,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $microsoftTeamsHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -291,11 +290,11 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $url       = 'test-url';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -313,27 +312,27 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new MicrosoftTeamsHandlerFactory();
+        $microsoftTeamsHandlerFactory = new MicrosoftTeamsHandlerFactory();
 
-        $handler = $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $microsoftTeamsHandler = $microsoftTeamsHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(MicrosoftTeamsHandler::class, $handler);
+        self::assertInstanceOf(MicrosoftTeamsHandler::class, $microsoftTeamsHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $microsoftTeamsHandler->getLevel());
+        self::assertFalse($microsoftTeamsHandler->getBubble());
 
-        $urlP = new ReflectionProperty($handler, 'webhookDsn');
+        $urlP = new ReflectionProperty($microsoftTeamsHandler, 'webhookDsn');
 
-        self::assertSame($url, $urlP->getValue($handler));
+        self::assertSame($url, $urlP->getValue($microsoftTeamsHandler));
 
-        $formatP = new ReflectionProperty($handler, 'format');
+        $formatP = new ReflectionProperty($microsoftTeamsHandler, 'format');
 
-        self::assertSame('%message%', $formatP->getValue($handler));
+        self::assertSame('%message%', $formatP->getValue($microsoftTeamsHandler));
 
-        $microsoftTeamsRecord = new ReflectionProperty($handler, 'microsoftTeamsRecord');
+        $microsoftTeamsRecord = new ReflectionProperty($microsoftTeamsHandler, 'microsoftTeamsRecord');
 
-        $mtr = $microsoftTeamsRecord->getValue($handler);
-        assert($mtr instanceof MicrosoftTeamsRecord);
+        $mtr = $microsoftTeamsRecord->getValue($microsoftTeamsHandler);
+        $this->assertInstanceOf(MicrosoftTeamsRecord::class, $mtr);
 
         self::assertSame('Message', $mtr->getTitle());
         self::assertSame('Date', $mtr->getSubject());
@@ -346,11 +345,11 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
 
         self::assertNull($colorP->getValue($mtr));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $microsoftTeamsHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($microsoftTeamsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($microsoftTeamsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -363,11 +362,11 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $url       = 'test-url';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -375,9 +374,9 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new MicrosoftTeamsHandlerFactory();
+        $microsoftTeamsHandlerFactory = new MicrosoftTeamsHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -385,7 +384,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $microsoftTeamsHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -395,7 +394,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $url        = 'test-url';
@@ -407,13 +406,13 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MicrosoftTeamsHandlerFactory();
+        $microsoftTeamsHandlerFactory = new MicrosoftTeamsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $microsoftTeamsHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -423,7 +422,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $url        = 'test-url';
@@ -459,13 +458,13 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new MicrosoftTeamsHandlerFactory();
+        $microsoftTeamsHandlerFactory = new MicrosoftTeamsHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $microsoftTeamsHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -476,7 +475,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $url        = 'test-url';
@@ -495,9 +494,9 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -521,27 +520,27 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new MicrosoftTeamsHandlerFactory();
+        $microsoftTeamsHandlerFactory = new MicrosoftTeamsHandlerFactory();
 
-        $handler = $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $microsoftTeamsHandler = $microsoftTeamsHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(MicrosoftTeamsHandler::class, $handler);
+        self::assertInstanceOf(MicrosoftTeamsHandler::class, $microsoftTeamsHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $microsoftTeamsHandler->getLevel());
+        self::assertFalse($microsoftTeamsHandler->getBubble());
 
-        $urlP = new ReflectionProperty($handler, 'webhookDsn');
+        $urlP = new ReflectionProperty($microsoftTeamsHandler, 'webhookDsn');
 
-        self::assertSame($url, $urlP->getValue($handler));
+        self::assertSame($url, $urlP->getValue($microsoftTeamsHandler));
 
-        $formatP = new ReflectionProperty($handler, 'format');
+        $formatP = new ReflectionProperty($microsoftTeamsHandler, 'format');
 
-        self::assertSame('%message%', $formatP->getValue($handler));
+        self::assertSame('%message%', $formatP->getValue($microsoftTeamsHandler));
 
-        $microsoftTeamsRecord = new ReflectionProperty($handler, 'microsoftTeamsRecord');
+        $microsoftTeamsRecord = new ReflectionProperty($microsoftTeamsHandler, 'microsoftTeamsRecord');
 
-        $mtr = $microsoftTeamsRecord->getValue($handler);
-        assert($mtr instanceof MicrosoftTeamsRecord);
+        $mtr = $microsoftTeamsRecord->getValue($microsoftTeamsHandler);
+        $this->assertInstanceOf(MicrosoftTeamsRecord::class, $mtr);
 
         self::assertSame('Message', $mtr->getTitle());
         self::assertSame('Date', $mtr->getSubject());
@@ -554,9 +553,9 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
 
         self::assertNull($colorP->getValue($mtr));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($microsoftTeamsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($microsoftTeamsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -572,7 +571,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $url        = 'test-url';
@@ -607,7 +606,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new MicrosoftTeamsHandlerFactory();
+        $microsoftTeamsHandlerFactory = new MicrosoftTeamsHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -615,7 +614,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $microsoftTeamsHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -625,7 +624,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $url        = 'test-url';
@@ -650,9 +649,9 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new MicrosoftTeamsHandlerFactory();
+        $microsoftTeamsHandlerFactory = new MicrosoftTeamsHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -660,7 +659,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $microsoftTeamsHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -684,7 +683,7 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MicrosoftTeamsHandlerFactory();
+        $microsoftTeamsHandlerFactory = new MicrosoftTeamsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -692,6 +691,6 @@ final class MicrosoftTeamsHandlerFactoryTest extends TestCase
             sprintf('The curl extension is needed to use the %s', MicrosoftTeamsHandler::class),
         );
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $microsoftTeamsHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false]);
     }
 }

@@ -107,11 +107,11 @@ final class MongoDBHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new MongoDBHandler($client, $database, $collection, $level, $bubble);
+        $mongoDBHandler = new MongoDBHandler($client, $database, $collection, $level, $bubble);
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $mongoDBHandler, $options);
+        $this->addProcessor($container, $mongoDBHandler, $options);
 
-        return $handler;
+        return $mongoDBHandler;
     }
 }

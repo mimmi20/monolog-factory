@@ -11,33 +11,43 @@
 
 declare(strict_types = 1);
 
+use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\If_\RemoveAlwaysTrueIfConditionRector;
 use Rector\DeadCode\Rector\If_\RemoveDeadInstanceOfRector;
 use Rector\DeadCode\Rector\StaticCall\RemoveParentCallWithoutParentRector;
-use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
-use Rector\PHPUnit\Set\PHPUnitSetList;
-use Rector\Set\ValueObject\LevelSetList;
-use Rector\Set\ValueObject\SetList;
+use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
+use Rector\ValueObject\PhpVersion;
 
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->paths([
+return RectorConfig::configure()
+    ->withPaths([
         __DIR__ . '/src',
         __DIR__ . '/tests',
-    ]);
-
-    $rectorConfig->sets([
-        SetList::DEAD_CODE,
-        LevelSetList::UP_TO_PHP_83,
-        PHPUnitSetList::PHPUNIT_100,
-    ]);
-
-    $rectorConfig->skip(
-        [
-            NullToStrictStringFuncCallArgRector::class,
-            RemoveDeadInstanceOfRector::class,
-            RemoveAlwaysTrueIfConditionRector::class,
-            RemoveParentCallWithoutParentRector::class,
-        ],
-    );
-};
+    ])
+    ->withPhpVersion(PhpVersion::PHP_83)
+    ->withPreparedSets(
+        deadCode: true,
+        codeQuality: false,
+        typeDeclarations: true,
+        typeDeclarationDocblocks: true,
+        naming: true,
+        namedArgs: true,
+        instanceOf: false,
+        if: true,
+        earlyReturn: true,
+        phpunitCodeQuality: true,
+        phpunitNarrowAsserts: true,
+        phpunitMockToStub: true,
+    )
+    ->withPhpSets(php83: true)
+    ->withAttributesSets(phpunit: true)
+    ->withComposerBased(phpunit: true)
+    ->withSkip([
+        RemoveDeadInstanceOfRector::class,
+        RemoveAlwaysTrueIfConditionRector::class,
+        RemoveParentCallWithoutParentRector::class,
+        PreferPHPUnitThisCallRector::class,
+        ExplicitBoolCompareRector::class,
+    ])
+    ->withoutParallel()
+    ->withMemoryLimit('2048M');

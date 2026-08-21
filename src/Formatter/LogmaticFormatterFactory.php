@@ -71,30 +71,34 @@ final class LogmaticFormatterFactory implements FactoryInterface
             }
         }
 
-        $formatter = new LogmaticFormatter($batchMode, $appendNewline, $ignoreEmptyContextAndExtra);
+        $logmaticFormatter = new LogmaticFormatter(
+            $batchMode,
+            $appendNewline,
+            $ignoreEmptyContextAndExtra,
+        );
 
         if (is_array($options)) {
             if (array_key_exists('hostname', $options)) {
-                $formatter->setHostname($options['hostname']);
+                $logmaticFormatter->setHostname($options['hostname']);
             }
 
             if (array_key_exists('appName', $options)) {
-                $formatter->setAppName($options['appName']);
+                $logmaticFormatter->setAppName($options['appName']);
             }
 
             if (array_key_exists('includeStacktraces', $options)) {
-                $formatter->includeStacktraces($options['includeStacktraces']);
+                $logmaticFormatter->includeStacktraces($options['includeStacktraces']);
             }
 
             if (array_key_exists('dateFormat', $options)) {
-                $formatter->setDateFormat($options['dateFormat']);
+                $logmaticFormatter->setDateFormat($options['dateFormat']);
             }
         }
 
-        $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
-        $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
-        $formatter->setJsonPrettyPrint($prettyPrint);
+        $logmaticFormatter->setMaxNormalizeDepth($maxNormalizeDepth);
+        $logmaticFormatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
+        $logmaticFormatter->setJsonPrettyPrint($prettyPrint);
 
-        return $formatter;
+        return $logmaticFormatter;
     }
 }

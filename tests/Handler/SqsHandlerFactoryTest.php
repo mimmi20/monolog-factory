@@ -54,13 +54,13 @@ final class SqsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $sqsHandlerFactory($container, '');
     }
 
     /**
@@ -78,13 +78,13 @@ final class SqsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required sqsClient class');
 
-        $factory($container, '', []);
+        $sqsHandlerFactory($container, '', []);
     }
 
     /**
@@ -104,13 +104,13 @@ final class SqsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required sqsClient class');
 
-        $factory($container, '', ['sqsClient' => $sqsClient]);
+        $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClient]);
     }
 
     /**
@@ -132,13 +132,13 @@ final class SqsHandlerFactoryTest extends TestCase
             ->with($sqsClient)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Could not load sqsClient class');
 
-        $factory($container, '', ['sqsClient' => $sqsClient]);
+        $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClient]);
     }
 
     /**
@@ -152,7 +152,7 @@ final class SqsHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig3(): void
     {
         $sqsClient      = 'test-client';
-        $sqsClientClass = $this->createMock(SqsClient::class);
+        $sqsClientClass = $this->createStub(SqsClient::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -162,28 +162,28 @@ final class SqsHandlerFactoryTest extends TestCase
             ->with($sqsClient)
             ->willReturn($sqsClientClass);
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
-        $handler = $factory($container, '', ['sqsClient' => $sqsClient]);
+        $sqsHandler = $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClient]);
 
-        self::assertInstanceOf(SqsHandler::class, $handler);
+        self::assertInstanceOf(SqsHandler::class, $sqsHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $sqsHandler->getLevel());
+        self::assertTrue($sqsHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($sqsHandler, 'client');
 
-        self::assertSame($sqsClientClass, $clientP->getValue($handler));
+        self::assertSame($sqsClientClass, $clientP->getValue($sqsHandler));
 
-        $qu = new ReflectionProperty($handler, 'queueUrl');
+        $qu = new ReflectionProperty($sqsHandler, 'queueUrl');
 
-        self::assertSame('', $qu->getValue($handler));
+        self::assertSame('', $qu->getValue($sqsHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $sqsHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($sqsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($sqsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -200,7 +200,7 @@ final class SqsHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig4(): void
     {
         $sqsClient      = 'test-client';
-        $sqsClientClass = $this->createMock(SqsClient::class);
+        $sqsClientClass = $this->createStub(SqsClient::class);
         $queueUrl       = 'test-uri';
 
         $container = $this->createMock(ContainerInterface::class);
@@ -211,28 +211,28 @@ final class SqsHandlerFactoryTest extends TestCase
             ->with($sqsClient)
             ->willReturn($sqsClientClass);
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
-        $handler = $factory($container, '', ['sqsClient' => $sqsClient, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $sqsHandler = $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClient, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(SqsHandler::class, $handler);
+        self::assertInstanceOf(SqsHandler::class, $sqsHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $sqsHandler->getLevel());
+        self::assertFalse($sqsHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($sqsHandler, 'client');
 
-        self::assertSame($sqsClientClass, $clientP->getValue($handler));
+        self::assertSame($sqsClientClass, $clientP->getValue($sqsHandler));
 
-        $qu = new ReflectionProperty($handler, 'queueUrl');
+        $qu = new ReflectionProperty($sqsHandler, 'queueUrl');
 
-        self::assertSame($queueUrl, $qu->getValue($handler));
+        self::assertSame($queueUrl, $qu->getValue($sqsHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $sqsHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($sqsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($sqsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -248,7 +248,7 @@ final class SqsHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfig5(): void
     {
-        $sqsClientClass = $this->createMock(SqsClient::class);
+        $sqsClientClass = $this->createStub(SqsClient::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -256,28 +256,28 @@ final class SqsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
-        $handler = $factory($container, '', ['sqsClient' => $sqsClientClass]);
+        $sqsHandler = $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClientClass]);
 
-        self::assertInstanceOf(SqsHandler::class, $handler);
+        self::assertInstanceOf(SqsHandler::class, $sqsHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $sqsHandler->getLevel());
+        self::assertTrue($sqsHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($sqsHandler, 'client');
 
-        self::assertSame($sqsClientClass, $clientP->getValue($handler));
+        self::assertSame($sqsClientClass, $clientP->getValue($sqsHandler));
 
-        $qu = new ReflectionProperty($handler, 'queueUrl');
+        $qu = new ReflectionProperty($sqsHandler, 'queueUrl');
 
-        self::assertSame('', $qu->getValue($handler));
+        self::assertSame('', $qu->getValue($sqsHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $sqsHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($sqsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($sqsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -293,7 +293,7 @@ final class SqsHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfig6(): void
     {
-        $sqsClientClass = $this->createMock(SqsClient::class);
+        $sqsClientClass = $this->createStub(SqsClient::class);
         $queueUrl       = 'test-uri';
 
         $container = $this->createMock(ContainerInterface::class);
@@ -302,28 +302,28 @@ final class SqsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
-        $handler = $factory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $sqsHandler = $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(SqsHandler::class, $handler);
+        self::assertInstanceOf(SqsHandler::class, $sqsHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $sqsHandler->getLevel());
+        self::assertFalse($sqsHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($sqsHandler, 'client');
 
-        self::assertSame($sqsClientClass, $clientP->getValue($handler));
+        self::assertSame($sqsClientClass, $clientP->getValue($sqsHandler));
 
-        $qu = new ReflectionProperty($handler, 'queueUrl');
+        $qu = new ReflectionProperty($sqsHandler, 'queueUrl');
 
-        self::assertSame($queueUrl, $qu->getValue($handler));
+        self::assertSame($queueUrl, $qu->getValue($sqsHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $sqsHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($sqsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($sqsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -346,15 +346,15 @@ final class SqsHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with($sqsClient)
-            ->willReturn(true);
+            ->willReturn(value: true);
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', SqsHandler::class));
 
-        $factory($container, '', ['sqsClient' => $sqsClient]);
+        $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClient]);
     }
 
     /**
@@ -366,7 +366,7 @@ final class SqsHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
-        $sqsClientClass = $this->createMock(SqsClient::class);
+        $sqsClientClass = $this->createStub(SqsClient::class);
         $queueUrl       = 'test-uri';
         $formatter      = true;
 
@@ -376,7 +376,7 @@ final class SqsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -384,7 +384,7 @@ final class SqsHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -396,9 +396,9 @@ final class SqsHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
-        $sqsClientClass = $this->createMock(SqsClient::class);
+        $sqsClientClass = $this->createStub(SqsClient::class);
         $queueUrl       = 'test-uri';
-        $formatter      = $this->createMock(LineFormatter::class);
+        $formatter      = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -408,7 +408,7 @@ final class SqsHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -416,7 +416,7 @@ final class SqsHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -429,9 +429,9 @@ final class SqsHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
-        $sqsClientClass = $this->createMock(SqsClient::class);
+        $sqsClientClass = $this->createStub(SqsClient::class);
         $queueUrl       = 'test-uri';
-        $formatter      = $this->createMock(LineFormatter::class);
+        $formatter      = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -449,28 +449,28 @@ final class SqsHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
-        $handler = $factory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $sqsHandler = $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(SqsHandler::class, $handler);
+        self::assertInstanceOf(SqsHandler::class, $sqsHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $sqsHandler->getLevel());
+        self::assertFalse($sqsHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($sqsHandler, 'client');
 
-        self::assertSame($sqsClientClass, $clientP->getValue($handler));
+        self::assertSame($sqsClientClass, $clientP->getValue($sqsHandler));
 
-        $qu = new ReflectionProperty($handler, 'queueUrl');
+        $qu = new ReflectionProperty($sqsHandler, 'queueUrl');
 
-        self::assertSame($queueUrl, $qu->getValue($handler));
+        self::assertSame($queueUrl, $qu->getValue($sqsHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $sqsHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($sqsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($sqsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -485,9 +485,9 @@ final class SqsHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
-        $sqsClientClass = $this->createMock(SqsClient::class);
+        $sqsClientClass = $this->createStub(SqsClient::class);
         $queueUrl       = 'test-uri';
-        $formatter      = $this->createMock(LineFormatter::class);
+        $formatter      = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -495,9 +495,9 @@ final class SqsHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -505,7 +505,7 @@ final class SqsHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -517,7 +517,7 @@ final class SqsHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
-        $sqsClientClass = $this->createMock(SqsClient::class);
+        $sqsClientClass = $this->createStub(SqsClient::class);
         $queueUrl       = 'test-uri';
         $processors     = true;
 
@@ -527,13 +527,13 @@ final class SqsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -545,7 +545,7 @@ final class SqsHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
-        $sqsClientClass = $this->createMock(SqsClient::class);
+        $sqsClientClass = $this->createStub(SqsClient::class);
         $queueUrl       = 'test-uri';
         $processors     = [
             [
@@ -579,13 +579,13 @@ final class SqsHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -598,7 +598,7 @@ final class SqsHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
-        $sqsClientClass = $this->createMock(SqsClient::class);
+        $sqsClientClass = $this->createStub(SqsClient::class);
         $queueUrl       = 'test-uri';
         $processor3     = static fn (array $record): array => $record;
         $processors     = [
@@ -615,9 +615,9 @@ final class SqsHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -641,26 +641,26 @@ final class SqsHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
-        $handler = $factory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $sqsHandler = $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(SqsHandler::class, $handler);
+        self::assertInstanceOf(SqsHandler::class, $sqsHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $sqsHandler->getLevel());
+        self::assertFalse($sqsHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($sqsHandler, 'client');
 
-        self::assertSame($sqsClientClass, $clientP->getValue($handler));
+        self::assertSame($sqsClientClass, $clientP->getValue($sqsHandler));
 
-        $qu = new ReflectionProperty($handler, 'queueUrl');
+        $qu = new ReflectionProperty($sqsHandler, 'queueUrl');
 
-        self::assertSame($queueUrl, $qu->getValue($handler));
+        self::assertSame($queueUrl, $qu->getValue($sqsHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($sqsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($sqsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -678,7 +678,7 @@ final class SqsHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
-        $sqsClientClass = $this->createMock(SqsClient::class);
+        $sqsClientClass = $this->createStub(SqsClient::class);
         $queueUrl       = 'test-uri';
         $processor3     = static fn (array $record): array => $record;
         $processors     = [
@@ -703,7 +703,7 @@ final class SqsHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -711,7 +711,7 @@ final class SqsHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -723,7 +723,7 @@ final class SqsHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
-        $sqsClientClass = $this->createMock(SqsClient::class);
+        $sqsClientClass = $this->createStub(SqsClient::class);
         $queueUrl       = 'test-uri';
         $processor3     = static fn (array $record): array => $record;
         $processors     = [
@@ -746,9 +746,9 @@ final class SqsHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new SqsHandlerFactory();
+        $sqsHandlerFactory = new SqsHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -756,6 +756,6 @@ final class SqsHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $sqsHandlerFactory($container, '', ['sqsClient' => $sqsClientClass, 'queueUrl' => $queueUrl, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 }

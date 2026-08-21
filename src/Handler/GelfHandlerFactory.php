@@ -92,11 +92,11 @@ final class GelfHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new GelfHandler($publisher, $level, $bubble);
+        $gelfHandler = new GelfHandler($publisher, $level, $bubble);
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $gelfHandler, $options);
+        $this->addProcessor($container, $gelfHandler, $options);
 
-        return $handler;
+        return $gelfHandler;
     }
 }

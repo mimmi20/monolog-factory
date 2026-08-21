@@ -31,6 +31,7 @@ use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
@@ -58,13 +59,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $callbackFilterHandlerFactory($container, '');
     }
 
     /**
@@ -83,13 +84,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No handler provided');
 
-        $factory($container, '', []);
+        $callbackFilterHandlerFactory($container, '', []);
     }
 
     /**
@@ -108,13 +109,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('HandlerConfig must be an Array');
 
-        $factory($container, '', ['handler' => true]);
+        $callbackFilterHandlerFactory($container, '', ['handler' => true]);
     }
 
     /**
@@ -133,13 +134,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must contain a type for the handler');
 
-        $factory($container, '', ['handler' => []]);
+        $callbackFilterHandlerFactory($container, '', ['handler' => []]);
     }
 
     /**
@@ -160,13 +161,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No active handler specified');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => false]]);
+        $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => false]]);
     }
 
     /**
@@ -189,13 +190,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willThrowException(new ServiceNotCreatedException());
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not load handler class %s', $type));
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
+        $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
     }
 
     /**
@@ -228,13 +229,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not load handler class %s', $type));
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
+        $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
     }
 
     /**
@@ -274,30 +275,30 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
+        $callbackFilterHandler = $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
 
-        self::assertInstanceOf(CallbackFilterHandler::class, $handler);
+        self::assertInstanceOf(CallbackFilterHandler::class, $callbackFilterHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $callbackFilterHandler->getLevel());
+        self::assertTrue($callbackFilterHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($callbackFilterHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($callbackFilterHandler));
 
-        $bb = new ReflectionProperty($handler, 'bubble');
+        $bb = new ReflectionProperty($callbackFilterHandler, 'bubble');
 
-        self::assertTrue($bb->getValue($handler));
+        self::assertTrue($bb->getValue($callbackFilterHandler));
 
-        $filtersP = new ReflectionProperty($handler, 'filters');
+        $filtersP = new ReflectionProperty($callbackFilterHandler, 'filters');
 
-        self::assertSame([], $filtersP->getValue($handler));
+        self::assertSame([], $filtersP->getValue($callbackFilterHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($callbackFilterHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($callbackFilterHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -324,7 +325,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter = static fn (LogRecord $record, Level $level): bool => true;
+        $filter = static fn (LogRecord $logRecord, Level $level): bool => true;
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -350,30 +351,30 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => $filter]);
+        $callbackFilterHandler = $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => $filter]);
 
-        self::assertInstanceOf(CallbackFilterHandler::class, $handler);
+        self::assertInstanceOf(CallbackFilterHandler::class, $callbackFilterHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $callbackFilterHandler->getLevel());
+        self::assertFalse($callbackFilterHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($callbackFilterHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($callbackFilterHandler));
 
-        $bb = new ReflectionProperty($handler, 'bubble');
+        $bb = new ReflectionProperty($callbackFilterHandler, 'bubble');
 
-        self::assertFalse($bb->getValue($handler));
+        self::assertFalse($bb->getValue($callbackFilterHandler));
 
-        $filtersP = new ReflectionProperty($handler, 'filters');
+        $filtersP = new ReflectionProperty($callbackFilterHandler, 'filters');
 
-        self::assertSame([$filter], $filtersP->getValue($handler));
+        self::assertSame([$filter], $filtersP->getValue($callbackFilterHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($callbackFilterHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($callbackFilterHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -400,7 +401,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+        $filter1 = static fn (LogRecord $logRecord, Level $level): bool => false;
 
         /**
          * @param LogRecord $record
@@ -410,7 +411,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+        $filter2 = static fn (LogRecord $logRecord, Level $level): bool => true;
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -436,30 +437,30 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
+        $callbackFilterHandler = $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
 
-        self::assertInstanceOf(CallbackFilterHandler::class, $handler);
+        self::assertInstanceOf(CallbackFilterHandler::class, $callbackFilterHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $callbackFilterHandler->getLevel());
+        self::assertFalse($callbackFilterHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($callbackFilterHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($callbackFilterHandler));
 
-        $bb = new ReflectionProperty($handler, 'bubble');
+        $bb = new ReflectionProperty($callbackFilterHandler, 'bubble');
 
-        self::assertFalse($bb->getValue($handler));
+        self::assertFalse($bb->getValue($callbackFilterHandler));
 
-        $filtersP = new ReflectionProperty($handler, 'filters');
+        $filtersP = new ReflectionProperty($callbackFilterHandler, 'filters');
 
-        self::assertSame([$filter1, $filter2], $filtersP->getValue($handler));
+        self::assertSame([$filter1, $filter2], $filtersP->getValue($callbackFilterHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($callbackFilterHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($callbackFilterHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -486,7 +487,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+        $filter1 = static fn (LogRecord $logRecord, Level $level): bool => false;
 
         /**
          * @param LogRecord $record
@@ -496,7 +497,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+        $filter2 = static fn (LogRecord $logRecord, Level $level): bool => true;
 
         $formatter = true;
 
@@ -524,30 +525,30 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2], 'formatter' => $formatter]);
+        $callbackFilterHandler = $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2], 'formatter' => $formatter]);
 
-        self::assertInstanceOf(CallbackFilterHandler::class, $handler);
+        self::assertInstanceOf(CallbackFilterHandler::class, $callbackFilterHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $callbackFilterHandler->getLevel());
+        self::assertFalse($callbackFilterHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($callbackFilterHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($callbackFilterHandler));
 
-        $bb = new ReflectionProperty($handler, 'bubble');
+        $bb = new ReflectionProperty($callbackFilterHandler, 'bubble');
 
-        self::assertFalse($bb->getValue($handler));
+        self::assertFalse($bb->getValue($callbackFilterHandler));
 
-        $filtersP = new ReflectionProperty($handler, 'filters');
+        $filtersP = new ReflectionProperty($callbackFilterHandler, 'filters');
 
-        self::assertSame([$filter1, $filter2], $filtersP->getValue($handler));
+        self::assertSame([$filter1, $filter2], $filtersP->getValue($callbackFilterHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($callbackFilterHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($callbackFilterHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -573,7 +574,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+        $filter1 = static fn (LogRecord $logRecord, Level $level): bool => false;
 
         /**
          * @param LogRecord $record
@@ -583,7 +584,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+        $filter2 = static fn (LogRecord $logRecord, Level $level): bool => true;
 
         $formatter = true;
 
@@ -611,7 +612,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -619,7 +620,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
+        $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
     }
 
     /**
@@ -643,7 +644,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+        $filter1 = static fn (LogRecord $logRecord, Level $level): bool => false;
 
         /**
          * @param LogRecord $record
@@ -653,9 +654,9 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+        $filter2 = static fn (LogRecord $logRecord, Level $level): bool => true;
 
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -681,30 +682,30 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2], 'formatter' => $formatter]);
+        $callbackFilterHandler = $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2], 'formatter' => $formatter]);
 
-        self::assertInstanceOf(CallbackFilterHandler::class, $handler);
+        self::assertInstanceOf(CallbackFilterHandler::class, $callbackFilterHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $callbackFilterHandler->getLevel());
+        self::assertFalse($callbackFilterHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($callbackFilterHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($callbackFilterHandler));
 
-        $bb = new ReflectionProperty($handler, 'bubble');
+        $bb = new ReflectionProperty($callbackFilterHandler, 'bubble');
 
-        self::assertFalse($bb->getValue($handler));
+        self::assertFalse($bb->getValue($callbackFilterHandler));
 
-        $filtersP = new ReflectionProperty($handler, 'filters');
+        $filtersP = new ReflectionProperty($callbackFilterHandler, 'filters');
 
-        self::assertSame([$filter1, $filter2], $filtersP->getValue($handler));
+        self::assertSame([$filter1, $filter2], $filtersP->getValue($callbackFilterHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($callbackFilterHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($callbackFilterHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -731,7 +732,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+        $filter1 = static fn (LogRecord $logRecord, Level $level): bool => false;
 
         /**
          * @param LogRecord $record
@@ -741,9 +742,9 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+        $filter2 = static fn (LogRecord $logRecord, Level $level): bool => true;
 
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::once())
@@ -782,30 +783,30 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
+        $callbackFilterHandler = $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
 
-        self::assertInstanceOf(CallbackFilterHandler::class, $handler);
+        self::assertInstanceOf(CallbackFilterHandler::class, $callbackFilterHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $callbackFilterHandler->getLevel());
+        self::assertFalse($callbackFilterHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($callbackFilterHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($callbackFilterHandler));
 
-        $bb = new ReflectionProperty($handler, 'bubble');
+        $bb = new ReflectionProperty($callbackFilterHandler, 'bubble');
 
-        self::assertFalse($bb->getValue($handler));
+        self::assertFalse($bb->getValue($callbackFilterHandler));
 
-        $filtersP = new ReflectionProperty($handler, 'filters');
+        $filtersP = new ReflectionProperty($callbackFilterHandler, 'filters');
 
-        self::assertSame([$filter1, $filter2], $filtersP->getValue($handler));
+        self::assertSame([$filter1, $filter2], $filtersP->getValue($callbackFilterHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($callbackFilterHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($callbackFilterHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -831,7 +832,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+        $filter1 = static fn (LogRecord $logRecord, Level $level): bool => false;
 
         /**
          * @param LogRecord $record
@@ -841,9 +842,9 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+        $filter2 = static fn (LogRecord $logRecord, Level $level): bool => true;
 
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -873,7 +874,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -881,7 +882,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
+        $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
     }
 
     /**
@@ -904,7 +905,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+        $filter1 = static fn (LogRecord $logRecord, Level $level): bool => false;
 
         /**
          * @param LogRecord $record
@@ -914,7 +915,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+        $filter2 = static fn (LogRecord $logRecord, Level $level): bool => true;
 
         $processors = true;
 
@@ -942,13 +943,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2], 'processors' => $processors]);
+        $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2], 'processors' => $processors]);
     }
 
     /**
@@ -971,7 +972,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+        $filter1 = static fn (LogRecord $logRecord, Level $level): bool => false;
 
         /**
          * @param LogRecord $record
@@ -981,7 +982,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+        $filter2 = static fn (LogRecord $logRecord, Level $level): bool => true;
 
         $processors = true;
 
@@ -1009,13 +1010,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
+        $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
     }
 
     /**
@@ -1038,7 +1039,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+        $filter1 = static fn (LogRecord $logRecord, Level $level): bool => false;
 
         /**
          * @param LogRecord $record
@@ -1048,7 +1049,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+        $filter2 = static fn (LogRecord $logRecord, Level $level): bool => true;
 
         $processors = [
             [
@@ -1102,13 +1103,13 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
+        $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
     }
 
     /**
@@ -1132,7 +1133,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+        $filter1 = static fn (LogRecord $logRecord, Level $level): bool => false;
 
         /**
          * @param LogRecord $record
@@ -1142,7 +1143,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+        $filter2 = static fn (LogRecord $logRecord, Level $level): bool => true;
 
         $processor3 = static fn (array $record): array => $record;
         $processors = [
@@ -1159,9 +1160,9 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -1205,30 +1206,30 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
+        $callbackFilterHandler = $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
 
-        self::assertInstanceOf(CallbackFilterHandler::class, $handler);
+        self::assertInstanceOf(CallbackFilterHandler::class, $callbackFilterHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $callbackFilterHandler->getLevel());
+        self::assertFalse($callbackFilterHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($callbackFilterHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($callbackFilterHandler));
 
-        $bb = new ReflectionProperty($handler, 'bubble');
+        $bb = new ReflectionProperty($callbackFilterHandler, 'bubble');
 
-        self::assertFalse($bb->getValue($handler));
+        self::assertFalse($bb->getValue($callbackFilterHandler));
 
-        $filtersP = new ReflectionProperty($handler, 'filters');
+        $filtersP = new ReflectionProperty($callbackFilterHandler, 'filters');
 
-        self::assertSame([$filter1, $filter2], $filtersP->getValue($handler));
+        self::assertSame([$filter1, $filter2], $filtersP->getValue($callbackFilterHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($callbackFilterHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($callbackFilterHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -1254,7 +1255,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+        $filter1 = static fn (LogRecord $logRecord, Level $level): bool => false;
 
         /**
          * @param LogRecord $record
@@ -1264,7 +1265,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+        $filter2 = static fn (LogRecord $logRecord, Level $level): bool => true;
 
         $processor3 = static fn (array $record): array => $record;
         $processors = [
@@ -1308,12 +1309,12 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager) {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager): MockObject {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame(
@@ -1335,7 +1336,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
                 },
             );
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -1343,7 +1344,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
+        $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
     }
 
     /**
@@ -1366,7 +1367,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+        $filter1 = static fn (LogRecord $logRecord, Level $level): bool => false;
 
         /**
          * @param LogRecord $record
@@ -1376,7 +1377,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+        $filter2 = static fn (LogRecord $logRecord, Level $level): bool => true;
 
         $processor3 = static fn (array $record): array => $record;
         $processors = [
@@ -1421,7 +1422,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -1429,7 +1430,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
+        $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2]]);
     }
 
     /**
@@ -1453,7 +1454,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter1 = static fn (LogRecord $record, Level $level): bool => false;
+        $filter1 = static fn (LogRecord $logRecord, Level $level): bool => false;
 
         /**
          * @param LogRecord $record
@@ -1463,7 +1464,7 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
          *
          * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
          */
-        $filter2 = static fn (LogRecord $record, Level $level): bool => true;
+        $filter2 = static fn (LogRecord $logRecord, Level $level): bool => true;
 
         $processor3 = static fn (array $record): array => $record;
         $processors = [
@@ -1480,9 +1481,9 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -1526,30 +1527,30 @@ final class CallbackFilterHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new CallbackFilterHandlerFactory();
+        $callbackFilterHandlerFactory = new CallbackFilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2], 'processors' => $processors]);
+        $callbackFilterHandler = $callbackFilterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'level' => LogLevel::ALERT, 'bubble' => false, 'filters' => [$filter1, $filter2], 'processors' => $processors]);
 
-        self::assertInstanceOf(CallbackFilterHandler::class, $handler);
+        self::assertInstanceOf(CallbackFilterHandler::class, $callbackFilterHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $callbackFilterHandler->getLevel());
+        self::assertFalse($callbackFilterHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($callbackFilterHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($callbackFilterHandler));
 
-        $bb = new ReflectionProperty($handler, 'bubble');
+        $bb = new ReflectionProperty($callbackFilterHandler, 'bubble');
 
-        self::assertFalse($bb->getValue($handler));
+        self::assertFalse($bb->getValue($callbackFilterHandler));
 
-        $filtersP = new ReflectionProperty($handler, 'filters');
+        $filtersP = new ReflectionProperty($callbackFilterHandler, 'filters');
 
-        self::assertSame([$filter1, $filter2], $filtersP->getValue($handler));
+        self::assertSame([$filter1, $filter2], $filtersP->getValue($callbackFilterHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($callbackFilterHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($callbackFilterHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);

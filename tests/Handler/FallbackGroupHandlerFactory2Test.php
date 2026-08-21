@@ -29,6 +29,7 @@ use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
@@ -132,13 +133,13 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
+        $fallbackGroupHandlerFactory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -182,9 +183,9 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -245,15 +246,15 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
+        $fallbackGroupHandler = $fallbackGroupHandlerFactory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(FallbackGroupHandler::class, $handler);
+        self::assertInstanceOf(FallbackGroupHandler::class, $fallbackGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($fallbackGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($fallbackGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(3, $handlerClasses);
@@ -261,13 +262,13 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
         self::assertSame($handler2, $handlerClasses[1]);
         self::assertSame($handler3, $handlerClasses[2]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($fallbackGroupHandler, 'bubble');
 
-        self::assertFalse($bubble->getValue($handler));
+        self::assertFalse($bubble->getValue($fallbackGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($fallbackGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($fallbackGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -360,12 +361,12 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(4);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(4);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager) {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager): MockObject {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1,2,3 => self::assertSame(
@@ -387,7 +388,7 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
                 },
             );
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -395,7 +396,7 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
+        $fallbackGroupHandlerFactory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -483,7 +484,7 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -491,6 +492,6 @@ final class FallbackGroupHandlerFactory2Test extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
+        $fallbackGroupHandlerFactory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
     }
 }

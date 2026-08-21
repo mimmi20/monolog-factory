@@ -39,13 +39,13 @@ final class FlowdockFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FlowdockFormatterFactory();
+        $flowdockFormatterFactory = new FlowdockFormatterFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $flowdockFormatterFactory($container, '');
     }
 
     /**
@@ -62,13 +62,13 @@ final class FlowdockFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FlowdockFormatterFactory();
+        $flowdockFormatterFactory = new FlowdockFormatterFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No source provided');
 
-        $factory($container, '', []);
+        $flowdockFormatterFactory($container, '', []);
     }
 
     /**
@@ -87,13 +87,13 @@ final class FlowdockFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FlowdockFormatterFactory();
+        $flowdockFormatterFactory = new FlowdockFormatterFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No sourceEmail provided');
 
-        $factory($container, '', ['source' => $source]);
+        $flowdockFormatterFactory($container, '', ['source' => $source]);
     }
 
     /**
@@ -114,18 +114,18 @@ final class FlowdockFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FlowdockFormatterFactory();
+        $flowdockFormatterFactory = new FlowdockFormatterFactory();
 
-        $formatter = $factory($container, '', ['source' => $source, 'sourceEmail' => $sourceEmail]);
+        $flowdockFormatter = $flowdockFormatterFactory($container, '', ['source' => $source, 'sourceEmail' => $sourceEmail]);
 
-        self::assertInstanceOf(FlowdockFormatter::class, $formatter);
+        self::assertInstanceOf(FlowdockFormatter::class, $flowdockFormatter);
 
-        $s = new ReflectionProperty($formatter, 'source');
+        $s = new ReflectionProperty($flowdockFormatter, 'source');
 
-        self::assertSame($source, $s->getValue($formatter));
+        self::assertSame($source, $s->getValue($flowdockFormatter));
 
-        $se = new ReflectionProperty($formatter, 'sourceEmail');
+        $se = new ReflectionProperty($flowdockFormatter, 'sourceEmail');
 
-        self::assertSame($sourceEmail, $se->getValue($formatter));
+        self::assertSame($sourceEmail, $se->getValue($flowdockFormatter));
     }
 }

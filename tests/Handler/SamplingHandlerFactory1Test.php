@@ -50,13 +50,13 @@ final class SamplingHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $samplingHandlerFactory($container, '');
     }
 
     /**
@@ -74,13 +74,13 @@ final class SamplingHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No handler provided');
 
-        $factory($container, '', []);
+        $samplingHandlerFactory($container, '', []);
     }
 
     /**
@@ -98,13 +98,13 @@ final class SamplingHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('HandlerConfig must be an Array');
 
-        $factory($container, '', ['handler' => true]);
+        $samplingHandlerFactory($container, '', ['handler' => true]);
     }
 
     /**
@@ -122,13 +122,13 @@ final class SamplingHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must contain a type for the handler');
 
-        $factory($container, '', ['handler' => []]);
+        $samplingHandlerFactory($container, '', ['handler' => []]);
     }
 
     /**
@@ -148,13 +148,13 @@ final class SamplingHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No active handler specified');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => false]]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => false]]);
     }
 
     /**
@@ -176,13 +176,13 @@ final class SamplingHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willThrowException(new ServiceNotCreatedException());
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not load handler class %s', $type));
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
     }
 
     /**
@@ -214,13 +214,13 @@ final class SamplingHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not load handler class %s', $type));
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
     }
 
     /**
@@ -258,13 +258,13 @@ final class SamplingHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Factor is missing or is less then 1');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
     }
 
     /**
@@ -302,13 +302,13 @@ final class SamplingHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Factor is missing or is less then 1');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 0.1]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 0.1]);
     }
 
     /**
@@ -322,7 +322,7 @@ final class SamplingHandlerFactory1Test extends TestCase
     public function testInvokeWithHandlerConfig(): void
     {
         $type           = 'abc';
-        $formatterClass = $this->createMock(LineFormatter::class);
+        $formatterClass = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -349,17 +349,17 @@ final class SamplingHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 42]);
+        $samplingHandler = $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 42]);
 
-        self::assertInstanceOf(SamplingHandler::class, $handler);
+        self::assertInstanceOf(SamplingHandler::class, $samplingHandler);
 
-        self::assertSame($formatterClass, $handler->getFormatter());
+        self::assertSame($formatterClass, $samplingHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($samplingHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($samplingHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -376,7 +376,7 @@ final class SamplingHandlerFactory1Test extends TestCase
     public function testInvokeWithHandlerConfig2(): void
     {
         $type           = 'abc';
-        $formatterClass = $this->createMock(LineFormatter::class);
+        $formatterClass = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -403,17 +403,17 @@ final class SamplingHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 1]);
+        $samplingHandler = $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 1]);
 
-        self::assertInstanceOf(SamplingHandler::class, $handler);
+        self::assertInstanceOf(SamplingHandler::class, $samplingHandler);
 
-        self::assertSame($formatterClass, $handler->getFormatter());
+        self::assertSame($formatterClass, $samplingHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($samplingHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($samplingHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -455,7 +455,7 @@ final class SamplingHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -463,7 +463,7 @@ final class SamplingHandlerFactory1Test extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 42, 'formatter' => $formatter]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 42, 'formatter' => $formatter]);
     }
 
     /**
@@ -502,7 +502,7 @@ final class SamplingHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -510,7 +510,7 @@ final class SamplingHandlerFactory1Test extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'factor' => 42]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'factor' => 42]);
     }
 
     /**
@@ -523,7 +523,7 @@ final class SamplingHandlerFactory1Test extends TestCase
     public function testInvokeWithConfigAndFormatter(): void
     {
         $type      = 'abc';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -544,12 +544,12 @@ final class SamplingHandlerFactory1Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager): AbstractPluginManager {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager): AbstractPluginManager {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame(
@@ -571,7 +571,7 @@ final class SamplingHandlerFactory1Test extends TestCase
                 },
             );
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -579,7 +579,7 @@ final class SamplingHandlerFactory1Test extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 42, 'formatter' => $formatter]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 42, 'formatter' => $formatter]);
     }
 
     /**
@@ -593,7 +593,7 @@ final class SamplingHandlerFactory1Test extends TestCase
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $type           = 'abc';
-        $formatterClass = $this->createMock(LineFormatter::class);
+        $formatterClass = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::once())
@@ -633,17 +633,17 @@ final class SamplingHandlerFactory1Test extends TestCase
                 ],
             );
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 1, 'formatter' => $formatterClass]);
+        $samplingHandler = $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 1, 'formatter' => $formatterClass]);
 
-        self::assertInstanceOf(SamplingHandler::class, $handler);
+        self::assertInstanceOf(SamplingHandler::class, $samplingHandler);
 
-        self::assertSame($formatterClass, $handler->getFormatter());
+        self::assertSame($formatterClass, $samplingHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($samplingHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($samplingHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -660,7 +660,7 @@ final class SamplingHandlerFactory1Test extends TestCase
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $type           = 'abc';
-        $formatterClass = $this->createMock(LineFormatter::class);
+        $formatterClass = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::once())
@@ -700,17 +700,17 @@ final class SamplingHandlerFactory1Test extends TestCase
                 ],
             );
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatterClass]], 'factor' => 1]);
+        $samplingHandler = $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatterClass]], 'factor' => 1]);
 
-        self::assertInstanceOf(SamplingHandler::class, $handler);
+        self::assertInstanceOf(SamplingHandler::class, $samplingHandler);
 
-        self::assertSame($formatterClass, $handler->getFormatter());
+        self::assertSame($formatterClass, $samplingHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($samplingHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($samplingHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -726,7 +726,7 @@ final class SamplingHandlerFactory1Test extends TestCase
     public function testInvokeWithConfigAndFormatter4(): void
     {
         $type      = 'abc';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -747,12 +747,12 @@ final class SamplingHandlerFactory1Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager): AbstractPluginManager {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager): AbstractPluginManager {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame(
@@ -774,7 +774,7 @@ final class SamplingHandlerFactory1Test extends TestCase
                 },
             );
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -782,7 +782,7 @@ final class SamplingHandlerFactory1Test extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'factor' => 42]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'factor' => 42]);
     }
 
     /**
@@ -795,7 +795,7 @@ final class SamplingHandlerFactory1Test extends TestCase
     public function testInvokeWithConfigAndFormatter5(): void
     {
         $type      = 'abc';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -825,7 +825,7 @@ final class SamplingHandlerFactory1Test extends TestCase
                 ],
             );
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -833,7 +833,7 @@ final class SamplingHandlerFactory1Test extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'factor' => 42]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'factor' => 42]);
     }
 
     /**
@@ -872,13 +872,13 @@ final class SamplingHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 42, 'processors' => $processors]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 42, 'processors' => $processors]);
     }
 
     /**
@@ -917,12 +917,12 @@ final class SamplingHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'factor' => 42]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'factor' => 42]);
     }
 }

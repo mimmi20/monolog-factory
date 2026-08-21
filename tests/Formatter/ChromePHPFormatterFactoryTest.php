@@ -35,10 +35,10 @@ final class ChromePHPFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ChromePHPFormatterFactory();
+        $chromePHPFormatterFactory = new ChromePHPFormatterFactory();
 
-        $formatter = $factory($container, '');
+        $chromePHPFormatter = $chromePHPFormatterFactory($container, '');
 
-        self::assertInstanceOf(ChromePHPFormatter::class, $formatter);
+        self::assertInstanceOf(ChromePHPFormatter::class, $chromePHPFormatter);
     }
 }

@@ -27,6 +27,7 @@ use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
@@ -110,13 +111,13 @@ final class OverflowHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new OverflowHandlerFactory();
+        $overflowHandlerFactory = new OverflowHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'thresholdMap' => $thresholdMapSet, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $overflowHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'thresholdMap' => $thresholdMapSet, 'level' => LogLevel::ALERT, 'bubble' => false]);
     }
 
     /**
@@ -166,9 +167,9 @@ final class OverflowHandlerFactory2Test extends TestCase
             Level::Warning->value => 42,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -212,22 +213,22 @@ final class OverflowHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new OverflowHandlerFactory();
+        $overflowHandlerFactory = new OverflowHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'thresholdMap' => $thresholdMapSet, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $overflowHandler = $overflowHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'thresholdMap' => $thresholdMapSet, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(OverflowHandler::class, $handler);
+        self::assertInstanceOf(OverflowHandler::class, $overflowHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $overflowHandler->getLevel());
+        self::assertFalse($overflowHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($overflowHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($overflowHandler));
 
-        $thm = new ReflectionProperty($handler, 'thresholdMap');
+        $thm = new ReflectionProperty($overflowHandler, 'thresholdMap');
 
-        self::assertSame($thresholdMapExpected, $thm->getValue($handler));
+        self::assertSame($thresholdMapExpected, $thm->getValue($overflowHandler));
     }
 
     /**
@@ -285,12 +286,12 @@ final class OverflowHandlerFactory2Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager) {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager): MockObject {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame(
@@ -312,7 +313,7 @@ final class OverflowHandlerFactory2Test extends TestCase
                 },
             );
 
-        $factory = new OverflowHandlerFactory();
+        $overflowHandlerFactory = new OverflowHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -320,7 +321,7 @@ final class OverflowHandlerFactory2Test extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'thresholdMap' => $thresholdMapSet, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $overflowHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'thresholdMap' => $thresholdMapSet, 'level' => LogLevel::ALERT, 'bubble' => false]);
     }
 
     /**
@@ -387,7 +388,7 @@ final class OverflowHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new OverflowHandlerFactory();
+        $overflowHandlerFactory = new OverflowHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -395,6 +396,6 @@ final class OverflowHandlerFactory2Test extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'thresholdMap' => $thresholdMapSet, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $overflowHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'thresholdMap' => $thresholdMapSet, 'level' => LogLevel::ALERT, 'bubble' => false]);
     }
 }

@@ -129,6 +129,8 @@ parameters:
     -
       identifier: argument.type
       path: tests/Processor/LoadAverageProcessorFactoryTest.php
+    -
+      identifier: argument.named
 
 services:
   errorFormatter.sarif:

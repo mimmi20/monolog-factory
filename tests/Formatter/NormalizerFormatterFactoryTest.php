@@ -40,24 +40,24 @@ final class NormalizerFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NormalizerFormatterFactory();
+        $normalizerFormatterFactory = new NormalizerFormatterFactory();
 
-        $formatter = $factory($container, '');
+        $normalizerFormatter = $normalizerFormatterFactory($container, '');
 
-        self::assertInstanceOf(NormalizerFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(NormalizerFormatter::class, $normalizerFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $normalizerFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $normalizerFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $normalizerFormatter->getMaxNormalizeItemCount(),
         );
 
-        $jeo = new ReflectionProperty($formatter, 'jsonEncodeOptions');
+        $reflectionProperty = new ReflectionProperty($normalizerFormatter, 'jsonEncodeOptions');
 
-        $jsonEncodeOptions = $jeo->getValue($formatter);
+        $jsonEncodeOptions = $reflectionProperty->getValue($normalizerFormatter);
 
         self::assertGreaterThanOrEqual(1, $jsonEncodeOptions & ~JSON_PRETTY_PRINT);
     }
@@ -76,24 +76,24 @@ final class NormalizerFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NormalizerFormatterFactory();
+        $normalizerFormatterFactory = new NormalizerFormatterFactory();
 
-        $formatter = $factory($container, '', []);
+        $normalizerFormatter = $normalizerFormatterFactory($container, '', []);
 
-        self::assertInstanceOf(NormalizerFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(NormalizerFormatter::class, $normalizerFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $normalizerFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $normalizerFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $normalizerFormatter->getMaxNormalizeItemCount(),
         );
 
-        $jeo = new ReflectionProperty($formatter, 'jsonEncodeOptions');
+        $reflectionProperty = new ReflectionProperty($normalizerFormatter, 'jsonEncodeOptions');
 
-        $jsonEncodeOptions = $jeo->getValue($formatter);
+        $jsonEncodeOptions = $reflectionProperty->getValue($normalizerFormatter);
 
         self::assertGreaterThanOrEqual(1, $jsonEncodeOptions & ~JSON_PRETTY_PRINT);
     }
@@ -116,18 +116,18 @@ final class NormalizerFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NormalizerFormatterFactory();
+        $normalizerFormatterFactory = new NormalizerFormatterFactory();
 
-        $formatter = $factory($container, '', ['dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
+        $normalizerFormatter = $normalizerFormatterFactory($container, '', ['dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
 
-        self::assertInstanceOf(NormalizerFormatter::class, $formatter);
-        self::assertSame($dateFormat, $formatter->getDateFormat());
-        self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
-        self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
+        self::assertInstanceOf(NormalizerFormatter::class, $normalizerFormatter);
+        self::assertSame($dateFormat, $normalizerFormatter->getDateFormat());
+        self::assertSame($maxNormalizeDepth, $normalizerFormatter->getMaxNormalizeDepth());
+        self::assertSame($maxNormalizeItemCount, $normalizerFormatter->getMaxNormalizeItemCount());
 
-        $jeo = new ReflectionProperty($formatter, 'jsonEncodeOptions');
+        $reflectionProperty = new ReflectionProperty($normalizerFormatter, 'jsonEncodeOptions');
 
-        $jsonEncodeOptions = $jeo->getValue($formatter);
+        $jsonEncodeOptions = $reflectionProperty->getValue($normalizerFormatter);
 
         self::assertGreaterThanOrEqual(1, $jsonEncodeOptions & ~JSON_PRETTY_PRINT);
     }

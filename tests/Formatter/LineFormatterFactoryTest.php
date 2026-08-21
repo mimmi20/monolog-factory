@@ -40,36 +40,36 @@ final class LineFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LineFormatterFactory();
+        $lineFormatterFactory = new LineFormatterFactory();
 
-        $formatter = $factory($container, '');
+        $lineFormatter = $lineFormatterFactory($container, '');
 
-        self::assertInstanceOf(LineFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(LineFormatter::class, $lineFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $lineFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $lineFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $lineFormatter->getMaxNormalizeItemCount(),
         );
 
-        $ailb = new ReflectionProperty($formatter, 'allowInlineLineBreaks');
+        $ailb = new ReflectionProperty($lineFormatter, 'allowInlineLineBreaks');
 
-        self::assertFalse($ailb->getValue($formatter));
+        self::assertFalse($ailb->getValue($lineFormatter));
 
-        $format = new ReflectionProperty($formatter, 'format');
+        $format = new ReflectionProperty($lineFormatter, 'format');
 
-        self::assertSame(LineFormatter::SIMPLE_FORMAT, $format->getValue($formatter));
+        self::assertSame(LineFormatter::SIMPLE_FORMAT, $format->getValue($lineFormatter));
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($lineFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertFalse($ig->getValue($formatter));
+        self::assertFalse($ig->getValue($lineFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($lineFormatter, 'includeStacktraces');
 
-        self::assertFalse($st->getValue($formatter));
+        self::assertFalse($st->getValue($lineFormatter));
     }
 
     /**
@@ -86,36 +86,36 @@ final class LineFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LineFormatterFactory();
+        $lineFormatterFactory = new LineFormatterFactory();
 
-        $formatter = $factory($container, '', []);
+        $lineFormatter = $lineFormatterFactory($container, '', []);
 
-        self::assertInstanceOf(LineFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(LineFormatter::class, $lineFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $lineFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $lineFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $lineFormatter->getMaxNormalizeItemCount(),
         );
 
-        $ailb = new ReflectionProperty($formatter, 'allowInlineLineBreaks');
+        $ailb = new ReflectionProperty($lineFormatter, 'allowInlineLineBreaks');
 
-        self::assertFalse($ailb->getValue($formatter));
+        self::assertFalse($ailb->getValue($lineFormatter));
 
-        $format = new ReflectionProperty($formatter, 'format');
+        $format = new ReflectionProperty($lineFormatter, 'format');
 
-        self::assertSame(LineFormatter::SIMPLE_FORMAT, $format->getValue($formatter));
+        self::assertSame(LineFormatter::SIMPLE_FORMAT, $format->getValue($lineFormatter));
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($lineFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertFalse($ig->getValue($formatter));
+        self::assertFalse($ig->getValue($lineFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($lineFormatter, 'includeStacktraces');
 
-        self::assertFalse($st->getValue($formatter));
+        self::assertFalse($st->getValue($lineFormatter));
     }
 
     /**
@@ -140,29 +140,29 @@ final class LineFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LineFormatterFactory();
+        $lineFormatterFactory = new LineFormatterFactory();
 
-        $formatter = $factory($container, '', ['format' => $format, 'dateFormat' => $dateFormat, 'allowInlineLineBreaks' => $allowInlineLineBreaks, 'ignoreEmptyContextAndExtra' => $ignoreEmptyContextAndExtra, 'includeStacktraces' => $include, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
+        $lineFormatter = $lineFormatterFactory($container, '', ['format' => $format, 'dateFormat' => $dateFormat, 'allowInlineLineBreaks' => $allowInlineLineBreaks, 'ignoreEmptyContextAndExtra' => $ignoreEmptyContextAndExtra, 'includeStacktraces' => $include, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
 
-        self::assertInstanceOf(LineFormatter::class, $formatter);
-        self::assertSame($dateFormat, $formatter->getDateFormat());
-        self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
-        self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
+        self::assertInstanceOf(LineFormatter::class, $lineFormatter);
+        self::assertSame($dateFormat, $lineFormatter->getDateFormat());
+        self::assertSame($maxNormalizeDepth, $lineFormatter->getMaxNormalizeDepth());
+        self::assertSame($maxNormalizeItemCount, $lineFormatter->getMaxNormalizeItemCount());
 
-        $ailb = new ReflectionProperty($formatter, 'allowInlineLineBreaks');
+        $ailb = new ReflectionProperty($lineFormatter, 'allowInlineLineBreaks');
 
-        self::assertTrue($ailb->getValue($formatter));
+        self::assertTrue($ailb->getValue($lineFormatter));
 
-        $formatP = new ReflectionProperty($formatter, 'format');
+        $formatP = new ReflectionProperty($lineFormatter, 'format');
 
-        self::assertSame($format, $formatP->getValue($formatter));
+        self::assertSame($format, $formatP->getValue($lineFormatter));
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($lineFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertTrue($ig->getValue($formatter));
+        self::assertTrue($ig->getValue($lineFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($lineFormatter, 'includeStacktraces');
 
-        self::assertTrue($st->getValue($formatter));
+        self::assertTrue($st->getValue($lineFormatter));
     }
 }

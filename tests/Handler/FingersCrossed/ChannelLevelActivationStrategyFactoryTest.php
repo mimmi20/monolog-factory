@@ -40,19 +40,19 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ChannelLevelActivationStrategyFactory();
+        $channelLevelActivationStrategyFactory = new ChannelLevelActivationStrategyFactory();
 
-        $strategy = $factory($container, '');
+        $channelLevelActivationStrategy = $channelLevelActivationStrategyFactory($container, '');
 
-        self::assertInstanceOf(ChannelLevelActivationStrategy::class, $strategy);
+        self::assertInstanceOf(ChannelLevelActivationStrategy::class, $channelLevelActivationStrategy);
 
-        $dal = new ReflectionProperty($strategy, 'defaultActionLevel');
+        $dal = new ReflectionProperty($channelLevelActivationStrategy, 'defaultActionLevel');
 
-        self::assertSame(Level::Debug, $dal->getValue($strategy));
+        self::assertSame(Level::Debug, $dal->getValue($channelLevelActivationStrategy));
 
-        $ctal = new ReflectionProperty($strategy, 'channelToActionLevel');
+        $ctal = new ReflectionProperty($channelLevelActivationStrategy, 'channelToActionLevel');
 
-        self::assertSame([], $ctal->getValue($strategy));
+        self::assertSame([], $ctal->getValue($channelLevelActivationStrategy));
     }
 
     /**
@@ -69,19 +69,19 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ChannelLevelActivationStrategyFactory();
+        $channelLevelActivationStrategyFactory = new ChannelLevelActivationStrategyFactory();
 
-        $strategy = $factory($container, '', []);
+        $channelLevelActivationStrategy = $channelLevelActivationStrategyFactory($container, '', []);
 
-        self::assertInstanceOf(ChannelLevelActivationStrategy::class, $strategy);
+        self::assertInstanceOf(ChannelLevelActivationStrategy::class, $channelLevelActivationStrategy);
 
-        $dal = new ReflectionProperty($strategy, 'defaultActionLevel');
+        $dal = new ReflectionProperty($channelLevelActivationStrategy, 'defaultActionLevel');
 
-        self::assertSame(Level::Debug, $dal->getValue($strategy));
+        self::assertSame(Level::Debug, $dal->getValue($channelLevelActivationStrategy));
 
-        $ctal = new ReflectionProperty($strategy, 'channelToActionLevel');
+        $ctal = new ReflectionProperty($channelLevelActivationStrategy, 'channelToActionLevel');
 
-        self::assertSame([], $ctal->getValue($strategy));
+        self::assertSame([], $ctal->getValue($channelLevelActivationStrategy));
     }
 
     /**
@@ -98,19 +98,19 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ChannelLevelActivationStrategyFactory();
+        $channelLevelActivationStrategyFactory = new ChannelLevelActivationStrategyFactory();
 
-        $strategy = $factory($container, '', ['defaultActionLevel' => LogLevel::ALERT, 'channelToActionLevel' => null]);
+        $channelLevelActivationStrategy = $channelLevelActivationStrategyFactory($container, '', ['defaultActionLevel' => LogLevel::ALERT, 'channelToActionLevel' => null]);
 
-        self::assertInstanceOf(ChannelLevelActivationStrategy::class, $strategy);
+        self::assertInstanceOf(ChannelLevelActivationStrategy::class, $channelLevelActivationStrategy);
 
-        $dal = new ReflectionProperty($strategy, 'defaultActionLevel');
+        $dal = new ReflectionProperty($channelLevelActivationStrategy, 'defaultActionLevel');
 
-        self::assertSame(Level::Alert, $dal->getValue($strategy));
+        self::assertSame(Level::Alert, $dal->getValue($channelLevelActivationStrategy));
 
-        $ctal = new ReflectionProperty($strategy, 'channelToActionLevel');
+        $ctal = new ReflectionProperty($channelLevelActivationStrategy, 'channelToActionLevel');
 
-        self::assertSame([], $ctal->getValue($strategy));
+        self::assertSame([], $ctal->getValue($channelLevelActivationStrategy));
     }
 
     /**
@@ -127,21 +127,21 @@ final class ChannelLevelActivationStrategyFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ChannelLevelActivationStrategyFactory();
+        $channelLevelActivationStrategyFactory = new ChannelLevelActivationStrategyFactory();
 
-        $strategy = $factory($container, '', ['defaultActionLevel' => LogLevel::ALERT, 'channelToActionLevel' => ['abc' => LogLevel::CRITICAL, 'xyz' => LogLevel::WARNING]]);
+        $channelLevelActivationStrategy = $channelLevelActivationStrategyFactory($container, '', ['defaultActionLevel' => LogLevel::ALERT, 'channelToActionLevel' => ['abc' => LogLevel::CRITICAL, 'xyz' => LogLevel::WARNING]]);
 
-        self::assertInstanceOf(ChannelLevelActivationStrategy::class, $strategy);
+        self::assertInstanceOf(ChannelLevelActivationStrategy::class, $channelLevelActivationStrategy);
 
-        $dal = new ReflectionProperty($strategy, 'defaultActionLevel');
+        $dal = new ReflectionProperty($channelLevelActivationStrategy, 'defaultActionLevel');
 
-        self::assertSame(Level::Alert, $dal->getValue($strategy));
+        self::assertSame(Level::Alert, $dal->getValue($channelLevelActivationStrategy));
 
-        $ctal = new ReflectionProperty($strategy, 'channelToActionLevel');
+        $ctal = new ReflectionProperty($channelLevelActivationStrategy, 'channelToActionLevel');
 
         self::assertSame(
             ['abc' => Level::Critical, 'xyz' => Level::Warning],
-            $ctal->getValue($strategy),
+            $ctal->getValue($channelLevelActivationStrategy),
         );
     }
 }

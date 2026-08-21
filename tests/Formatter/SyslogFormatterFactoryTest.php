@@ -39,23 +39,23 @@ final class SyslogFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogFormatterFactory();
+        $syslogFormatterFactory = new SyslogFormatterFactory();
 
-        $formatter = $factory($container, '');
+        $syslogFormatter = $syslogFormatterFactory($container, '');
 
-        self::assertInstanceOf(SyslogFormatter::class, $formatter);
+        self::assertInstanceOf(SyslogFormatter::class, $syslogFormatter);
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $syslogFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $syslogFormatter->getMaxNormalizeItemCount(),
         );
 
-        $appn = new ReflectionProperty($formatter, 'applicationName');
+        $reflectionProperty = new ReflectionProperty($syslogFormatter, 'applicationName');
 
-        self::assertSame('-', $appn->getValue($formatter));
+        self::assertSame('-', $reflectionProperty->getValue($syslogFormatter));
     }
 
     /**
@@ -72,23 +72,23 @@ final class SyslogFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogFormatterFactory();
+        $syslogFormatterFactory = new SyslogFormatterFactory();
 
-        $formatter = $factory($container, '', []);
+        $syslogFormatter = $syslogFormatterFactory($container, '', []);
 
-        self::assertInstanceOf(SyslogFormatter::class, $formatter);
+        self::assertInstanceOf(SyslogFormatter::class, $syslogFormatter);
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $syslogFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $syslogFormatter->getMaxNormalizeItemCount(),
         );
 
-        $appn = new ReflectionProperty($formatter, 'applicationName');
+        $reflectionProperty = new ReflectionProperty($syslogFormatter, 'applicationName');
 
-        self::assertSame('-', $appn->getValue($formatter));
+        self::assertSame('-', $reflectionProperty->getValue($syslogFormatter));
     }
 
     /**
@@ -109,16 +109,16 @@ final class SyslogFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogFormatterFactory();
+        $syslogFormatterFactory = new SyslogFormatterFactory();
 
-        $formatter = $factory($container, '', ['maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true, 'applicationName' => $applicationName]);
+        $syslogFormatter = $syslogFormatterFactory($container, '', ['maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true, 'applicationName' => $applicationName]);
 
-        self::assertInstanceOf(SyslogFormatter::class, $formatter);
-        self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
-        self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
+        self::assertInstanceOf(SyslogFormatter::class, $syslogFormatter);
+        self::assertSame($maxNormalizeDepth, $syslogFormatter->getMaxNormalizeDepth());
+        self::assertSame($maxNormalizeItemCount, $syslogFormatter->getMaxNormalizeItemCount());
 
-        $appn = new ReflectionProperty($formatter, 'applicationName');
+        $reflectionProperty = new ReflectionProperty($syslogFormatter, 'applicationName');
 
-        self::assertSame($applicationName, $appn->getValue($formatter));
+        self::assertSame($applicationName, $reflectionProperty->getValue($syslogFormatter));
     }
 }

@@ -83,7 +83,7 @@ final class PushoverHandlerFactory implements FactoryInterface
         $chunkSize         = $options['chunkSize'] ?? null;
 
         try {
-            $handler = new PushoverHandler(
+            $pushoverHandler = new PushoverHandler(
                 $options['token'],
                 $options['users'],
                 $title,
@@ -108,9 +108,9 @@ final class PushoverHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $pushoverHandler, $options);
+        $this->addProcessor($container, $pushoverHandler, $options);
 
-        return $handler;
+        return $pushoverHandler;
     }
 }

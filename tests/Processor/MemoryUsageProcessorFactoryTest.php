@@ -38,19 +38,19 @@ final class MemoryUsageProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MemoryUsageProcessorFactory();
+        $memoryUsageProcessorFactory = new MemoryUsageProcessorFactory();
 
-        $processor = $factory($container, '');
+        $memoryUsageProcessor = $memoryUsageProcessorFactory($container, '');
 
-        self::assertInstanceOf(MemoryUsageProcessor::class, $processor);
+        self::assertInstanceOf(MemoryUsageProcessor::class, $memoryUsageProcessor);
 
-        $realUsage = new ReflectionProperty($processor, 'realUsage');
+        $realUsage = new ReflectionProperty($memoryUsageProcessor, 'realUsage');
 
-        self::assertTrue($realUsage->getValue($processor));
+        self::assertTrue($realUsage->getValue($memoryUsageProcessor));
 
-        $useFormatting = new ReflectionProperty($processor, 'useFormatting');
+        $useFormatting = new ReflectionProperty($memoryUsageProcessor, 'useFormatting');
 
-        self::assertTrue($useFormatting->getValue($processor));
+        self::assertTrue($useFormatting->getValue($memoryUsageProcessor));
     }
 
     /**
@@ -67,19 +67,19 @@ final class MemoryUsageProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MemoryUsageProcessorFactory();
+        $memoryUsageProcessorFactory = new MemoryUsageProcessorFactory();
 
-        $processor = $factory($container, '', []);
+        $memoryUsageProcessor = $memoryUsageProcessorFactory($container, '', []);
 
-        self::assertInstanceOf(MemoryUsageProcessor::class, $processor);
+        self::assertInstanceOf(MemoryUsageProcessor::class, $memoryUsageProcessor);
 
-        $realUsage = new ReflectionProperty($processor, 'realUsage');
+        $realUsage = new ReflectionProperty($memoryUsageProcessor, 'realUsage');
 
-        self::assertTrue($realUsage->getValue($processor));
+        self::assertTrue($realUsage->getValue($memoryUsageProcessor));
 
-        $useFormatting = new ReflectionProperty($processor, 'useFormatting');
+        $useFormatting = new ReflectionProperty($memoryUsageProcessor, 'useFormatting');
 
-        self::assertTrue($useFormatting->getValue($processor));
+        self::assertTrue($useFormatting->getValue($memoryUsageProcessor));
     }
 
     /**
@@ -96,18 +96,18 @@ final class MemoryUsageProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MemoryUsageProcessorFactory();
+        $memoryUsageProcessorFactory = new MemoryUsageProcessorFactory();
 
-        $processor = $factory($container, '', ['realUsage' => false, 'useFormatting' => false]);
+        $memoryUsageProcessor = $memoryUsageProcessorFactory($container, '', ['realUsage' => false, 'useFormatting' => false]);
 
-        self::assertInstanceOf(MemoryUsageProcessor::class, $processor);
+        self::assertInstanceOf(MemoryUsageProcessor::class, $memoryUsageProcessor);
 
-        $realUsage = new ReflectionProperty($processor, 'realUsage');
+        $realUsage = new ReflectionProperty($memoryUsageProcessor, 'realUsage');
 
-        self::assertFalse($realUsage->getValue($processor));
+        self::assertFalse($realUsage->getValue($memoryUsageProcessor));
 
-        $useFormatting = new ReflectionProperty($processor, 'useFormatting');
+        $useFormatting = new ReflectionProperty($memoryUsageProcessor, 'useFormatting');
 
-        self::assertFalse($useFormatting->getValue($processor));
+        self::assertFalse($useFormatting->getValue($memoryUsageProcessor));
     }
 }

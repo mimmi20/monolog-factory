@@ -38,19 +38,22 @@ final class MongoDBFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBFormatterFactory();
+        $mongoDBFormatterFactory = new MongoDBFormatterFactory();
 
-        $formatter = $factory($container, '');
+        $mongoDBFormatter = $mongoDBFormatterFactory($container, '');
 
-        self::assertInstanceOf(MongoDBFormatter::class, $formatter);
+        self::assertInstanceOf(MongoDBFormatter::class, $mongoDBFormatter);
 
-        $mnl = new ReflectionProperty($formatter, 'maxNestingLevel');
+        $mnl = new ReflectionProperty($mongoDBFormatter, 'maxNestingLevel');
 
-        self::assertSame(MongoDBFormatterFactory::DEFAULT_NESTING_LEVEL, $mnl->getValue($formatter));
+        self::assertSame(
+            MongoDBFormatterFactory::DEFAULT_NESTING_LEVEL,
+            $mnl->getValue($mongoDBFormatter),
+        );
 
-        $ts = new ReflectionProperty($formatter, 'exceptionTraceAsString');
+        $ts = new ReflectionProperty($mongoDBFormatter, 'exceptionTraceAsString');
 
-        self::assertTrue($ts->getValue($formatter));
+        self::assertTrue($ts->getValue($mongoDBFormatter));
     }
 
     /**
@@ -67,19 +70,22 @@ final class MongoDBFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBFormatterFactory();
+        $mongoDBFormatterFactory = new MongoDBFormatterFactory();
 
-        $formatter = $factory($container, '', []);
+        $mongoDBFormatter = $mongoDBFormatterFactory($container, '', []);
 
-        self::assertInstanceOf(MongoDBFormatter::class, $formatter);
+        self::assertInstanceOf(MongoDBFormatter::class, $mongoDBFormatter);
 
-        $mnl = new ReflectionProperty($formatter, 'maxNestingLevel');
+        $mnl = new ReflectionProperty($mongoDBFormatter, 'maxNestingLevel');
 
-        self::assertSame(MongoDBFormatterFactory::DEFAULT_NESTING_LEVEL, $mnl->getValue($formatter));
+        self::assertSame(
+            MongoDBFormatterFactory::DEFAULT_NESTING_LEVEL,
+            $mnl->getValue($mongoDBFormatter),
+        );
 
-        $ts = new ReflectionProperty($formatter, 'exceptionTraceAsString');
+        $ts = new ReflectionProperty($mongoDBFormatter, 'exceptionTraceAsString');
 
-        self::assertTrue($ts->getValue($formatter));
+        self::assertTrue($ts->getValue($mongoDBFormatter));
     }
 
     /**
@@ -99,19 +105,19 @@ final class MongoDBFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBFormatterFactory();
+        $mongoDBFormatterFactory = new MongoDBFormatterFactory();
 
-        $formatter = $factory($container, '', ['maxNestingLevel' => $maxNestingLevel, 'exceptionTraceAsString' => $exceptionTraceAsString]);
+        $mongoDBFormatter = $mongoDBFormatterFactory($container, '', ['maxNestingLevel' => $maxNestingLevel, 'exceptionTraceAsString' => $exceptionTraceAsString]);
 
-        self::assertInstanceOf(MongoDBFormatter::class, $formatter);
+        self::assertInstanceOf(MongoDBFormatter::class, $mongoDBFormatter);
 
-        $mnl = new ReflectionProperty($formatter, 'maxNestingLevel');
+        $mnl = new ReflectionProperty($mongoDBFormatter, 'maxNestingLevel');
 
-        self::assertSame($maxNestingLevel, $mnl->getValue($formatter));
+        self::assertSame($maxNestingLevel, $mnl->getValue($mongoDBFormatter));
 
-        $ts = new ReflectionProperty($formatter, 'exceptionTraceAsString');
+        $ts = new ReflectionProperty($mongoDBFormatter, 'exceptionTraceAsString');
 
-        self::assertFalse($ts->getValue($formatter));
+        self::assertFalse($ts->getValue($mongoDBFormatter));
     }
 
     /**
@@ -131,18 +137,18 @@ final class MongoDBFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBFormatterFactory();
+        $mongoDBFormatterFactory = new MongoDBFormatterFactory();
 
-        $formatter = $factory($container, '', ['maxNestingLevel' => $maxNestingLevel, 'exceptionTraceAsString' => $exceptionTraceAsString]);
+        $mongoDBFormatter = $mongoDBFormatterFactory($container, '', ['maxNestingLevel' => $maxNestingLevel, 'exceptionTraceAsString' => $exceptionTraceAsString]);
 
-        self::assertInstanceOf(MongoDBFormatter::class, $formatter);
+        self::assertInstanceOf(MongoDBFormatter::class, $mongoDBFormatter);
 
-        $mnl = new ReflectionProperty($formatter, 'maxNestingLevel');
+        $mnl = new ReflectionProperty($mongoDBFormatter, 'maxNestingLevel');
 
-        self::assertSame(0, $mnl->getValue($formatter));
+        self::assertSame(0, $mnl->getValue($mongoDBFormatter));
 
-        $ts = new ReflectionProperty($formatter, 'exceptionTraceAsString');
+        $ts = new ReflectionProperty($mongoDBFormatter, 'exceptionTraceAsString');
 
-        self::assertTrue($ts->getValue($formatter));
+        self::assertTrue($ts->getValue($mongoDBFormatter));
     }
 }

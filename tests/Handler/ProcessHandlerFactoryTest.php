@@ -53,13 +53,13 @@ final class ProcessHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ProcessHandlerFactory();
+        $processHandlerFactory = new ProcessHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $processHandlerFactory($container, '');
     }
 
     /**
@@ -77,13 +77,13 @@ final class ProcessHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ProcessHandlerFactory();
+        $processHandlerFactory = new ProcessHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No command provided');
 
-        $factory($container, '', []);
+        $processHandlerFactory($container, '', []);
     }
 
     /**
@@ -104,28 +104,28 @@ final class ProcessHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ProcessHandlerFactory();
+        $processHandlerFactory = new ProcessHandlerFactory();
 
-        $handler = $factory($container, '', ['command' => $command]);
+        $processHandler = $processHandlerFactory($container, '', ['command' => $command]);
 
-        self::assertInstanceOf(ProcessHandler::class, $handler);
+        self::assertInstanceOf(ProcessHandler::class, $processHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $processHandler->getLevel());
+        self::assertTrue($processHandler->getBubble());
 
-        $commandP = new ReflectionProperty($handler, 'command');
+        $commandP = new ReflectionProperty($processHandler, 'command');
 
-        self::assertSame($command, $commandP->getValue($handler));
+        self::assertSame($command, $commandP->getValue($processHandler));
 
-        $cwdP = new ReflectionProperty($handler, 'cwd');
+        $cwdP = new ReflectionProperty($processHandler, 'cwd');
 
-        self::assertNull($cwdP->getValue($handler));
+        self::assertNull($cwdP->getValue($processHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $processHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($processHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($processHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -150,28 +150,28 @@ final class ProcessHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ProcessHandlerFactory();
+        $processHandlerFactory = new ProcessHandlerFactory();
 
-        $handler = $factory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $processHandler = $processHandlerFactory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(ProcessHandler::class, $handler);
+        self::assertInstanceOf(ProcessHandler::class, $processHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $processHandler->getLevel());
+        self::assertFalse($processHandler->getBubble());
 
-        $commandP = new ReflectionProperty($handler, 'command');
+        $commandP = new ReflectionProperty($processHandler, 'command');
 
-        self::assertSame($command, $commandP->getValue($handler));
+        self::assertSame($command, $commandP->getValue($processHandler));
 
-        $cwdP = new ReflectionProperty($handler, 'cwd');
+        $cwdP = new ReflectionProperty($processHandler, 'cwd');
 
-        self::assertSame($cwd, $cwdP->getValue($handler));
+        self::assertSame($cwd, $cwdP->getValue($processHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $processHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($processHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($processHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -194,13 +194,13 @@ final class ProcessHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ProcessHandlerFactory();
+        $processHandlerFactory = new ProcessHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', ProcessHandler::class));
 
-        $factory($container, '', ['command' => $command, 'cwd' => '', 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $processHandlerFactory($container, '', ['command' => $command, 'cwd' => '', 'level' => LogLevel::ALERT, 'bubble' => false]);
     }
 
     /**
@@ -222,7 +222,7 @@ final class ProcessHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ProcessHandlerFactory();
+        $processHandlerFactory = new ProcessHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -230,7 +230,7 @@ final class ProcessHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $processHandlerFactory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -244,7 +244,7 @@ final class ProcessHandlerFactoryTest extends TestCase
     {
         $command   = 'test-command';
         $cwd       = 'test-cwd';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -254,7 +254,7 @@ final class ProcessHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new ProcessHandlerFactory();
+        $processHandlerFactory = new ProcessHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -262,7 +262,7 @@ final class ProcessHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $processHandlerFactory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -277,7 +277,7 @@ final class ProcessHandlerFactoryTest extends TestCase
     {
         $command   = 'test-command';
         $cwd       = 'test-cwd';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -295,28 +295,28 @@ final class ProcessHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new ProcessHandlerFactory();
+        $processHandlerFactory = new ProcessHandlerFactory();
 
-        $handler = $factory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $processHandler = $processHandlerFactory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(ProcessHandler::class, $handler);
+        self::assertInstanceOf(ProcessHandler::class, $processHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $processHandler->getLevel());
+        self::assertFalse($processHandler->getBubble());
 
-        $commandP = new ReflectionProperty($handler, 'command');
+        $commandP = new ReflectionProperty($processHandler, 'command');
 
-        self::assertSame($command, $commandP->getValue($handler));
+        self::assertSame($command, $commandP->getValue($processHandler));
 
-        $cwdP = new ReflectionProperty($handler, 'cwd');
+        $cwdP = new ReflectionProperty($processHandler, 'cwd');
 
-        self::assertSame($cwd, $cwdP->getValue($handler));
+        self::assertSame($cwd, $cwdP->getValue($processHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $processHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($processHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($processHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -333,7 +333,7 @@ final class ProcessHandlerFactoryTest extends TestCase
     {
         $command   = 'test-command';
         $cwd       = 'test-cwd';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -341,9 +341,9 @@ final class ProcessHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new ProcessHandlerFactory();
+        $processHandlerFactory = new ProcessHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -351,7 +351,7 @@ final class ProcessHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $processHandlerFactory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -373,13 +373,13 @@ final class ProcessHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ProcessHandlerFactory();
+        $processHandlerFactory = new ProcessHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $processHandlerFactory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -425,13 +425,13 @@ final class ProcessHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new ProcessHandlerFactory();
+        $processHandlerFactory = new ProcessHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $processHandlerFactory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -461,9 +461,9 @@ final class ProcessHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -487,26 +487,26 @@ final class ProcessHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new ProcessHandlerFactory();
+        $processHandlerFactory = new ProcessHandlerFactory();
 
-        $handler = $factory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $processHandler = $processHandlerFactory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(ProcessHandler::class, $handler);
+        self::assertInstanceOf(ProcessHandler::class, $processHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $processHandler->getLevel());
+        self::assertFalse($processHandler->getBubble());
 
-        $commandP = new ReflectionProperty($handler, 'command');
+        $commandP = new ReflectionProperty($processHandler, 'command');
 
-        self::assertSame($command, $commandP->getValue($handler));
+        self::assertSame($command, $commandP->getValue($processHandler));
 
-        $cwdP = new ReflectionProperty($handler, 'cwd');
+        $cwdP = new ReflectionProperty($processHandler, 'cwd');
 
-        self::assertSame($cwd, $cwdP->getValue($handler));
+        self::assertSame($cwd, $cwdP->getValue($processHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($processHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($processHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -549,7 +549,7 @@ final class ProcessHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new ProcessHandlerFactory();
+        $processHandlerFactory = new ProcessHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -557,7 +557,7 @@ final class ProcessHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $processHandlerFactory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -592,9 +592,9 @@ final class ProcessHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new ProcessHandlerFactory();
+        $processHandlerFactory = new ProcessHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -602,6 +602,6 @@ final class ProcessHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $processHandlerFactory($container, '', ['command' => $command, 'cwd' => $cwd, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 }

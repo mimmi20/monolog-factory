@@ -35,10 +35,10 @@ final class ProcessIdProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ProcessIdProcessorFactory();
+        $processIdProcessorFactory = new ProcessIdProcessorFactory();
 
-        $processor = $factory($container, '');
+        $processIdProcessor = $processIdProcessorFactory($container, '');
 
-        self::assertInstanceOf(ProcessIdProcessor::class, $processor);
+        self::assertInstanceOf(ProcessIdProcessor::class, $processIdProcessor);
     }
 }

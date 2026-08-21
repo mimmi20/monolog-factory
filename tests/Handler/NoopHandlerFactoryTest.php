@@ -35,10 +35,10 @@ final class NoopHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NoopHandlerFactory();
+        $noopHandlerFactory = new NoopHandlerFactory();
 
-        $handler = $factory($container, '');
+        $noopHandler = $noopHandlerFactory($container, '');
 
-        self::assertInstanceOf(NoopHandler::class, $handler);
+        self::assertInstanceOf(NoopHandler::class, $noopHandler);
     }
 }

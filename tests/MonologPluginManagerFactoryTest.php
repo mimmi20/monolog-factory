@@ -47,15 +47,15 @@ final class MonologPluginManagerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with('ServiceListener')
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MonologPluginManagerFactory();
+        $monologPluginManagerFactory = new MonologPluginManagerFactory();
 
         self::assertInstanceOf(
             MonologPluginManager::class,
-            $factory($container, $requestedName, $options),
+            $monologPluginManagerFactory($container, $requestedName, $options),
         );
     }
 
@@ -85,11 +85,11 @@ final class MonologPluginManagerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MonologPluginManagerFactory();
+        $monologPluginManagerFactory = new MonologPluginManagerFactory();
 
         self::assertInstanceOf(
             MonologPluginManager::class,
-            $factory($container, $requestedName, $options),
+            $monologPluginManagerFactory($container, $requestedName, $options),
         );
     }
 
@@ -121,13 +121,13 @@ final class MonologPluginManagerFactoryTest extends TestCase
             ->with('config')
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new MonologPluginManagerFactory();
+        $monologPluginManagerFactory = new MonologPluginManagerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'config'));
         $this->expectExceptionCode(0);
 
-        $factory($container, $requestedName, $options);
+        $monologPluginManagerFactory($container, $requestedName, $options);
     }
 
     /**
@@ -159,11 +159,11 @@ final class MonologPluginManagerFactoryTest extends TestCase
             ->with('config')
             ->willReturn($config);
 
-        $factory = new MonologPluginManagerFactory();
+        $monologPluginManagerFactory = new MonologPluginManagerFactory();
 
         self::assertInstanceOf(
             MonologPluginManager::class,
-            $factory($container, $requestedName, $options),
+            $monologPluginManagerFactory($container, $requestedName, $options),
         );
     }
 
@@ -196,11 +196,11 @@ final class MonologPluginManagerFactoryTest extends TestCase
             ->with('config')
             ->willReturn($config);
 
-        $factory = new MonologPluginManagerFactory();
+        $monologPluginManagerFactory = new MonologPluginManagerFactory();
 
         self::assertInstanceOf(
             MonologPluginManager::class,
-            $factory($container, $requestedName, $options),
+            $monologPluginManagerFactory($container, $requestedName, $options),
         );
     }
 
@@ -233,11 +233,11 @@ final class MonologPluginManagerFactoryTest extends TestCase
             ->with('config')
             ->willReturn($config);
 
-        $factory = new MonologPluginManagerFactory();
+        $monologPluginManagerFactory = new MonologPluginManagerFactory();
 
         self::assertInstanceOf(
             MonologPluginManager::class,
-            $factory($container, $requestedName, $options),
+            $monologPluginManagerFactory($container, $requestedName, $options),
         );
     }
 }

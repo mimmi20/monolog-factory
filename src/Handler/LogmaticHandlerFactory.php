@@ -69,7 +69,7 @@ final class LogmaticHandlerFactory implements FactoryInterface
         $chunkSize         = $options['chunkSize'] ?? null;
 
         try {
-            $handler = new LogmaticHandler(
+            $logmaticHandler = new LogmaticHandler(
                 $options['token'],
                 $hostname,
                 $appname,
@@ -90,9 +90,9 @@ final class LogmaticHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $logmaticHandler, $options);
+        $this->addProcessor($container, $logmaticHandler, $options);
 
-        return $handler;
+        return $logmaticHandler;
     }
 }

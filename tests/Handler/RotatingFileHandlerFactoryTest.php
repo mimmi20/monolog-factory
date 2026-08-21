@@ -54,13 +54,13 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $rotatingFileHandlerFactory($container, '');
     }
 
     /**
@@ -78,13 +78,13 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No filename provided');
 
-        $factory($container, '', []);
+        $rotatingFileHandlerFactory($container, '', []);
     }
 
     /**
@@ -105,38 +105,41 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
-        $handler = $factory($container, '', ['filename' => $filename]);
+        $rotatingFileHandler = $rotatingFileHandlerFactory($container, '', ['filename' => $filename]);
 
-        self::assertInstanceOf(RotatingFileHandler::class, $handler);
+        self::assertInstanceOf(RotatingFileHandler::class, $rotatingFileHandler);
 
-        self::assertNull($handler->getStream());
-        self::assertSame($filename . '-' . date(RotatingFileHandler::FILE_PER_DAY), $handler->getUrl());
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertNull($rotatingFileHandler->getStream());
+        self::assertSame(
+            $filename . '-' . date(RotatingFileHandler::FILE_PER_DAY),
+            $rotatingFileHandler->getUrl(),
+        );
+        self::assertSame(Level::Debug, $rotatingFileHandler->getLevel());
+        self::assertTrue($rotatingFileHandler->getBubble());
 
-        $fn = new ReflectionProperty($handler, 'filename');
+        $fn = new ReflectionProperty($rotatingFileHandler, 'filename');
 
-        self::assertSame($filename, $fn->getValue($handler));
+        self::assertSame($filename, $fn->getValue($rotatingFileHandler));
 
-        $mf = new ReflectionProperty($handler, 'maxFiles');
+        $mf = new ReflectionProperty($rotatingFileHandler, 'maxFiles');
 
-        self::assertSame(0, $mf->getValue($handler));
+        self::assertSame(0, $mf->getValue($rotatingFileHandler));
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($rotatingFileHandler, 'filePermission');
 
-        self::assertNull($fp->getValue($handler));
+        self::assertNull($fp->getValue($rotatingFileHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($rotatingFileHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($rotatingFileHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $rotatingFileHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($rotatingFileHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($rotatingFileHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -161,38 +164,41 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
-        $handler = $factory($container, '', ['filename' => $filename, 'filenameFormat' => $filenameFormat]);
+        $rotatingFileHandler = $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'filenameFormat' => $filenameFormat]);
 
-        self::assertInstanceOf(RotatingFileHandler::class, $handler);
+        self::assertInstanceOf(RotatingFileHandler::class, $rotatingFileHandler);
 
-        self::assertNull($handler->getStream());
-        self::assertSame($filename . '_' . date(RotatingFileHandler::FILE_PER_DAY), $handler->getUrl());
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertNull($rotatingFileHandler->getStream());
+        self::assertSame(
+            $filename . '_' . date(RotatingFileHandler::FILE_PER_DAY),
+            $rotatingFileHandler->getUrl(),
+        );
+        self::assertSame(Level::Debug, $rotatingFileHandler->getLevel());
+        self::assertTrue($rotatingFileHandler->getBubble());
 
-        $fn = new ReflectionProperty($handler, 'filename');
+        $fn = new ReflectionProperty($rotatingFileHandler, 'filename');
 
-        self::assertSame($filename, $fn->getValue($handler));
+        self::assertSame($filename, $fn->getValue($rotatingFileHandler));
 
-        $mf = new ReflectionProperty($handler, 'maxFiles');
+        $mf = new ReflectionProperty($rotatingFileHandler, 'maxFiles');
 
-        self::assertSame(0, $mf->getValue($handler));
+        self::assertSame(0, $mf->getValue($rotatingFileHandler));
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($rotatingFileHandler, 'filePermission');
 
-        self::assertNull($fp->getValue($handler));
+        self::assertNull($fp->getValue($rotatingFileHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($rotatingFileHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($rotatingFileHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $rotatingFileHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($rotatingFileHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($rotatingFileHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -217,38 +223,38 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
-        $handler = $factory($container, '', ['filename' => $filename, 'dateFormat' => $dateFormat]);
+        $rotatingFileHandler = $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'dateFormat' => $dateFormat]);
 
-        self::assertInstanceOf(RotatingFileHandler::class, $handler);
+        self::assertInstanceOf(RotatingFileHandler::class, $rotatingFileHandler);
 
-        self::assertNull($handler->getStream());
-        self::assertSame($filename . '-' . date($dateFormat), $handler->getUrl());
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertNull($rotatingFileHandler->getStream());
+        self::assertSame($filename . '-' . date($dateFormat), $rotatingFileHandler->getUrl());
+        self::assertSame(Level::Debug, $rotatingFileHandler->getLevel());
+        self::assertTrue($rotatingFileHandler->getBubble());
 
-        $fn = new ReflectionProperty($handler, 'filename');
+        $fn = new ReflectionProperty($rotatingFileHandler, 'filename');
 
-        self::assertSame($filename, $fn->getValue($handler));
+        self::assertSame($filename, $fn->getValue($rotatingFileHandler));
 
-        $mf = new ReflectionProperty($handler, 'maxFiles');
+        $mf = new ReflectionProperty($rotatingFileHandler, 'maxFiles');
 
-        self::assertSame(0, $mf->getValue($handler));
+        self::assertSame(0, $mf->getValue($rotatingFileHandler));
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($rotatingFileHandler, 'filePermission');
 
-        self::assertNull($fp->getValue($handler));
+        self::assertNull($fp->getValue($rotatingFileHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($rotatingFileHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($rotatingFileHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $rotatingFileHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($rotatingFileHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($rotatingFileHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -277,38 +283,41 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
-        $handler = $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking]);
+        $rotatingFileHandler = $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking]);
 
-        self::assertInstanceOf(RotatingFileHandler::class, $handler);
+        self::assertInstanceOf(RotatingFileHandler::class, $rotatingFileHandler);
 
-        self::assertNull($handler->getStream());
-        self::assertSame($filename . '-' . date(RotatingFileHandler::FILE_PER_DAY), $handler->getUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertNull($rotatingFileHandler->getStream());
+        self::assertSame(
+            $filename . '-' . date(RotatingFileHandler::FILE_PER_DAY),
+            $rotatingFileHandler->getUrl(),
+        );
+        self::assertSame(Level::Alert, $rotatingFileHandler->getLevel());
+        self::assertFalse($rotatingFileHandler->getBubble());
 
-        $fn = new ReflectionProperty($handler, 'filename');
+        $fn = new ReflectionProperty($rotatingFileHandler, 'filename');
 
-        self::assertSame($filename, $fn->getValue($handler));
+        self::assertSame($filename, $fn->getValue($rotatingFileHandler));
 
-        $mf = new ReflectionProperty($handler, 'maxFiles');
+        $mf = new ReflectionProperty($rotatingFileHandler, 'maxFiles');
 
-        self::assertSame($maxFiles, $mf->getValue($handler));
+        self::assertSame($maxFiles, $mf->getValue($rotatingFileHandler));
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($rotatingFileHandler, 'filePermission');
 
-        self::assertSame($filePermission, $fp->getValue($handler));
+        self::assertSame($filePermission, $fp->getValue($rotatingFileHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($rotatingFileHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($rotatingFileHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $rotatingFileHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($rotatingFileHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($rotatingFileHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -338,38 +347,41 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
-        $handler = $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'filenameFormat' => $filenameFormat]);
+        $rotatingFileHandler = $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'filenameFormat' => $filenameFormat]);
 
-        self::assertInstanceOf(RotatingFileHandler::class, $handler);
+        self::assertInstanceOf(RotatingFileHandler::class, $rotatingFileHandler);
 
-        self::assertNull($handler->getStream());
-        self::assertSame($filename . '_' . date(RotatingFileHandler::FILE_PER_DAY), $handler->getUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertNull($rotatingFileHandler->getStream());
+        self::assertSame(
+            $filename . '_' . date(RotatingFileHandler::FILE_PER_DAY),
+            $rotatingFileHandler->getUrl(),
+        );
+        self::assertSame(Level::Alert, $rotatingFileHandler->getLevel());
+        self::assertFalse($rotatingFileHandler->getBubble());
 
-        $fn = new ReflectionProperty($handler, 'filename');
+        $fn = new ReflectionProperty($rotatingFileHandler, 'filename');
 
-        self::assertSame($filename, $fn->getValue($handler));
+        self::assertSame($filename, $fn->getValue($rotatingFileHandler));
 
-        $mf = new ReflectionProperty($handler, 'maxFiles');
+        $mf = new ReflectionProperty($rotatingFileHandler, 'maxFiles');
 
-        self::assertSame($maxFiles, $mf->getValue($handler));
+        self::assertSame($maxFiles, $mf->getValue($rotatingFileHandler));
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($rotatingFileHandler, 'filePermission');
 
-        self::assertSame($filePermission, $fp->getValue($handler));
+        self::assertSame($filePermission, $fp->getValue($rotatingFileHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($rotatingFileHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($rotatingFileHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $rotatingFileHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($rotatingFileHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($rotatingFileHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -399,38 +411,38 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
-        $handler = $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat]);
+        $rotatingFileHandler = $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat]);
 
-        self::assertInstanceOf(RotatingFileHandler::class, $handler);
+        self::assertInstanceOf(RotatingFileHandler::class, $rotatingFileHandler);
 
-        self::assertNull($handler->getStream());
-        self::assertSame($filename . '-' . date($dateFormat), $handler->getUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertNull($rotatingFileHandler->getStream());
+        self::assertSame($filename . '-' . date($dateFormat), $rotatingFileHandler->getUrl());
+        self::assertSame(Level::Alert, $rotatingFileHandler->getLevel());
+        self::assertFalse($rotatingFileHandler->getBubble());
 
-        $fn = new ReflectionProperty($handler, 'filename');
+        $fn = new ReflectionProperty($rotatingFileHandler, 'filename');
 
-        self::assertSame($filename, $fn->getValue($handler));
+        self::assertSame($filename, $fn->getValue($rotatingFileHandler));
 
-        $mf = new ReflectionProperty($handler, 'maxFiles');
+        $mf = new ReflectionProperty($rotatingFileHandler, 'maxFiles');
 
-        self::assertSame($maxFiles, $mf->getValue($handler));
+        self::assertSame($maxFiles, $mf->getValue($rotatingFileHandler));
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($rotatingFileHandler, 'filePermission');
 
-        self::assertSame($filePermission, $fp->getValue($handler));
+        self::assertSame($filePermission, $fp->getValue($rotatingFileHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($rotatingFileHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($rotatingFileHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $rotatingFileHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($rotatingFileHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($rotatingFileHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -460,7 +472,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -468,7 +480,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'formatter' => $formatter]);
+        $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'formatter' => $formatter]);
     }
 
     /**
@@ -487,7 +499,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $filePermission = 0755;
         $useLocking     = false;
         $dateFormat     = RotatingFileHandler::FILE_PER_MONTH;
-        $formatter      = $this->createMock(LineFormatter::class);
+        $formatter      = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -497,7 +509,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -505,7 +517,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'formatter' => $formatter]);
+        $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'formatter' => $formatter]);
     }
 
     /**
@@ -525,7 +537,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $filePermission = 0755;
         $useLocking     = false;
         $dateFormat     = RotatingFileHandler::FILE_PER_MONTH;
-        $formatter      = $this->createMock(LineFormatter::class);
+        $formatter      = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -543,38 +555,38 @@ final class RotatingFileHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
-        $handler = $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'formatter' => $formatter]);
+        $rotatingFileHandler = $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(RotatingFileHandler::class, $handler);
+        self::assertInstanceOf(RotatingFileHandler::class, $rotatingFileHandler);
 
-        self::assertNull($handler->getStream());
-        self::assertSame($filename . '-' . date($dateFormat), $handler->getUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertNull($rotatingFileHandler->getStream());
+        self::assertSame($filename . '-' . date($dateFormat), $rotatingFileHandler->getUrl());
+        self::assertSame(Level::Alert, $rotatingFileHandler->getLevel());
+        self::assertFalse($rotatingFileHandler->getBubble());
 
-        $fn = new ReflectionProperty($handler, 'filename');
+        $fn = new ReflectionProperty($rotatingFileHandler, 'filename');
 
-        self::assertSame($filename, $fn->getValue($handler));
+        self::assertSame($filename, $fn->getValue($rotatingFileHandler));
 
-        $mf = new ReflectionProperty($handler, 'maxFiles');
+        $mf = new ReflectionProperty($rotatingFileHandler, 'maxFiles');
 
-        self::assertSame($maxFiles, $mf->getValue($handler));
+        self::assertSame($maxFiles, $mf->getValue($rotatingFileHandler));
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($rotatingFileHandler, 'filePermission');
 
-        self::assertSame($filePermission, $fp->getValue($handler));
+        self::assertSame($filePermission, $fp->getValue($rotatingFileHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($rotatingFileHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($rotatingFileHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $rotatingFileHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($rotatingFileHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($rotatingFileHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -597,7 +609,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $filePermission = '0755';
         $useLocking     = false;
         $dateFormat     = RotatingFileHandler::FILE_PER_MONTH;
-        $formatter      = $this->createMock(LineFormatter::class);
+        $formatter      = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -615,38 +627,38 @@ final class RotatingFileHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
-        $handler = $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'formatter' => $formatter]);
+        $rotatingFileHandler = $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(RotatingFileHandler::class, $handler);
+        self::assertInstanceOf(RotatingFileHandler::class, $rotatingFileHandler);
 
-        self::assertNull($handler->getStream());
-        self::assertSame($filename . '-' . date($dateFormat), $handler->getUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertNull($rotatingFileHandler->getStream());
+        self::assertSame($filename . '-' . date($dateFormat), $rotatingFileHandler->getUrl());
+        self::assertSame(Level::Alert, $rotatingFileHandler->getLevel());
+        self::assertFalse($rotatingFileHandler->getBubble());
 
-        $fn = new ReflectionProperty($handler, 'filename');
+        $fn = new ReflectionProperty($rotatingFileHandler, 'filename');
 
-        self::assertSame($filename, $fn->getValue($handler));
+        self::assertSame($filename, $fn->getValue($rotatingFileHandler));
 
-        $mf = new ReflectionProperty($handler, 'maxFiles');
+        $mf = new ReflectionProperty($rotatingFileHandler, 'maxFiles');
 
-        self::assertSame($maxFiles, $mf->getValue($handler));
+        self::assertSame($maxFiles, $mf->getValue($rotatingFileHandler));
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($rotatingFileHandler, 'filePermission');
 
-        self::assertSame((int) $filePermission, $fp->getValue($handler));
+        self::assertSame((int) $filePermission, $fp->getValue($rotatingFileHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($rotatingFileHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($rotatingFileHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $rotatingFileHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($rotatingFileHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($rotatingFileHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -668,7 +680,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $filePermission = '0755';
         $useLocking     = false;
         $dateFormat     = RotatingFileHandler::FILE_PER_MONTH;
-        $formatter      = $this->createMock(LineFormatter::class);
+        $formatter      = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -676,9 +688,9 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -686,7 +698,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'formatter' => $formatter]);
+        $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'formatter' => $formatter]);
     }
 
     /**
@@ -713,13 +725,13 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'processors' => $processors]);
+        $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'processors' => $processors]);
     }
 
     /**
@@ -770,13 +782,13 @@ final class RotatingFileHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'processors' => $processors]);
+        $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'processors' => $processors]);
     }
 
     /**
@@ -811,9 +823,9 @@ final class RotatingFileHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -837,36 +849,36 @@ final class RotatingFileHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
-        $handler = $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'processors' => $processors]);
+        $rotatingFileHandler = $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'processors' => $processors]);
 
-        self::assertInstanceOf(RotatingFileHandler::class, $handler);
+        self::assertInstanceOf(RotatingFileHandler::class, $rotatingFileHandler);
 
-        self::assertNull($handler->getStream());
-        self::assertSame($filename . '-' . date($dateFormat), $handler->getUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertNull($rotatingFileHandler->getStream());
+        self::assertSame($filename . '-' . date($dateFormat), $rotatingFileHandler->getUrl());
+        self::assertSame(Level::Alert, $rotatingFileHandler->getLevel());
+        self::assertFalse($rotatingFileHandler->getBubble());
 
-        $fn = new ReflectionProperty($handler, 'filename');
+        $fn = new ReflectionProperty($rotatingFileHandler, 'filename');
 
-        self::assertSame($filename, $fn->getValue($handler));
+        self::assertSame($filename, $fn->getValue($rotatingFileHandler));
 
-        $mf = new ReflectionProperty($handler, 'maxFiles');
+        $mf = new ReflectionProperty($rotatingFileHandler, 'maxFiles');
 
-        self::assertSame($maxFiles, $mf->getValue($handler));
+        self::assertSame($maxFiles, $mf->getValue($rotatingFileHandler));
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($rotatingFileHandler, 'filePermission');
 
-        self::assertSame($filePermission, $fp->getValue($handler));
+        self::assertSame($filePermission, $fp->getValue($rotatingFileHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($rotatingFileHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($rotatingFileHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($rotatingFileHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($rotatingFileHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -914,7 +926,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -922,7 +934,7 @@ final class RotatingFileHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'processors' => $processors]);
+        $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'processors' => $processors]);
     }
 
     /**
@@ -962,9 +974,9 @@ final class RotatingFileHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new RotatingFileHandlerFactory();
+        $rotatingFileHandlerFactory = new RotatingFileHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -972,6 +984,6 @@ final class RotatingFileHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'processors' => $processors]);
+        $rotatingFileHandlerFactory($container, '', ['filename' => $filename, 'maxFiles' => $maxFiles, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'dateFormat' => $dateFormat, 'processors' => $processors]);
     }
 }

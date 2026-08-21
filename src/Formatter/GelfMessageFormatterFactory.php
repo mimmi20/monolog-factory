@@ -79,7 +79,7 @@ final class GelfMessageFormatterFactory implements FactoryInterface
         }
 
         try {
-            $formatter = new GelfMessageFormatter(
+            $gelfMessageFormatter = new GelfMessageFormatter(
                 $systemName,
                 $extraPrefix,
                 $contextPrefix,
@@ -93,10 +93,10 @@ final class GelfMessageFormatterFactory implements FactoryInterface
             );
         }
 
-        $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
-        $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
-        $formatter->setJsonPrettyPrint($prettyPrint);
+        $gelfMessageFormatter->setMaxNormalizeDepth($maxNormalizeDepth);
+        $gelfMessageFormatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
+        $gelfMessageFormatter->setJsonPrettyPrint($prettyPrint);
 
-        return $formatter;
+        return $gelfMessageFormatter;
     }
 }

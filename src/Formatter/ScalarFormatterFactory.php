@@ -55,16 +55,16 @@ final class ScalarFormatterFactory implements FactoryInterface
             }
         }
 
-        $formatter = new ScalarFormatter();
+        $scalarFormatter = new ScalarFormatter();
 
         if (is_array($options) && array_key_exists('dateFormat', $options)) {
-            $formatter->setDateFormat($options['dateFormat']);
+            $scalarFormatter->setDateFormat($options['dateFormat']);
         }
 
-        $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
-        $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
-        $formatter->setJsonPrettyPrint($prettyPrint);
+        $scalarFormatter->setMaxNormalizeDepth($maxNormalizeDepth);
+        $scalarFormatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
+        $scalarFormatter->setJsonPrettyPrint($prettyPrint);
 
-        return $formatter;
+        return $scalarFormatter;
     }
 }

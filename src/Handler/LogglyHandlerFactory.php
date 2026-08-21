@@ -70,7 +70,7 @@ final class LogglyHandlerFactory implements FactoryInterface
         }
 
         try {
-            $handler = new LogglyHandler($token, $level, $bubble);
+            $logglyHandler = new LogglyHandler($token, $level, $bubble);
         } catch (MissingExtensionException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', LogglyHandler::class),
@@ -79,9 +79,9 @@ final class LogglyHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $logglyHandler, $options);
+        $this->addProcessor($container, $logglyHandler, $options);
 
-        return $handler;
+        return $logglyHandler;
     }
 }

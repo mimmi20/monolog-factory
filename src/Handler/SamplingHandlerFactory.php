@@ -75,11 +75,11 @@ final class SamplingHandlerFactory implements FactoryInterface
             throw new ServiceNotCreatedException('Factor is missing or is less then 1');
         }
 
-        $handler = new SamplingHandler($childHandler, $factor);
+        $samplingHandler = new SamplingHandler($childHandler, $factor);
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $samplingHandler, $options);
+        $this->addProcessor($container, $samplingHandler, $options);
 
-        return $handler;
+        return $samplingHandler;
     }
 }

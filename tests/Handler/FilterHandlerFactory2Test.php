@@ -27,6 +27,7 @@ use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
@@ -79,13 +80,13 @@ final class FilterHandlerFactory2Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new FilterHandlerFactory();
+        $filterHandlerFactory = new FilterHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'minLevelOrList' => $levels]);
+        $filterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'minLevelOrList' => $levels]);
     }
 
     /**
@@ -157,13 +158,13 @@ final class FilterHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FilterHandlerFactory();
+        $filterHandlerFactory = new FilterHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'minLevelOrList' => $levels]);
+        $filterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'minLevelOrList' => $levels]);
     }
 
     /**
@@ -206,9 +207,9 @@ final class FilterHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -252,27 +253,27 @@ final class FilterHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FilterHandlerFactory();
+        $filterHandlerFactory = new FilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'minLevelOrList' => $levels]);
+        $filterHandler = $filterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'minLevelOrList' => $levels]);
 
-        self::assertInstanceOf(FilterHandler::class, $handler);
+        self::assertInstanceOf(FilterHandler::class, $filterHandler);
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($filterHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($filterHandler));
 
-        $bb = new ReflectionProperty($handler, 'bubble');
+        $bb = new ReflectionProperty($filterHandler, 'bubble');
 
-        self::assertTrue($bb->getValue($handler));
+        self::assertTrue($bb->getValue($filterHandler));
 
-        $al = new ReflectionProperty($handler, 'acceptedLevels');
+        $al = new ReflectionProperty($filterHandler, 'acceptedLevels');
 
-        self::assertEquals($expectedLevels, $al->getValue($handler));
+        self::assertEquals($expectedLevels, $al->getValue($filterHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($filterHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($filterHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -337,12 +338,12 @@ final class FilterHandlerFactory2Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager) {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager): MockObject {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame(
@@ -364,7 +365,7 @@ final class FilterHandlerFactory2Test extends TestCase
                 },
             );
 
-        $factory = new FilterHandlerFactory();
+        $filterHandlerFactory = new FilterHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -372,7 +373,7 @@ final class FilterHandlerFactory2Test extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'minLevelOrList' => $levels]);
+        $filterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'minLevelOrList' => $levels]);
     }
 
     /**
@@ -435,7 +436,7 @@ final class FilterHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FilterHandlerFactory();
+        $filterHandlerFactory = new FilterHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -443,7 +444,7 @@ final class FilterHandlerFactory2Test extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'minLevelOrList' => $levels]);
+        $filterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'minLevelOrList' => $levels]);
     }
 
     /**
@@ -486,9 +487,9 @@ final class FilterHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -532,27 +533,27 @@ final class FilterHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FilterHandlerFactory();
+        $filterHandlerFactory = new FilterHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'minLevelOrList' => $levels, 'processors' => $processors]);
+        $filterHandler = $filterHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'minLevelOrList' => $levels, 'processors' => $processors]);
 
-        self::assertInstanceOf(FilterHandler::class, $handler);
+        self::assertInstanceOf(FilterHandler::class, $filterHandler);
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($filterHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($filterHandler));
 
-        $bb = new ReflectionProperty($handler, 'bubble');
+        $bb = new ReflectionProperty($filterHandler, 'bubble');
 
-        self::assertTrue($bb->getValue($handler));
+        self::assertTrue($bb->getValue($filterHandler));
 
-        $al = new ReflectionProperty($handler, 'acceptedLevels');
+        $al = new ReflectionProperty($filterHandler, 'acceptedLevels');
 
-        self::assertEquals($expectedLevels, $al->getValue($handler));
+        self::assertEquals($expectedLevels, $al->getValue($filterHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($filterHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($filterHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);

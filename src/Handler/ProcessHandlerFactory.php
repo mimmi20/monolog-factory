@@ -75,7 +75,7 @@ final class ProcessHandlerFactory implements FactoryInterface
         }
 
         try {
-            $handler = new ProcessHandler($command, $level, $bubble, $cwd);
+            $processHandler = new ProcessHandler($command, $level, $bubble, $cwd);
         } catch (InvalidArgumentException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', ProcessHandler::class),
@@ -84,9 +84,9 @@ final class ProcessHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $processHandler, $options);
+        $this->addProcessor($container, $processHandler, $options);
 
-        return $handler;
+        return $processHandler;
     }
 }

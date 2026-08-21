@@ -38,19 +38,19 @@ final class PsrLogMessageProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PsrLogMessageProcessorFactory();
+        $psrLogMessageProcessorFactory = new PsrLogMessageProcessorFactory();
 
-        $processor = $factory($container, '');
+        $psrLogMessageProcessor = $psrLogMessageProcessorFactory($container, '');
 
-        self::assertInstanceOf(PsrLogMessageProcessor::class, $processor);
+        self::assertInstanceOf(PsrLogMessageProcessor::class, $psrLogMessageProcessor);
 
-        $dateFormatP = new ReflectionProperty($processor, 'dateFormat');
+        $dateFormatP = new ReflectionProperty($psrLogMessageProcessor, 'dateFormat');
 
-        self::assertNull($dateFormatP->getValue($processor));
+        self::assertNull($dateFormatP->getValue($psrLogMessageProcessor));
 
-        $rucf = new ReflectionProperty($processor, 'removeUsedContextFields');
+        $rucf = new ReflectionProperty($psrLogMessageProcessor, 'removeUsedContextFields');
 
-        self::assertFalse($rucf->getValue($processor));
+        self::assertFalse($rucf->getValue($psrLogMessageProcessor));
     }
 
     /**
@@ -67,19 +67,19 @@ final class PsrLogMessageProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PsrLogMessageProcessorFactory();
+        $psrLogMessageProcessorFactory = new PsrLogMessageProcessorFactory();
 
-        $processor = $factory($container, '', []);
+        $psrLogMessageProcessor = $psrLogMessageProcessorFactory($container, '', []);
 
-        self::assertInstanceOf(PsrLogMessageProcessor::class, $processor);
+        self::assertInstanceOf(PsrLogMessageProcessor::class, $psrLogMessageProcessor);
 
-        $dateFormatP = new ReflectionProperty($processor, 'dateFormat');
+        $dateFormatP = new ReflectionProperty($psrLogMessageProcessor, 'dateFormat');
 
-        self::assertNull($dateFormatP->getValue($processor));
+        self::assertNull($dateFormatP->getValue($psrLogMessageProcessor));
 
-        $rucf = new ReflectionProperty($processor, 'removeUsedContextFields');
+        $rucf = new ReflectionProperty($psrLogMessageProcessor, 'removeUsedContextFields');
 
-        self::assertFalse($rucf->getValue($processor));
+        self::assertFalse($rucf->getValue($psrLogMessageProcessor));
     }
 
     /**
@@ -98,18 +98,18 @@ final class PsrLogMessageProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PsrLogMessageProcessorFactory();
+        $psrLogMessageProcessorFactory = new PsrLogMessageProcessorFactory();
 
-        $processor = $factory($container, '', ['dateFormat' => $dateFormat, 'removeUsedContextFields' => true]);
+        $psrLogMessageProcessor = $psrLogMessageProcessorFactory($container, '', ['dateFormat' => $dateFormat, 'removeUsedContextFields' => true]);
 
-        self::assertInstanceOf(PsrLogMessageProcessor::class, $processor);
+        self::assertInstanceOf(PsrLogMessageProcessor::class, $psrLogMessageProcessor);
 
-        $dateFormatP = new ReflectionProperty($processor, 'dateFormat');
+        $dateFormatP = new ReflectionProperty($psrLogMessageProcessor, 'dateFormat');
 
-        self::assertSame($dateFormat, $dateFormatP->getValue($processor));
+        self::assertSame($dateFormat, $dateFormatP->getValue($psrLogMessageProcessor));
 
-        $rucf = new ReflectionProperty($processor, 'removeUsedContextFields');
+        $rucf = new ReflectionProperty($psrLogMessageProcessor, 'removeUsedContextFields');
 
-        self::assertTrue($rucf->getValue($processor));
+        self::assertTrue($rucf->getValue($psrLogMessageProcessor));
     }
 }

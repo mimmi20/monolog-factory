@@ -40,30 +40,30 @@ final class JsonFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new JsonFormatterFactory();
+        $jsonFormatterFactory = new JsonFormatterFactory();
 
-        $formatter = $factory($container, '');
+        $jsonFormatter = $jsonFormatterFactory($container, '');
 
-        self::assertInstanceOf(JsonFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(JsonFormatter::class, $jsonFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $jsonFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $jsonFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $jsonFormatter->getMaxNormalizeItemCount(),
         );
-        self::assertSame(JsonFormatter::BATCH_MODE_JSON, $formatter->getBatchMode());
-        self::assertTrue($formatter->isAppendingNewlines());
+        self::assertSame(JsonFormatter::BATCH_MODE_JSON, $jsonFormatter->getBatchMode());
+        self::assertTrue($jsonFormatter->isAppendingNewlines());
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($jsonFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertFalse($ig->getValue($formatter));
+        self::assertFalse($ig->getValue($jsonFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($jsonFormatter, 'includeStacktraces');
 
-        self::assertFalse($st->getValue($formatter));
+        self::assertFalse($st->getValue($jsonFormatter));
     }
 
     /**
@@ -80,30 +80,30 @@ final class JsonFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new JsonFormatterFactory();
+        $jsonFormatterFactory = new JsonFormatterFactory();
 
-        $formatter = $factory($container, '', []);
+        $jsonFormatter = $jsonFormatterFactory($container, '', []);
 
-        self::assertInstanceOf(JsonFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(JsonFormatter::class, $jsonFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $jsonFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $jsonFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $jsonFormatter->getMaxNormalizeItemCount(),
         );
-        self::assertSame(JsonFormatter::BATCH_MODE_JSON, $formatter->getBatchMode());
-        self::assertTrue($formatter->isAppendingNewlines());
+        self::assertSame(JsonFormatter::BATCH_MODE_JSON, $jsonFormatter->getBatchMode());
+        self::assertTrue($jsonFormatter->isAppendingNewlines());
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($jsonFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertFalse($ig->getValue($formatter));
+        self::assertFalse($ig->getValue($jsonFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($jsonFormatter, 'includeStacktraces');
 
-        self::assertFalse($st->getValue($formatter));
+        self::assertFalse($st->getValue($jsonFormatter));
     }
 
     /**
@@ -128,23 +128,23 @@ final class JsonFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new JsonFormatterFactory();
+        $jsonFormatterFactory = new JsonFormatterFactory();
 
-        $formatter = $factory($container, '', ['batchMode' => $batchMode, 'appendNewline' => $appendNewline, 'ignoreEmptyContextAndExtra' => $ignoreEmptyContextAndExtra, 'includeStacktraces' => $include, 'dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
+        $jsonFormatter = $jsonFormatterFactory($container, '', ['batchMode' => $batchMode, 'appendNewline' => $appendNewline, 'ignoreEmptyContextAndExtra' => $ignoreEmptyContextAndExtra, 'includeStacktraces' => $include, 'dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
 
-        self::assertInstanceOf(JsonFormatter::class, $formatter);
-        self::assertSame($dateFormat, $formatter->getDateFormat());
-        self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
-        self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
-        self::assertSame($batchMode, $formatter->getBatchMode());
-        self::assertFalse($formatter->isAppendingNewlines());
+        self::assertInstanceOf(JsonFormatter::class, $jsonFormatter);
+        self::assertSame($dateFormat, $jsonFormatter->getDateFormat());
+        self::assertSame($maxNormalizeDepth, $jsonFormatter->getMaxNormalizeDepth());
+        self::assertSame($maxNormalizeItemCount, $jsonFormatter->getMaxNormalizeItemCount());
+        self::assertSame($batchMode, $jsonFormatter->getBatchMode());
+        self::assertFalse($jsonFormatter->isAppendingNewlines());
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($jsonFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertTrue($ig->getValue($formatter));
+        self::assertTrue($ig->getValue($jsonFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($jsonFormatter, 'includeStacktraces');
 
-        self::assertTrue($st->getValue($formatter));
+        self::assertTrue($st->getValue($jsonFormatter));
     }
 }

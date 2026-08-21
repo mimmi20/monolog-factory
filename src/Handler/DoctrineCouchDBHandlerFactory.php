@@ -96,11 +96,11 @@ final class DoctrineCouchDBHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new DoctrineCouchDBHandler($client, $level, $bubble);
+        $doctrineCouchDBHandler = new DoctrineCouchDBHandler($client, $level, $bubble);
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $doctrineCouchDBHandler, $options);
+        $this->addProcessor($container, $doctrineCouchDBHandler, $options);
 
-        return $handler;
+        return $doctrineCouchDBHandler;
     }
 }

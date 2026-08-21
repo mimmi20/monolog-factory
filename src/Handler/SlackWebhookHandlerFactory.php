@@ -105,7 +105,7 @@ final class SlackWebhookHandlerFactory implements FactoryInterface
         }
 
         try {
-            $handler = new SlackWebhookHandler(
+            $slackWebhookHandler = new SlackWebhookHandler(
                 $webhookUrl,
                 $channel,
                 $userName,
@@ -125,9 +125,9 @@ final class SlackWebhookHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $slackWebhookHandler, $options);
+        $this->addProcessor($container, $slackWebhookHandler, $options);
 
-        return $handler;
+        return $slackWebhookHandler;
     }
 }

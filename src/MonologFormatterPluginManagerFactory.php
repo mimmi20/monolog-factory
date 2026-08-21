@@ -44,17 +44,17 @@ final class MonologFormatterPluginManagerFactory implements FactoryInterface
         string $requestedName,
         array | null $options = null,
     ): MonologFormatterPluginManager {
-        $pluginManager = new MonologFormatterPluginManager($container, $options ?: []);
+        $monologFormatterPluginManager = new MonologFormatterPluginManager($container, $options ?: []);
 
         // If this is in a laminas-mvc application, the ServiceListener will inject
         // merged configuration during bootstrap.
         if ($container->has('ServiceListener')) {
-            return $pluginManager;
+            return $monologFormatterPluginManager;
         }
 
         // If we do not have a config service, nothing more to do
         if (!$container->has('config')) {
-            return $pluginManager;
+            return $monologFormatterPluginManager;
         }
 
         try {
@@ -67,12 +67,12 @@ final class MonologFormatterPluginManagerFactory implements FactoryInterface
 
         // If we do not have formatter configuration, nothing more to do
         if (!isset($config['monolog_formatters']) || !is_array($config['monolog_formatters'])) {
-            return $pluginManager;
+            return $monologFormatterPluginManager;
         }
 
         // Wire service configuration for formatter
-        $pluginManager->configure($config['monolog_formatters']);
+        $monologFormatterPluginManager->configure($config['monolog_formatters']);
 
-        return $pluginManager;
+        return $monologFormatterPluginManager;
     }
 }

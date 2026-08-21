@@ -89,10 +89,10 @@ final class OverflowHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new OverflowHandler($childHandler, $thresholdMap, $level, $bubble);
+        $overflowHandler = new OverflowHandler($childHandler, $thresholdMap, $level, $bubble);
 
-        $this->addFormatter($container, $handler, $options);
+        $this->addFormatter($container, $overflowHandler, $options);
 
-        return $handler;
+        return $overflowHandler;
     }
 }

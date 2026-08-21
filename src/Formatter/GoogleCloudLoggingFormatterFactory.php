@@ -82,18 +82,18 @@ final class GoogleCloudLoggingFormatterFactory implements FactoryInterface
             }
         }
 
-        $formatter = new GoogleCloudLoggingFormatter(
+        $googleCloudLoggingFormatter = new GoogleCloudLoggingFormatter(
             $batchMode,
             $appendNewline,
             $ignoreEmptyContextAndExtra,
             $includeStacktraces,
         );
 
-        $formatter->setDateFormat($dateFormat);
-        $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
-        $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
-        $formatter->setJsonPrettyPrint($prettyPrint);
+        $googleCloudLoggingFormatter->setDateFormat($dateFormat);
+        $googleCloudLoggingFormatter->setMaxNormalizeDepth($maxNormalizeDepth);
+        $googleCloudLoggingFormatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
+        $googleCloudLoggingFormatter->setJsonPrettyPrint($prettyPrint);
 
-        return $formatter;
+        return $googleCloudLoggingFormatter;
     }
 }

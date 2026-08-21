@@ -80,7 +80,7 @@ final class LineFormatterFactory implements FactoryInterface
             }
         }
 
-        $formatter = new LineFormatter(
+        $lineFormatter = new LineFormatter(
             $format,
             $dateFormat,
             $allowInlineLineBreaks,
@@ -88,10 +88,10 @@ final class LineFormatterFactory implements FactoryInterface
             $includeStacktraces,
         );
 
-        $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
-        $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
-        $formatter->setJsonPrettyPrint($prettyPrint);
+        $lineFormatter->setMaxNormalizeDepth($maxNormalizeDepth);
+        $lineFormatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
+        $lineFormatter->setJsonPrettyPrint($prettyPrint);
 
-        return $formatter;
+        return $lineFormatter;
     }
 }

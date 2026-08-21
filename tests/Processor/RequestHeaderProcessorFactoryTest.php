@@ -40,15 +40,15 @@ final class RequestHeaderProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RequestHeaderProcessorFactory();
+        $requestHeaderProcessorFactory = new RequestHeaderProcessorFactory();
 
-        $processor = $factory($container, '');
+        $requestHeaderProcessor = $requestHeaderProcessorFactory($container, '');
 
-        self::assertInstanceOf(RequestHeaderProcessor::class, $processor);
+        self::assertInstanceOf(RequestHeaderProcessor::class, $requestHeaderProcessor);
 
-        $lvl = new ReflectionProperty($processor, 'level');
+        $reflectionProperty = new ReflectionProperty($requestHeaderProcessor, 'level');
 
-        self::assertSame(Level::Debug, $lvl->getValue($processor));
+        self::assertSame(Level::Debug, $reflectionProperty->getValue($requestHeaderProcessor));
     }
 
     /**
@@ -65,15 +65,15 @@ final class RequestHeaderProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RequestHeaderProcessorFactory();
+        $requestHeaderProcessorFactory = new RequestHeaderProcessorFactory();
 
-        $processor = $factory($container, '', []);
+        $requestHeaderProcessor = $requestHeaderProcessorFactory($container, '', []);
 
-        self::assertInstanceOf(RequestHeaderProcessor::class, $processor);
+        self::assertInstanceOf(RequestHeaderProcessor::class, $requestHeaderProcessor);
 
-        $lvl = new ReflectionProperty($processor, 'level');
+        $reflectionProperty = new ReflectionProperty($requestHeaderProcessor, 'level');
 
-        self::assertSame(Level::Debug, $lvl->getValue($processor));
+        self::assertSame(Level::Debug, $reflectionProperty->getValue($requestHeaderProcessor));
     }
 
     /**
@@ -92,14 +92,14 @@ final class RequestHeaderProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RequestHeaderProcessorFactory();
+        $requestHeaderProcessorFactory = new RequestHeaderProcessorFactory();
 
-        $processor = $factory($container, '', ['level' => $level]);
+        $requestHeaderProcessor = $requestHeaderProcessorFactory($container, '', ['level' => $level]);
 
-        self::assertInstanceOf(RequestHeaderProcessor::class, $processor);
+        self::assertInstanceOf(RequestHeaderProcessor::class, $requestHeaderProcessor);
 
-        $lvl = new ReflectionProperty($processor, 'level');
+        $reflectionProperty = new ReflectionProperty($requestHeaderProcessor, 'level');
 
-        self::assertSame(Level::Alert, $lvl->getValue($processor));
+        self::assertSame(Level::Alert, $reflectionProperty->getValue($requestHeaderProcessor));
     }
 }

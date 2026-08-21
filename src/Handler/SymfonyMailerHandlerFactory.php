@@ -113,11 +113,11 @@ final class SymfonyMailerHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new SymfonyMailerHandler($mailer, $emailTemplate, $level, $bubble);
+        $symfonyMailerHandler = new SymfonyMailerHandler($mailer, $emailTemplate, $level, $bubble);
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $symfonyMailerHandler, $options);
+        $this->addProcessor($container, $symfonyMailerHandler, $options);
 
-        return $handler;
+        return $symfonyMailerHandler;
     }
 }

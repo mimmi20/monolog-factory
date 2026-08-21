@@ -58,7 +58,7 @@ final class FallbackGroupHandlerFactory
         }
 
         try {
-            $handler = new FallbackGroupHandler($handlers, $bubble);
+            $fallbackGroupHandler = new FallbackGroupHandler($handlers, $bubble);
         } catch (InvalidArgumentException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', FallbackGroupHandler::class),
@@ -67,8 +67,8 @@ final class FallbackGroupHandlerFactory
             );
         }
 
-        $this->addProcessor($container, $handler, $options);
+        $this->addProcessor($container, $fallbackGroupHandler, $options);
 
-        return $handler;
+        return $fallbackGroupHandler;
     }
 }

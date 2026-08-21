@@ -53,13 +53,13 @@ final class SocketHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $socketHandlerFactory($container, '');
     }
 
     /**
@@ -77,13 +77,13 @@ final class SocketHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No connectionString provided');
 
-        $factory($container, '', []);
+        $socketHandlerFactory($container, '', []);
     }
 
     /**
@@ -104,26 +104,26 @@ final class SocketHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
-        $handler = $factory($container, '', ['connectionString' => $connectionString]);
+        $socketHandler = $socketHandlerFactory($container, '', ['connectionString' => $connectionString]);
 
-        self::assertInstanceOf(SocketHandler::class, $handler);
+        self::assertInstanceOf(SocketHandler::class, $socketHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
-        self::assertSame($connectionString, $handler->getConnectionString());
-        self::assertSame(0.0, $handler->getTimeout());
-        self::assertSame(10.0, $handler->getWritingTimeout());
-        self::assertSame(60.0, $handler->getConnectionTimeout());
+        self::assertSame(Level::Debug, $socketHandler->getLevel());
+        self::assertTrue($socketHandler->getBubble());
+        self::assertSame($connectionString, $socketHandler->getConnectionString());
+        self::assertSame(0.0, $socketHandler->getTimeout());
+        self::assertSame(10.0, $socketHandler->getWritingTimeout());
+        self::assertSame(60.0, $socketHandler->getConnectionTimeout());
         // self::assertSame(0, $handler->getChunkSize());
-        self::assertFalse($handler->isPersistent());
+        self::assertFalse($socketHandler->isPersistent());
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $socketHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($socketHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($socketHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -153,25 +153,25 @@ final class SocketHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
-        $handler = $factory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
+        $socketHandler = $socketHandlerFactory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
 
-        self::assertInstanceOf(SocketHandler::class, $handler);
+        self::assertInstanceOf(SocketHandler::class, $socketHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame($connectionString, $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writingTimeout, $handler->getWritingTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $socketHandler->getLevel());
+        self::assertFalse($socketHandler->getBubble());
+        self::assertSame($connectionString, $socketHandler->getConnectionString());
+        self::assertSame($timeout, $socketHandler->getTimeout());
+        self::assertSame($writingTimeout, $socketHandler->getWritingTimeout());
+        self::assertSame($chunkSize, $socketHandler->getChunkSize());
+        self::assertTrue($socketHandler->isPersistent());
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $socketHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($socketHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($socketHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -201,7 +201,7 @@ final class SocketHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -209,7 +209,7 @@ final class SocketHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $socketHandlerFactory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -228,7 +228,7 @@ final class SocketHandlerFactoryTest extends TestCase
         $bubble           = false;
         $persistent       = true;
         $chunkSize        = 100;
-        $formatter        = $this->createMock(LineFormatter::class);
+        $formatter        = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -238,7 +238,7 @@ final class SocketHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -246,7 +246,7 @@ final class SocketHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $socketHandlerFactory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -267,7 +267,7 @@ final class SocketHandlerFactoryTest extends TestCase
         $bubble            = false;
         $persistent        = true;
         $chunkSize         = 100;
-        $formatter         = $this->createMock(LineFormatter::class);
+        $formatter         = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -285,26 +285,26 @@ final class SocketHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
-        $handler = $factory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'connectionTimeout' => $connectionTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $socketHandler = $socketHandlerFactory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'connectionTimeout' => $connectionTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(SocketHandler::class, $handler);
+        self::assertInstanceOf(SocketHandler::class, $socketHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame($connectionString, $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writingTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $socketHandler->getLevel());
+        self::assertFalse($socketHandler->getBubble());
+        self::assertSame($connectionString, $socketHandler->getConnectionString());
+        self::assertSame($timeout, $socketHandler->getTimeout());
+        self::assertSame($writingTimeout, $socketHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $socketHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $socketHandler->getChunkSize());
+        self::assertTrue($socketHandler->isPersistent());
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $socketHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($socketHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($socketHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -328,7 +328,7 @@ final class SocketHandlerFactoryTest extends TestCase
         $bubble            = false;
         $persistent        = true;
         $chunkSize         = 100;
-        $formatter         = $this->createMock(LineFormatter::class);
+        $formatter         = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -346,26 +346,26 @@ final class SocketHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
-        $handler = $factory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writingTimeout' => $writingTimeout, 'connectionTimeout' => $connectionTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $socketHandler = $socketHandlerFactory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writingTimeout' => $writingTimeout, 'connectionTimeout' => $connectionTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(SocketHandler::class, $handler);
+        self::assertInstanceOf(SocketHandler::class, $socketHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame($connectionString, $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writingTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $socketHandler->getLevel());
+        self::assertFalse($socketHandler->getBubble());
+        self::assertSame($connectionString, $socketHandler->getConnectionString());
+        self::assertSame($timeout, $socketHandler->getTimeout());
+        self::assertSame($writingTimeout, $socketHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $socketHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $socketHandler->getChunkSize());
+        self::assertTrue($socketHandler->isPersistent());
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $socketHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($socketHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($socketHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -391,7 +391,7 @@ final class SocketHandlerFactoryTest extends TestCase
         $bubble     = false;
         $persistent = true;
         $chunkSize  = 100;
-        $formatter  = $this->createMock(LineFormatter::class);
+        $formatter  = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -409,26 +409,26 @@ final class SocketHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
-        $handler = $factory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'connectionTimeout' => $connectionTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $socketHandler = $socketHandlerFactory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'connectionTimeout' => $connectionTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(SocketHandler::class, $handler);
+        self::assertInstanceOf(SocketHandler::class, $socketHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame($connectionString, $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writingTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $socketHandler->getLevel());
+        self::assertFalse($socketHandler->getBubble());
+        self::assertSame($connectionString, $socketHandler->getConnectionString());
+        self::assertSame($timeout, $socketHandler->getTimeout());
+        self::assertSame($writingTimeout, $socketHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $socketHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $socketHandler->getChunkSize());
+        self::assertTrue($socketHandler->isPersistent());
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $socketHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($socketHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($socketHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -453,7 +453,7 @@ final class SocketHandlerFactoryTest extends TestCase
         $bubble     = false;
         $persistent = true;
         $chunkSize  = 100;
-        $formatter  = $this->createMock(LineFormatter::class);
+        $formatter  = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -461,9 +461,9 @@ final class SocketHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -471,7 +471,7 @@ final class SocketHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'connectionTimeout' => $connectionTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $socketHandlerFactory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'connectionTimeout' => $connectionTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -498,13 +498,13 @@ final class SocketHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $socketHandlerFactory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -555,13 +555,13 @@ final class SocketHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $socketHandlerFactory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -597,9 +597,9 @@ final class SocketHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -623,24 +623,24 @@ final class SocketHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
-        $handler = $factory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $socketHandler = $socketHandlerFactory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
 
-        self::assertInstanceOf(SocketHandler::class, $handler);
+        self::assertInstanceOf(SocketHandler::class, $socketHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame($connectionString, $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writingTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $socketHandler->getLevel());
+        self::assertFalse($socketHandler->getBubble());
+        self::assertSame($connectionString, $socketHandler->getConnectionString());
+        self::assertSame($timeout, $socketHandler->getTimeout());
+        self::assertSame($writingTimeout, $socketHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $socketHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $socketHandler->getChunkSize());
+        self::assertTrue($socketHandler->isPersistent());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($socketHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($socketHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -696,7 +696,7 @@ final class SocketHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -704,7 +704,7 @@ final class SocketHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $socketHandlerFactory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -744,9 +744,9 @@ final class SocketHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -754,7 +754,7 @@ final class SocketHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $socketHandlerFactory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -781,12 +781,12 @@ final class SocketHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SocketHandlerFactory();
+        $socketHandlerFactory = new SocketHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', SocketHandler::class));
 
-        $factory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $socketHandlerFactory($container, '', ['connectionString' => $connectionString, 'timeout' => $timeout, 'writeTimeout' => $writingTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 }

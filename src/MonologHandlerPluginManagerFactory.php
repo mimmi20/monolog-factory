@@ -44,17 +44,17 @@ final class MonologHandlerPluginManagerFactory implements FactoryInterface
         string $requestedName,
         array | null $options = null,
     ): MonologHandlerPluginManager {
-        $pluginManager = new MonologHandlerPluginManager($container, $options ?: []);
+        $monologHandlerPluginManager = new MonologHandlerPluginManager($container, $options ?: []);
 
         // If this is in a laminas-mvc application, the ServiceListener will inject
         // merged configuration during bootstrap.
         if ($container->has('ServiceListener')) {
-            return $pluginManager;
+            return $monologHandlerPluginManager;
         }
 
         // If we do not have a config service, nothing more to do
         if (!$container->has('config')) {
-            return $pluginManager;
+            return $monologHandlerPluginManager;
         }
 
         try {
@@ -67,12 +67,12 @@ final class MonologHandlerPluginManagerFactory implements FactoryInterface
 
         // If we do not have handler configuration, nothing more to do
         if (!isset($config['monolog_handlers']) || !is_array($config['monolog_handlers'])) {
-            return $pluginManager;
+            return $monologHandlerPluginManager;
         }
 
         // Wire service configuration for handler
-        $pluginManager->configure($config['monolog_handlers']);
+        $monologHandlerPluginManager->configure($config['monolog_handlers']);
 
-        return $pluginManager;
+        return $monologHandlerPluginManager;
     }
 }

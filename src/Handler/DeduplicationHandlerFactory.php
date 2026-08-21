@@ -88,7 +88,7 @@ final class DeduplicationHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new DeduplicationHandler(
+        $deduplicationHandler = new DeduplicationHandler(
             $childHandler,
             $deduplicationStore,
             $deduplicationLevel,
@@ -96,9 +96,9 @@ final class DeduplicationHandlerFactory implements FactoryInterface
             $bubble,
         );
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $deduplicationHandler, $options);
+        $this->addProcessor($container, $deduplicationHandler, $options);
 
-        return $handler;
+        return $deduplicationHandler;
     }
 }

@@ -47,13 +47,13 @@ final class MonologFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionMessage('Options must be an Array');
         $this->expectExceptionCode(0);
 
-        $factory($container, $requestedName, null);
+        $monologFactory($container, $requestedName, null);
     }
 
     /**
@@ -73,13 +73,13 @@ final class MonologFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionMessage('The name for the monolog logger is missing');
         $this->expectExceptionCode(0);
 
-        $factory($container, $requestedName, $options);
+        $monologFactory($container, $requestedName, $options);
     }
 
     /**
@@ -99,9 +99,9 @@ final class MonologFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
         self::assertInstanceOf(DateTimeZone::class, $logger->getTimezone());
@@ -126,9 +126,9 @@ final class MonologFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
         self::assertInstanceOf(DateTimeZone::class, $logger->getTimezone());
@@ -153,9 +153,9 @@ final class MonologFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
         self::assertInstanceOf(DateTimeZone::class, $logger->getTimezone());
@@ -172,8 +172,8 @@ final class MonologFactoryTest extends TestCase
     public function testInvokeWithTimezone4(): void
     {
         $requestedName = Logger::class;
-        $timezone      = new DateTimeZone('Europe/Berlin');
-        $options       = ['name' => 'xyz', 'timezone' => $timezone];
+        $dateTimeZone  = new DateTimeZone('Europe/Berlin');
+        $options       = ['name' => 'xyz', 'timezone' => $dateTimeZone];
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -181,12 +181,12 @@ final class MonologFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
-        self::assertSame($timezone, $logger->getTimezone());
+        self::assertSame($dateTimeZone, $logger->getTimezone());
         self::assertIsArray($logger->getProcessors());
         self::assertCount(0, $logger->getProcessors());
     }
@@ -200,8 +200,8 @@ final class MonologFactoryTest extends TestCase
     public function testInvokeWithHandlers(): void
     {
         $requestedName = Logger::class;
-        $timezone      = new DateTimeZone('Europe/Berlin');
-        $options       = ['name' => 'xyz', 'timezone' => $timezone, 'handlers' => 'fake'];
+        $dateTimeZone  = new DateTimeZone('Europe/Berlin');
+        $options       = ['name' => 'xyz', 'timezone' => $dateTimeZone, 'handlers' => 'fake'];
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -209,12 +209,12 @@ final class MonologFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
-        self::assertSame($timezone, $logger->getTimezone());
+        self::assertSame($dateTimeZone, $logger->getTimezone());
         self::assertIsArray($logger->getProcessors());
         self::assertCount(0, $logger->getProcessors());
     }
@@ -228,8 +228,8 @@ final class MonologFactoryTest extends TestCase
     public function testInvokeWithHandlers2(): void
     {
         $requestedName = Logger::class;
-        $timezone      = new DateTimeZone('Europe/Berlin');
-        $options       = ['name' => 'xyz', 'timezone' => $timezone, 'handlers' => [[]]];
+        $dateTimeZone  = new DateTimeZone('Europe/Berlin');
+        $options       = ['name' => 'xyz', 'timezone' => $dateTimeZone, 'handlers' => [[]]];
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -239,12 +239,12 @@ final class MonologFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
-        self::assertSame($timezone, $logger->getTimezone());
+        self::assertSame($dateTimeZone, $logger->getTimezone());
         self::assertIsArray($logger->getProcessors());
         self::assertCount(0, $logger->getProcessors());
     }
@@ -258,8 +258,8 @@ final class MonologFactoryTest extends TestCase
     public function testInvokeWithHandlers3(): void
     {
         $requestedName = Logger::class;
-        $timezone      = new DateTimeZone('Europe/Berlin');
-        $options       = ['name' => 'xyz', 'timezone' => $timezone, 'handlers' => [['enabled' => true]]];
+        $dateTimeZone  = new DateTimeZone('Europe/Berlin');
+        $options       = ['name' => 'xyz', 'timezone' => $dateTimeZone, 'handlers' => [['enabled' => true]]];
 
         $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
@@ -277,12 +277,12 @@ final class MonologFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
-        self::assertSame($timezone, $logger->getTimezone());
+        self::assertSame($dateTimeZone, $logger->getTimezone());
         self::assertIsArray($logger->getProcessors());
         self::assertCount(0, $logger->getProcessors());
     }
@@ -296,7 +296,7 @@ final class MonologFactoryTest extends TestCase
     public function testInvokeWithHandlers4(): void
     {
         $requestedName = Logger::class;
-        $timezone      = new DateTimeZone('Europe/Berlin');
+        $dateTimeZone  = new DateTimeZone('Europe/Berlin');
         $options       = [
             'handlers' => [
                 ['enabled' => false],
@@ -308,7 +308,7 @@ final class MonologFactoryTest extends TestCase
                 ['type' => 'abc'],
             ],
             'name' => 'xyz',
-            'timezone' => $timezone,
+            'timezone' => $dateTimeZone,
         ];
 
         $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
@@ -316,12 +316,12 @@ final class MonologFactoryTest extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
             ->method('get');
-        $matcher = self::exactly(2);
-        $monologHandlerPluginManager->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $monologHandlerPluginManager->expects($invokedCount)
             ->method('build')
             ->willReturnCallback(
-                static function (string $name, array | null $options = null) use ($matcher): void {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $name, array | null $options = null) use ($invokedCount): void {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         default => self::assertSame('abc', $name, (string) $invocation),
@@ -343,12 +343,12 @@ final class MonologFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
-        self::assertSame($timezone, $logger->getTimezone());
+        self::assertSame($dateTimeZone, $logger->getTimezone());
         self::assertIsArray($logger->getProcessors());
         self::assertCount(0, $logger->getProcessors());
     }
@@ -362,7 +362,7 @@ final class MonologFactoryTest extends TestCase
     public function testInvokeWithHandlers5(): void
     {
         $requestedName = Logger::class;
-        $timezone      = new DateTimeZone('Europe/Berlin');
+        $dateTimeZone  = new DateTimeZone('Europe/Berlin');
         $options       = [
             'handlers' => [
                 ['enabled' => false],
@@ -372,13 +372,13 @@ final class MonologFactoryTest extends TestCase
                     'type' => 'xyz',
                 ],
                 ['type' => 'abc'],
-                $this->createMock(HandlerInterface::class),
+                $this->createStub(HandlerInterface::class),
             ],
             'name' => 'xyz',
-            'timezone' => $timezone,
+            'timezone' => $dateTimeZone,
         ];
 
-        $handler = $this->createMock(HandlerInterface::class);
+        $handler = $this->createStub(HandlerInterface::class);
 
         $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
@@ -402,12 +402,12 @@ final class MonologFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
-        self::assertSame($timezone, $logger->getTimezone());
+        self::assertSame($dateTimeZone, $logger->getTimezone());
         self::assertIsArray($logger->getHandlers());
         self::assertCount(4, $logger->getHandlers());
     }
@@ -421,7 +421,7 @@ final class MonologFactoryTest extends TestCase
     public function testInvokeWithHandlers6(): void
     {
         $requestedName = Logger::class;
-        $timezone      = new DateTimeZone('Europe/Berlin');
+        $dateTimeZone  = new DateTimeZone('Europe/Berlin');
         $options       = [
             'handlers' => [
                 ['enabled' => false],
@@ -431,13 +431,13 @@ final class MonologFactoryTest extends TestCase
                     'type' => 'xyz',
                 ],
                 'xyz',
-                $this->createMock(HandlerInterface::class),
+                $this->createStub(HandlerInterface::class),
             ],
             'name' => 'xyz',
-            'timezone' => $timezone,
+            'timezone' => $dateTimeZone,
         ];
 
-        $handler = $this->createMock(HandlerInterface::class);
+        $handler = $this->createStub(HandlerInterface::class);
 
         $monologHandlerPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologHandlerPluginManager->expects(self::never())
@@ -457,12 +457,12 @@ final class MonologFactoryTest extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
-        self::assertSame($timezone, $logger->getTimezone());
+        self::assertSame($dateTimeZone, $logger->getTimezone());
         self::assertIsArray($logger->getHandlers());
         self::assertCount(3, $logger->getHandlers());
     }
@@ -476,8 +476,8 @@ final class MonologFactoryTest extends TestCase
     public function testInvokeWithProcessors(): void
     {
         $requestedName = Logger::class;
-        $timezone      = new DateTimeZone('Europe/Berlin');
-        $options       = ['name' => 'xyz', 'timezone' => $timezone, 'processors' => 'fake'];
+        $dateTimeZone  = new DateTimeZone('Europe/Berlin');
+        $options       = ['name' => 'xyz', 'timezone' => $dateTimeZone, 'processors' => 'fake'];
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -485,12 +485,12 @@ final class MonologFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
-        self::assertSame($timezone, $logger->getTimezone());
+        self::assertSame($dateTimeZone, $logger->getTimezone());
         self::assertIsArray($logger->getProcessors());
         self::assertCount(0, $logger->getProcessors());
     }
@@ -504,8 +504,8 @@ final class MonologFactoryTest extends TestCase
     public function testInvokeWithProcessors2(): void
     {
         $requestedName = Logger::class;
-        $timezone      = new DateTimeZone('Europe/Berlin');
-        $options       = ['name' => 'xyz', 'timezone' => $timezone, 'processors' => [[]]];
+        $dateTimeZone  = new DateTimeZone('Europe/Berlin');
+        $options       = ['name' => 'xyz', 'timezone' => $dateTimeZone, 'processors' => [[]]];
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -515,12 +515,12 @@ final class MonologFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
-        self::assertSame($timezone, $logger->getTimezone());
+        self::assertSame($dateTimeZone, $logger->getTimezone());
         self::assertIsArray($logger->getProcessors());
         self::assertCount(0, $logger->getProcessors());
     }
@@ -534,8 +534,8 @@ final class MonologFactoryTest extends TestCase
     public function testInvokeWithProcessors3(): void
     {
         $requestedName = Logger::class;
-        $timezone      = new DateTimeZone('Europe/Berlin');
-        $options       = ['name' => 'xyz', 'timezone' => $timezone, 'processors' => [['enabled' => true]]];
+        $dateTimeZone  = new DateTimeZone('Europe/Berlin');
+        $options       = ['name' => 'xyz', 'timezone' => $dateTimeZone, 'processors' => [['enabled' => true]]];
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -553,12 +553,12 @@ final class MonologFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
-        self::assertSame($timezone, $logger->getTimezone());
+        self::assertSame($dateTimeZone, $logger->getTimezone());
         self::assertIsArray($logger->getProcessors());
         self::assertCount(0, $logger->getProcessors());
     }
@@ -572,7 +572,7 @@ final class MonologFactoryTest extends TestCase
     public function testInvokeWithProcessors4(): void
     {
         $requestedName = Logger::class;
-        $timezone      = new DateTimeZone('Europe/Berlin');
+        $dateTimeZone  = new DateTimeZone('Europe/Berlin');
         $options       = [
             'name' => 'xyz',
             'processors' => [
@@ -583,7 +583,7 @@ final class MonologFactoryTest extends TestCase
                 ],
                 ['type' => 'abc'],
             ],
-            'timezone' => $timezone,
+            'timezone' => $dateTimeZone,
         ];
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
@@ -591,12 +591,12 @@ final class MonologFactoryTest extends TestCase
             ->method('has');
         $monologProcessorPluginManager->expects(self::never())
             ->method('get');
-        $matcher = self::exactly(2);
-        $monologProcessorPluginManager->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $monologProcessorPluginManager->expects($invokedCount)
             ->method('build')
             ->willReturnCallback(
-                static function (string $name, array | null $options = null) use ($matcher): void {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $name, array | null $options = null) use ($invokedCount): void {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame('abc', $name, (string) $invocation),
@@ -617,12 +617,12 @@ final class MonologFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
-        self::assertSame($timezone, $logger->getTimezone());
+        self::assertSame($dateTimeZone, $logger->getTimezone());
         self::assertIsArray($logger->getProcessors());
         self::assertCount(0, $logger->getProcessors());
     }
@@ -636,7 +636,7 @@ final class MonologFactoryTest extends TestCase
     public function testInvokeWithProcessors5(): void
     {
         $requestedName = Logger::class;
-        $timezone      = new DateTimeZone('Europe/Berlin');
+        $dateTimeZone  = new DateTimeZone('Europe/Berlin');
         $options       = [
             'name' => 'xyz',
             'processors' => [
@@ -647,12 +647,12 @@ final class MonologFactoryTest extends TestCase
                     'type' => 'xyz',
                 ],
                 ['type' => 'abc'],
-                static fn (LogRecord $record): LogRecord => $record,
+                static fn (LogRecord $logRecord): LogRecord => $logRecord,
             ],
-            'timezone' => $timezone,
+            'timezone' => $dateTimeZone,
         ];
 
-        $processor = $this->createMock(ProcessorInterface::class);
+        $processor = $this->createStub(ProcessorInterface::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -676,12 +676,12 @@ final class MonologFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
-        self::assertSame($timezone, $logger->getTimezone());
+        self::assertSame($dateTimeZone, $logger->getTimezone());
         self::assertIsArray($logger->getProcessors());
         self::assertCount(3, $logger->getProcessors());
     }
@@ -706,12 +706,12 @@ final class MonologFactoryTest extends TestCase
                     'type' => 'xyz',
                 ],
                 ['type' => 'abc'],
-                static fn (LogRecord $record): LogRecord => $record,
+                static fn (LogRecord $logRecord): LogRecord => $logRecord,
             ],
             'timezone' => $timezone,
         ];
 
-        $processor = $this->createMock(ProcessorInterface::class);
+        $processor = $this->createStub(ProcessorInterface::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -735,9 +735,9 @@ final class MonologFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new MonologFactory();
+        $monologFactory = new MonologFactory();
 
-        $logger = $factory($container, $requestedName, $options);
+        $logger = $monologFactory($container, $requestedName, $options);
 
         self::assertInstanceOf(Logger::class, $logger);
         self::assertSame($timezone, $logger->getTimezone()->getName());

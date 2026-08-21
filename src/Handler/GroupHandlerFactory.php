@@ -59,7 +59,7 @@ final class GroupHandlerFactory implements FactoryInterface
         }
 
         try {
-            $handler = new GroupHandler($handlers, $bubble);
+            $groupHandler = new GroupHandler($handlers, $bubble);
         } catch (InvalidArgumentException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', GroupHandler::class),
@@ -68,8 +68,8 @@ final class GroupHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addProcessor($container, $handler, $options);
+        $this->addProcessor($container, $groupHandler, $options);
 
-        return $handler;
+        return $groupHandler;
     }
 }

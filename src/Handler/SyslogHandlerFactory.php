@@ -80,11 +80,11 @@ final class SyslogHandlerFactory implements FactoryInterface
             $logOpts = $options['logOpts'];
         }
 
-        $handler = new SyslogHandler($ident, $facility, $level, $bubble, $logOpts);
+        $syslogHandler = new SyslogHandler($ident, $facility, $level, $bubble, $logOpts);
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $syslogHandler, $options);
+        $this->addProcessor($container, $syslogHandler, $options);
 
-        return $handler;
+        return $syslogHandler;
     }
 }

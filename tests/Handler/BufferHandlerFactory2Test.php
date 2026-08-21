@@ -27,6 +27,7 @@ use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
@@ -100,13 +101,13 @@ final class BufferHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new BufferHandlerFactory();
+        $bufferHandlerFactory = new BufferHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
+        $bufferHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
     }
 
     /**
@@ -136,9 +137,9 @@ final class BufferHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -182,30 +183,30 @@ final class BufferHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new BufferHandlerFactory();
+        $bufferHandlerFactory = new BufferHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
+        $bufferHandler = $bufferHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
 
-        self::assertInstanceOf(BufferHandler::class, $handler);
+        self::assertInstanceOf(BufferHandler::class, $bufferHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $bufferHandler->getLevel());
+        self::assertFalse($bufferHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($bufferHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($bufferHandler));
 
-        $bl = new ReflectionProperty($handler, 'bufferLimit');
+        $bl = new ReflectionProperty($bufferHandler, 'bufferLimit');
 
-        self::assertSame($bufferLimit, $bl->getValue($handler));
+        self::assertSame($bufferLimit, $bl->getValue($bufferHandler));
 
-        $fof = new ReflectionProperty($handler, 'flushOnOverflow');
+        $fof = new ReflectionProperty($bufferHandler, 'flushOnOverflow');
 
-        self::assertFalse($fof->getValue($handler));
+        self::assertFalse($fof->getValue($bufferHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($bufferHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($bufferHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -264,12 +265,12 @@ final class BufferHandlerFactory2Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager) {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager): MockObject {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame(
@@ -291,7 +292,7 @@ final class BufferHandlerFactory2Test extends TestCase
                 },
             );
 
-        $factory = new BufferHandlerFactory();
+        $bufferHandlerFactory = new BufferHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -299,7 +300,7 @@ final class BufferHandlerFactory2Test extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
+        $bufferHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
     }
 
     /**
@@ -364,7 +365,7 @@ final class BufferHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new BufferHandlerFactory();
+        $bufferHandlerFactory = new BufferHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -372,7 +373,7 @@ final class BufferHandlerFactory2Test extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
+        $bufferHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false]);
     }
 
     /**
@@ -402,9 +403,9 @@ final class BufferHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -448,30 +449,30 @@ final class BufferHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new BufferHandlerFactory();
+        $bufferHandlerFactory = new BufferHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false, 'processors' => $processors]);
+        $bufferHandler = $bufferHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'bufferLimit' => $bufferLimit, 'level' => LogLevel::ALERT, 'bubble' => false, 'flushOnOverflow' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(BufferHandler::class, $handler);
+        self::assertInstanceOf(BufferHandler::class, $bufferHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $bufferHandler->getLevel());
+        self::assertFalse($bufferHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($bufferHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($bufferHandler));
 
-        $bl = new ReflectionProperty($handler, 'bufferLimit');
+        $bl = new ReflectionProperty($bufferHandler, 'bufferLimit');
 
-        self::assertSame($bufferLimit, $bl->getValue($handler));
+        self::assertSame($bufferLimit, $bl->getValue($bufferHandler));
 
-        $fof = new ReflectionProperty($handler, 'flushOnOverflow');
+        $fof = new ReflectionProperty($bufferHandler, 'flushOnOverflow');
 
-        self::assertFalse($fof->getValue($handler));
+        self::assertFalse($fof->getValue($bufferHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($bufferHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($bufferHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);

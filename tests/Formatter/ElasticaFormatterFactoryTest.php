@@ -38,13 +38,13 @@ final class ElasticaFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticaFormatterFactory();
+        $elasticaFormatterFactory = new ElasticaFormatterFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $elasticaFormatterFactory($container, '');
     }
 
     /**
@@ -61,13 +61,13 @@ final class ElasticaFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticaFormatterFactory();
+        $elasticaFormatterFactory = new ElasticaFormatterFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No index provided');
 
-        $factory($container, '', []);
+        $elasticaFormatterFactory($container, '', []);
     }
 
     /**
@@ -86,21 +86,21 @@ final class ElasticaFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticaFormatterFactory();
+        $elasticaFormatterFactory = new ElasticaFormatterFactory();
 
-        $formatter = $factory($container, '', ['index' => $index]);
+        $elasticaFormatter = $elasticaFormatterFactory($container, '', ['index' => $index]);
 
-        self::assertInstanceOf(ElasticaFormatter::class, $formatter);
-        self::assertSame($index, $formatter->getIndex());
-        self::assertSame('', $formatter->getType());
-        self::assertSame('Y-m-d\TH:i:s.uP', $formatter->getDateFormat());
+        self::assertInstanceOf(ElasticaFormatter::class, $elasticaFormatter);
+        self::assertSame($index, $elasticaFormatter->getIndex());
+        self::assertSame('', $elasticaFormatter->getType());
+        self::assertSame('Y-m-d\TH:i:s.uP', $elasticaFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $elasticaFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $elasticaFormatter->getMaxNormalizeItemCount(),
         );
     }
 
@@ -123,15 +123,15 @@ final class ElasticaFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticaFormatterFactory();
+        $elasticaFormatterFactory = new ElasticaFormatterFactory();
 
-        $formatter = $factory($container, '', ['index' => $index, 'type' => $type, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
+        $elasticaFormatter = $elasticaFormatterFactory($container, '', ['index' => $index, 'type' => $type, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
 
-        self::assertInstanceOf(ElasticaFormatter::class, $formatter);
-        self::assertSame($index, $formatter->getIndex());
-        self::assertSame($type, $formatter->getType());
-        self::assertSame('Y-m-d\TH:i:s.uP', $formatter->getDateFormat());
-        self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
-        self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
+        self::assertInstanceOf(ElasticaFormatter::class, $elasticaFormatter);
+        self::assertSame($index, $elasticaFormatter->getIndex());
+        self::assertSame($type, $elasticaFormatter->getType());
+        self::assertSame('Y-m-d\TH:i:s.uP', $elasticaFormatter->getDateFormat());
+        self::assertSame($maxNormalizeDepth, $elasticaFormatter->getMaxNormalizeDepth());
+        self::assertSame($maxNormalizeItemCount, $elasticaFormatter->getMaxNormalizeItemCount());
     }
 }

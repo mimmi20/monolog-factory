@@ -41,12 +41,12 @@ final class ZendMonitorHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ZendMonitorHandlerFactory();
+        $zendMonitorHandlerFactory = new ZendMonitorHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', ZendMonitorHandler::class));
 
-        $factory($container, '');
+        $zendMonitorHandlerFactory($container, '');
     }
 }

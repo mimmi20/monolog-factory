@@ -76,7 +76,7 @@ final class SlackHandlerFactory implements FactoryInterface
         $chunkSize          = $options['chunkSize'] ?? null;
 
         try {
-            $handler = new SlackHandler(
+            $slackHandler = new SlackHandler(
                 $options['token'],
                 $options['channel'],
                 $userName,
@@ -101,9 +101,9 @@ final class SlackHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $slackHandler, $options);
+        $this->addProcessor($container, $slackHandler, $options);
 
-        return $handler;
+        return $slackHandler;
     }
 }

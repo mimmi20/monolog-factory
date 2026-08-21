@@ -64,12 +64,12 @@ final class NormalizerFormatterFactory implements FactoryInterface
             }
         }
 
-        $formatter = new NormalizerFormatter($dateFormat);
+        $normalizerFormatter = new NormalizerFormatter($dateFormat);
 
-        $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
-        $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
-        $formatter->setJsonPrettyPrint($prettyPrint);
+        $normalizerFormatter->setMaxNormalizeDepth($maxNormalizeDepth);
+        $normalizerFormatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
+        $normalizerFormatter->setJsonPrettyPrint($prettyPrint);
 
-        return $formatter;
+        return $normalizerFormatter;
     }
 }

@@ -66,7 +66,7 @@ final class FlowdockHandlerFactory implements FactoryInterface
         $chunkSize         = $options['chunkSize'] ?? null;
 
         try {
-            $handler = new FlowdockHandler(
+            $flowdockHandler = new FlowdockHandler(
                 $options['apiToken'],
                 $level,
                 $bubble,
@@ -84,9 +84,9 @@ final class FlowdockHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $flowdockHandler, $options);
+        $this->addProcessor($container, $flowdockHandler, $options);
 
-        return $handler;
+        return $flowdockHandler;
     }
 }

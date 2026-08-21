@@ -60,12 +60,12 @@ final class SyslogFormatterFactory implements FactoryInterface
             }
         }
 
-        $formatter = new SyslogFormatter($applicationName);
+        $syslogFormatter = new SyslogFormatter($applicationName);
 
-        $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
-        $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
-        $formatter->setJsonPrettyPrint($prettyPrint);
+        $syslogFormatter->setMaxNormalizeDepth($maxNormalizeDepth);
+        $syslogFormatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
+        $syslogFormatter->setJsonPrettyPrint($prettyPrint);
 
-        return $formatter;
+        return $syslogFormatter;
     }
 }

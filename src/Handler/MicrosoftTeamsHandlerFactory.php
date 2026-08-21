@@ -100,7 +100,7 @@ final class MicrosoftTeamsHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new MicrosoftTeamsHandler(
+        $microsoftTeamsHandler = new MicrosoftTeamsHandler(
             $url,
             $level,
             $title,
@@ -111,9 +111,9 @@ final class MicrosoftTeamsHandlerFactory implements FactoryInterface
             $bubble,
         );
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $microsoftTeamsHandler, $options);
+        $this->addProcessor($container, $microsoftTeamsHandler, $options);
 
-        return $handler;
+        return $microsoftTeamsHandler;
     }
 }

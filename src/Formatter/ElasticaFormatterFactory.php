@@ -56,7 +56,7 @@ final class ElasticaFormatterFactory implements FactoryInterface
             $type = $options['type'];
         }
 
-        $formatter = new ElasticaFormatter($index, $type);
+        $elasticaFormatter = new ElasticaFormatter($index, $type);
 
         if (array_key_exists('maxNormalizeDepth', $options)) {
             $maxNormalizeDepth = $options['maxNormalizeDepth'];
@@ -70,10 +70,10 @@ final class ElasticaFormatterFactory implements FactoryInterface
             $prettyPrint = $options['prettyPrint'];
         }
 
-        $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
-        $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
-        $formatter->setJsonPrettyPrint($prettyPrint);
+        $elasticaFormatter->setMaxNormalizeDepth($maxNormalizeDepth);
+        $elasticaFormatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
+        $elasticaFormatter->setJsonPrettyPrint($prettyPrint);
 
-        return $formatter;
+        return $elasticaFormatter;
     }
 }

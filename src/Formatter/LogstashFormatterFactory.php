@@ -66,12 +66,17 @@ final class LogstashFormatterFactory implements FactoryInterface
             $contextPrefix = $options['contextPrefix'];
         }
 
-        $formatter = new LogstashFormatter($applicationName, $systemName, $extraPrefix, $contextPrefix);
+        $logstashFormatter = new LogstashFormatter(
+            $applicationName,
+            $systemName,
+            $extraPrefix,
+            $contextPrefix,
+        );
 
-        $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
-        $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
-        $formatter->setJsonPrettyPrint($prettyPrint);
+        $logstashFormatter->setMaxNormalizeDepth($maxNormalizeDepth);
+        $logstashFormatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
+        $logstashFormatter->setJsonPrettyPrint($prettyPrint);
 
-        return $formatter;
+        return $logstashFormatter;
     }
 }

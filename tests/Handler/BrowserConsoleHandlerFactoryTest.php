@@ -54,20 +54,20 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new BrowserConsoleHandlerFactory();
+        $browserConsoleHandlerFactory = new BrowserConsoleHandlerFactory();
 
-        $handler = $factory($container, '');
+        $browserConsoleHandler = $browserConsoleHandlerFactory($container, '');
 
-        self::assertInstanceOf(BrowserConsoleHandler::class, $handler);
+        self::assertInstanceOf(BrowserConsoleHandler::class, $browserConsoleHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $browserConsoleHandler->getLevel());
+        self::assertTrue($browserConsoleHandler->getBubble());
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $browserConsoleHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($browserConsoleHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($browserConsoleHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -89,20 +89,20 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new BrowserConsoleHandlerFactory();
+        $browserConsoleHandlerFactory = new BrowserConsoleHandlerFactory();
 
-        $handler = $factory($container, '', []);
+        $browserConsoleHandler = $browserConsoleHandlerFactory($container, '', []);
 
-        self::assertInstanceOf(BrowserConsoleHandler::class, $handler);
+        self::assertInstanceOf(BrowserConsoleHandler::class, $browserConsoleHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $browserConsoleHandler->getLevel());
+        self::assertTrue($browserConsoleHandler->getBubble());
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $browserConsoleHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($browserConsoleHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($browserConsoleHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -124,20 +124,20 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new BrowserConsoleHandlerFactory();
+        $browserConsoleHandlerFactory = new BrowserConsoleHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false]);
+        $browserConsoleHandler = $browserConsoleHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(BrowserConsoleHandler::class, $handler);
+        self::assertInstanceOf(BrowserConsoleHandler::class, $browserConsoleHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $browserConsoleHandler->getLevel());
+        self::assertFalse($browserConsoleHandler->getBubble());
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $browserConsoleHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($browserConsoleHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($browserConsoleHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -160,7 +160,7 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new BrowserConsoleHandlerFactory();
+        $browserConsoleHandlerFactory = new BrowserConsoleHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -168,7 +168,7 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $browserConsoleHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -180,7 +180,7 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -190,7 +190,7 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new BrowserConsoleHandlerFactory();
+        $browserConsoleHandlerFactory = new BrowserConsoleHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -198,7 +198,7 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $browserConsoleHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -211,7 +211,7 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -229,20 +229,20 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new BrowserConsoleHandlerFactory();
+        $browserConsoleHandlerFactory = new BrowserConsoleHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $browserConsoleHandler = $browserConsoleHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(BrowserConsoleHandler::class, $handler);
+        self::assertInstanceOf(BrowserConsoleHandler::class, $browserConsoleHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $browserConsoleHandler->getLevel());
+        self::assertFalse($browserConsoleHandler->getBubble());
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $browserConsoleHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($browserConsoleHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($browserConsoleHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -257,7 +257,7 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -265,9 +265,9 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new BrowserConsoleHandlerFactory();
+        $browserConsoleHandlerFactory = new BrowserConsoleHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -275,7 +275,7 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $browserConsoleHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -295,13 +295,13 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new BrowserConsoleHandlerFactory();
+        $browserConsoleHandlerFactory = new BrowserConsoleHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $browserConsoleHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -345,13 +345,13 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new BrowserConsoleHandlerFactory();
+        $browserConsoleHandlerFactory = new BrowserConsoleHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $browserConsoleHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -379,9 +379,9 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -405,18 +405,18 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new BrowserConsoleHandlerFactory();
+        $browserConsoleHandlerFactory = new BrowserConsoleHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $browserConsoleHandler = $browserConsoleHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(BrowserConsoleHandler::class, $handler);
+        self::assertInstanceOf(BrowserConsoleHandler::class, $browserConsoleHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $browserConsoleHandler->getLevel());
+        self::assertFalse($browserConsoleHandler->getBubble());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($browserConsoleHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($browserConsoleHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -465,7 +465,7 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new BrowserConsoleHandlerFactory();
+        $browserConsoleHandlerFactory = new BrowserConsoleHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -473,7 +473,7 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $browserConsoleHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -506,9 +506,9 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new BrowserConsoleHandlerFactory();
+        $browserConsoleHandlerFactory = new BrowserConsoleHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -516,6 +516,6 @@ final class BrowserConsoleHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $browserConsoleHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 }

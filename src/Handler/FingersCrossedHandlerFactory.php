@@ -107,7 +107,7 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
             $passthruLevel = $options['passthruLevel'];
         }
 
-        $handler = new FingersCrossedHandler(
+        $fingersCrossedHandler = new FingersCrossedHandler(
             $childHandler,
             $activationStrategy,
             $bufferSize,
@@ -116,10 +116,10 @@ final class FingersCrossedHandlerFactory implements FactoryInterface
             $passthruLevel,
         );
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $fingersCrossedHandler, $options);
+        $this->addProcessor($container, $fingersCrossedHandler, $options);
 
-        return $handler;
+        return $fingersCrossedHandler;
     }
 
     /**

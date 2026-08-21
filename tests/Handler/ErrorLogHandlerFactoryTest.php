@@ -54,28 +54,28 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ErrorLogHandlerFactory();
+        $errorLogHandlerFactory = new ErrorLogHandlerFactory();
 
-        $handler = $factory($container, '');
+        $errorLogHandler = $errorLogHandlerFactory($container, '');
 
-        self::assertInstanceOf(ErrorLogHandler::class, $handler);
+        self::assertInstanceOf(ErrorLogHandler::class, $errorLogHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $errorLogHandler->getLevel());
+        self::assertTrue($errorLogHandler->getBubble());
 
-        $mt = new ReflectionProperty($handler, 'messageType');
+        $mt = new ReflectionProperty($errorLogHandler, 'messageType');
 
-        self::assertSame(ErrorLogHandler::OPERATING_SYSTEM, $mt->getValue($handler));
+        self::assertSame(ErrorLogHandler::OPERATING_SYSTEM, $mt->getValue($errorLogHandler));
 
-        $en = new ReflectionProperty($handler, 'expandNewlines');
+        $en = new ReflectionProperty($errorLogHandler, 'expandNewlines');
 
-        self::assertFalse($en->getValue($handler));
+        self::assertFalse($en->getValue($errorLogHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $errorLogHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($errorLogHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($errorLogHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -97,28 +97,28 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ErrorLogHandlerFactory();
+        $errorLogHandlerFactory = new ErrorLogHandlerFactory();
 
-        $handler = $factory($container, '', []);
+        $errorLogHandler = $errorLogHandlerFactory($container, '', []);
 
-        self::assertInstanceOf(ErrorLogHandler::class, $handler);
+        self::assertInstanceOf(ErrorLogHandler::class, $errorLogHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $errorLogHandler->getLevel());
+        self::assertTrue($errorLogHandler->getBubble());
 
-        $mt = new ReflectionProperty($handler, 'messageType');
+        $mt = new ReflectionProperty($errorLogHandler, 'messageType');
 
-        self::assertSame(ErrorLogHandler::OPERATING_SYSTEM, $mt->getValue($handler));
+        self::assertSame(ErrorLogHandler::OPERATING_SYSTEM, $mt->getValue($errorLogHandler));
 
-        $en = new ReflectionProperty($handler, 'expandNewlines');
+        $en = new ReflectionProperty($errorLogHandler, 'expandNewlines');
 
-        self::assertFalse($en->getValue($handler));
+        self::assertFalse($en->getValue($errorLogHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $errorLogHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($errorLogHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($errorLogHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -142,28 +142,28 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ErrorLogHandlerFactory();
+        $errorLogHandlerFactory = new ErrorLogHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true]);
+        $errorLogHandler = $errorLogHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true]);
 
-        self::assertInstanceOf(ErrorLogHandler::class, $handler);
+        self::assertInstanceOf(ErrorLogHandler::class, $errorLogHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $errorLogHandler->getLevel());
+        self::assertFalse($errorLogHandler->getBubble());
 
-        $mt = new ReflectionProperty($handler, 'messageType');
+        $mt = new ReflectionProperty($errorLogHandler, 'messageType');
 
-        self::assertSame($messageType, $mt->getValue($handler));
+        self::assertSame($messageType, $mt->getValue($errorLogHandler));
 
-        $en = new ReflectionProperty($handler, 'expandNewlines');
+        $en = new ReflectionProperty($errorLogHandler, 'expandNewlines');
 
-        self::assertTrue($en->getValue($handler));
+        self::assertTrue($en->getValue($errorLogHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $errorLogHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($errorLogHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($errorLogHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -187,7 +187,7 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ErrorLogHandlerFactory();
+        $errorLogHandlerFactory = new ErrorLogHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -195,7 +195,7 @@ final class ErrorLogHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'formatter' => $formatter]);
+        $errorLogHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'formatter' => $formatter]);
     }
 
     /**
@@ -208,7 +208,7 @@ final class ErrorLogHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndFormatter(): void
     {
         $messageType = ErrorLogHandler::SAPI;
-        $formatter   = $this->createMock(LineFormatter::class);
+        $formatter   = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -218,7 +218,7 @@ final class ErrorLogHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new ErrorLogHandlerFactory();
+        $errorLogHandlerFactory = new ErrorLogHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -226,7 +226,7 @@ final class ErrorLogHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'formatter' => $formatter]);
+        $errorLogHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'formatter' => $formatter]);
     }
 
     /**
@@ -240,7 +240,7 @@ final class ErrorLogHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $messageType = ErrorLogHandler::SAPI;
-        $formatter   = $this->createMock(LineFormatter::class);
+        $formatter   = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -258,28 +258,28 @@ final class ErrorLogHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new ErrorLogHandlerFactory();
+        $errorLogHandlerFactory = new ErrorLogHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'formatter' => $formatter]);
+        $errorLogHandler = $errorLogHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(ErrorLogHandler::class, $handler);
+        self::assertInstanceOf(ErrorLogHandler::class, $errorLogHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $errorLogHandler->getLevel());
+        self::assertFalse($errorLogHandler->getBubble());
 
-        $mt = new ReflectionProperty($handler, 'messageType');
+        $mt = new ReflectionProperty($errorLogHandler, 'messageType');
 
-        self::assertSame($messageType, $mt->getValue($handler));
+        self::assertSame($messageType, $mt->getValue($errorLogHandler));
 
-        $en = new ReflectionProperty($handler, 'expandNewlines');
+        $en = new ReflectionProperty($errorLogHandler, 'expandNewlines');
 
-        self::assertTrue($en->getValue($handler));
+        self::assertTrue($en->getValue($errorLogHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $errorLogHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($errorLogHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($errorLogHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -295,7 +295,7 @@ final class ErrorLogHandlerFactoryTest extends TestCase
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $messageType = ErrorLogHandler::SAPI;
-        $formatter   = $this->createMock(LineFormatter::class);
+        $formatter   = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -303,9 +303,9 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new ErrorLogHandlerFactory();
+        $errorLogHandlerFactory = new ErrorLogHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -313,7 +313,7 @@ final class ErrorLogHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'formatter' => $formatter]);
+        $errorLogHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'formatter' => $formatter]);
     }
 
     /**
@@ -334,13 +334,13 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ErrorLogHandlerFactory();
+        $errorLogHandlerFactory = new ErrorLogHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'processors' => $processors]);
+        $errorLogHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'processors' => $processors]);
     }
 
     /**
@@ -385,13 +385,13 @@ final class ErrorLogHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new ErrorLogHandlerFactory();
+        $errorLogHandlerFactory = new ErrorLogHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'processors' => $processors]);
+        $errorLogHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'processors' => $processors]);
     }
 
     /**
@@ -420,9 +420,9 @@ final class ErrorLogHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -446,26 +446,26 @@ final class ErrorLogHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new ErrorLogHandlerFactory();
+        $errorLogHandlerFactory = new ErrorLogHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'processors' => $processors]);
+        $errorLogHandler = $errorLogHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'processors' => $processors]);
 
-        self::assertInstanceOf(ErrorLogHandler::class, $handler);
+        self::assertInstanceOf(ErrorLogHandler::class, $errorLogHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $errorLogHandler->getLevel());
+        self::assertFalse($errorLogHandler->getBubble());
 
-        $mt = new ReflectionProperty($handler, 'messageType');
+        $mt = new ReflectionProperty($errorLogHandler, 'messageType');
 
-        self::assertSame($messageType, $mt->getValue($handler));
+        self::assertSame($messageType, $mt->getValue($errorLogHandler));
 
-        $en = new ReflectionProperty($handler, 'expandNewlines');
+        $en = new ReflectionProperty($errorLogHandler, 'expandNewlines');
 
-        self::assertTrue($en->getValue($handler));
+        self::assertTrue($en->getValue($errorLogHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($errorLogHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($errorLogHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -515,7 +515,7 @@ final class ErrorLogHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new ErrorLogHandlerFactory();
+        $errorLogHandlerFactory = new ErrorLogHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -523,7 +523,7 @@ final class ErrorLogHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'processors' => $processors]);
+        $errorLogHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'processors' => $processors]);
     }
 
     /**
@@ -557,9 +557,9 @@ final class ErrorLogHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new ErrorLogHandlerFactory();
+        $errorLogHandlerFactory = new ErrorLogHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -567,6 +567,6 @@ final class ErrorLogHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'processors' => $processors]);
+        $errorLogHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'messageType' => $messageType, 'expandNewlines' => true, 'processors' => $processors]);
     }
 }

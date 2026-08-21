@@ -26,6 +26,7 @@ use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
@@ -97,13 +98,13 @@ final class SamplingHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'factor' => 42]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'factor' => 42]);
     }
 
     /**
@@ -132,9 +133,9 @@ final class SamplingHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -178,15 +179,15 @@ final class SamplingHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'factor' => 42]);
+        $samplingHandler = $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'factor' => 42]);
 
-        self::assertInstanceOf(SamplingHandler::class, $handler);
+        self::assertInstanceOf(SamplingHandler::class, $samplingHandler);
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($samplingHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($samplingHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -236,12 +237,12 @@ final class SamplingHandlerFactory2Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager) {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager): MockObject {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame(
@@ -263,7 +264,7 @@ final class SamplingHandlerFactory2Test extends TestCase
                 },
             );
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -271,7 +272,7 @@ final class SamplingHandlerFactory2Test extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'factor' => 42]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'factor' => 42]);
     }
 
     /**
@@ -327,7 +328,7 @@ final class SamplingHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -335,7 +336,7 @@ final class SamplingHandlerFactory2Test extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'factor' => 42]);
+        $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'factor' => 42]);
     }
 
     /**
@@ -364,9 +365,9 @@ final class SamplingHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -410,15 +411,15 @@ final class SamplingHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new SamplingHandlerFactory();
+        $samplingHandlerFactory = new SamplingHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 42, 'processors' => $processors]);
+        $samplingHandler = $samplingHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'factor' => 42, 'processors' => $processors]);
 
-        self::assertInstanceOf(SamplingHandler::class, $handler);
+        self::assertInstanceOf(SamplingHandler::class, $samplingHandler);
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($samplingHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($samplingHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);

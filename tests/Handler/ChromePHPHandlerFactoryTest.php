@@ -55,20 +55,20 @@ final class ChromePHPHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ChromePHPHandlerFactory();
+        $chromePHPHandlerFactory = new ChromePHPHandlerFactory();
 
-        $handler = $factory($container, '');
+        $chromePHPHandler = $chromePHPHandlerFactory($container, '');
 
-        self::assertInstanceOf(ChromePHPHandler::class, $handler);
+        self::assertInstanceOf(ChromePHPHandler::class, $chromePHPHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $chromePHPHandler->getLevel());
+        self::assertTrue($chromePHPHandler->getBubble());
 
-        self::assertInstanceOf(ChromePHPFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(ChromePHPFormatter::class, $chromePHPHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($chromePHPHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($chromePHPHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -90,20 +90,20 @@ final class ChromePHPHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ChromePHPHandlerFactory();
+        $chromePHPHandlerFactory = new ChromePHPHandlerFactory();
 
-        $handler = $factory($container, '', []);
+        $chromePHPHandler = $chromePHPHandlerFactory($container, '', []);
 
-        self::assertInstanceOf(ChromePHPHandler::class, $handler);
+        self::assertInstanceOf(ChromePHPHandler::class, $chromePHPHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $chromePHPHandler->getLevel());
+        self::assertTrue($chromePHPHandler->getBubble());
 
-        self::assertInstanceOf(ChromePHPFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(ChromePHPFormatter::class, $chromePHPHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($chromePHPHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($chromePHPHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -125,20 +125,20 @@ final class ChromePHPHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ChromePHPHandlerFactory();
+        $chromePHPHandlerFactory = new ChromePHPHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false]);
+        $chromePHPHandler = $chromePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(ChromePHPHandler::class, $handler);
+        self::assertInstanceOf(ChromePHPHandler::class, $chromePHPHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $chromePHPHandler->getLevel());
+        self::assertFalse($chromePHPHandler->getBubble());
 
-        self::assertInstanceOf(ChromePHPFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(ChromePHPFormatter::class, $chromePHPHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($chromePHPHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($chromePHPHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -161,7 +161,7 @@ final class ChromePHPHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ChromePHPHandlerFactory();
+        $chromePHPHandlerFactory = new ChromePHPHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -169,7 +169,7 @@ final class ChromePHPHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $chromePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -181,7 +181,7 @@ final class ChromePHPHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -191,7 +191,7 @@ final class ChromePHPHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new ChromePHPHandlerFactory();
+        $chromePHPHandlerFactory = new ChromePHPHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -199,7 +199,7 @@ final class ChromePHPHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $chromePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -212,7 +212,7 @@ final class ChromePHPHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -230,20 +230,20 @@ final class ChromePHPHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new ChromePHPHandlerFactory();
+        $chromePHPHandlerFactory = new ChromePHPHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $chromePHPHandler = $chromePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(ChromePHPHandler::class, $handler);
+        self::assertInstanceOf(ChromePHPHandler::class, $chromePHPHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $chromePHPHandler->getLevel());
+        self::assertFalse($chromePHPHandler->getBubble());
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $chromePHPHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($chromePHPHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($chromePHPHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -258,7 +258,7 @@ final class ChromePHPHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -266,9 +266,9 @@ final class ChromePHPHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new ChromePHPHandlerFactory();
+        $chromePHPHandlerFactory = new ChromePHPHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -276,7 +276,7 @@ final class ChromePHPHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $chromePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -296,13 +296,13 @@ final class ChromePHPHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ChromePHPHandlerFactory();
+        $chromePHPHandlerFactory = new ChromePHPHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $chromePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -346,13 +346,13 @@ final class ChromePHPHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new ChromePHPHandlerFactory();
+        $chromePHPHandlerFactory = new ChromePHPHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $chromePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -380,9 +380,9 @@ final class ChromePHPHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -406,18 +406,18 @@ final class ChromePHPHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new ChromePHPHandlerFactory();
+        $chromePHPHandlerFactory = new ChromePHPHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $chromePHPHandler = $chromePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(ChromePHPHandler::class, $handler);
+        self::assertInstanceOf(ChromePHPHandler::class, $chromePHPHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $chromePHPHandler->getLevel());
+        self::assertFalse($chromePHPHandler->getBubble());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($chromePHPHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($chromePHPHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -458,7 +458,7 @@ final class ChromePHPHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new ChromePHPHandlerFactory();
+        $chromePHPHandlerFactory = new ChromePHPHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -466,7 +466,7 @@ final class ChromePHPHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $chromePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -499,9 +499,9 @@ final class ChromePHPHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new ChromePHPHandlerFactory();
+        $chromePHPHandlerFactory = new ChromePHPHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -509,6 +509,6 @@ final class ChromePHPHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $chromePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 }

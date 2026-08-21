@@ -90,7 +90,7 @@ final class TelegramBotHandlerFactory implements FactoryInterface
         }
 
         try {
-            $handler = new TelegramBotHandler(
+            $telegramBotHandler = new TelegramBotHandler(
                 $apiKey,
                 $channel,
                 $level,
@@ -107,9 +107,9 @@ final class TelegramBotHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $telegramBotHandler, $options);
+        $this->addProcessor($container, $telegramBotHandler, $options);
 
-        return $handler;
+        return $telegramBotHandler;
     }
 }

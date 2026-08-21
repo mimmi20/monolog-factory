@@ -41,13 +41,13 @@ final class LogstashFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogstashFormatterFactory();
+        $logstashFormatterFactory = new LogstashFormatterFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $logstashFormatterFactory($container, '');
     }
 
     /**
@@ -64,13 +64,13 @@ final class LogstashFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogstashFormatterFactory();
+        $logstashFormatterFactory = new LogstashFormatterFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No applicationName provided');
 
-        $factory($container, '', []);
+        $logstashFormatterFactory($container, '', []);
     }
 
     /**
@@ -90,27 +90,27 @@ final class LogstashFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogstashFormatterFactory();
+        $logstashFormatterFactory = new LogstashFormatterFactory();
 
-        $formatter = $factory($container, '', ['applicationName' => $applicationName]);
+        $logstashFormatter = $logstashFormatterFactory($container, '', ['applicationName' => $applicationName]);
 
-        self::assertInstanceOf(LogstashFormatter::class, $formatter);
+        self::assertInstanceOf(LogstashFormatter::class, $logstashFormatter);
 
-        $appname = new ReflectionProperty($formatter, 'applicationName');
+        $appname = new ReflectionProperty($logstashFormatter, 'applicationName');
 
-        self::assertSame($applicationName, $appname->getValue($formatter));
+        self::assertSame($applicationName, $appname->getValue($logstashFormatter));
 
-        $sys = new ReflectionProperty($formatter, 'systemName');
+        $sys = new ReflectionProperty($logstashFormatter, 'systemName');
 
-        self::assertSame((string) gethostname(), $sys->getValue($formatter));
+        self::assertSame((string) gethostname(), $sys->getValue($logstashFormatter));
 
-        $ex = new ReflectionProperty($formatter, 'extraKey');
+        $ex = new ReflectionProperty($logstashFormatter, 'extraKey');
 
-        self::assertSame('extra', $ex->getValue($formatter));
+        self::assertSame('extra', $ex->getValue($logstashFormatter));
 
-        $ctk = new ReflectionProperty($formatter, 'contextKey');
+        $ctk = new ReflectionProperty($logstashFormatter, 'contextKey');
 
-        self::assertSame('context', $ctk->getValue($formatter));
+        self::assertSame('context', $ctk->getValue($logstashFormatter));
     }
 
     /**
@@ -133,26 +133,26 @@ final class LogstashFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogstashFormatterFactory();
+        $logstashFormatterFactory = new LogstashFormatterFactory();
 
-        $formatter = $factory($container, '', ['applicationName' => $applicationName, 'systemName' => $systemName, 'extraPrefix' => $extraKey, 'contextPrefix' => $contextKey]);
+        $logstashFormatter = $logstashFormatterFactory($container, '', ['applicationName' => $applicationName, 'systemName' => $systemName, 'extraPrefix' => $extraKey, 'contextPrefix' => $contextKey]);
 
-        self::assertInstanceOf(LogstashFormatter::class, $formatter);
+        self::assertInstanceOf(LogstashFormatter::class, $logstashFormatter);
 
-        $appname = new ReflectionProperty($formatter, 'applicationName');
+        $appname = new ReflectionProperty($logstashFormatter, 'applicationName');
 
-        self::assertSame($applicationName, $appname->getValue($formatter));
+        self::assertSame($applicationName, $appname->getValue($logstashFormatter));
 
-        $sys = new ReflectionProperty($formatter, 'systemName');
+        $sys = new ReflectionProperty($logstashFormatter, 'systemName');
 
-        self::assertSame($systemName, $sys->getValue($formatter));
+        self::assertSame($systemName, $sys->getValue($logstashFormatter));
 
-        $ex = new ReflectionProperty($formatter, 'extraKey');
+        $ex = new ReflectionProperty($logstashFormatter, 'extraKey');
 
-        self::assertSame($extraKey, $ex->getValue($formatter));
+        self::assertSame($extraKey, $ex->getValue($logstashFormatter));
 
-        $ctk = new ReflectionProperty($formatter, 'contextKey');
+        $ctk = new ReflectionProperty($logstashFormatter, 'contextKey');
 
-        self::assertSame($contextKey, $ctk->getValue($formatter));
+        self::assertSame($contextKey, $ctk->getValue($logstashFormatter));
     }
 }

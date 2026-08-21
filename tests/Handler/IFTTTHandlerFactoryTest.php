@@ -47,7 +47,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -56,13 +56,13 @@ final class IFTTTHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $iftttHandlerFactory($container, '');
     }
 
     /**
@@ -72,7 +72,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -81,13 +81,13 @@ final class IFTTTHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No eventName provided');
 
-        $factory($container, '', []);
+        $iftttHandlerFactory($container, '', []);
     }
 
     /**
@@ -97,7 +97,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig(): void
     {
         $eventName = 'test-event';
@@ -108,13 +108,13 @@ final class IFTTTHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No secretKey provided');
 
-        $factory($container, '', ['eventName' => $eventName]);
+        $iftttHandlerFactory($container, '', ['eventName' => $eventName]);
     }
 
     /**
@@ -125,7 +125,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig2(): void
     {
         $eventName = 'test-event';
@@ -137,28 +137,28 @@ final class IFTTTHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
-        $handler = $factory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey]);
+        $iftttHandler = $iftttHandlerFactory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey]);
 
-        self::assertInstanceOf(IFTTTHandler::class, $handler);
+        self::assertInstanceOf(IFTTTHandler::class, $iftttHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $iftttHandler->getLevel());
+        self::assertTrue($iftttHandler->getBubble());
 
-        $en = new ReflectionProperty($handler, 'eventName');
+        $en = new ReflectionProperty($iftttHandler, 'eventName');
 
-        self::assertSame($eventName, $en->getValue($handler));
+        self::assertSame($eventName, $en->getValue($iftttHandler));
 
-        $sk = new ReflectionProperty($handler, 'secretKey');
+        $sk = new ReflectionProperty($iftttHandler, 'secretKey');
 
-        self::assertSame($secretKey, $sk->getValue($handler));
+        self::assertSame($secretKey, $sk->getValue($iftttHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $iftttHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($iftttHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($iftttHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -172,7 +172,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig3(): void
     {
         $eventName = 'test-event';
@@ -184,28 +184,28 @@ final class IFTTTHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
-        $handler = $factory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $iftttHandler = $iftttHandlerFactory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(IFTTTHandler::class, $handler);
+        self::assertInstanceOf(IFTTTHandler::class, $iftttHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $iftttHandler->getLevel());
+        self::assertFalse($iftttHandler->getBubble());
 
-        $en = new ReflectionProperty($handler, 'eventName');
+        $en = new ReflectionProperty($iftttHandler, 'eventName');
 
-        self::assertSame($eventName, $en->getValue($handler));
+        self::assertSame($eventName, $en->getValue($iftttHandler));
 
-        $sk = new ReflectionProperty($handler, 'secretKey');
+        $sk = new ReflectionProperty($iftttHandler, 'secretKey');
 
-        self::assertSame($secretKey, $sk->getValue($handler));
+        self::assertSame($secretKey, $sk->getValue($iftttHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $iftttHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($iftttHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($iftttHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -218,7 +218,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $eventName = 'test-event';
@@ -231,7 +231,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -239,7 +239,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $iftttHandlerFactory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -249,12 +249,12 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $eventName = 'test-event';
         $secretKey = 'test-key';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -264,7 +264,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -272,7 +272,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $iftttHandlerFactory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -283,12 +283,12 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $eventName = 'test-event';
         $secretKey = 'test-key';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -306,28 +306,28 @@ final class IFTTTHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
-        $handler = $factory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $iftttHandler = $iftttHandlerFactory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(IFTTTHandler::class, $handler);
+        self::assertInstanceOf(IFTTTHandler::class, $iftttHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $iftttHandler->getLevel());
+        self::assertFalse($iftttHandler->getBubble());
 
-        $en = new ReflectionProperty($handler, 'eventName');
+        $en = new ReflectionProperty($iftttHandler, 'eventName');
 
-        self::assertSame($eventName, $en->getValue($handler));
+        self::assertSame($eventName, $en->getValue($iftttHandler));
 
-        $sk = new ReflectionProperty($handler, 'secretKey');
+        $sk = new ReflectionProperty($iftttHandler, 'secretKey');
 
-        self::assertSame($secretKey, $sk->getValue($handler));
+        self::assertSame($secretKey, $sk->getValue($iftttHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $iftttHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($iftttHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($iftttHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -340,12 +340,12 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $eventName = 'test-event';
         $secretKey = 'test-key';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -353,9 +353,9 @@ final class IFTTTHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -363,7 +363,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $iftttHandlerFactory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -373,7 +373,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $eventName  = 'test-event';
@@ -386,13 +386,13 @@ final class IFTTTHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $iftttHandlerFactory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -402,7 +402,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $eventName  = 'test-event';
@@ -439,13 +439,13 @@ final class IFTTTHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $iftttHandlerFactory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -456,7 +456,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $eventName  = 'test-event';
@@ -476,9 +476,9 @@ final class IFTTTHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -502,26 +502,26 @@ final class IFTTTHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
-        $handler = $factory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $iftttHandler = $iftttHandlerFactory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(IFTTTHandler::class, $handler);
+        self::assertInstanceOf(IFTTTHandler::class, $iftttHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $iftttHandler->getLevel());
+        self::assertFalse($iftttHandler->getBubble());
 
-        $en = new ReflectionProperty($handler, 'eventName');
+        $en = new ReflectionProperty($iftttHandler, 'eventName');
 
-        self::assertSame($eventName, $en->getValue($handler));
+        self::assertSame($eventName, $en->getValue($iftttHandler));
 
-        $sk = new ReflectionProperty($handler, 'secretKey');
+        $sk = new ReflectionProperty($iftttHandler, 'secretKey');
 
-        self::assertSame($secretKey, $sk->getValue($handler));
+        self::assertSame($secretKey, $sk->getValue($iftttHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($iftttHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($iftttHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -537,7 +537,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $eventName  = 'test-event';
@@ -565,7 +565,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -573,7 +573,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $iftttHandlerFactory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -583,7 +583,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $eventName  = 'test-event';
@@ -609,9 +609,9 @@ final class IFTTTHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -619,7 +619,7 @@ final class IFTTTHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $iftttHandlerFactory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -644,12 +644,12 @@ final class IFTTTHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new IFTTTHandlerFactory();
+        $iftttHandlerFactory = new IFTTTHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', IFTTTHandler::class));
 
-        $factory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $iftttHandlerFactory($container, '', ['eventName' => $eventName, 'secretKey' => $secretKey, 'level' => LogLevel::ALERT, 'bubble' => false]);
     }
 }

@@ -35,10 +35,10 @@ final class HostnameProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new HostnameProcessorFactory();
+        $hostnameProcessorFactory = new HostnameProcessorFactory();
 
-        $processor = $factory($container, '');
+        $hostnameProcessor = $hostnameProcessorFactory($container, '');
 
-        self::assertInstanceOf(HostnameProcessor::class, $processor);
+        self::assertInstanceOf(HostnameProcessor::class, $hostnameProcessor);
     }
 }

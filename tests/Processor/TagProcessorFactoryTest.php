@@ -38,15 +38,15 @@ final class TagProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TagProcessorFactory();
+        $tagProcessorFactory = new TagProcessorFactory();
 
-        $processor = $factory($container, '');
+        $tagProcessor = $tagProcessorFactory($container, '');
 
-        self::assertInstanceOf(TagProcessor::class, $processor);
+        self::assertInstanceOf(TagProcessor::class, $tagProcessor);
 
-        $tags = new ReflectionProperty($processor, 'tags');
+        $reflectionProperty = new ReflectionProperty($tagProcessor, 'tags');
 
-        self::assertSame([], $tags->getValue($processor));
+        self::assertSame([], $reflectionProperty->getValue($tagProcessor));
     }
 
     /**
@@ -63,15 +63,15 @@ final class TagProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TagProcessorFactory();
+        $tagProcessorFactory = new TagProcessorFactory();
 
-        $processor = $factory($container, '', []);
+        $tagProcessor = $tagProcessorFactory($container, '', []);
 
-        self::assertInstanceOf(TagProcessor::class, $processor);
+        self::assertInstanceOf(TagProcessor::class, $tagProcessor);
 
-        $tags = new ReflectionProperty($processor, 'tags');
+        $reflectionProperty = new ReflectionProperty($tagProcessor, 'tags');
 
-        self::assertSame([], $tags->getValue($processor));
+        self::assertSame([], $reflectionProperty->getValue($tagProcessor));
     }
 
     /**
@@ -90,15 +90,15 @@ final class TagProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TagProcessorFactory();
+        $tagProcessorFactory = new TagProcessorFactory();
 
-        $processor = $factory($container, '', ['tags' => $tags]);
+        $tagProcessor = $tagProcessorFactory($container, '', ['tags' => $tags]);
 
-        self::assertInstanceOf(TagProcessor::class, $processor);
+        self::assertInstanceOf(TagProcessor::class, $tagProcessor);
 
-        $tagsP = new ReflectionProperty($processor, 'tags');
+        $reflectionProperty = new ReflectionProperty($tagProcessor, 'tags');
 
-        self::assertSame($tags, $tagsP->getValue($processor));
+        self::assertSame($tags, $reflectionProperty->getValue($tagProcessor));
     }
 
     /**
@@ -117,14 +117,14 @@ final class TagProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TagProcessorFactory();
+        $tagProcessorFactory = new TagProcessorFactory();
 
-        $processor = $factory($container, '', ['tags' => $tags]);
+        $tagProcessor = $tagProcessorFactory($container, '', ['tags' => $tags]);
 
-        self::assertInstanceOf(TagProcessor::class, $processor);
+        self::assertInstanceOf(TagProcessor::class, $tagProcessor);
 
-        $tagsP = new ReflectionProperty($processor, 'tags');
+        $reflectionProperty = new ReflectionProperty($tagProcessor, 'tags');
 
-        self::assertSame((array) $tags, $tagsP->getValue($processor));
+        self::assertSame((array) $tags, $reflectionProperty->getValue($tagProcessor));
     }
 }

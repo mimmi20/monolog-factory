@@ -55,18 +55,18 @@ final class CouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new CouchDBHandlerFactory();
+        $couchDBHandlerFactory = new CouchDBHandlerFactory();
 
-        $handler = $factory($container, '');
+        $couchDBHandler = $couchDBHandlerFactory($container, '');
 
-        self::assertInstanceOf(CouchDBHandler::class, $handler);
+        self::assertInstanceOf(CouchDBHandler::class, $couchDBHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $couchDBHandler->getLevel());
+        self::assertTrue($couchDBHandler->getBubble());
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($couchDBHandler, 'options');
 
-        $options = $optionsP->getValue($handler);
+        $options = $optionsP->getValue($couchDBHandler);
 
         self::assertSame('localhost', $options['host']);
         self::assertSame(5984, $options['port']);
@@ -74,11 +74,11 @@ final class CouchDBHandlerFactoryTest extends TestCase
         self::assertNull($options['username']);
         self::assertNull($options['password']);
 
-        self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(JsonFormatter::class, $couchDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($couchDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($couchDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -100,18 +100,18 @@ final class CouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new CouchDBHandlerFactory();
+        $couchDBHandlerFactory = new CouchDBHandlerFactory();
 
-        $handler = $factory($container, '', []);
+        $couchDBHandler = $couchDBHandlerFactory($container, '', []);
 
-        self::assertInstanceOf(CouchDBHandler::class, $handler);
+        self::assertInstanceOf(CouchDBHandler::class, $couchDBHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $couchDBHandler->getLevel());
+        self::assertTrue($couchDBHandler->getBubble());
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($couchDBHandler, 'options');
 
-        $options = $optionsP->getValue($handler);
+        $options = $optionsP->getValue($couchDBHandler);
 
         self::assertSame('localhost', $options['host']);
         self::assertSame(5984, $options['port']);
@@ -119,11 +119,11 @@ final class CouchDBHandlerFactoryTest extends TestCase
         self::assertNull($options['username']);
         self::assertNull($options['password']);
 
-        self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(JsonFormatter::class, $couchDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($couchDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($couchDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -152,18 +152,18 @@ final class CouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new CouchDBHandlerFactory();
+        $couchDBHandlerFactory = new CouchDBHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password]);
+        $couchDBHandler = $couchDBHandlerFactory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password]);
 
-        self::assertInstanceOf(CouchDBHandler::class, $handler);
+        self::assertInstanceOf(CouchDBHandler::class, $couchDBHandler);
 
-        self::assertSame(Level::Error, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Error, $couchDBHandler->getLevel());
+        self::assertFalse($couchDBHandler->getBubble());
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($couchDBHandler, 'options');
 
-        $options = $optionsP->getValue($handler);
+        $options = $optionsP->getValue($couchDBHandler);
 
         self::assertSame($host, $options['host']);
         self::assertSame($port, $options['port']);
@@ -171,11 +171,11 @@ final class CouchDBHandlerFactoryTest extends TestCase
         self::assertSame($userName, $options['username']);
         self::assertSame($password, $options['password']);
 
-        self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(JsonFormatter::class, $couchDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($couchDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($couchDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -204,7 +204,7 @@ final class CouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new CouchDBHandlerFactory();
+        $couchDBHandlerFactory = new CouchDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -212,7 +212,7 @@ final class CouchDBHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'formatter' => $formatter]);
+        $couchDBHandlerFactory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'formatter' => $formatter]);
     }
 
     /**
@@ -230,7 +230,7 @@ final class CouchDBHandlerFactoryTest extends TestCase
         $dbname    = 'test';
         $userName  = 'test-user';
         $password  = 'test-password';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -240,7 +240,7 @@ final class CouchDBHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new CouchDBHandlerFactory();
+        $couchDBHandlerFactory = new CouchDBHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -248,7 +248,7 @@ final class CouchDBHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'formatter' => $formatter]);
+        $couchDBHandlerFactory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'formatter' => $formatter]);
     }
 
     /**
@@ -267,7 +267,7 @@ final class CouchDBHandlerFactoryTest extends TestCase
         $dbname    = 'test';
         $userName  = 'test-user';
         $password  = 'test-password';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -285,18 +285,18 @@ final class CouchDBHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new CouchDBHandlerFactory();
+        $couchDBHandlerFactory = new CouchDBHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'formatter' => $formatter]);
+        $couchDBHandler = $couchDBHandlerFactory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(CouchDBHandler::class, $handler);
+        self::assertInstanceOf(CouchDBHandler::class, $couchDBHandler);
 
-        self::assertSame(Level::Error, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Error, $couchDBHandler->getLevel());
+        self::assertFalse($couchDBHandler->getBubble());
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($couchDBHandler, 'options');
 
-        $options = $optionsP->getValue($handler);
+        $options = $optionsP->getValue($couchDBHandler);
 
         self::assertSame($host, $options['host']);
         self::assertSame($port, $options['port']);
@@ -304,11 +304,11 @@ final class CouchDBHandlerFactoryTest extends TestCase
         self::assertSame($userName, $options['username']);
         self::assertSame($password, $options['password']);
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $couchDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($couchDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($couchDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -329,7 +329,7 @@ final class CouchDBHandlerFactoryTest extends TestCase
         $dbname    = 'test';
         $userName  = 'test-user';
         $password  = 'test-password';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -337,9 +337,9 @@ final class CouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new CouchDBHandlerFactory();
+        $couchDBHandlerFactory = new CouchDBHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -347,7 +347,7 @@ final class CouchDBHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'formatter' => $formatter]);
+        $couchDBHandlerFactory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'formatter' => $formatter]);
     }
 
     /**
@@ -373,13 +373,13 @@ final class CouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new CouchDBHandlerFactory();
+        $couchDBHandlerFactory = new CouchDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'processors' => $processors]);
+        $couchDBHandlerFactory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'processors' => $processors]);
     }
 
     /**
@@ -429,13 +429,13 @@ final class CouchDBHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new CouchDBHandlerFactory();
+        $couchDBHandlerFactory = new CouchDBHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'processors' => $processors]);
+        $couchDBHandlerFactory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'processors' => $processors]);
     }
 
     /**
@@ -469,9 +469,9 @@ final class CouchDBHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -495,18 +495,18 @@ final class CouchDBHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new CouchDBHandlerFactory();
+        $couchDBHandlerFactory = new CouchDBHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'processors' => $processors]);
+        $couchDBHandler = $couchDBHandlerFactory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'processors' => $processors]);
 
-        self::assertInstanceOf(CouchDBHandler::class, $handler);
+        self::assertInstanceOf(CouchDBHandler::class, $couchDBHandler);
 
-        self::assertSame(Level::Error, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Error, $couchDBHandler->getLevel());
+        self::assertFalse($couchDBHandler->getBubble());
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($couchDBHandler, 'options');
 
-        $options = $optionsP->getValue($handler);
+        $options = $optionsP->getValue($couchDBHandler);
 
         self::assertSame($host, $options['host']);
         self::assertSame($port, $options['port']);
@@ -514,9 +514,9 @@ final class CouchDBHandlerFactoryTest extends TestCase
         self::assertSame($userName, $options['username']);
         self::assertSame($password, $options['password']);
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($couchDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($couchDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -563,7 +563,7 @@ final class CouchDBHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new CouchDBHandlerFactory();
+        $couchDBHandlerFactory = new CouchDBHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -571,7 +571,7 @@ final class CouchDBHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'processors' => $processors]);
+        $couchDBHandlerFactory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'processors' => $processors]);
     }
 
     /**
@@ -610,9 +610,9 @@ final class CouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new CouchDBHandlerFactory();
+        $couchDBHandlerFactory = new CouchDBHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -620,6 +620,6 @@ final class CouchDBHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'processors' => $processors]);
+        $couchDBHandlerFactory($container, '', ['level' => $level, 'bubble' => false, 'host' => $host, 'port' => $port, 'dbname' => $dbname, 'username' => $userName, 'password' => $password, 'processors' => $processors]);
     }
 }

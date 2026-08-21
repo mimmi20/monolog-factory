@@ -44,17 +44,17 @@ final class MonologProcessorPluginManagerFactory implements FactoryInterface
         string $requestedName,
         array | null $options = null,
     ): MonologProcessorPluginManager {
-        $pluginManager = new MonologProcessorPluginManager($container, $options ?: []);
+        $monologProcessorPluginManager = new MonologProcessorPluginManager($container, $options ?: []);
 
         // If this is in a laminas-mvc application, the ServiceListener will inject
         // merged configuration during bootstrap.
         if ($container->has('ServiceListener')) {
-            return $pluginManager;
+            return $monologProcessorPluginManager;
         }
 
         // If we do not have a config service, nothing more to do
         if (!$container->has('config')) {
-            return $pluginManager;
+            return $monologProcessorPluginManager;
         }
 
         try {
@@ -67,12 +67,12 @@ final class MonologProcessorPluginManagerFactory implements FactoryInterface
 
         // If we do not have processors configuration, nothing more to do
         if (!isset($config['monolog_processors']) || !is_array($config['monolog_processors'])) {
-            return $pluginManager;
+            return $monologProcessorPluginManager;
         }
 
         // Wire service configuration for processors
-        $pluginManager->configure($config['monolog_processors']);
+        $monologProcessorPluginManager->configure($config['monolog_processors']);
 
-        return $pluginManager;
+        return $monologProcessorPluginManager;
     }
 }

@@ -26,6 +26,7 @@ trait GetHandlersTrait
     use GetHandlerTrait;
 
     /**
+     * @param array<string, mixed> $options
      * @phpstan-param array{handlers?: bool|array<string|array{type?: string, enabled?: bool, options?: array<mixed>}>} $options
      *
      * @return array<int, HandlerInterface>

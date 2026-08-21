@@ -58,13 +58,13 @@ final class SyslogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogHandlerFactory();
+        $syslogHandlerFactory = new SyslogHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $syslogHandlerFactory($container, '');
     }
 
     /**
@@ -82,13 +82,13 @@ final class SyslogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogHandlerFactory();
+        $syslogHandlerFactory = new SyslogHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No ident provided');
 
-        $factory($container, '', []);
+        $syslogHandlerFactory($container, '', []);
     }
 
     /**
@@ -109,32 +109,32 @@ final class SyslogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogHandlerFactory();
+        $syslogHandlerFactory = new SyslogHandlerFactory();
 
-        $handler = $factory($container, '', ['ident' => $ident]);
+        $syslogHandler = $syslogHandlerFactory($container, '', ['ident' => $ident]);
 
-        self::assertInstanceOf(SyslogHandler::class, $handler);
+        self::assertInstanceOf(SyslogHandler::class, $syslogHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $syslogHandler->getLevel());
+        self::assertTrue($syslogHandler->getBubble());
 
-        $identP = new ReflectionProperty($handler, 'ident');
+        $identP = new ReflectionProperty($syslogHandler, 'ident');
 
-        self::assertSame($ident, $identP->getValue($handler));
+        self::assertSame($ident, $identP->getValue($syslogHandler));
 
-        $lo = new ReflectionProperty($handler, 'logopts');
+        $lo = new ReflectionProperty($syslogHandler, 'logopts');
 
-        self::assertSame(LOG_PID, $lo->getValue($handler));
+        self::assertSame(LOG_PID, $lo->getValue($syslogHandler));
 
-        $fa = new ReflectionProperty($handler, 'facility');
+        $fa = new ReflectionProperty($syslogHandler, 'facility');
 
-        self::assertSame(LOG_USER, $fa->getValue($handler));
+        self::assertSame(LOG_USER, $fa->getValue($syslogHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $syslogHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($syslogHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($syslogHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -160,32 +160,32 @@ final class SyslogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogHandlerFactory();
+        $syslogHandlerFactory = new SyslogHandlerFactory();
 
-        $handler = $factory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts]);
+        $syslogHandler = $syslogHandlerFactory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts]);
 
-        self::assertInstanceOf(SyslogHandler::class, $handler);
+        self::assertInstanceOf(SyslogHandler::class, $syslogHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $syslogHandler->getLevel());
+        self::assertFalse($syslogHandler->getBubble());
 
-        $identP = new ReflectionProperty($handler, 'ident');
+        $identP = new ReflectionProperty($syslogHandler, 'ident');
 
-        self::assertSame($ident, $identP->getValue($handler));
+        self::assertSame($ident, $identP->getValue($syslogHandler));
 
-        $lo = new ReflectionProperty($handler, 'logopts');
+        $lo = new ReflectionProperty($syslogHandler, 'logopts');
 
-        self::assertSame($logOpts, $lo->getValue($handler));
+        self::assertSame($logOpts, $lo->getValue($syslogHandler));
 
-        $fa = new ReflectionProperty($handler, 'facility');
+        $fa = new ReflectionProperty($syslogHandler, 'facility');
 
-        self::assertSame($facility, $fa->getValue($handler));
+        self::assertSame($facility, $fa->getValue($syslogHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $syslogHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($syslogHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($syslogHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -211,7 +211,7 @@ final class SyslogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogHandlerFactory();
+        $syslogHandlerFactory = new SyslogHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -219,7 +219,7 @@ final class SyslogHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'formatter' => $formatter]);
+        $syslogHandlerFactory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'formatter' => $formatter]);
     }
 
     /**
@@ -234,7 +234,7 @@ final class SyslogHandlerFactoryTest extends TestCase
         $ident     = 'test';
         $facility  = LOG_MAIL;
         $logOpts   = LOG_CONS;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -244,7 +244,7 @@ final class SyslogHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SyslogHandlerFactory();
+        $syslogHandlerFactory = new SyslogHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -252,7 +252,7 @@ final class SyslogHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'formatter' => $formatter]);
+        $syslogHandlerFactory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'formatter' => $formatter]);
     }
 
     /**
@@ -268,7 +268,7 @@ final class SyslogHandlerFactoryTest extends TestCase
         $ident     = 'test';
         $facility  = LOG_MAIL;
         $logOpts   = LOG_CONS;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -286,32 +286,32 @@ final class SyslogHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new SyslogHandlerFactory();
+        $syslogHandlerFactory = new SyslogHandlerFactory();
 
-        $handler = $factory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'formatter' => $formatter]);
+        $syslogHandler = $syslogHandlerFactory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(SyslogHandler::class, $handler);
+        self::assertInstanceOf(SyslogHandler::class, $syslogHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $syslogHandler->getLevel());
+        self::assertFalse($syslogHandler->getBubble());
 
-        $identP = new ReflectionProperty($handler, 'ident');
+        $identP = new ReflectionProperty($syslogHandler, 'ident');
 
-        self::assertSame($ident, $identP->getValue($handler));
+        self::assertSame($ident, $identP->getValue($syslogHandler));
 
-        $lo = new ReflectionProperty($handler, 'logopts');
+        $lo = new ReflectionProperty($syslogHandler, 'logopts');
 
-        self::assertSame($logOpts, $lo->getValue($handler));
+        self::assertSame($logOpts, $lo->getValue($syslogHandler));
 
-        $fa = new ReflectionProperty($handler, 'facility');
+        $fa = new ReflectionProperty($syslogHandler, 'facility');
 
-        self::assertSame($facility, $fa->getValue($handler));
+        self::assertSame($facility, $fa->getValue($syslogHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $syslogHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($syslogHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($syslogHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -329,7 +329,7 @@ final class SyslogHandlerFactoryTest extends TestCase
         $ident     = 'test';
         $facility  = LOG_MAIL;
         $logOpts   = LOG_CONS;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -337,9 +337,9 @@ final class SyslogHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new SyslogHandlerFactory();
+        $syslogHandlerFactory = new SyslogHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -347,7 +347,7 @@ final class SyslogHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'formatter' => $formatter]);
+        $syslogHandlerFactory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'formatter' => $formatter]);
     }
 
     /**
@@ -370,13 +370,13 @@ final class SyslogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogHandlerFactory();
+        $syslogHandlerFactory = new SyslogHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'processors' => $processors]);
+        $syslogHandlerFactory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'processors' => $processors]);
     }
 
     /**
@@ -423,13 +423,13 @@ final class SyslogHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new SyslogHandlerFactory();
+        $syslogHandlerFactory = new SyslogHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'processors' => $processors]);
+        $syslogHandlerFactory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'processors' => $processors]);
     }
 
     /**
@@ -460,9 +460,9 @@ final class SyslogHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -486,30 +486,30 @@ final class SyslogHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new SyslogHandlerFactory();
+        $syslogHandlerFactory = new SyslogHandlerFactory();
 
-        $handler = $factory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'processors' => $processors]);
+        $syslogHandler = $syslogHandlerFactory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'processors' => $processors]);
 
-        self::assertInstanceOf(SyslogHandler::class, $handler);
+        self::assertInstanceOf(SyslogHandler::class, $syslogHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $syslogHandler->getLevel());
+        self::assertFalse($syslogHandler->getBubble());
 
-        $identP = new ReflectionProperty($handler, 'ident');
+        $identP = new ReflectionProperty($syslogHandler, 'ident');
 
-        self::assertSame($ident, $identP->getValue($handler));
+        self::assertSame($ident, $identP->getValue($syslogHandler));
 
-        $lo = new ReflectionProperty($handler, 'logopts');
+        $lo = new ReflectionProperty($syslogHandler, 'logopts');
 
-        self::assertSame($logOpts, $lo->getValue($handler));
+        self::assertSame($logOpts, $lo->getValue($syslogHandler));
 
-        $fa = new ReflectionProperty($handler, 'facility');
+        $fa = new ReflectionProperty($syslogHandler, 'facility');
 
-        self::assertSame($facility, $fa->getValue($handler));
+        self::assertSame($facility, $fa->getValue($syslogHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($syslogHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($syslogHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -553,7 +553,7 @@ final class SyslogHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SyslogHandlerFactory();
+        $syslogHandlerFactory = new SyslogHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -561,7 +561,7 @@ final class SyslogHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'processors' => $processors]);
+        $syslogHandlerFactory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'processors' => $processors]);
     }
 
     /**
@@ -597,9 +597,9 @@ final class SyslogHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new SyslogHandlerFactory();
+        $syslogHandlerFactory = new SyslogHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -607,6 +607,6 @@ final class SyslogHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'processors' => $processors]);
+        $syslogHandlerFactory($container, '', ['ident' => $ident, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'logOpts' => $logOpts, 'processors' => $processors]);
     }
 }

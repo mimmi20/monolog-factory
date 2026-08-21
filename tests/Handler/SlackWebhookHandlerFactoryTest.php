@@ -47,7 +47,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -56,13 +56,13 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $slackWebhookHandlerFactory($container, '');
     }
 
     /**
@@ -72,7 +72,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -81,13 +81,13 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No webhookUrl provided');
 
-        $factory($container, '', []);
+        $slackWebhookHandlerFactory($container, '', []);
     }
 
     /**
@@ -97,7 +97,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigWithoutChannel(): void
     {
         $webhookUrl = 'http://test.test';
@@ -108,13 +108,13 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No channel provided');
 
-        $factory($container, '', ['webhookUrl' => $webhookUrl]);
+        $slackWebhookHandlerFactory($container, '', ['webhookUrl' => $webhookUrl]);
     }
 
     /**
@@ -125,7 +125,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig(): void
     {
         $webhookUrl = 'http://test.test';
@@ -137,16 +137,16 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
-        $handler = $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel]);
+        $slackWebhookHandler = $slackWebhookHandlerFactory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel]);
 
-        self::assertInstanceOf(SlackWebhookHandler::class, $handler);
-        self::assertSame($webhookUrl, $handler->getWebhookUrl());
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertInstanceOf(SlackWebhookHandler::class, $slackWebhookHandler);
+        self::assertSame($webhookUrl, $slackWebhookHandler->getWebhookUrl());
+        self::assertSame(Level::Debug, $slackWebhookHandler->getLevel());
+        self::assertTrue($slackWebhookHandler->getBubble());
 
-        $slackRecord = $handler->getSlackRecord();
+        $slackRecord = $slackWebhookHandler->getSlackRecord();
 
         $ch = new ReflectionProperty($slackRecord, 'channel');
 
@@ -176,11 +176,11 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
         self::assertSame([], $ef->getValue($slackRecord));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $slackWebhookHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($slackWebhookHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($slackWebhookHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -194,7 +194,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig2(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -209,16 +209,16 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
-        $handler = $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields]);
+        $slackWebhookHandler = $slackWebhookHandlerFactory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields]);
 
-        self::assertInstanceOf(SlackWebhookHandler::class, $handler);
-        self::assertSame($webhookUrl, $handler->getWebhookUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertInstanceOf(SlackWebhookHandler::class, $slackWebhookHandler);
+        self::assertSame($webhookUrl, $slackWebhookHandler->getWebhookUrl());
+        self::assertSame(Level::Alert, $slackWebhookHandler->getLevel());
+        self::assertFalse($slackWebhookHandler->getBubble());
 
-        $slackRecord = $handler->getSlackRecord();
+        $slackRecord = $slackWebhookHandler->getSlackRecord();
 
         $ch = new ReflectionProperty($slackRecord, 'channel');
 
@@ -248,11 +248,11 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
         self::assertSame($excludeFields, $ef->getValue($slackRecord));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $slackWebhookHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($slackWebhookHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($slackWebhookHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -265,7 +265,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -281,7 +281,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -289,7 +289,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'formatter' => $formatter]);
+        $slackWebhookHandlerFactory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'formatter' => $formatter]);
     }
 
     /**
@@ -299,7 +299,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -307,7 +307,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $userName      = 'user';
         $iconEmoji     = 'icon';
         $excludeFields = ['abc', 'xyz'];
-        $formatter     = $this->createMock(LineFormatter::class);
+        $formatter     = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -317,7 +317,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -325,7 +325,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'formatter' => $formatter]);
+        $slackWebhookHandlerFactory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'formatter' => $formatter]);
     }
 
     /**
@@ -336,7 +336,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -344,7 +344,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $userName      = 'user';
         $iconEmoji     = 'icon';
         $excludeFields = ['abc', 'xyz'];
-        $formatter     = $this->createMock(LineFormatter::class);
+        $formatter     = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -362,16 +362,16 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
-        $handler = $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'formatter' => $formatter]);
+        $slackWebhookHandler = $slackWebhookHandlerFactory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(SlackWebhookHandler::class, $handler);
-        self::assertSame($webhookUrl, $handler->getWebhookUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertInstanceOf(SlackWebhookHandler::class, $slackWebhookHandler);
+        self::assertSame($webhookUrl, $slackWebhookHandler->getWebhookUrl());
+        self::assertSame(Level::Alert, $slackWebhookHandler->getLevel());
+        self::assertFalse($slackWebhookHandler->getBubble());
 
-        $slackRecord = $handler->getSlackRecord();
+        $slackRecord = $slackWebhookHandler->getSlackRecord();
 
         $ch = new ReflectionProperty($slackRecord, 'channel');
 
@@ -401,11 +401,11 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
         self::assertSame($excludeFields, $ef->getValue($slackRecord));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $slackWebhookHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($slackWebhookHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($slackWebhookHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -418,7 +418,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -426,7 +426,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $userName      = 'user';
         $iconEmoji     = 'icon';
         $excludeFields = ['abc', 'xyz'];
-        $formatter     = $this->createMock(LineFormatter::class);
+        $formatter     = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -434,9 +434,9 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -444,7 +444,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'formatter' => $formatter]);
+        $slackWebhookHandlerFactory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'formatter' => $formatter]);
     }
 
     /**
@@ -454,7 +454,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -470,13 +470,13 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
+        $slackWebhookHandlerFactory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
     }
 
     /**
@@ -486,7 +486,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -526,13 +526,13 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
+        $slackWebhookHandlerFactory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
     }
 
     /**
@@ -543,7 +543,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -566,9 +566,9 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -592,16 +592,16 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
-        $handler = $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
+        $slackWebhookHandler = $slackWebhookHandlerFactory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
 
-        self::assertInstanceOf(SlackWebhookHandler::class, $handler);
-        self::assertSame($webhookUrl, $handler->getWebhookUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertInstanceOf(SlackWebhookHandler::class, $slackWebhookHandler);
+        self::assertSame($webhookUrl, $slackWebhookHandler->getWebhookUrl());
+        self::assertSame(Level::Alert, $slackWebhookHandler->getLevel());
+        self::assertFalse($slackWebhookHandler->getBubble());
 
-        $slackRecord = $handler->getSlackRecord();
+        $slackRecord = $slackWebhookHandler->getSlackRecord();
 
         $ch = new ReflectionProperty($slackRecord, 'channel');
 
@@ -631,9 +631,9 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
 
         self::assertSame($excludeFields, $ef->getValue($slackRecord));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($slackWebhookHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($slackWebhookHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -649,7 +649,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -680,7 +680,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -688,7 +688,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
+        $slackWebhookHandlerFactory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
     }
 
     /**
@@ -698,7 +698,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $webhookUrl    = 'http://test.test';
@@ -727,9 +727,9 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -737,7 +737,7 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
+        $slackWebhookHandlerFactory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
     }
 
     /**
@@ -766,12 +766,12 @@ final class SlackWebhookHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SlackWebhookHandlerFactory();
+        $slackWebhookHandlerFactory = new SlackWebhookHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', SlackWebhookHandler::class));
 
-        $factory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
+        $slackWebhookHandlerFactory($container, '', ['webhookUrl' => $webhookUrl, 'channel' => $channel, 'userName' => $userName, 'useAttachment' => false, 'iconEmoji' => $iconEmoji, 'level' => LogLevel::ALERT, 'bubble' => false, 'useShortAttachment' => true, 'includeContextAndExtra' => true, 'excludeFields' => $excludeFields, 'processors' => $processors]);
     }
 }

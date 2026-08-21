@@ -102,11 +102,11 @@ final class RedisPubSubHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new RedisPubSubHandler($client, $key, $level, $bubble);
+        $redisPubSubHandler = new RedisPubSubHandler($client, $key, $level, $bubble);
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $redisPubSubHandler, $options);
+        $this->addProcessor($container, $redisPubSubHandler, $options);
 
-        return $handler;
+        return $redisPubSubHandler;
     }
 }

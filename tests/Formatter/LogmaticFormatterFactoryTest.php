@@ -41,38 +41,38 @@ final class LogmaticFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogmaticFormatterFactory();
+        $logmaticFormatterFactory = new LogmaticFormatterFactory();
 
-        $formatter = $factory($container, '');
+        $logmaticFormatter = $logmaticFormatterFactory($container, '');
 
-        self::assertInstanceOf(LogmaticFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(LogmaticFormatter::class, $logmaticFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $logmaticFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $logmaticFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $logmaticFormatter->getMaxNormalizeItemCount(),
         );
-        self::assertSame(JsonFormatter::BATCH_MODE_JSON, $formatter->getBatchMode());
-        self::assertTrue($formatter->isAppendingNewlines());
+        self::assertSame(JsonFormatter::BATCH_MODE_JSON, $logmaticFormatter->getBatchMode());
+        self::assertTrue($logmaticFormatter->isAppendingNewlines());
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($logmaticFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertFalse($ig->getValue($formatter));
+        self::assertFalse($ig->getValue($logmaticFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($logmaticFormatter, 'includeStacktraces');
 
-        self::assertFalse($st->getValue($formatter));
+        self::assertFalse($st->getValue($logmaticFormatter));
 
-        $h = new ReflectionProperty($formatter, 'hostname');
+        $h = new ReflectionProperty($logmaticFormatter, 'hostname');
 
-        self::assertSame('', $h->getValue($formatter));
+        self::assertSame('', $h->getValue($logmaticFormatter));
 
-        $a = new ReflectionProperty($formatter, 'appName');
+        $a = new ReflectionProperty($logmaticFormatter, 'appName');
 
-        self::assertSame('', $a->getValue($formatter));
+        self::assertSame('', $a->getValue($logmaticFormatter));
     }
 
     /**
@@ -89,38 +89,38 @@ final class LogmaticFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogmaticFormatterFactory();
+        $logmaticFormatterFactory = new LogmaticFormatterFactory();
 
-        $formatter = $factory($container, '', []);
+        $logmaticFormatter = $logmaticFormatterFactory($container, '', []);
 
-        self::assertInstanceOf(LogmaticFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(LogmaticFormatter::class, $logmaticFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $logmaticFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $logmaticFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $logmaticFormatter->getMaxNormalizeItemCount(),
         );
-        self::assertSame(JsonFormatter::BATCH_MODE_JSON, $formatter->getBatchMode());
-        self::assertTrue($formatter->isAppendingNewlines());
+        self::assertSame(JsonFormatter::BATCH_MODE_JSON, $logmaticFormatter->getBatchMode());
+        self::assertTrue($logmaticFormatter->isAppendingNewlines());
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($logmaticFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertFalse($ig->getValue($formatter));
+        self::assertFalse($ig->getValue($logmaticFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($logmaticFormatter, 'includeStacktraces');
 
-        self::assertFalse($st->getValue($formatter));
+        self::assertFalse($st->getValue($logmaticFormatter));
 
-        $h = new ReflectionProperty($formatter, 'hostname');
+        $h = new ReflectionProperty($logmaticFormatter, 'hostname');
 
-        self::assertSame('', $h->getValue($formatter));
+        self::assertSame('', $h->getValue($logmaticFormatter));
 
-        $a = new ReflectionProperty($formatter, 'appName');
+        $a = new ReflectionProperty($logmaticFormatter, 'appName');
 
-        self::assertSame('', $a->getValue($formatter));
+        self::assertSame('', $a->getValue($logmaticFormatter));
     }
 
     /**
@@ -146,32 +146,32 @@ final class LogmaticFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogmaticFormatterFactory();
+        $logmaticFormatterFactory = new LogmaticFormatterFactory();
 
-        $formatter = $factory($container, '', ['batchMode' => $batchMode, 'appendNewline' => $appendNewline, 'includeStacktraces' => $include, 'hostname' => $hostname, 'appName' => $appname, 'dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
+        $logmaticFormatter = $logmaticFormatterFactory($container, '', ['batchMode' => $batchMode, 'appendNewline' => $appendNewline, 'includeStacktraces' => $include, 'hostname' => $hostname, 'appName' => $appname, 'dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
 
-        self::assertInstanceOf(LogmaticFormatter::class, $formatter);
-        self::assertSame($dateFormat, $formatter->getDateFormat());
-        self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
-        self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
-        self::assertSame($batchMode, $formatter->getBatchMode());
-        self::assertFalse($formatter->isAppendingNewlines());
+        self::assertInstanceOf(LogmaticFormatter::class, $logmaticFormatter);
+        self::assertSame($dateFormat, $logmaticFormatter->getDateFormat());
+        self::assertSame($maxNormalizeDepth, $logmaticFormatter->getMaxNormalizeDepth());
+        self::assertSame($maxNormalizeItemCount, $logmaticFormatter->getMaxNormalizeItemCount());
+        self::assertSame($batchMode, $logmaticFormatter->getBatchMode());
+        self::assertFalse($logmaticFormatter->isAppendingNewlines());
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($logmaticFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertFalse($ig->getValue($formatter));
+        self::assertFalse($ig->getValue($logmaticFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($logmaticFormatter, 'includeStacktraces');
 
-        self::assertTrue($st->getValue($formatter));
+        self::assertTrue($st->getValue($logmaticFormatter));
 
-        $h = new ReflectionProperty($formatter, 'hostname');
+        $h = new ReflectionProperty($logmaticFormatter, 'hostname');
 
-        self::assertSame($hostname, $h->getValue($formatter));
+        self::assertSame($hostname, $h->getValue($logmaticFormatter));
 
-        $a = new ReflectionProperty($formatter, 'appName');
+        $a = new ReflectionProperty($logmaticFormatter, 'appName');
 
-        self::assertSame($appname, $a->getValue($formatter));
+        self::assertSame($appname, $a->getValue($logmaticFormatter));
     }
 
     /**
@@ -197,31 +197,31 @@ final class LogmaticFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogmaticFormatterFactory();
+        $logmaticFormatterFactory = new LogmaticFormatterFactory();
 
-        $formatter = $factory($container, '', ['batchMode' => $batchMode, 'appendNewline' => $appendNewline, 'includeStacktraces' => $include, 'hostname' => $hostname, 'appName' => $appname, 'dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true, 'ignoreEmptyContextAndExtra' => true]);
+        $logmaticFormatter = $logmaticFormatterFactory($container, '', ['batchMode' => $batchMode, 'appendNewline' => $appendNewline, 'includeStacktraces' => $include, 'hostname' => $hostname, 'appName' => $appname, 'dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true, 'ignoreEmptyContextAndExtra' => true]);
 
-        self::assertInstanceOf(LogmaticFormatter::class, $formatter);
-        self::assertSame($dateFormat, $formatter->getDateFormat());
-        self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
-        self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
-        self::assertSame($batchMode, $formatter->getBatchMode());
-        self::assertFalse($formatter->isAppendingNewlines());
+        self::assertInstanceOf(LogmaticFormatter::class, $logmaticFormatter);
+        self::assertSame($dateFormat, $logmaticFormatter->getDateFormat());
+        self::assertSame($maxNormalizeDepth, $logmaticFormatter->getMaxNormalizeDepth());
+        self::assertSame($maxNormalizeItemCount, $logmaticFormatter->getMaxNormalizeItemCount());
+        self::assertSame($batchMode, $logmaticFormatter->getBatchMode());
+        self::assertFalse($logmaticFormatter->isAppendingNewlines());
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($logmaticFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertTrue($ig->getValue($formatter));
+        self::assertTrue($ig->getValue($logmaticFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($logmaticFormatter, 'includeStacktraces');
 
-        self::assertTrue($st->getValue($formatter));
+        self::assertTrue($st->getValue($logmaticFormatter));
 
-        $h = new ReflectionProperty($formatter, 'hostname');
+        $h = new ReflectionProperty($logmaticFormatter, 'hostname');
 
-        self::assertSame($hostname, $h->getValue($formatter));
+        self::assertSame($hostname, $h->getValue($logmaticFormatter));
 
-        $a = new ReflectionProperty($formatter, 'appName');
+        $a = new ReflectionProperty($logmaticFormatter, 'appName');
 
-        self::assertSame($appname, $a->getValue($formatter));
+        self::assertSame($appname, $a->getValue($logmaticFormatter));
     }
 }

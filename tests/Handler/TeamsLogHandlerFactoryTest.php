@@ -47,7 +47,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithoutConfig(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
@@ -62,13 +62,13 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TeamsLogHandlerFactory();
+        $teamsLogHandlerFactory = new TeamsLogHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $teamsLogHandlerFactory($container, '');
     }
 
     /**
@@ -78,7 +78,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithEmptyConfig(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
@@ -93,13 +93,13 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TeamsLogHandlerFactory();
+        $teamsLogHandlerFactory = new TeamsLogHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No url provided');
 
-        $factory($container, '', []);
+        $teamsLogHandlerFactory($container, '', []);
     }
 
     /**
@@ -110,7 +110,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
@@ -127,24 +127,24 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TeamsLogHandlerFactory();
+        $teamsLogHandlerFactory = new TeamsLogHandlerFactory();
 
-        $handler = $factory($container, '', ['url' => $url]);
+        $teamsLogHandler = $teamsLogHandlerFactory($container, '', ['url' => $url]);
 
-        self::assertInstanceOf(TeamsLogHandler::class, $handler);
+        self::assertInstanceOf(TeamsLogHandler::class, $teamsLogHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $teamsLogHandler->getLevel());
+        self::assertTrue($teamsLogHandler->getBubble());
 
-        $urlP = new ReflectionProperty($handler, 'url');
+        $urlP = new ReflectionProperty($teamsLogHandler, 'url');
 
-        self::assertSame($url, $urlP->getValue($handler));
+        self::assertSame($url, $urlP->getValue($teamsLogHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $teamsLogHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($teamsLogHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($teamsLogHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -158,7 +158,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig2(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
@@ -175,24 +175,24 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TeamsLogHandlerFactory();
+        $teamsLogHandlerFactory = new TeamsLogHandlerFactory();
 
-        $handler = $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $teamsLogHandler = $teamsLogHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(TeamsLogHandler::class, $handler);
+        self::assertInstanceOf(TeamsLogHandler::class, $teamsLogHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $teamsLogHandler->getLevel());
+        self::assertFalse($teamsLogHandler->getBubble());
 
-        $urlP = new ReflectionProperty($handler, 'url');
+        $urlP = new ReflectionProperty($teamsLogHandler, 'url');
 
-        self::assertSame($url, $urlP->getValue($handler));
+        self::assertSame($url, $urlP->getValue($teamsLogHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $teamsLogHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($teamsLogHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($teamsLogHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -205,7 +205,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
@@ -223,7 +223,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TeamsLogHandlerFactory();
+        $teamsLogHandlerFactory = new TeamsLogHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -231,7 +231,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $teamsLogHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -241,7 +241,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
@@ -251,7 +251,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         }
 
         $url       = 'test-url';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -261,7 +261,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new TeamsLogHandlerFactory();
+        $teamsLogHandlerFactory = new TeamsLogHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -269,7 +269,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $teamsLogHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -280,7 +280,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
@@ -290,7 +290,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         }
 
         $url       = 'test-url';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -308,24 +308,24 @@ final class TeamsLogHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new TeamsLogHandlerFactory();
+        $teamsLogHandlerFactory = new TeamsLogHandlerFactory();
 
-        $handler = $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $teamsLogHandler = $teamsLogHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(TeamsLogHandler::class, $handler);
+        self::assertInstanceOf(TeamsLogHandler::class, $teamsLogHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $teamsLogHandler->getLevel());
+        self::assertFalse($teamsLogHandler->getBubble());
 
-        $urlP = new ReflectionProperty($handler, 'url');
+        $urlP = new ReflectionProperty($teamsLogHandler, 'url');
 
-        self::assertSame($url, $urlP->getValue($handler));
+        self::assertSame($url, $urlP->getValue($teamsLogHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $teamsLogHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($teamsLogHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($teamsLogHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -338,7 +338,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
@@ -348,7 +348,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         }
 
         $url       = 'test-url';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -356,9 +356,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new TeamsLogHandlerFactory();
+        $teamsLogHandlerFactory = new TeamsLogHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -366,7 +366,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $teamsLogHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -376,7 +376,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         if (!class_exists(TeamsLogHandler::class)) {
@@ -394,13 +394,13 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TeamsLogHandlerFactory();
+        $teamsLogHandlerFactory = new TeamsLogHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $teamsLogHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -451,13 +451,13 @@ final class TeamsLogHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new TeamsLogHandlerFactory();
+        $teamsLogHandlerFactory = new TeamsLogHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $teamsLogHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -492,9 +492,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -518,22 +518,22 @@ final class TeamsLogHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new TeamsLogHandlerFactory();
+        $teamsLogHandlerFactory = new TeamsLogHandlerFactory();
 
-        $handler = $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $teamsLogHandler = $teamsLogHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(TeamsLogHandler::class, $handler);
+        self::assertInstanceOf(TeamsLogHandler::class, $teamsLogHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $teamsLogHandler->getLevel());
+        self::assertFalse($teamsLogHandler->getBubble());
 
-        $urlP = new ReflectionProperty($handler, 'url');
+        $urlP = new ReflectionProperty($teamsLogHandler, 'url');
 
-        self::assertSame($url, $urlP->getValue($handler));
+        self::assertSame($url, $urlP->getValue($teamsLogHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($teamsLogHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($teamsLogHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -581,7 +581,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new TeamsLogHandlerFactory();
+        $teamsLogHandlerFactory = new TeamsLogHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -589,7 +589,7 @@ final class TeamsLogHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $teamsLogHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -629,9 +629,9 @@ final class TeamsLogHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new TeamsLogHandlerFactory();
+        $teamsLogHandlerFactory = new TeamsLogHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -639,6 +639,6 @@ final class TeamsLogHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $teamsLogHandlerFactory($container, '', ['url' => $url, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 }

@@ -49,13 +49,13 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $fallbackGroupHandlerFactory($container, '');
     }
 
     /**
@@ -73,13 +73,13 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service names provided for the required handler classes');
 
-        $factory($container, '', []);
+        $fallbackGroupHandlerFactory($container, '', []);
     }
 
     /**
@@ -97,13 +97,13 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service names provided for the required handler classes');
 
-        $factory($container, '', ['handlers' => true]);
+        $fallbackGroupHandlerFactory($container, '', ['handlers' => true]);
     }
 
     /**
@@ -121,13 +121,13 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No active handlers specified');
 
-        $factory($container, '', ['handlers' => []]);
+        $fallbackGroupHandlerFactory($container, '', ['handlers' => []]);
     }
 
     /**
@@ -145,13 +145,13 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('HandlerConfig must be an Array');
 
-        $factory($container, '', ['handlers' => ['test']]);
+        $fallbackGroupHandlerFactory($container, '', ['handlers' => ['test']]);
     }
 
     /**
@@ -171,13 +171,13 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must contain a type for the handler');
 
-        $factory($container, '', ['handlers' => $handlers]);
+        $fallbackGroupHandlerFactory($container, '', ['handlers' => $handlers]);
     }
 
     /**
@@ -224,12 +224,12 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
             ->method('get');
-        $matcher = self::exactly(3);
-        $monologHandlerPluginManager->expects($matcher)
+        $invokedCount = self::exactly(3);
+        $monologHandlerPluginManager->expects($invokedCount)
             ->method('build')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $handler1, $handler2): HandlerInterface {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $handler1, $handler2): HandlerInterface {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame(FirePHPHandler::class, $id, (string) $invocation),
@@ -253,28 +253,28 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers]);
+        $fallbackGroupHandler = $fallbackGroupHandlerFactory($container, '', ['handlers' => $handlers]);
 
-        self::assertInstanceOf(FallbackGroupHandler::class, $handler);
+        self::assertInstanceOf(FallbackGroupHandler::class, $fallbackGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($fallbackGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($fallbackGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(2, $handlerClasses);
         self::assertSame($handler1, $handlerClasses[0]);
         self::assertSame($handler2, $handlerClasses[1]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($fallbackGroupHandler, 'bubble');
 
-        self::assertTrue($bubble->getValue($handler));
+        self::assertTrue($bubble->getValue($fallbackGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($fallbackGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($fallbackGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -336,12 +336,12 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(3);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(3);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager): AbstractPluginManager {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager): AbstractPluginManager {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     self::assertSame(MonologHandlerPluginManager::class, $id, (string) $invocation);
 
@@ -352,28 +352,28 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
                 },
             );
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers]);
+        $fallbackGroupHandler = $fallbackGroupHandlerFactory($container, '', ['handlers' => $handlers]);
 
-        self::assertInstanceOf(FallbackGroupHandler::class, $handler);
+        self::assertInstanceOf(FallbackGroupHandler::class, $fallbackGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($fallbackGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($fallbackGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(2, $handlerClasses);
         self::assertSame($handler1, $handlerClasses[0]);
         self::assertSame($handler2, $handlerClasses[1]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($fallbackGroupHandler, 'bubble');
 
-        self::assertTrue($bubble->getValue($handler));
+        self::assertTrue($bubble->getValue($fallbackGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($fallbackGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($fallbackGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -447,15 +447,15 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers]);
+        $fallbackGroupHandler = $fallbackGroupHandlerFactory($container, '', ['handlers' => $handlers]);
 
-        self::assertInstanceOf(FallbackGroupHandler::class, $handler);
+        self::assertInstanceOf(FallbackGroupHandler::class, $fallbackGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($fallbackGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($fallbackGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(3, $handlerClasses);
@@ -463,13 +463,13 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         self::assertSame($handler2, $handlerClasses[1]);
         self::assertSame($handler3, $handlerClasses[2]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($fallbackGroupHandler, 'bubble');
 
-        self::assertTrue($bubble->getValue($handler));
+        self::assertTrue($bubble->getValue($fallbackGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($fallbackGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($fallbackGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -543,15 +543,15 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false]);
+        $fallbackGroupHandler = $fallbackGroupHandlerFactory($container, '', ['handlers' => $handlers, 'bubble' => false]);
 
-        self::assertInstanceOf(FallbackGroupHandler::class, $handler);
+        self::assertInstanceOf(FallbackGroupHandler::class, $fallbackGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($fallbackGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($fallbackGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(3, $handlerClasses);
@@ -559,13 +559,13 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         self::assertSame($handler2, $handlerClasses[1]);
         self::assertSame($handler3, $handlerClasses[2]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($fallbackGroupHandler, 'bubble');
 
-        self::assertFalse($bubble->getValue($handler));
+        self::assertFalse($bubble->getValue($fallbackGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($fallbackGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($fallbackGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -640,15 +640,15 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'formatter' => $formatter]);
+        $fallbackGroupHandler = $fallbackGroupHandlerFactory($container, '', ['handlers' => $handlers, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(FallbackGroupHandler::class, $handler);
+        self::assertInstanceOf(FallbackGroupHandler::class, $fallbackGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($fallbackGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($fallbackGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(3, $handlerClasses);
@@ -656,13 +656,13 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         self::assertSame($handler2, $handlerClasses[1]);
         self::assertSame($handler3, $handlerClasses[2]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($fallbackGroupHandler, 'bubble');
 
-        self::assertFalse($bubble->getValue($handler));
+        self::assertFalse($bubble->getValue($fallbackGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($fallbackGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($fallbackGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -694,7 +694,7 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
                 'type' => GelfHandler::class,
             ],
         ];
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $handler1 = $this->createMock(FirePHPHandler::class);
         $handler1->expects(self::never())
@@ -737,15 +737,15 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'formatter' => $formatter]);
+        $fallbackGroupHandler = $fallbackGroupHandlerFactory($container, '', ['handlers' => $handlers, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(FallbackGroupHandler::class, $handler);
+        self::assertInstanceOf(FallbackGroupHandler::class, $fallbackGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($fallbackGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($fallbackGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(3, $handlerClasses);
@@ -753,13 +753,13 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         self::assertSame($handler2, $handlerClasses[1]);
         self::assertSame($handler3, $handlerClasses[2]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($fallbackGroupHandler, 'bubble');
 
-        self::assertFalse($bubble->getValue($handler));
+        self::assertFalse($bubble->getValue($fallbackGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($fallbackGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($fallbackGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -791,7 +791,7 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
                 'type' => GelfHandler::class,
             ],
         ];
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $handler1 = $this->createMock(FirePHPHandler::class);
         $handler1->expects(self::never())
@@ -834,15 +834,15 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'formatter' => $formatter]);
+        $fallbackGroupHandler = $fallbackGroupHandlerFactory($container, '', ['handlers' => $handlers, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(FallbackGroupHandler::class, $handler);
+        self::assertInstanceOf(FallbackGroupHandler::class, $fallbackGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($fallbackGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($fallbackGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(3, $handlerClasses);
@@ -850,13 +850,13 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
         self::assertSame($handler2, $handlerClasses[1]);
         self::assertSame($handler3, $handlerClasses[2]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($fallbackGroupHandler, 'bubble');
 
-        self::assertFalse($bubble->getValue($handler));
+        self::assertFalse($bubble->getValue($fallbackGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($fallbackGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($fallbackGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -930,12 +930,12 @@ final class FallbackGroupHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new FallbackGroupHandlerFactory();
+        $fallbackGroupHandlerFactory = new FallbackGroupHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
+        $fallbackGroupHandlerFactory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
     }
 }

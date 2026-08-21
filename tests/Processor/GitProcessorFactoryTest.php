@@ -40,15 +40,15 @@ final class GitProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new GitProcessorFactory();
+        $gitProcessorFactory = new GitProcessorFactory();
 
-        $processor = $factory($container, '');
+        $gitProcessor = $gitProcessorFactory($container, '');
 
-        self::assertInstanceOf(GitProcessor::class, $processor);
+        self::assertInstanceOf(GitProcessor::class, $gitProcessor);
 
-        $lvl = new ReflectionProperty($processor, 'level');
+        $reflectionProperty = new ReflectionProperty($gitProcessor, 'level');
 
-        self::assertSame(Level::Debug, $lvl->getValue($processor));
+        self::assertSame(Level::Debug, $reflectionProperty->getValue($gitProcessor));
     }
 
     /**
@@ -65,15 +65,15 @@ final class GitProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new GitProcessorFactory();
+        $gitProcessorFactory = new GitProcessorFactory();
 
-        $processor = $factory($container, '', []);
+        $gitProcessor = $gitProcessorFactory($container, '', []);
 
-        self::assertInstanceOf(GitProcessor::class, $processor);
+        self::assertInstanceOf(GitProcessor::class, $gitProcessor);
 
-        $lvl = new ReflectionProperty($processor, 'level');
+        $reflectionProperty = new ReflectionProperty($gitProcessor, 'level');
 
-        self::assertSame(Level::Debug, $lvl->getValue($processor));
+        self::assertSame(Level::Debug, $reflectionProperty->getValue($gitProcessor));
     }
 
     /**
@@ -92,14 +92,14 @@ final class GitProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new GitProcessorFactory();
+        $gitProcessorFactory = new GitProcessorFactory();
 
-        $processor = $factory($container, '', ['level' => $level]);
+        $gitProcessor = $gitProcessorFactory($container, '', ['level' => $level]);
 
-        self::assertInstanceOf(GitProcessor::class, $processor);
+        self::assertInstanceOf(GitProcessor::class, $gitProcessor);
 
-        $lvl = new ReflectionProperty($processor, 'level');
+        $reflectionProperty = new ReflectionProperty($gitProcessor, 'level');
 
-        self::assertSame(Level::Alert, $lvl->getValue($processor));
+        self::assertSame(Level::Alert, $reflectionProperty->getValue($gitProcessor));
     }
 }

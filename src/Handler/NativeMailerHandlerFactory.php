@@ -82,7 +82,7 @@ final class NativeMailerHandlerFactory implements FactoryInterface
             $maxColumnWidth = $options['maxColumnWidth'];
         }
 
-        $handler = new NativeMailerHandler(
+        $nativeMailerHandler = new NativeMailerHandler(
             $toEmail,
             $subject,
             $fromEmail,
@@ -92,16 +92,16 @@ final class NativeMailerHandlerFactory implements FactoryInterface
         );
 
         if (array_key_exists('contentType', $options)) {
-            $handler->setContentType($options['contentType']);
+            $nativeMailerHandler->setContentType($options['contentType']);
         }
 
         if (array_key_exists('encoding', $options)) {
-            $handler->setEncoding($options['encoding']);
+            $nativeMailerHandler->setEncoding($options['encoding']);
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $nativeMailerHandler, $options);
+        $this->addProcessor($container, $nativeMailerHandler, $options);
 
-        return $handler;
+        return $nativeMailerHandler;
     }
 }

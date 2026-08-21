@@ -44,17 +44,17 @@ final class ClientPluginManagerFactory implements FactoryInterface
         string $requestedName,
         array | null $options = null,
     ): ClientPluginManager {
-        $pluginManager = new ClientPluginManager($container, $options ?: []);
+        $clientPluginManager = new ClientPluginManager($container, $options ?: []);
 
         // If this is in a laminas-mvc application, the ServiceListener will inject
         // merged configuration during bootstrap.
         if ($container->has('ServiceListener')) {
-            return $pluginManager;
+            return $clientPluginManager;
         }
 
         // If we do not have a config service, nothing more to do
         if (!$container->has('config')) {
-            return $pluginManager;
+            return $clientPluginManager;
         }
 
         try {
@@ -70,12 +70,12 @@ final class ClientPluginManagerFactory implements FactoryInterface
             !isset($config['monolog_service_clients'])
             || !is_array($config['monolog_service_clients'])
         ) {
-            return $pluginManager;
+            return $clientPluginManager;
         }
 
         // Wire service configuration for client
-        $pluginManager->configure($config['monolog_service_clients']);
+        $clientPluginManager->configure($config['monolog_service_clients']);
 
-        return $pluginManager;
+        return $clientPluginManager;
     }
 }

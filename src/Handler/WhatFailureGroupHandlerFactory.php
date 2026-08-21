@@ -44,7 +44,7 @@ final class WhatFailureGroupHandlerFactory
         array | null $options = null,
     ): WhatFailureGroupHandler {
         if (!is_array($options)) {
-            return new WhatFailureGroupHandler([], true);
+            return new WhatFailureGroupHandler([], bubble: true);
         }
 
         $bubble = true;
@@ -60,17 +60,17 @@ final class WhatFailureGroupHandlerFactory
         }
 
         try {
-            $handler = new WhatFailureGroupHandler($handlers, $bubble);
+            $whatFailureGroupHandler = new WhatFailureGroupHandler($handlers, $bubble);
         } catch (InvalidArgumentException) {
             return new WhatFailureGroupHandler([], $bubble);
         }
 
         try {
-            $this->addProcessor($container, $handler, $options);
+            $this->addProcessor($container, $whatFailureGroupHandler, $options);
         } catch (Throwable) {
             // do nothing
         }
 
-        return $handler;
+        return $whatFailureGroupHandler;
     }
 }

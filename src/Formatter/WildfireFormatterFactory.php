@@ -60,12 +60,12 @@ final class WildfireFormatterFactory implements FactoryInterface
             }
         }
 
-        $formatter = new WildfireFormatter($dateFormat);
+        $wildfireFormatter = new WildfireFormatter($dateFormat);
 
-        $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
-        $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
-        $formatter->setJsonPrettyPrint($prettyPrint);
+        $wildfireFormatter->setMaxNormalizeDepth($maxNormalizeDepth);
+        $wildfireFormatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
+        $wildfireFormatter->setJsonPrettyPrint($prettyPrint);
 
-        return $formatter;
+        return $wildfireFormatter;
     }
 }

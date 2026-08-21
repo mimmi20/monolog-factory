@@ -90,7 +90,15 @@ final class SendGridHandlerFactory implements FactoryInterface
         }
 
         try {
-            $handler = new SendGridHandler($apiUser, $apiKey, $from, $to, $subject, $level, $bubble);
+            $sendGridHandler = new SendGridHandler(
+                $apiUser,
+                $apiKey,
+                $from,
+                $to,
+                $subject,
+                $level,
+                $bubble,
+            );
         } catch (MissingExtensionException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', SendGridHandler::class),
@@ -99,9 +107,9 @@ final class SendGridHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $sendGridHandler, $options);
+        $this->addProcessor($container, $sendGridHandler, $options);
 
-        return $handler;
+        return $sendGridHandler;
     }
 }

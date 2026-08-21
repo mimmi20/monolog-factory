@@ -37,11 +37,10 @@ use ReflectionProperty;
 use Rollbar\Config;
 use Rollbar\RollbarLogger;
 
-use function assert;
 use function class_exists;
 use function sprintf;
 
-#[RequiresPhp('< 8.1.0')]
+#[RequiresPhp(versionRequirement: '< 8.1.0')]
 final class RollbarHandlerFactoryTest extends TestCase
 {
     /**
@@ -63,13 +62,13 @@ final class RollbarHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RollbarHandlerFactory();
+        $rollbarHandlerFactory = new RollbarHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $rollbarHandlerFactory($container, '');
     }
 
     /**
@@ -91,13 +90,13 @@ final class RollbarHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RollbarHandlerFactory();
+        $rollbarHandlerFactory = new RollbarHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No access token provided');
 
-        $factory($container, '', []);
+        $rollbarHandlerFactory($container, '', []);
     }
 
     /**
@@ -121,13 +120,13 @@ final class RollbarHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RollbarHandlerFactory();
+        $rollbarHandlerFactory = new RollbarHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create service %s', RollbarLogger::class));
 
-        $factory($container, '', ['access_token' => $token]);
+        $rollbarHandlerFactory($container, '', ['access_token' => $token]);
     }
 
     /**
@@ -152,24 +151,24 @@ final class RollbarHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RollbarHandlerFactory();
+        $rollbarHandlerFactory = new RollbarHandlerFactory();
 
-        $handler = $factory($container, '', ['access_token' => $token]);
+        $rollbarHandler = $rollbarHandlerFactory($container, '', ['access_token' => $token]);
 
-        self::assertInstanceOf(RollbarHandler::class, $handler);
+        self::assertInstanceOf(RollbarHandler::class, $rollbarHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $rollbarHandler->getLevel());
+        self::assertTrue($rollbarHandler->getBubble());
 
-        $rollbarloggerP = new ReflectionProperty($handler, 'rollbarLogger');
+        $rollbarloggerP = new ReflectionProperty($rollbarHandler, 'rollbarLogger');
 
-        $rollbarlogger = $rollbarloggerP->getValue($handler);
-        assert($rollbarlogger instanceof RollbarLogger);
+        $rollbarlogger = $rollbarloggerP->getValue($rollbarHandler);
+        $this->assertInstanceOf(RollbarLogger::class, $rollbarlogger);
 
         $rollbarConfigP = new ReflectionProperty($rollbarlogger, 'config');
 
         $rollbarConfig = $rollbarConfigP->getValue($rollbarlogger);
-        assert($rollbarConfig instanceof Config);
+        $this->assertInstanceOf(Config::class, $rollbarConfig);
 
         self::assertSame($token, $rollbarConfig->getAccessToken());
         self::assertTrue($rollbarConfig->enabled());
@@ -178,11 +177,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         self::assertSame(Config::VERBOSE_NONE, $rollbarConfig->verbose());
         self::assertSame('production', $rollbarConfig->getDataBuilder()->getEnvironment());
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $rollbarHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($rollbarHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($rollbarHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -213,24 +212,24 @@ final class RollbarHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RollbarHandlerFactory();
+        $rollbarHandlerFactory = new RollbarHandlerFactory();
 
-        $handler = $factory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level]);
+        $rollbarHandler = $rollbarHandlerFactory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level]);
 
-        self::assertInstanceOf(RollbarHandler::class, $handler);
+        self::assertInstanceOf(RollbarHandler::class, $rollbarHandler);
 
-        self::assertSame(Level::Error, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Error, $rollbarHandler->getLevel());
+        self::assertFalse($rollbarHandler->getBubble());
 
-        $rollbarloggerP = new ReflectionProperty($handler, 'rollbarLogger');
+        $rollbarloggerP = new ReflectionProperty($rollbarHandler, 'rollbarLogger');
 
-        $rollbarlogger = $rollbarloggerP->getValue($handler);
-        assert($rollbarlogger instanceof RollbarLogger);
+        $rollbarlogger = $rollbarloggerP->getValue($rollbarHandler);
+        $this->assertInstanceOf(RollbarLogger::class, $rollbarlogger);
 
         $rollbarConfigP = new ReflectionProperty($rollbarlogger, 'config');
 
         $rollbarConfig = $rollbarConfigP->getValue($rollbarlogger);
-        assert($rollbarConfig instanceof Config);
+        $this->assertInstanceOf(Config::class, $rollbarConfig);
 
         self::assertSame($token, $rollbarConfig->getAccessToken());
         self::assertFalse($rollbarConfig->enabled());
@@ -239,11 +238,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         self::assertSame($verbose, $rollbarConfig->verbose());
         self::assertSame($environment, $rollbarConfig->getDataBuilder()->getEnvironment());
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $rollbarHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($rollbarHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($rollbarHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -274,7 +273,7 @@ final class RollbarHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RollbarHandlerFactory();
+        $rollbarHandlerFactory = new RollbarHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -282,7 +281,7 @@ final class RollbarHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'formatter' => $formatter]);
+        $rollbarHandlerFactory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'formatter' => $formatter]);
     }
 
     /**
@@ -302,7 +301,7 @@ final class RollbarHandlerFactoryTest extends TestCase
         $verbose     = LogLevel::ALERT;
         $environment = 'test';
         $level       = LogLevel::ERROR;
-        $formatter   = $this->createMock(LineFormatter::class);
+        $formatter   = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -312,7 +311,7 @@ final class RollbarHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new RollbarHandlerFactory();
+        $rollbarHandlerFactory = new RollbarHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -320,7 +319,7 @@ final class RollbarHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'formatter' => $formatter]);
+        $rollbarHandlerFactory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'formatter' => $formatter]);
     }
 
     /**
@@ -341,7 +340,7 @@ final class RollbarHandlerFactoryTest extends TestCase
         $verbose     = LogLevel::ALERT;
         $environment = 'test';
         $level       = LogLevel::ERROR;
-        $formatter   = $this->createMock(LineFormatter::class);
+        $formatter   = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -359,24 +358,24 @@ final class RollbarHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new RollbarHandlerFactory();
+        $rollbarHandlerFactory = new RollbarHandlerFactory();
 
-        $handler = $factory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'formatter' => $formatter]);
+        $rollbarHandler = $rollbarHandlerFactory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(RollbarHandler::class, $handler);
+        self::assertInstanceOf(RollbarHandler::class, $rollbarHandler);
 
-        self::assertSame(Level::Error, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Error, $rollbarHandler->getLevel());
+        self::assertFalse($rollbarHandler->getBubble());
 
-        $rollbarloggerP = new ReflectionProperty($handler, 'rollbarLogger');
+        $rollbarloggerP = new ReflectionProperty($rollbarHandler, 'rollbarLogger');
 
-        $rollbarlogger = $rollbarloggerP->getValue($handler);
-        assert($rollbarlogger instanceof RollbarLogger);
+        $rollbarlogger = $rollbarloggerP->getValue($rollbarHandler);
+        $this->assertInstanceOf(RollbarLogger::class, $rollbarlogger);
 
         $rollbarConfigP = new ReflectionProperty($rollbarlogger, 'config');
 
         $rollbarConfig = $rollbarConfigP->getValue($rollbarlogger);
-        assert($rollbarConfig instanceof Config);
+        $this->assertInstanceOf(Config::class, $rollbarConfig);
 
         self::assertSame($token, $rollbarConfig->getAccessToken());
         self::assertFalse($rollbarConfig->enabled());
@@ -385,11 +384,11 @@ final class RollbarHandlerFactoryTest extends TestCase
         self::assertSame($verbose, $rollbarConfig->verbose());
         self::assertSame($environment, $rollbarConfig->getDataBuilder()->getEnvironment());
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $rollbarHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($rollbarHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($rollbarHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -412,7 +411,7 @@ final class RollbarHandlerFactoryTest extends TestCase
         $verbose     = LogLevel::ALERT;
         $environment = 'test';
         $level       = LogLevel::ERROR;
-        $formatter   = $this->createMock(LineFormatter::class);
+        $formatter   = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -420,9 +419,9 @@ final class RollbarHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new RollbarHandlerFactory();
+        $rollbarHandlerFactory = new RollbarHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -430,7 +429,7 @@ final class RollbarHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'formatter' => $formatter]);
+        $rollbarHandlerFactory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'formatter' => $formatter]);
     }
 
     /**
@@ -458,13 +457,13 @@ final class RollbarHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RollbarHandlerFactory();
+        $rollbarHandlerFactory = new RollbarHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'processors' => $processors]);
+        $rollbarHandlerFactory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'processors' => $processors]);
     }
 
     /**
@@ -516,13 +515,13 @@ final class RollbarHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new RollbarHandlerFactory();
+        $rollbarHandlerFactory = new RollbarHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'processors' => $processors]);
+        $rollbarHandlerFactory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'processors' => $processors]);
     }
 
     /**
@@ -558,9 +557,9 @@ final class RollbarHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -584,24 +583,24 @@ final class RollbarHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new RollbarHandlerFactory();
+        $rollbarHandlerFactory = new RollbarHandlerFactory();
 
-        $handler = $factory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'processors' => $processors]);
+        $rollbarHandler = $rollbarHandlerFactory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'processors' => $processors]);
 
-        self::assertInstanceOf(RollbarHandler::class, $handler);
+        self::assertInstanceOf(RollbarHandler::class, $rollbarHandler);
 
-        self::assertSame(Level::Error, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Error, $rollbarHandler->getLevel());
+        self::assertFalse($rollbarHandler->getBubble());
 
-        $rollbarloggerP = new ReflectionProperty($handler, 'rollbarLogger');
+        $rollbarloggerP = new ReflectionProperty($rollbarHandler, 'rollbarLogger');
 
-        $rollbarlogger = $rollbarloggerP->getValue($handler);
-        assert($rollbarlogger instanceof RollbarLogger);
+        $rollbarlogger = $rollbarloggerP->getValue($rollbarHandler);
+        $this->assertInstanceOf(RollbarLogger::class, $rollbarlogger);
 
         $rollbarConfigP = new ReflectionProperty($rollbarlogger, 'config');
 
         $rollbarConfig = $rollbarConfigP->getValue($rollbarlogger);
-        assert($rollbarConfig instanceof Config);
+        $this->assertInstanceOf(Config::class, $rollbarConfig);
 
         self::assertSame($token, $rollbarConfig->getAccessToken());
         self::assertFalse($rollbarConfig->enabled());
@@ -610,9 +609,9 @@ final class RollbarHandlerFactoryTest extends TestCase
         self::assertSame($verbose, $rollbarConfig->verbose());
         self::assertSame($environment, $rollbarConfig->getDataBuilder()->getEnvironment());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($rollbarHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($rollbarHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -661,7 +660,7 @@ final class RollbarHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new RollbarHandlerFactory();
+        $rollbarHandlerFactory = new RollbarHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -669,7 +668,7 @@ final class RollbarHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'processors' => $processors]);
+        $rollbarHandlerFactory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'processors' => $processors]);
     }
 
     /**
@@ -710,9 +709,9 @@ final class RollbarHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new RollbarHandlerFactory();
+        $rollbarHandlerFactory = new RollbarHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -720,6 +719,6 @@ final class RollbarHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'processors' => $processors]);
+        $rollbarHandlerFactory($container, '', ['access_token' => $token, 'enabled' => false, 'transmit' => false, 'log_payload' => false, 'verbose' => $verbose, 'environment' => $environment, 'bubble' => false, 'level' => $level, 'processors' => $processors]);
     }
 }

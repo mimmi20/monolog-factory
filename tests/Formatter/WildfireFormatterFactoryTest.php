@@ -37,19 +37,19 @@ final class WildfireFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new WildfireFormatterFactory();
+        $wildfireFormatterFactory = new WildfireFormatterFactory();
 
-        $formatter = $factory($container, '');
+        $wildfireFormatter = $wildfireFormatterFactory($container, '');
 
-        self::assertInstanceOf(WildfireFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(WildfireFormatter::class, $wildfireFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $wildfireFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $wildfireFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $wildfireFormatter->getMaxNormalizeItemCount(),
         );
     }
 
@@ -66,19 +66,19 @@ final class WildfireFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new WildfireFormatterFactory();
+        $wildfireFormatterFactory = new WildfireFormatterFactory();
 
-        $formatter = $factory($container, '', []);
+        $wildfireFormatter = $wildfireFormatterFactory($container, '', []);
 
-        self::assertInstanceOf(WildfireFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(WildfireFormatter::class, $wildfireFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $wildfireFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $wildfireFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $wildfireFormatter->getMaxNormalizeItemCount(),
         );
     }
 
@@ -99,13 +99,13 @@ final class WildfireFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new WildfireFormatterFactory();
+        $wildfireFormatterFactory = new WildfireFormatterFactory();
 
-        $formatter = $factory($container, '', ['dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
+        $wildfireFormatter = $wildfireFormatterFactory($container, '', ['dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
 
-        self::assertInstanceOf(WildfireFormatter::class, $formatter);
-        self::assertSame($dateFormat, $formatter->getDateFormat());
-        self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
-        self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
+        self::assertInstanceOf(WildfireFormatter::class, $wildfireFormatter);
+        self::assertSame($dateFormat, $wildfireFormatter->getDateFormat());
+        self::assertSame($maxNormalizeDepth, $wildfireFormatter->getMaxNormalizeDepth());
+        self::assertSame($maxNormalizeItemCount, $wildfireFormatter->getMaxNormalizeItemCount());
     }
 }

@@ -50,7 +50,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -59,13 +59,13 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogUdpHandlerFactory();
+        $syslogUdpHandlerFactory = new SyslogUdpHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $syslogUdpHandlerFactory($container, '');
     }
 
     /**
@@ -75,7 +75,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -84,13 +84,13 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogUdpHandlerFactory();
+        $syslogUdpHandlerFactory = new SyslogUdpHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No host provided');
 
-        $factory($container, '', []);
+        $syslogUdpHandlerFactory($container, '', []);
     }
 
     /**
@@ -101,7 +101,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfig(): void
     {
         $host = 'test-host';
@@ -112,30 +112,30 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogUdpHandlerFactory();
+        $syslogUdpHandlerFactory = new SyslogUdpHandlerFactory();
 
-        $handler = $factory($container, '', ['host' => $host]);
+        $syslogUdpHandler = $syslogUdpHandlerFactory($container, '', ['host' => $host]);
 
-        self::assertInstanceOf(SyslogUdpHandler::class, $handler);
+        self::assertInstanceOf(SyslogUdpHandler::class, $syslogUdpHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $syslogUdpHandler->getLevel());
+        self::assertTrue($syslogUdpHandler->getBubble());
 
-        $identP = new ReflectionProperty($handler, 'ident');
+        $identP = new ReflectionProperty($syslogUdpHandler, 'ident');
 
-        self::assertSame('php', $identP->getValue($handler));
+        self::assertSame('php', $identP->getValue($syslogUdpHandler));
 
-        $rfcP = new ReflectionProperty($handler, 'rfc');
+        $rfcP = new ReflectionProperty($syslogUdpHandler, 'rfc');
 
-        self::assertSame(SyslogUdpHandler::RFC5424, $rfcP->getValue($handler));
+        self::assertSame(SyslogUdpHandler::RFC5424, $rfcP->getValue($syslogUdpHandler));
 
-        $fa = new ReflectionProperty($handler, 'facility');
+        $fa = new ReflectionProperty($syslogUdpHandler, 'facility');
 
-        self::assertSame(LOG_USER, $fa->getValue($handler));
+        self::assertSame(LOG_USER, $fa->getValue($syslogUdpHandler));
 
-        $socketP = new ReflectionProperty($handler, 'socket');
+        $socketP = new ReflectionProperty($syslogUdpHandler, 'socket');
 
-        $socket = $socketP->getValue($handler);
+        $socket = $socketP->getValue($syslogUdpHandler);
 
         $ipP = new ReflectionProperty($socket, 'ip');
 
@@ -145,11 +145,11 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
 
         self::assertSame(514, $portP->getValue($socket));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $syslogUdpHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($syslogUdpHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($syslogUdpHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -163,7 +163,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfig2(): void
     {
         $host     = 'test-host';
@@ -178,30 +178,30 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogUdpHandlerFactory();
+        $syslogUdpHandlerFactory = new SyslogUdpHandlerFactory();
 
-        $handler = $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc]);
+        $syslogUdpHandler = $syslogUdpHandlerFactory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc]);
 
-        self::assertInstanceOf(SyslogUdpHandler::class, $handler);
+        self::assertInstanceOf(SyslogUdpHandler::class, $syslogUdpHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $syslogUdpHandler->getLevel());
+        self::assertFalse($syslogUdpHandler->getBubble());
 
-        $identP = new ReflectionProperty($handler, 'ident');
+        $identP = new ReflectionProperty($syslogUdpHandler, 'ident');
 
-        self::assertSame($ident, $identP->getValue($handler));
+        self::assertSame($ident, $identP->getValue($syslogUdpHandler));
 
-        $rfcP = new ReflectionProperty($handler, 'rfc');
+        $rfcP = new ReflectionProperty($syslogUdpHandler, 'rfc');
 
-        self::assertSame($rfc, $rfcP->getValue($handler));
+        self::assertSame($rfc, $rfcP->getValue($syslogUdpHandler));
 
-        $fa = new ReflectionProperty($handler, 'facility');
+        $fa = new ReflectionProperty($syslogUdpHandler, 'facility');
 
-        self::assertSame($facility, $fa->getValue($handler));
+        self::assertSame($facility, $fa->getValue($syslogUdpHandler));
 
-        $socketP = new ReflectionProperty($handler, 'socket');
+        $socketP = new ReflectionProperty($syslogUdpHandler, 'socket');
 
-        $socket = $socketP->getValue($handler);
+        $socket = $socketP->getValue($syslogUdpHandler);
 
         $ipP = new ReflectionProperty($socket, 'ip');
 
@@ -211,11 +211,11 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
 
         self::assertSame($port, $portP->getValue($socket));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $syslogUdpHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($syslogUdpHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($syslogUdpHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -228,7 +228,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $host      = 'test-host';
@@ -244,7 +244,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogUdpHandlerFactory();
+        $syslogUdpHandlerFactory = new SyslogUdpHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -252,7 +252,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'formatter' => $formatter]);
+        $syslogUdpHandlerFactory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'formatter' => $formatter]);
     }
 
     /**
@@ -262,7 +262,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $host      = 'test-host';
@@ -270,7 +270,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $facility  = LOG_MAIL;
         $ident     = 'test-ident';
         $rfc       = SyslogUdpHandler::RFC3164;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -280,7 +280,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SyslogUdpHandlerFactory();
+        $syslogUdpHandlerFactory = new SyslogUdpHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -288,7 +288,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'formatter' => $formatter]);
+        $syslogUdpHandlerFactory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'formatter' => $formatter]);
     }
 
     /**
@@ -299,7 +299,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $host      = 'test-host';
@@ -307,7 +307,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $facility  = LOG_MAIL;
         $ident     = 'test-ident';
         $rfc       = SyslogUdpHandler::RFC3164;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -325,30 +325,30 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new SyslogUdpHandlerFactory();
+        $syslogUdpHandlerFactory = new SyslogUdpHandlerFactory();
 
-        $handler = $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'formatter' => $formatter]);
+        $syslogUdpHandler = $syslogUdpHandlerFactory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(SyslogUdpHandler::class, $handler);
+        self::assertInstanceOf(SyslogUdpHandler::class, $syslogUdpHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $syslogUdpHandler->getLevel());
+        self::assertFalse($syslogUdpHandler->getBubble());
 
-        $identP = new ReflectionProperty($handler, 'ident');
+        $identP = new ReflectionProperty($syslogUdpHandler, 'ident');
 
-        self::assertSame($ident, $identP->getValue($handler));
+        self::assertSame($ident, $identP->getValue($syslogUdpHandler));
 
-        $rfcP = new ReflectionProperty($handler, 'rfc');
+        $rfcP = new ReflectionProperty($syslogUdpHandler, 'rfc');
 
-        self::assertSame($rfc, $rfcP->getValue($handler));
+        self::assertSame($rfc, $rfcP->getValue($syslogUdpHandler));
 
-        $fa = new ReflectionProperty($handler, 'facility');
+        $fa = new ReflectionProperty($syslogUdpHandler, 'facility');
 
-        self::assertSame($facility, $fa->getValue($handler));
+        self::assertSame($facility, $fa->getValue($syslogUdpHandler));
 
-        $socketP = new ReflectionProperty($handler, 'socket');
+        $socketP = new ReflectionProperty($syslogUdpHandler, 'socket');
 
-        $socket = $socketP->getValue($handler);
+        $socket = $socketP->getValue($syslogUdpHandler);
 
         $ipP = new ReflectionProperty($socket, 'ip');
 
@@ -358,11 +358,11 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
 
         self::assertSame($port, $portP->getValue($socket));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $syslogUdpHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($syslogUdpHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($syslogUdpHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -375,7 +375,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $host      = 'test-host';
@@ -383,7 +383,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $facility  = LOG_MAIL;
         $ident     = 'test-ident';
         $rfc       = SyslogUdpHandler::RFC3164;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -391,9 +391,9 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new SyslogUdpHandlerFactory();
+        $syslogUdpHandlerFactory = new SyslogUdpHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -401,7 +401,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'formatter' => $formatter]);
+        $syslogUdpHandlerFactory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'formatter' => $formatter]);
     }
 
     /**
@@ -411,7 +411,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $host       = 'test-host';
@@ -427,13 +427,13 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogUdpHandlerFactory();
+        $syslogUdpHandlerFactory = new SyslogUdpHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
+        $syslogUdpHandlerFactory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
     }
 
     /**
@@ -443,7 +443,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $host       = 'test-host';
@@ -483,13 +483,13 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new SyslogUdpHandlerFactory();
+        $syslogUdpHandlerFactory = new SyslogUdpHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
+        $syslogUdpHandlerFactory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
     }
 
     /**
@@ -500,7 +500,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $host       = 'test-host';
@@ -523,9 +523,9 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -549,30 +549,30 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new SyslogUdpHandlerFactory();
+        $syslogUdpHandlerFactory = new SyslogUdpHandlerFactory();
 
-        $handler = $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
+        $syslogUdpHandler = $syslogUdpHandlerFactory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
 
-        self::assertInstanceOf(SyslogUdpHandler::class, $handler);
+        self::assertInstanceOf(SyslogUdpHandler::class, $syslogUdpHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $syslogUdpHandler->getLevel());
+        self::assertFalse($syslogUdpHandler->getBubble());
 
-        $identP = new ReflectionProperty($handler, 'ident');
+        $identP = new ReflectionProperty($syslogUdpHandler, 'ident');
 
-        self::assertSame($ident, $identP->getValue($handler));
+        self::assertSame($ident, $identP->getValue($syslogUdpHandler));
 
-        $rfcP = new ReflectionProperty($handler, 'rfc');
+        $rfcP = new ReflectionProperty($syslogUdpHandler, 'rfc');
 
-        self::assertSame($rfc, $rfcP->getValue($handler));
+        self::assertSame($rfc, $rfcP->getValue($syslogUdpHandler));
 
-        $fa = new ReflectionProperty($handler, 'facility');
+        $fa = new ReflectionProperty($syslogUdpHandler, 'facility');
 
-        self::assertSame($facility, $fa->getValue($handler));
+        self::assertSame($facility, $fa->getValue($syslogUdpHandler));
 
-        $socketP = new ReflectionProperty($handler, 'socket');
+        $socketP = new ReflectionProperty($syslogUdpHandler, 'socket');
 
-        $socket = $socketP->getValue($handler);
+        $socket = $socketP->getValue($syslogUdpHandler);
 
         $ipP = new ReflectionProperty($socket, 'ip');
 
@@ -582,9 +582,9 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
 
         self::assertSame($port, $portP->getValue($socket));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($syslogUdpHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($syslogUdpHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -600,7 +600,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $host       = 'test-host';
@@ -631,7 +631,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SyslogUdpHandlerFactory();
+        $syslogUdpHandlerFactory = new SyslogUdpHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -639,7 +639,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
+        $syslogUdpHandlerFactory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
     }
 
     /**
@@ -649,7 +649,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $host       = 'test-host';
@@ -678,9 +678,9 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new SyslogUdpHandlerFactory();
+        $syslogUdpHandlerFactory = new SyslogUdpHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -688,7 +688,7 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
+        $syslogUdpHandlerFactory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc, 'processors' => $processors]);
     }
 
     /**
@@ -716,12 +716,12 @@ final class SyslogUdpHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SyslogUdpHandlerFactory();
+        $syslogUdpHandlerFactory = new SyslogUdpHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', SyslogUdpHandler::class));
 
-        $factory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc]);
+        $syslogUdpHandlerFactory($container, '', ['host' => $host, 'port' => $port, 'facility' => $facility, 'level' => LogLevel::ALERT, 'bubble' => false, 'ident' => $ident, 'rfc' => $rfc]);
     }
 }

@@ -54,13 +54,13 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $streamHandlerFactory($container, '');
     }
 
     /**
@@ -78,13 +78,13 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('The required stream is missing');
 
-        $factory($container, '', []);
+        $streamHandlerFactory($container, '', []);
     }
 
     /**
@@ -105,29 +105,29 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
-        $handler = $factory($container, '', ['stream' => $stream]);
+        $streamHandler = $streamHandlerFactory($container, '', ['stream' => $stream]);
 
-        self::assertInstanceOf(StreamHandler::class, $handler);
-        self::assertSame($stream, $handler->getStream());
-        self::assertNull($handler->getUrl());
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertInstanceOf(StreamHandler::class, $streamHandler);
+        self::assertSame($stream, $streamHandler->getStream());
+        self::assertNull($streamHandler->getUrl());
+        self::assertSame(Level::Debug, $streamHandler->getLevel());
+        self::assertTrue($streamHandler->getBubble());
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($streamHandler, 'filePermission');
 
-        self::assertNull($fp->getValue($handler));
+        self::assertNull($fp->getValue($streamHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($streamHandler, 'useLocking');
 
-        self::assertTrue($ul->getValue($handler));
+        self::assertTrue($ul->getValue($streamHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $streamHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($streamHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($streamHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -150,13 +150,13 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', StreamHandler::class));
 
-        $factory($container, '', ['stream' => $stream]);
+        $streamHandlerFactory($container, '', ['stream' => $stream]);
     }
 
     /**
@@ -175,33 +175,33 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($stream)
-            ->willReturn(false);
+            ->willReturn(value: false);
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
-        $handler = $factory($container, '', ['stream' => $stream]);
+        $streamHandler = $streamHandlerFactory($container, '', ['stream' => $stream]);
 
-        self::assertInstanceOf(StreamHandler::class, $handler);
-        self::assertNull($handler->getStream());
-        self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertInstanceOf(StreamHandler::class, $streamHandler);
+        self::assertNull($streamHandler->getStream());
+        self::assertSame($stream, $streamHandler->getUrl());
+        self::assertSame(Level::Debug, $streamHandler->getLevel());
+        self::assertTrue($streamHandler->getBubble());
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($streamHandler, 'filePermission');
 
-        self::assertNull($fp->getValue($handler));
+        self::assertNull($fp->getValue($streamHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($streamHandler, 'useLocking');
 
-        self::assertTrue($ul->getValue($handler));
+        self::assertTrue($ul->getValue($streamHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $streamHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($streamHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($streamHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -224,35 +224,35 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::once())
             ->method('get')
             ->with($streamName)
             ->willReturn($stream);
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
-        $handler = $factory($container, '', ['stream' => $streamName]);
+        $streamHandler = $streamHandlerFactory($container, '', ['stream' => $streamName]);
 
-        self::assertInstanceOf(StreamHandler::class, $handler);
-        self::assertNull($handler->getStream());
-        self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertInstanceOf(StreamHandler::class, $streamHandler);
+        self::assertNull($streamHandler->getStream());
+        self::assertSame($stream, $streamHandler->getUrl());
+        self::assertSame(Level::Debug, $streamHandler->getLevel());
+        self::assertTrue($streamHandler->getBubble());
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($streamHandler, 'filePermission');
 
-        self::assertNull($fp->getValue($handler));
+        self::assertNull($fp->getValue($streamHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($streamHandler, 'useLocking');
 
-        self::assertTrue($ul->getValue($handler));
+        self::assertTrue($ul->getValue($streamHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $streamHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($streamHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($streamHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -273,19 +273,19 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::once())
             ->method('get')
             ->with($streamName)
             ->willThrowException(new ServiceNotCreatedException());
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Could not load stream');
 
-        $factory($container, '', ['stream' => $streamName]);
+        $streamHandlerFactory($container, '', ['stream' => $streamName]);
     }
 
     /**
@@ -309,35 +309,35 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::once())
             ->method('get')
             ->with($streamName)
             ->willReturn($stream);
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
-        $handler = $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking]);
+        $streamHandler = $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking]);
 
-        self::assertInstanceOf(StreamHandler::class, $handler);
-        self::assertNull($handler->getStream());
-        self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertInstanceOf(StreamHandler::class, $streamHandler);
+        self::assertNull($streamHandler->getStream());
+        self::assertSame($stream, $streamHandler->getUrl());
+        self::assertSame(Level::Alert, $streamHandler->getLevel());
+        self::assertFalse($streamHandler->getBubble());
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($streamHandler, 'filePermission');
 
-        self::assertSame($filePermission, $fp->getValue($handler));
+        self::assertSame($filePermission, $fp->getValue($streamHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($streamHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($streamHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $streamHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($streamHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($streamHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -364,13 +364,13 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::once())
             ->method('get')
             ->with($streamName)
             ->willReturn($stream);
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -378,7 +378,7 @@ final class StreamHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
+        $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
     }
 
     /**
@@ -396,19 +396,19 @@ final class StreamHandlerFactoryTest extends TestCase
         $bubble         = false;
         $filePermission = 0755;
         $useLocking     = false;
-        $formatter      = $this->createMock(LineFormatter::class);
+        $formatter      = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+            ->willReturn(value: true);
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $streamName, $stream): string {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $streamName, $stream): string {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame($streamName, $id, (string) $invocation),
@@ -426,7 +426,7 @@ final class StreamHandlerFactoryTest extends TestCase
                 },
             );
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -434,7 +434,7 @@ final class StreamHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
+        $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
     }
 
     /**
@@ -453,7 +453,7 @@ final class StreamHandlerFactoryTest extends TestCase
         $bubble         = false;
         $filePermission = 0755;
         $useLocking     = false;
-        $formatter      = $this->createMock(LineFormatter::class);
+        $formatter      = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -467,7 +467,7 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap(
@@ -477,29 +477,29 @@ final class StreamHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
-        $handler = $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
+        $streamHandler = $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(StreamHandler::class, $handler);
-        self::assertNull($handler->getStream());
-        self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertInstanceOf(StreamHandler::class, $streamHandler);
+        self::assertNull($streamHandler->getStream());
+        self::assertSame($stream, $streamHandler->getUrl());
+        self::assertSame(Level::Alert, $streamHandler->getLevel());
+        self::assertFalse($streamHandler->getBubble());
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($streamHandler, 'filePermission');
 
-        self::assertSame($filePermission, $fp->getValue($handler));
+        self::assertSame($filePermission, $fp->getValue($streamHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($streamHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($streamHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $streamHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($streamHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($streamHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -535,7 +535,7 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap(
@@ -545,29 +545,29 @@ final class StreamHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
-        $handler = $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
+        $streamHandler = $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(StreamHandler::class, $handler);
-        self::assertNull($handler->getStream());
-        self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertInstanceOf(StreamHandler::class, $streamHandler);
+        self::assertNull($streamHandler->getStream());
+        self::assertSame($stream, $streamHandler->getUrl());
+        self::assertSame(Level::Alert, $streamHandler->getLevel());
+        self::assertFalse($streamHandler->getBubble());
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($streamHandler, 'filePermission');
 
-        self::assertSame($filePermission, $fp->getValue($handler));
+        self::assertSame($filePermission, $fp->getValue($streamHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($streamHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($streamHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $streamHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($streamHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($streamHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -602,7 +602,7 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap(
@@ -612,13 +612,13 @@ final class StreamHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must contain a type for the formatter');
 
-        $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
+        $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
     }
 
     /**
@@ -639,7 +639,7 @@ final class StreamHandlerFactoryTest extends TestCase
         $useLocking     = false;
         $type           = 'elastica';
         $formatter      = ['enabled' => true, 'type' => $type];
-        $formatterClass = $this->createMock(LineFormatter::class);
+        $formatterClass = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -655,7 +655,7 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap(
@@ -665,29 +665,29 @@ final class StreamHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
-        $handler = $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
+        $streamHandler = $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(StreamHandler::class, $handler);
-        self::assertNull($handler->getStream());
-        self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertInstanceOf(StreamHandler::class, $streamHandler);
+        self::assertNull($streamHandler->getStream());
+        self::assertSame($stream, $streamHandler->getUrl());
+        self::assertSame(Level::Alert, $streamHandler->getLevel());
+        self::assertFalse($streamHandler->getBubble());
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($streamHandler, 'filePermission');
 
-        self::assertSame($filePermission, $fp->getValue($handler));
+        self::assertSame($filePermission, $fp->getValue($streamHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($streamHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($streamHandler));
 
-        self::assertSame($formatterClass, $handler->getFormatter());
+        self::assertSame($formatterClass, $streamHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($streamHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($streamHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -712,7 +712,7 @@ final class StreamHandlerFactoryTest extends TestCase
         $type           = 'elastica';
         $options        = ['abc' => 'def'];
         $formatter      = ['type' => $type, 'options' => $options];
-        $formatterClass = $this->createMock(LineFormatter::class);
+        $formatterClass = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -728,7 +728,7 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap(
@@ -738,29 +738,29 @@ final class StreamHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
-        $handler = $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
+        $streamHandler = $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(StreamHandler::class, $handler);
-        self::assertNull($handler->getStream());
-        self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertInstanceOf(StreamHandler::class, $streamHandler);
+        self::assertNull($streamHandler->getStream());
+        self::assertSame($stream, $streamHandler->getUrl());
+        self::assertSame(Level::Alert, $streamHandler->getLevel());
+        self::assertFalse($streamHandler->getBubble());
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($streamHandler, 'filePermission');
 
-        self::assertSame($filePermission, $fp->getValue($handler));
+        self::assertSame($filePermission, $fp->getValue($streamHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($streamHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($streamHandler));
 
-        self::assertSame($formatterClass, $handler->getFormatter());
+        self::assertSame($formatterClass, $streamHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($streamHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($streamHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -799,7 +799,7 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap(
@@ -809,13 +809,13 @@ final class StreamHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', $type));
 
-        $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
+        $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
     }
 
     /**
@@ -841,7 +841,7 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap(
@@ -851,7 +851,7 @@ final class StreamHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -859,7 +859,7 @@ final class StreamHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
+        $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'formatter' => $formatter]);
     }
 
     /**
@@ -883,19 +883,19 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::once())
             ->method('get')
             ->with($streamName)
             ->willReturn($stream);
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'processors' => $processors]);
+        $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'processors' => $processors]);
     }
 
     /**
@@ -941,7 +941,7 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap(
@@ -951,13 +951,13 @@ final class StreamHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'processors' => $processors]);
+        $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'processors' => $processors]);
     }
 
     /**
@@ -991,9 +991,9 @@ final class StreamHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -1013,7 +1013,7 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap(
@@ -1023,29 +1023,29 @@ final class StreamHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
-        $handler = $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'processors' => $processors]);
+        $streamHandler = $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'processors' => $processors]);
 
-        self::assertInstanceOf(StreamHandler::class, $handler);
-        self::assertNull($handler->getStream());
-        self::assertSame($stream, $handler->getUrl());
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertInstanceOf(StreamHandler::class, $streamHandler);
+        self::assertNull($streamHandler->getStream());
+        self::assertSame($stream, $streamHandler->getUrl());
+        self::assertSame(Level::Alert, $streamHandler->getLevel());
+        self::assertFalse($streamHandler->getBubble());
 
-        $fp = new ReflectionProperty($handler, 'filePermission');
+        $fp = new ReflectionProperty($streamHandler, 'filePermission');
 
-        self::assertSame($filePermission, $fp->getValue($handler));
+        self::assertSame($filePermission, $fp->getValue($streamHandler));
 
-        $ul = new ReflectionProperty($handler, 'useLocking');
+        $ul = new ReflectionProperty($streamHandler, 'useLocking');
 
-        self::assertFalse($ul->getValue($handler));
+        self::assertFalse($ul->getValue($streamHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $streamHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($streamHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($streamHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -1096,13 +1096,13 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+            ->willReturn(value: true);
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $streamName, $stream) {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $streamName, $stream): string {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame($streamName, $id, (string) $invocation),
@@ -1120,7 +1120,7 @@ final class StreamHandlerFactoryTest extends TestCase
                 },
             );
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -1128,7 +1128,7 @@ final class StreamHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'processors' => $processors]);
+        $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'processors' => $processors]);
     }
 
     /**
@@ -1173,7 +1173,7 @@ final class StreamHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($streamName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap(
@@ -1183,7 +1183,7 @@ final class StreamHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new StreamHandlerFactory();
+        $streamHandlerFactory = new StreamHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -1191,6 +1191,6 @@ final class StreamHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'processors' => $processors]);
+        $streamHandlerFactory($container, '', ['stream' => $streamName, 'level' => $level, 'bubble' => $bubble, 'filePermission' => $filePermission, 'useLocking' => $useLocking, 'processors' => $processors]);
     }
 }

@@ -111,7 +111,7 @@ final class ElasticaHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new ElasticaHandler(
+        $elasticaHandler = new ElasticaHandler(
             $client,
             [
                 'ignore_error' => $ignoreError,
@@ -122,9 +122,9 @@ final class ElasticaHandlerFactory implements FactoryInterface
             $bubble,
         );
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $elasticaHandler, $options);
+        $this->addProcessor($container, $elasticaHandler, $options);
 
-        return $handler;
+        return $elasticaHandler;
     }
 }

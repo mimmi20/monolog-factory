@@ -64,41 +64,42 @@ final class MonologFactory implements FactoryInterface
             throw new ServiceNotCreatedException('The name for the monolog logger is missing');
         }
 
-        $monolog = new Logger($options['name']);
-        $monolog->pushHandler(new NullHandler());
+        $logger = new Logger($options['name']);
+        $logger->pushHandler(new NullHandler());
 
         if (array_key_exists('timezone', $options)) {
-            $this->addTimezone($options, $monolog);
+            $this->addTimezone($options, $logger);
         }
 
         if (array_key_exists('handlers', $options) && is_iterable($options['handlers'])) {
-            $this->addHandlers($container, $options, $monolog);
+            $this->addHandlers($container, $options, $logger);
         }
 
         if (array_key_exists('processors', $options) && is_array($options['processors'])) {
-            $this->addProcessors($container, $options, $monolog);
+            $this->addProcessors($container, $options, $logger);
         }
 
         ErrorHandler::register(
-            $monolog,
+            $logger,
             $options['errorLevelMap'] ?? false,
             $options['exceptionLevelMap'] ?? false,
             $options['fatalLevel'] ?? false,
         );
 
-        return $monolog;
+        return $logger;
     }
 
     /**
+     * @param array<string, bool>|array<string, string>|array<DateTimeZone>|array<string, DateTimeZone>|callable(Monolog\LogRecord): array<array<Monolog\LogRecord|array<string, array<bool|string|mixed>>|HandlerInterface|array<mixed>>>|array<array<mixed, array<string, array<mixed>>>>|array<array<mixed, array<string, string>>>|array<array<mixed, array<string, bool>>>|array<string, array<mixed>> $options
      * @phpstan-param array{name?: string, timezone: (bool|string|DateTimeZone), handlers?: string|array{HandlerInterface|array{enabled?: bool, type?: string, options?: array<mixed>}}, processors?: string|array<((callable(LogRecord): LogRecord)|array{enabled?: bool, type?: string, options?: array<mixed>})>} $options
      *
      * @throws void
      */
-    private function addTimezone(array $options, Logger $monolog): void
+    private function addTimezone(array $options, Logger $logger): void
     {
         if (is_string($options['timezone'])) {
             try {
-                $monolog->setTimezone(new DateTimeZone($options['timezone']));
+                $logger->setTimezone(new DateTimeZone($options['timezone']));
             } catch (Throwable) {
                 // do nothing
             }
@@ -107,16 +108,17 @@ final class MonologFactory implements FactoryInterface
         }
 
         if ($options['timezone'] instanceof DateTimeZone) {
-            $monolog->setTimezone($options['timezone']);
+            $logger->setTimezone($options['timezone']);
         }
     }
 
     /**
+     * @param array<string, string>|array<string, array<HandlerInterface>>|array<string, array<array<mixed>>>|array<string, array<mixed, array<string, array<mixed>>>>|array<string, array<mixed, array<string, string>>>|array<string, array<mixed, array<string, bool>>>|array<string, bool>|array<string, DateTimeZone>|array<array<HandlerInterface>>|array<array<array<mixed>>>|array<array<mixed, array<string, array<mixed>>>>|array<array<mixed, array<string, string>>>|array<array<mixed, array<string, bool>>>|array<string, array<mixed>> $options
      * @phpstan-param array{name?: string, timezone?: (bool|string|DateTimeZone), handlers: array{HandlerInterface|array{enabled?: bool, type?: string, options?: array<mixed>}}, processors?: string|array<((callable(LogRecord): LogRecord)|array{enabled?: bool, type?: string, options?: array<mixed>})>} $options
      *
      * @throws void
      */
-    private function addHandlers(ContainerInterface $container, array $options, Logger $monolog): void
+    private function addHandlers(ContainerInterface $container, array $options, Logger $logger): void
     {
         try {
             $monologHandlerPluginManager = $container->get(MonologHandlerPluginManager::class);
@@ -134,7 +136,7 @@ final class MonologFactory implements FactoryInterface
 
         foreach ($options['handlers'] as $handlerArray) {
             if ($handlerArray instanceof HandlerInterface) {
-                $monolog->pushHandler($handlerArray);
+                $logger->pushHandler($handlerArray);
 
                 continue;
             }
@@ -162,16 +164,17 @@ final class MonologFactory implements FactoryInterface
 
             assert($handler instanceof HandlerInterface);
 
-            $monolog->pushHandler($handler);
+            $logger->pushHandler($handler);
         }
     }
 
     /**
+     * @param array<string, string>|array<string, array<callable(Monolog\LogRecord): Monolog\LogRecord|array<string, bool|string|array<mixed>>>>|array<string, array<mixed>>|array<string, bool>|array<string, DateTimeZone>|callable(Monolog\LogRecord): array<array<Monolog\LogRecord>>|array<array<array<string, array<bool|string|mixed>>>> $options
      * @phpstan-param array{name?: string, timezone?: (bool|string|DateTimeZone), handlers?: string|array{HandlerInterface|array{enabled?: bool, type?: string, options?: array<mixed>}}, processors: array<((callable(LogRecord): LogRecord)|array{enabled?: bool, type?: string, options?: array<mixed>})>} $options
      *
      * @throws void
      */
-    private function addProcessors(ContainerInterface $container, array $options, Logger $monolog): void
+    private function addProcessors(ContainerInterface $container, array $options, Logger $logger): void
     {
         try {
             $monologProcessorPluginManager = $container->get(MonologProcessorPluginManager::class);
@@ -190,7 +193,7 @@ final class MonologFactory implements FactoryInterface
                 continue;
             }
 
-            $monolog->pushProcessor($processor);
+            $logger->pushProcessor($processor);
         }
     }
 }

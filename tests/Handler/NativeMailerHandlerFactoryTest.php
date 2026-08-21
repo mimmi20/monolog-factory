@@ -54,13 +54,13 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $nativeMailerHandlerFactory($container, '');
     }
 
     /**
@@ -78,13 +78,13 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('The required to is missing');
 
-        $factory($container, '', []);
+        $nativeMailerHandlerFactory($container, '', []);
     }
 
     /**
@@ -104,13 +104,13 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('The required subject is missing');
 
-        $factory($container, '', ['to' => $to]);
+        $nativeMailerHandlerFactory($container, '', ['to' => $to]);
     }
 
     /**
@@ -131,13 +131,13 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('The required from is missing');
 
-        $factory($container, '', ['to' => $to, 'subject' => $subject]);
+        $nativeMailerHandlerFactory($container, '', ['to' => $to, 'subject' => $subject]);
     }
 
     /**
@@ -160,38 +160,38 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
-        $handler = $factory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from]);
+        $nativeMailerHandler = $nativeMailerHandlerFactory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from]);
 
-        self::assertInstanceOf(NativeMailerHandler::class, $handler);
+        self::assertInstanceOf(NativeMailerHandler::class, $nativeMailerHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
-        self::assertNull($handler->getContentType());
-        self::assertSame('utf-8', $handler->getEncoding());
+        self::assertSame(Level::Debug, $nativeMailerHandler->getLevel());
+        self::assertTrue($nativeMailerHandler->getBubble());
+        self::assertNull($nativeMailerHandler->getContentType());
+        self::assertSame('utf-8', $nativeMailerHandler->getEncoding());
 
-        $toP = new ReflectionProperty($handler, 'to');
+        $toP = new ReflectionProperty($nativeMailerHandler, 'to');
 
-        self::assertSame([$to], $toP->getValue($handler));
+        self::assertSame([$to], $toP->getValue($nativeMailerHandler));
 
-        $subjectP = new ReflectionProperty($handler, 'subject');
+        $subjectP = new ReflectionProperty($nativeMailerHandler, 'subject');
 
-        self::assertSame($subject, $subjectP->getValue($handler));
+        self::assertSame($subject, $subjectP->getValue($nativeMailerHandler));
 
-        $mcw = new ReflectionProperty($handler, 'maxColumnWidth');
+        $mcw = new ReflectionProperty($nativeMailerHandler, 'maxColumnWidth');
 
-        self::assertSame(70, $mcw->getValue($handler));
+        self::assertSame(70, $mcw->getValue($nativeMailerHandler));
 
-        $headersP = new ReflectionProperty($handler, 'headers');
+        $headersP = new ReflectionProperty($nativeMailerHandler, 'headers');
 
-        self::assertSame(['From: ' . $from], $headersP->getValue($handler));
+        self::assertSame(['From: ' . $from], $headersP->getValue($nativeMailerHandler));
 
-        self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(HtmlFormatter::class, $nativeMailerHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($nativeMailerHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($nativeMailerHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -220,38 +220,38 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
-        $handler = $factory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding]);
+        $nativeMailerHandler = $nativeMailerHandlerFactory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding]);
 
-        self::assertInstanceOf(NativeMailerHandler::class, $handler);
+        self::assertInstanceOf(NativeMailerHandler::class, $nativeMailerHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame($contentType, $handler->getContentType());
-        self::assertSame($encoding, $handler->getEncoding());
+        self::assertSame(Level::Alert, $nativeMailerHandler->getLevel());
+        self::assertFalse($nativeMailerHandler->getBubble());
+        self::assertSame($contentType, $nativeMailerHandler->getContentType());
+        self::assertSame($encoding, $nativeMailerHandler->getEncoding());
 
-        $toP = new ReflectionProperty($handler, 'to');
+        $toP = new ReflectionProperty($nativeMailerHandler, 'to');
 
-        self::assertSame([$to], $toP->getValue($handler));
+        self::assertSame([$to], $toP->getValue($nativeMailerHandler));
 
-        $subjectP = new ReflectionProperty($handler, 'subject');
+        $subjectP = new ReflectionProperty($nativeMailerHandler, 'subject');
 
-        self::assertSame($subject, $subjectP->getValue($handler));
+        self::assertSame($subject, $subjectP->getValue($nativeMailerHandler));
 
-        $mcw = new ReflectionProperty($handler, 'maxColumnWidth');
+        $mcw = new ReflectionProperty($nativeMailerHandler, 'maxColumnWidth');
 
-        self::assertSame($maxColumnWidth, $mcw->getValue($handler));
+        self::assertSame($maxColumnWidth, $mcw->getValue($nativeMailerHandler));
 
-        $headersP = new ReflectionProperty($handler, 'headers');
+        $headersP = new ReflectionProperty($nativeMailerHandler, 'headers');
 
-        self::assertSame(['From: ' . $from], $headersP->getValue($handler));
+        self::assertSame(['From: ' . $from], $headersP->getValue($nativeMailerHandler));
 
-        self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(HtmlFormatter::class, $nativeMailerHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($nativeMailerHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($nativeMailerHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -280,7 +280,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -288,7 +288,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'formatter' => $formatter]);
+        $nativeMailerHandlerFactory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'formatter' => $formatter]);
     }
 
     /**
@@ -306,7 +306,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $maxColumnWidth = 120;
         $contentType    = 'test/fake';
         $encoding       = 'iso-42';
-        $formatter      = $this->createMock(LineFormatter::class);
+        $formatter      = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -316,7 +316,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -324,7 +324,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'formatter' => $formatter]);
+        $nativeMailerHandlerFactory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'formatter' => $formatter]);
     }
 
     /**
@@ -343,7 +343,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $maxColumnWidth = 120;
         $contentType    = 'test/fake';
         $encoding       = 'iso-42';
-        $formatter      = $this->createMock(LineFormatter::class);
+        $formatter      = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -361,38 +361,38 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
-        $handler = $factory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'formatter' => $formatter]);
+        $nativeMailerHandler = $nativeMailerHandlerFactory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(NativeMailerHandler::class, $handler);
+        self::assertInstanceOf(NativeMailerHandler::class, $nativeMailerHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame($contentType, $handler->getContentType());
-        self::assertSame($encoding, $handler->getEncoding());
+        self::assertSame(Level::Alert, $nativeMailerHandler->getLevel());
+        self::assertFalse($nativeMailerHandler->getBubble());
+        self::assertSame($contentType, $nativeMailerHandler->getContentType());
+        self::assertSame($encoding, $nativeMailerHandler->getEncoding());
 
-        $toP = new ReflectionProperty($handler, 'to');
+        $toP = new ReflectionProperty($nativeMailerHandler, 'to');
 
-        self::assertSame([$to], $toP->getValue($handler));
+        self::assertSame([$to], $toP->getValue($nativeMailerHandler));
 
-        $subjectP = new ReflectionProperty($handler, 'subject');
+        $subjectP = new ReflectionProperty($nativeMailerHandler, 'subject');
 
-        self::assertSame($subject, $subjectP->getValue($handler));
+        self::assertSame($subject, $subjectP->getValue($nativeMailerHandler));
 
-        $mcw = new ReflectionProperty($handler, 'maxColumnWidth');
+        $mcw = new ReflectionProperty($nativeMailerHandler, 'maxColumnWidth');
 
-        self::assertSame($maxColumnWidth, $mcw->getValue($handler));
+        self::assertSame($maxColumnWidth, $mcw->getValue($nativeMailerHandler));
 
-        $headersP = new ReflectionProperty($handler, 'headers');
+        $headersP = new ReflectionProperty($nativeMailerHandler, 'headers');
 
-        self::assertSame(['From: ' . $from], $headersP->getValue($handler));
+        self::assertSame(['From: ' . $from], $headersP->getValue($nativeMailerHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $nativeMailerHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($nativeMailerHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($nativeMailerHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -413,7 +413,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $maxColumnWidth = 120;
         $contentType    = 'test/fake';
         $encoding       = 'iso-42';
-        $formatter      = $this->createMock(LineFormatter::class);
+        $formatter      = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -421,9 +421,9 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -431,7 +431,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'formatter' => $formatter]);
+        $nativeMailerHandlerFactory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'formatter' => $formatter]);
     }
 
     /**
@@ -457,13 +457,13 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'processors' => $processors]);
+        $nativeMailerHandlerFactory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'processors' => $processors]);
     }
 
     /**
@@ -513,13 +513,13 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'processors' => $processors]);
+        $nativeMailerHandlerFactory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'processors' => $processors]);
     }
 
     /**
@@ -553,9 +553,9 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -579,36 +579,36 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
-        $handler = $factory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'processors' => $processors]);
+        $nativeMailerHandler = $nativeMailerHandlerFactory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'processors' => $processors]);
 
-        self::assertInstanceOf(NativeMailerHandler::class, $handler);
+        self::assertInstanceOf(NativeMailerHandler::class, $nativeMailerHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame($contentType, $handler->getContentType());
-        self::assertSame($encoding, $handler->getEncoding());
+        self::assertSame(Level::Alert, $nativeMailerHandler->getLevel());
+        self::assertFalse($nativeMailerHandler->getBubble());
+        self::assertSame($contentType, $nativeMailerHandler->getContentType());
+        self::assertSame($encoding, $nativeMailerHandler->getEncoding());
 
-        $toP = new ReflectionProperty($handler, 'to');
+        $toP = new ReflectionProperty($nativeMailerHandler, 'to');
 
-        self::assertSame([$to], $toP->getValue($handler));
+        self::assertSame([$to], $toP->getValue($nativeMailerHandler));
 
-        $subjectP = new ReflectionProperty($handler, 'subject');
+        $subjectP = new ReflectionProperty($nativeMailerHandler, 'subject');
 
-        self::assertSame($subject, $subjectP->getValue($handler));
+        self::assertSame($subject, $subjectP->getValue($nativeMailerHandler));
 
-        $mcw = new ReflectionProperty($handler, 'maxColumnWidth');
+        $mcw = new ReflectionProperty($nativeMailerHandler, 'maxColumnWidth');
 
-        self::assertSame($maxColumnWidth, $mcw->getValue($handler));
+        self::assertSame($maxColumnWidth, $mcw->getValue($nativeMailerHandler));
 
-        $headersP = new ReflectionProperty($handler, 'headers');
+        $headersP = new ReflectionProperty($nativeMailerHandler, 'headers');
 
-        self::assertSame(['From: ' . $from], $headersP->getValue($handler));
+        self::assertSame(['From: ' . $from], $headersP->getValue($nativeMailerHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($nativeMailerHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($nativeMailerHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -655,7 +655,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -663,7 +663,7 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'processors' => $processors]);
+        $nativeMailerHandlerFactory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'processors' => $processors]);
     }
 
     /**
@@ -702,9 +702,9 @@ final class NativeMailerHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new NativeMailerHandlerFactory();
+        $nativeMailerHandlerFactory = new NativeMailerHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -712,6 +712,6 @@ final class NativeMailerHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'processors' => $processors]);
+        $nativeMailerHandlerFactory($container, '', ['to' => $to, 'subject' => $subject, 'from' => $from, 'level' => LogLevel::ALERT, 'bubble' => false, 'maxColumnWidth' => $maxColumnWidth, 'contentType' => $contentType, 'encoding' => $encoding, 'processors' => $processors]);
     }
 }

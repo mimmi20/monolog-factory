@@ -101,11 +101,11 @@ final class DynamoDbHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new DynamoDbHandler($client, $table, $level, $bubble);
+        $dynamoDbHandler = new DynamoDbHandler($client, $table, $level, $bubble);
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $dynamoDbHandler, $options);
+        $this->addProcessor($container, $dynamoDbHandler, $options);
 
-        return $handler;
+        return $dynamoDbHandler;
     }
 }

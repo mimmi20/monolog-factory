@@ -73,7 +73,7 @@ final class ErrorLogHandlerFactory implements FactoryInterface
         }
 
         try {
-            $handler = new ErrorLogHandler($messageType, $level, $bubble, $expandNewlines);
+            $errorLogHandler = new ErrorLogHandler($messageType, $level, $bubble, $expandNewlines);
         } catch (InvalidArgumentException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', ErrorLogHandler::class),
@@ -82,9 +82,9 @@ final class ErrorLogHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $errorLogHandler, $options);
+        $this->addProcessor($container, $errorLogHandler, $options);
 
-        return $handler;
+        return $errorLogHandler;
     }
 }

@@ -48,7 +48,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -57,13 +57,13 @@ final class PushoverHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $pushoverHandlerFactory($container, '');
     }
 
     /**
@@ -73,7 +73,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -82,13 +82,13 @@ final class PushoverHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No token provided');
 
-        $factory($container, '', []);
+        $pushoverHandlerFactory($container, '', []);
     }
 
     /**
@@ -98,7 +98,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigWithoutUsers(): void
     {
         $token = 'token';
@@ -109,13 +109,13 @@ final class PushoverHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No users provided');
 
-        $factory($container, '', ['token' => $token]);
+        $pushoverHandlerFactory($container, '', ['token' => $token]);
     }
 
     /**
@@ -126,7 +126,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndUsers(): void
     {
         $token = 'token';
@@ -138,53 +138,53 @@ final class PushoverHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'users' => $users]);
+        $pushoverHandler = $pushoverHandlerFactory($container, '', ['token' => $token, 'users' => $users]);
 
-        self::assertInstanceOf(PushoverHandler::class, $handler);
+        self::assertInstanceOf(PushoverHandler::class, $pushoverHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
-        self::assertSame('ssl://api.pushover.net:443', $handler->getConnectionString());
-        self::assertSame(0.0, $handler->getTimeout());
-        self::assertSame(10.0, $handler->getWritingTimeout());
-        self::assertSame(60.0, $handler->getConnectionTimeout());
-        self::assertFalse($handler->isPersistent());
+        self::assertSame(Level::Debug, $pushoverHandler->getLevel());
+        self::assertTrue($pushoverHandler->getBubble());
+        self::assertSame('ssl://api.pushover.net:443', $pushoverHandler->getConnectionString());
+        self::assertSame(0.0, $pushoverHandler->getTimeout());
+        self::assertSame(10.0, $pushoverHandler->getWritingTimeout());
+        self::assertSame(60.0, $pushoverHandler->getConnectionTimeout());
+        self::assertFalse($pushoverHandler->isPersistent());
 
-        $tk = new ReflectionProperty($handler, 'token');
+        $tk = new ReflectionProperty($pushoverHandler, 'token');
 
-        self::assertSame($token, $tk->getValue($handler));
+        self::assertSame($token, $tk->getValue($pushoverHandler));
 
-        $us = new ReflectionProperty($handler, 'users');
+        $us = new ReflectionProperty($pushoverHandler, 'users');
 
-        self::assertSame([$users], $us->getValue($handler));
+        self::assertSame([$users], $us->getValue($pushoverHandler));
 
-        $ti = new ReflectionProperty($handler, 'title');
+        $ti = new ReflectionProperty($pushoverHandler, 'title');
 
-        self::assertSame((string) gethostname(), $ti->getValue($handler));
+        self::assertSame((string) gethostname(), $ti->getValue($pushoverHandler));
 
-        $hpl = new ReflectionProperty($handler, 'highPriorityLevel');
+        $hpl = new ReflectionProperty($pushoverHandler, 'highPriorityLevel');
 
-        self::assertSame(Level::Critical, $hpl->getValue($handler));
+        self::assertSame(Level::Critical, $hpl->getValue($pushoverHandler));
 
-        $el = new ReflectionProperty($handler, 'emergencyLevel');
+        $el = new ReflectionProperty($pushoverHandler, 'emergencyLevel');
 
-        self::assertSame(Level::Emergency, $el->getValue($handler));
+        self::assertSame(Level::Emergency, $el->getValue($pushoverHandler));
 
-        $re = new ReflectionProperty($handler, 'retry');
+        $re = new ReflectionProperty($pushoverHandler, 'retry');
 
-        self::assertSame(30, $re->getValue($handler));
+        self::assertSame(30, $re->getValue($pushoverHandler));
 
-        $ex = new ReflectionProperty($handler, 'expire');
+        $ex = new ReflectionProperty($pushoverHandler, 'expire');
 
-        self::assertSame(25200, $ex->getValue($handler));
+        self::assertSame(25200, $ex->getValue($pushoverHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $pushoverHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($pushoverHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($pushoverHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -198,7 +198,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndUsers2(): void
     {
         $token        = 'token';
@@ -217,54 +217,54 @@ final class PushoverHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
+        $pushoverHandler = $pushoverHandlerFactory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
 
-        self::assertInstanceOf(PushoverHandler::class, $handler);
+        self::assertInstanceOf(PushoverHandler::class, $pushoverHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('api.pushover.net:80', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame(60.0, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $pushoverHandler->getLevel());
+        self::assertFalse($pushoverHandler->getBubble());
+        self::assertSame('api.pushover.net:80', $pushoverHandler->getConnectionString());
+        self::assertSame($timeout, $pushoverHandler->getTimeout());
+        self::assertSame($writeTimeout, $pushoverHandler->getWritingTimeout());
+        self::assertSame(60.0, $pushoverHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $pushoverHandler->getChunkSize());
+        self::assertTrue($pushoverHandler->isPersistent());
 
-        $tk = new ReflectionProperty($handler, 'token');
+        $tk = new ReflectionProperty($pushoverHandler, 'token');
 
-        self::assertSame($token, $tk->getValue($handler));
+        self::assertSame($token, $tk->getValue($pushoverHandler));
 
-        $us = new ReflectionProperty($handler, 'users');
+        $us = new ReflectionProperty($pushoverHandler, 'users');
 
-        self::assertSame($users, $us->getValue($handler));
+        self::assertSame($users, $us->getValue($pushoverHandler));
 
-        $ti = new ReflectionProperty($handler, 'title');
+        $ti = new ReflectionProperty($pushoverHandler, 'title');
 
-        self::assertSame($title, $ti->getValue($handler));
+        self::assertSame($title, $ti->getValue($pushoverHandler));
 
-        $hpl = new ReflectionProperty($handler, 'highPriorityLevel');
+        $hpl = new ReflectionProperty($pushoverHandler, 'highPriorityLevel');
 
-        self::assertSame(Level::Error, $hpl->getValue($handler));
+        self::assertSame(Level::Error, $hpl->getValue($pushoverHandler));
 
-        $el = new ReflectionProperty($handler, 'emergencyLevel');
+        $el = new ReflectionProperty($pushoverHandler, 'emergencyLevel');
 
-        self::assertSame(Level::Alert, $el->getValue($handler));
+        self::assertSame(Level::Alert, $el->getValue($pushoverHandler));
 
-        $re = new ReflectionProperty($handler, 'retry');
+        $re = new ReflectionProperty($pushoverHandler, 'retry');
 
-        self::assertSame($retry, $re->getValue($handler));
+        self::assertSame($retry, $re->getValue($pushoverHandler));
 
-        $ex = new ReflectionProperty($handler, 'expire');
+        $ex = new ReflectionProperty($pushoverHandler, 'expire');
 
-        self::assertSame($expire, $ex->getValue($handler));
+        self::assertSame($expire, $ex->getValue($pushoverHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $pushoverHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($pushoverHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($pushoverHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -277,7 +277,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $token        = 'token';
@@ -297,7 +297,7 @@ final class PushoverHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -305,7 +305,7 @@ final class PushoverHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $pushoverHandlerFactory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -315,7 +315,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $token        = 'token';
@@ -327,7 +327,7 @@ final class PushoverHandlerFactoryTest extends TestCase
         $writeTimeout = 120.0;
         $persistent   = true;
         $chunkSize    = 100;
-        $formatter    = $this->createMock(LineFormatter::class);
+        $formatter    = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -337,7 +337,7 @@ final class PushoverHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -345,7 +345,7 @@ final class PushoverHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $pushoverHandlerFactory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -356,7 +356,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $token        = 'token';
@@ -368,7 +368,7 @@ final class PushoverHandlerFactoryTest extends TestCase
         $writeTimeout = 120.0;
         $persistent   = true;
         $chunkSize    = 100;
-        $formatter    = $this->createMock(LineFormatter::class);
+        $formatter    = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -386,54 +386,54 @@ final class PushoverHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $pushoverHandler = $pushoverHandlerFactory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(PushoverHandler::class, $handler);
+        self::assertInstanceOf(PushoverHandler::class, $pushoverHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('api.pushover.net:80', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame(60.0, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $pushoverHandler->getLevel());
+        self::assertFalse($pushoverHandler->getBubble());
+        self::assertSame('api.pushover.net:80', $pushoverHandler->getConnectionString());
+        self::assertSame($timeout, $pushoverHandler->getTimeout());
+        self::assertSame($writeTimeout, $pushoverHandler->getWritingTimeout());
+        self::assertSame(60.0, $pushoverHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $pushoverHandler->getChunkSize());
+        self::assertTrue($pushoverHandler->isPersistent());
 
-        $tk = new ReflectionProperty($handler, 'token');
+        $tk = new ReflectionProperty($pushoverHandler, 'token');
 
-        self::assertSame($token, $tk->getValue($handler));
+        self::assertSame($token, $tk->getValue($pushoverHandler));
 
-        $us = new ReflectionProperty($handler, 'users');
+        $us = new ReflectionProperty($pushoverHandler, 'users');
 
-        self::assertSame($users, $us->getValue($handler));
+        self::assertSame($users, $us->getValue($pushoverHandler));
 
-        $ti = new ReflectionProperty($handler, 'title');
+        $ti = new ReflectionProperty($pushoverHandler, 'title');
 
-        self::assertSame($title, $ti->getValue($handler));
+        self::assertSame($title, $ti->getValue($pushoverHandler));
 
-        $hpl = new ReflectionProperty($handler, 'highPriorityLevel');
+        $hpl = new ReflectionProperty($pushoverHandler, 'highPriorityLevel');
 
-        self::assertSame(Level::Error, $hpl->getValue($handler));
+        self::assertSame(Level::Error, $hpl->getValue($pushoverHandler));
 
-        $el = new ReflectionProperty($handler, 'emergencyLevel');
+        $el = new ReflectionProperty($pushoverHandler, 'emergencyLevel');
 
-        self::assertSame(Level::Alert, $el->getValue($handler));
+        self::assertSame(Level::Alert, $el->getValue($pushoverHandler));
 
-        $re = new ReflectionProperty($handler, 'retry');
+        $re = new ReflectionProperty($pushoverHandler, 'retry');
 
-        self::assertSame($retry, $re->getValue($handler));
+        self::assertSame($retry, $re->getValue($pushoverHandler));
 
-        $ex = new ReflectionProperty($handler, 'expire');
+        $ex = new ReflectionProperty($pushoverHandler, 'expire');
 
-        self::assertSame($expire, $ex->getValue($handler));
+        self::assertSame($expire, $ex->getValue($pushoverHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $pushoverHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($pushoverHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($pushoverHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -447,7 +447,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $token  = 'token';
@@ -462,7 +462,7 @@ final class PushoverHandlerFactoryTest extends TestCase
 
         $persistent = true;
         $chunkSize  = 100;
-        $formatter  = $this->createMock(LineFormatter::class);
+        $formatter  = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -480,54 +480,54 @@ final class PushoverHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $pushoverHandler = $pushoverHandlerFactory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(PushoverHandler::class, $handler);
+        self::assertInstanceOf(PushoverHandler::class, $pushoverHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('api.pushover.net:80', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $pushoverHandler->getLevel());
+        self::assertFalse($pushoverHandler->getBubble());
+        self::assertSame('api.pushover.net:80', $pushoverHandler->getConnectionString());
+        self::assertSame($timeout, $pushoverHandler->getTimeout());
+        self::assertSame($writeTimeout, $pushoverHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $pushoverHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $pushoverHandler->getChunkSize());
+        self::assertTrue($pushoverHandler->isPersistent());
 
-        $tk = new ReflectionProperty($handler, 'token');
+        $tk = new ReflectionProperty($pushoverHandler, 'token');
 
-        self::assertSame($token, $tk->getValue($handler));
+        self::assertSame($token, $tk->getValue($pushoverHandler));
 
-        $us = new ReflectionProperty($handler, 'users');
+        $us = new ReflectionProperty($pushoverHandler, 'users');
 
-        self::assertSame($users, $us->getValue($handler));
+        self::assertSame($users, $us->getValue($pushoverHandler));
 
-        $ti = new ReflectionProperty($handler, 'title');
+        $ti = new ReflectionProperty($pushoverHandler, 'title');
 
-        self::assertSame($title, $ti->getValue($handler));
+        self::assertSame($title, $ti->getValue($pushoverHandler));
 
-        $hpl = new ReflectionProperty($handler, 'highPriorityLevel');
+        $hpl = new ReflectionProperty($pushoverHandler, 'highPriorityLevel');
 
-        self::assertSame(Level::Error, $hpl->getValue($handler));
+        self::assertSame(Level::Error, $hpl->getValue($pushoverHandler));
 
-        $el = new ReflectionProperty($handler, 'emergencyLevel');
+        $el = new ReflectionProperty($pushoverHandler, 'emergencyLevel');
 
-        self::assertSame(Level::Alert, $el->getValue($handler));
+        self::assertSame(Level::Alert, $el->getValue($pushoverHandler));
 
-        $re = new ReflectionProperty($handler, 'retry');
+        $re = new ReflectionProperty($pushoverHandler, 'retry');
 
-        self::assertSame($retry, $re->getValue($handler));
+        self::assertSame($retry, $re->getValue($pushoverHandler));
 
-        $ex = new ReflectionProperty($handler, 'expire');
+        $ex = new ReflectionProperty($pushoverHandler, 'expire');
 
-        self::assertSame($expire, $ex->getValue($handler));
+        self::assertSame($expire, $ex->getValue($pushoverHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $pushoverHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($pushoverHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($pushoverHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -540,7 +540,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndFormatter4(): void
     {
         $token  = 'token';
@@ -555,7 +555,7 @@ final class PushoverHandlerFactoryTest extends TestCase
 
         $persistent = true;
         $chunkSize  = 100;
-        $formatter  = $this->createMock(LineFormatter::class);
+        $formatter  = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -563,9 +563,9 @@ final class PushoverHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -573,7 +573,7 @@ final class PushoverHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $pushoverHandlerFactory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -583,7 +583,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $token        = 'token';
@@ -603,13 +603,13 @@ final class PushoverHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $pushoverHandlerFactory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -619,7 +619,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $token        = 'token';
@@ -663,13 +663,13 @@ final class PushoverHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $pushoverHandlerFactory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -680,7 +680,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $token             = 'token';
@@ -708,9 +708,9 @@ final class PushoverHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -734,52 +734,52 @@ final class PushoverHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $pushoverHandler = $pushoverHandlerFactory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
 
-        self::assertInstanceOf(PushoverHandler::class, $handler);
+        self::assertInstanceOf(PushoverHandler::class, $pushoverHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('api.pushover.net:80', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $pushoverHandler->getLevel());
+        self::assertFalse($pushoverHandler->getBubble());
+        self::assertSame('api.pushover.net:80', $pushoverHandler->getConnectionString());
+        self::assertSame($timeout, $pushoverHandler->getTimeout());
+        self::assertSame($writeTimeout, $pushoverHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $pushoverHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $pushoverHandler->getChunkSize());
+        self::assertTrue($pushoverHandler->isPersistent());
 
-        $tk = new ReflectionProperty($handler, 'token');
+        $tk = new ReflectionProperty($pushoverHandler, 'token');
 
-        self::assertSame($token, $tk->getValue($handler));
+        self::assertSame($token, $tk->getValue($pushoverHandler));
 
-        $us = new ReflectionProperty($handler, 'users');
+        $us = new ReflectionProperty($pushoverHandler, 'users');
 
-        self::assertSame($users, $us->getValue($handler));
+        self::assertSame($users, $us->getValue($pushoverHandler));
 
-        $ti = new ReflectionProperty($handler, 'title');
+        $ti = new ReflectionProperty($pushoverHandler, 'title');
 
-        self::assertSame($title, $ti->getValue($handler));
+        self::assertSame($title, $ti->getValue($pushoverHandler));
 
-        $hpl = new ReflectionProperty($handler, 'highPriorityLevel');
+        $hpl = new ReflectionProperty($pushoverHandler, 'highPriorityLevel');
 
-        self::assertSame(Level::Error, $hpl->getValue($handler));
+        self::assertSame(Level::Error, $hpl->getValue($pushoverHandler));
 
-        $el = new ReflectionProperty($handler, 'emergencyLevel');
+        $el = new ReflectionProperty($pushoverHandler, 'emergencyLevel');
 
-        self::assertSame(Level::Alert, $el->getValue($handler));
+        self::assertSame(Level::Alert, $el->getValue($pushoverHandler));
 
-        $re = new ReflectionProperty($handler, 'retry');
+        $re = new ReflectionProperty($pushoverHandler, 'retry');
 
-        self::assertSame($retry, $re->getValue($handler));
+        self::assertSame($retry, $re->getValue($pushoverHandler));
 
-        $ex = new ReflectionProperty($handler, 'expire');
+        $ex = new ReflectionProperty($pushoverHandler, 'expire');
 
-        self::assertSame($expire, $ex->getValue($handler));
+        self::assertSame($expire, $ex->getValue($pushoverHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($pushoverHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($pushoverHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -795,7 +795,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $token        = 'token';
@@ -830,7 +830,7 @@ final class PushoverHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -838,7 +838,7 @@ final class PushoverHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $pushoverHandlerFactory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -848,7 +848,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $token        = 'token';
@@ -881,9 +881,9 @@ final class PushoverHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -891,7 +891,7 @@ final class PushoverHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $pushoverHandlerFactory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -923,7 +923,7 @@ final class PushoverHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -931,7 +931,7 @@ final class PushoverHandlerFactoryTest extends TestCase
             sprintf('The sockets extension is needed to use the %s', PushoverHandler::class),
         );
 
-        $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
+        $pushoverHandlerFactory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
     }
 
     /**
@@ -941,7 +941,7 @@ final class PushoverHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('sockets')]
+    #[RequiresPhpExtension(extension: 'sockets')]
     public function testInvokeWithNegativeTimeout(): void
     {
         $token        = 'token';
@@ -961,12 +961,12 @@ final class PushoverHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PushoverHandlerFactory();
+        $pushoverHandlerFactory = new PushoverHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', PushoverHandler::class));
 
-        $factory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $pushoverHandlerFactory($container, '', ['token' => $token, 'users' => $users, 'title' => $title, 'level' => LogLevel::ALERT, 'bubble' => false, 'useSSL' => false, 'highPriorityLevel' => LogLevel::ERROR, 'emergencyLevel' => LogLevel::ALERT, 'retry' => $retry, 'expire' => $expire, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 }

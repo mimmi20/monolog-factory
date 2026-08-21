@@ -48,7 +48,7 @@ final class LogglyHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -57,13 +57,13 @@ final class LogglyHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogglyHandlerFactory();
+        $logglyHandlerFactory = new LogglyHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $logglyHandlerFactory($container, '');
     }
 
     /**
@@ -73,7 +73,7 @@ final class LogglyHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -82,13 +82,13 @@ final class LogglyHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogglyHandlerFactory();
+        $logglyHandlerFactory = new LogglyHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No token provided');
 
-        $factory($container, '', []);
+        $logglyHandlerFactory($container, '', []);
     }
 
     /**
@@ -99,7 +99,7 @@ final class LogglyHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig(): void
     {
         $token = 'test-token';
@@ -110,24 +110,24 @@ final class LogglyHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogglyHandlerFactory();
+        $logglyHandlerFactory = new LogglyHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token]);
+        $logglyHandler = $logglyHandlerFactory($container, '', ['token' => $token]);
 
-        self::assertInstanceOf(LogglyHandler::class, $handler);
+        self::assertInstanceOf(LogglyHandler::class, $logglyHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $logglyHandler->getLevel());
+        self::assertTrue($logglyHandler->getBubble());
 
-        $tokenP = new ReflectionProperty($handler, 'token');
+        $tokenP = new ReflectionProperty($logglyHandler, 'token');
 
-        self::assertSame($token, $tokenP->getValue($handler));
+        self::assertSame($token, $tokenP->getValue($logglyHandler));
 
-        self::assertInstanceOf(LogglyFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LogglyFormatter::class, $logglyHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($logglyHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($logglyHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -141,7 +141,7 @@ final class LogglyHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig2(): void
     {
         $token = 'test-token';
@@ -152,24 +152,24 @@ final class LogglyHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogglyHandlerFactory();
+        $logglyHandlerFactory = new LogglyHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $logglyHandler = $logglyHandlerFactory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(LogglyHandler::class, $handler);
+        self::assertInstanceOf(LogglyHandler::class, $logglyHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $logglyHandler->getLevel());
+        self::assertFalse($logglyHandler->getBubble());
 
-        $tokenP = new ReflectionProperty($handler, 'token');
+        $tokenP = new ReflectionProperty($logglyHandler, 'token');
 
-        self::assertSame($token, $tokenP->getValue($handler));
+        self::assertSame($token, $tokenP->getValue($logglyHandler));
 
-        self::assertInstanceOf(LogglyFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LogglyFormatter::class, $logglyHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($logglyHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($logglyHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -182,7 +182,7 @@ final class LogglyHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $token     = 'test-token';
@@ -194,7 +194,7 @@ final class LogglyHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogglyHandlerFactory();
+        $logglyHandlerFactory = new LogglyHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -202,7 +202,7 @@ final class LogglyHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $logglyHandlerFactory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -212,11 +212,11 @@ final class LogglyHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $token     = 'test-token';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -226,7 +226,7 @@ final class LogglyHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new LogglyHandlerFactory();
+        $logglyHandlerFactory = new LogglyHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -234,7 +234,7 @@ final class LogglyHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $logglyHandlerFactory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -245,11 +245,11 @@ final class LogglyHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $token     = 'test-token';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -267,24 +267,24 @@ final class LogglyHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new LogglyHandlerFactory();
+        $logglyHandlerFactory = new LogglyHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $logglyHandler = $logglyHandlerFactory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(LogglyHandler::class, $handler);
+        self::assertInstanceOf(LogglyHandler::class, $logglyHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $logglyHandler->getLevel());
+        self::assertFalse($logglyHandler->getBubble());
 
-        $tokenP = new ReflectionProperty($handler, 'token');
+        $tokenP = new ReflectionProperty($logglyHandler, 'token');
 
-        self::assertSame($token, $tokenP->getValue($handler));
+        self::assertSame($token, $tokenP->getValue($logglyHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $logglyHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($logglyHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($logglyHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -297,11 +297,11 @@ final class LogglyHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $token     = 'test-token';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -309,9 +309,9 @@ final class LogglyHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new LogglyHandlerFactory();
+        $logglyHandlerFactory = new LogglyHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -319,7 +319,7 @@ final class LogglyHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $logglyHandlerFactory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -329,7 +329,7 @@ final class LogglyHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $token      = 'test-token';
@@ -341,13 +341,13 @@ final class LogglyHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogglyHandlerFactory();
+        $logglyHandlerFactory = new LogglyHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $logglyHandlerFactory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -357,7 +357,7 @@ final class LogglyHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $token      = 'test-token';
@@ -393,13 +393,13 @@ final class LogglyHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new LogglyHandlerFactory();
+        $logglyHandlerFactory = new LogglyHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $logglyHandlerFactory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -410,7 +410,7 @@ final class LogglyHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $token      = 'test-token';
@@ -429,9 +429,9 @@ final class LogglyHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -455,22 +455,22 @@ final class LogglyHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new LogglyHandlerFactory();
+        $logglyHandlerFactory = new LogglyHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $logglyHandler = $logglyHandlerFactory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(LogglyHandler::class, $handler);
+        self::assertInstanceOf(LogglyHandler::class, $logglyHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $logglyHandler->getLevel());
+        self::assertFalse($logglyHandler->getBubble());
 
-        $tokenP = new ReflectionProperty($handler, 'token');
+        $tokenP = new ReflectionProperty($logglyHandler, 'token');
 
-        self::assertSame($token, $tokenP->getValue($handler));
+        self::assertSame($token, $tokenP->getValue($logglyHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($logglyHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($logglyHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -486,7 +486,7 @@ final class LogglyHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $token      = 'test-token';
@@ -513,7 +513,7 @@ final class LogglyHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new LogglyHandlerFactory();
+        $logglyHandlerFactory = new LogglyHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -521,7 +521,7 @@ final class LogglyHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $logglyHandlerFactory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -531,7 +531,7 @@ final class LogglyHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $token      = 'test-token';
@@ -556,9 +556,9 @@ final class LogglyHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new LogglyHandlerFactory();
+        $logglyHandlerFactory = new LogglyHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -566,7 +566,7 @@ final class LogglyHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $logglyHandlerFactory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -590,12 +590,12 @@ final class LogglyHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogglyHandlerFactory();
+        $logglyHandlerFactory = new LogglyHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', LogglyHandler::class));
 
-        $factory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $logglyHandlerFactory($container, '', ['token' => $token, 'level' => LogLevel::ALERT, 'bubble' => false]);
     }
 }

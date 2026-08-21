@@ -56,8 +56,8 @@ final class ElasticsearchV8Factory implements FactoryInterface
 
         $metadata = true;
 
-        $builder = ClientBuilder::create();
-        $builder->setHosts(
+        $clientBuilder = ClientBuilder::create();
+        $clientBuilder->setHosts(
             array_filter(
                 $options['hosts'],
                 /** @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter */
@@ -66,24 +66,24 @@ final class ElasticsearchV8Factory implements FactoryInterface
         );
 
         if (array_key_exists('retries', $options)) {
-            $builder->setRetries($options['retries']);
+            $clientBuilder->setRetries($options['retries']);
         }
 
         if (array_key_exists('api-id', $options) && array_key_exists('api-key', $options)) {
             assert(is_string($options['api-id']));
             assert(is_string($options['api-key']));
 
-            $builder->setApiKey($options['api-key'], $options['api-id']);
+            $clientBuilder->setApiKey($options['api-key'], $options['api-id']);
         } elseif (array_key_exists('username', $options) && array_key_exists('password', $options)) {
-            $builder->setBasicAuthentication($options['username'], $options['password']);
+            $clientBuilder->setBasicAuthentication($options['username'], $options['password']);
         }
 
         if (array_key_exists('metadata', $options)) {
             $metadata = (bool) $options['metadata'];
         }
 
-        $builder->setElasticMetaHeader($metadata);
+        $clientBuilder->setElasticMetaHeader($metadata);
 
-        return $builder->build();
+        return $clientBuilder->build();
     }
 }

@@ -37,8 +37,8 @@ use function get_debug_type;
 use function in_array;
 use function is_array;
 use function is_string;
-use function mb_strpos;
 use function sprintf;
+use function str_contains;
 use function str_replace;
 
 final class ElasticsearchHandlerFactory implements FactoryInterface
@@ -158,7 +158,7 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
             && in_array(
                 $options['dateFormat'],
                 [self::INDEX_PER_DAY, self::INDEX_PER_MONTH, self::INDEX_PER_YEAR],
-                true,
+                strict: true,
             )
         ) {
             $dateFormat = $options['dateFormat'];
@@ -167,7 +167,7 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
         if (
             array_key_exists('indexNameFormat', $options)
             && is_string($options['indexNameFormat'])
-            && mb_strpos($options['indexNameFormat'], '{indexname}') !== false
+            && str_contains($options['indexNameFormat'], '{indexname}')
         ) {
             $indexNameFormat = $options['indexNameFormat'];
         }
@@ -188,7 +188,7 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new ElasticsearchHandler(
+        $elasticsearchHandler = new ElasticsearchHandler(
             $client,
             [
                 'ignore_error' => $ignoreError,
@@ -203,9 +203,9 @@ final class ElasticsearchHandlerFactory implements FactoryInterface
             $bubble,
         );
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $elasticsearchHandler, $options);
+        $this->addProcessor($container, $elasticsearchHandler, $options);
 
-        return $handler;
+        return $elasticsearchHandler;
     }
 }

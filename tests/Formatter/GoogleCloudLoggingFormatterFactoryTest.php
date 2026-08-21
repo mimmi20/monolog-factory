@@ -40,30 +40,36 @@ final class GoogleCloudLoggingFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new GoogleCloudLoggingFormatterFactory();
+        $googleCloudLoggingFormatterFactory = new GoogleCloudLoggingFormatterFactory();
 
-        $formatter = $factory($container, '');
+        $googleCloudLoggingFormatter = $googleCloudLoggingFormatterFactory($container, '');
 
-        self::assertInstanceOf(GoogleCloudLoggingFormatter::class, $formatter);
-        self::assertSame(DateTimeInterface::RFC3339_EXTENDED, $formatter->getDateFormat());
+        self::assertInstanceOf(GoogleCloudLoggingFormatter::class, $googleCloudLoggingFormatter);
+        self::assertSame(
+            DateTimeInterface::RFC3339_EXTENDED,
+            $googleCloudLoggingFormatter->getDateFormat(),
+        );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $googleCloudLoggingFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $googleCloudLoggingFormatter->getMaxNormalizeItemCount(),
         );
-        self::assertSame(GoogleCloudLoggingFormatter::BATCH_MODE_JSON, $formatter->getBatchMode());
-        self::assertTrue($formatter->isAppendingNewlines());
+        self::assertSame(
+            GoogleCloudLoggingFormatter::BATCH_MODE_JSON,
+            $googleCloudLoggingFormatter->getBatchMode(),
+        );
+        self::assertTrue($googleCloudLoggingFormatter->isAppendingNewlines());
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($googleCloudLoggingFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertFalse($ig->getValue($formatter));
+        self::assertFalse($ig->getValue($googleCloudLoggingFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($googleCloudLoggingFormatter, 'includeStacktraces');
 
-        self::assertFalse($st->getValue($formatter));
+        self::assertFalse($st->getValue($googleCloudLoggingFormatter));
     }
 
     /**
@@ -80,30 +86,36 @@ final class GoogleCloudLoggingFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new GoogleCloudLoggingFormatterFactory();
+        $googleCloudLoggingFormatterFactory = new GoogleCloudLoggingFormatterFactory();
 
-        $formatter = $factory($container, '', []);
+        $googleCloudLoggingFormatter = $googleCloudLoggingFormatterFactory($container, '', []);
 
-        self::assertInstanceOf(GoogleCloudLoggingFormatter::class, $formatter);
-        self::assertSame(DateTimeInterface::RFC3339_EXTENDED, $formatter->getDateFormat());
+        self::assertInstanceOf(GoogleCloudLoggingFormatter::class, $googleCloudLoggingFormatter);
+        self::assertSame(
+            DateTimeInterface::RFC3339_EXTENDED,
+            $googleCloudLoggingFormatter->getDateFormat(),
+        );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $googleCloudLoggingFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $googleCloudLoggingFormatter->getMaxNormalizeItemCount(),
         );
-        self::assertSame(GoogleCloudLoggingFormatter::BATCH_MODE_JSON, $formatter->getBatchMode());
-        self::assertTrue($formatter->isAppendingNewlines());
+        self::assertSame(
+            GoogleCloudLoggingFormatter::BATCH_MODE_JSON,
+            $googleCloudLoggingFormatter->getBatchMode(),
+        );
+        self::assertTrue($googleCloudLoggingFormatter->isAppendingNewlines());
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($googleCloudLoggingFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertFalse($ig->getValue($formatter));
+        self::assertFalse($ig->getValue($googleCloudLoggingFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($googleCloudLoggingFormatter, 'includeStacktraces');
 
-        self::assertFalse($st->getValue($formatter));
+        self::assertFalse($st->getValue($googleCloudLoggingFormatter));
     }
 
     /**
@@ -128,23 +140,26 @@ final class GoogleCloudLoggingFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new GoogleCloudLoggingFormatterFactory();
+        $googleCloudLoggingFormatterFactory = new GoogleCloudLoggingFormatterFactory();
 
-        $formatter = $factory($container, '', ['batchMode' => $batchMode, 'appendNewline' => $appendNewline, 'ignoreEmptyContextAndExtra' => $ignoreEmptyContextAndExtra, 'includeStacktraces' => $include, 'dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
+        $googleCloudLoggingFormatter = $googleCloudLoggingFormatterFactory($container, '', ['batchMode' => $batchMode, 'appendNewline' => $appendNewline, 'ignoreEmptyContextAndExtra' => $ignoreEmptyContextAndExtra, 'includeStacktraces' => $include, 'dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
 
-        self::assertInstanceOf(GoogleCloudLoggingFormatter::class, $formatter);
-        self::assertSame($dateFormat, $formatter->getDateFormat());
-        self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
-        self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
-        self::assertSame($batchMode, $formatter->getBatchMode());
-        self::assertFalse($formatter->isAppendingNewlines());
+        self::assertInstanceOf(GoogleCloudLoggingFormatter::class, $googleCloudLoggingFormatter);
+        self::assertSame($dateFormat, $googleCloudLoggingFormatter->getDateFormat());
+        self::assertSame($maxNormalizeDepth, $googleCloudLoggingFormatter->getMaxNormalizeDepth());
+        self::assertSame(
+            $maxNormalizeItemCount,
+            $googleCloudLoggingFormatter->getMaxNormalizeItemCount(),
+        );
+        self::assertSame($batchMode, $googleCloudLoggingFormatter->getBatchMode());
+        self::assertFalse($googleCloudLoggingFormatter->isAppendingNewlines());
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($googleCloudLoggingFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertTrue($ig->getValue($formatter));
+        self::assertTrue($ig->getValue($googleCloudLoggingFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($googleCloudLoggingFormatter, 'includeStacktraces');
 
-        self::assertTrue($st->getValue($formatter));
+        self::assertTrue($st->getValue($googleCloudLoggingFormatter));
     }
 }

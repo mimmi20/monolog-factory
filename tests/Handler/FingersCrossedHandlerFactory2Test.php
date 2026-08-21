@@ -32,6 +32,7 @@ use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
@@ -89,13 +90,13 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must contain a type for the ActivationStrategy');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => [], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
+        $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => [], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
     /**
@@ -114,7 +115,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $activationStrategyPluginManager->expects(self::once())
             ->method('has')
             ->with($strategy)
-            ->willReturn(false);
+            ->willReturn(value: false);
         $activationStrategyPluginManager->expects(self::never())
             ->method('get');
         $activationStrategyPluginManager->expects(self::never())
@@ -148,13 +149,13 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Could not find Class for ActivationStrategy');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => $strategy, 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
+        $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => $strategy, 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
     /**
@@ -169,7 +170,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $strategyClass   = $this->createMock(ChannelLevelActivationStrategy::class);
+        $strategyClass   = $this->createStub(ChannelLevelActivationStrategy::class);
         $formatter       = true;
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
@@ -210,7 +211,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -218,7 +219,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING, 'formatter' => $formatter]);
+        $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING, 'formatter' => $formatter]);
     }
 
     /**
@@ -259,7 +260,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -267,7 +268,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
+        $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
     /**
@@ -282,8 +283,8 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $strategyClass   = $this->createMock(ChannelLevelActivationStrategy::class);
-        $formatter       = $this->createMock(LineFormatter::class);
+        $strategyClass   = $this->createStub(ChannelLevelActivationStrategy::class);
+        $formatter       = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -314,12 +315,12 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(3);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(3);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager, $activationStrategyPluginManager) {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager, $activationStrategyPluginManager): MockObject {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame(
@@ -347,7 +348,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
                 },
             );
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -355,7 +356,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING, 'formatter' => $formatter]);
+        $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING, 'formatter' => $formatter]);
     }
 
     /**
@@ -371,8 +372,8 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $strategyClass   = $this->createMock(ChannelLevelActivationStrategy::class);
-        $formatter       = $this->createMock(LineFormatter::class);
+        $strategyClass   = $this->createStub(ChannelLevelActivationStrategy::class);
+        $formatter       = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::once())
@@ -423,41 +424,41 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING, 'formatter' => $formatter]);
+        $fingersCrossedHandler = $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(FingersCrossedHandler::class, $handler);
+        self::assertInstanceOf(FingersCrossedHandler::class, $fingersCrossedHandler);
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($fingersCrossedHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($fingersCrossedHandler));
 
-        $as = new ReflectionProperty($handler, 'activationStrategy');
+        $as = new ReflectionProperty($fingersCrossedHandler, 'activationStrategy');
 
-        self::assertSame($strategyClass, $as->getValue($handler));
+        self::assertSame($strategyClass, $as->getValue($fingersCrossedHandler));
 
-        $bs = new ReflectionProperty($handler, 'bufferSize');
+        $bs = new ReflectionProperty($fingersCrossedHandler, 'bufferSize');
 
-        self::assertSame(42, $bs->getValue($handler));
+        self::assertSame(42, $bs->getValue($fingersCrossedHandler));
 
-        $b = new ReflectionProperty($handler, 'bubble');
+        $b = new ReflectionProperty($fingersCrossedHandler, 'bubble');
 
-        self::assertFalse($b->getValue($handler));
+        self::assertFalse($b->getValue($fingersCrossedHandler));
 
-        $sb = new ReflectionProperty($handler, 'stopBuffering');
+        $sb = new ReflectionProperty($fingersCrossedHandler, 'stopBuffering');
 
-        self::assertFalse($sb->getValue($handler));
+        self::assertFalse($sb->getValue($fingersCrossedHandler));
 
-        $ptl = new ReflectionProperty($handler, 'passthruLevel');
+        $ptl = new ReflectionProperty($fingersCrossedHandler, 'passthruLevel');
 
-        self::assertSame(Level::Warning, $ptl->getValue($handler));
+        self::assertSame(Level::Warning, $ptl->getValue($fingersCrossedHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $fingersCrossedHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($fingersCrossedHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($fingersCrossedHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -475,7 +476,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $formatter       = $this->createMock(LineFormatter::class);
+        $formatter       = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -504,12 +505,12 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager) {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager): MockObject {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame(
@@ -531,7 +532,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
                 },
             );
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -539,7 +540,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
+        $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
     /**
@@ -555,8 +556,8 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $strategyClass   = $this->createMock(ChannelLevelActivationStrategy::class);
-        $formatter       = $this->createMock(LineFormatter::class);
+        $strategyClass   = $this->createStub(ChannelLevelActivationStrategy::class);
+        $formatter       = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::once())
@@ -607,41 +608,41 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
+        $fingersCrossedHandler = $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
 
-        self::assertInstanceOf(FingersCrossedHandler::class, $handler);
+        self::assertInstanceOf(FingersCrossedHandler::class, $fingersCrossedHandler);
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($fingersCrossedHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($fingersCrossedHandler));
 
-        $as = new ReflectionProperty($handler, 'activationStrategy');
+        $as = new ReflectionProperty($fingersCrossedHandler, 'activationStrategy');
 
-        self::assertSame($strategyClass, $as->getValue($handler));
+        self::assertSame($strategyClass, $as->getValue($fingersCrossedHandler));
 
-        $bs = new ReflectionProperty($handler, 'bufferSize');
+        $bs = new ReflectionProperty($fingersCrossedHandler, 'bufferSize');
 
-        self::assertSame(42, $bs->getValue($handler));
+        self::assertSame(42, $bs->getValue($fingersCrossedHandler));
 
-        $b = new ReflectionProperty($handler, 'bubble');
+        $b = new ReflectionProperty($fingersCrossedHandler, 'bubble');
 
-        self::assertFalse($b->getValue($handler));
+        self::assertFalse($b->getValue($fingersCrossedHandler));
 
-        $sb = new ReflectionProperty($handler, 'stopBuffering');
+        $sb = new ReflectionProperty($fingersCrossedHandler, 'stopBuffering');
 
-        self::assertFalse($sb->getValue($handler));
+        self::assertFalse($sb->getValue($fingersCrossedHandler));
 
-        $ptl = new ReflectionProperty($handler, 'passthruLevel');
+        $ptl = new ReflectionProperty($fingersCrossedHandler, 'passthruLevel');
 
-        self::assertSame(Level::Warning, $ptl->getValue($handler));
+        self::assertSame(Level::Warning, $ptl->getValue($fingersCrossedHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $fingersCrossedHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($fingersCrossedHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($fingersCrossedHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -659,7 +660,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $formatter       = $this->createMock(LineFormatter::class);
+        $formatter       = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -689,7 +690,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -697,7 +698,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
+        $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
     /**
@@ -712,7 +713,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $strategyClass   = $this->createMock(ChannelLevelActivationStrategy::class);
+        $strategyClass   = $this->createStub(ChannelLevelActivationStrategy::class);
         $processors      = true;
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
@@ -753,13 +754,13 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING, 'processors' => $processors]);
+        $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING, 'processors' => $processors]);
     }
 
     /**
@@ -800,13 +801,13 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
+        $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
     /**
@@ -873,13 +874,13 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
+        $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
     /**
@@ -895,7 +896,7 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $strategyClass   = $this->createMock(ChannelLevelActivationStrategy::class);
+        $strategyClass   = $this->createStub(ChannelLevelActivationStrategy::class);
         $processor3      = static fn (array $record): array => $record;
         $processors      = [
             [
@@ -911,9 +912,9 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -968,39 +969,39 @@ final class FingersCrossedHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
+        $fingersCrossedHandler = $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
 
-        self::assertInstanceOf(FingersCrossedHandler::class, $handler);
+        self::assertInstanceOf(FingersCrossedHandler::class, $fingersCrossedHandler);
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($fingersCrossedHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($fingersCrossedHandler));
 
-        $as = new ReflectionProperty($handler, 'activationStrategy');
+        $as = new ReflectionProperty($fingersCrossedHandler, 'activationStrategy');
 
-        self::assertSame($strategyClass, $as->getValue($handler));
+        self::assertSame($strategyClass, $as->getValue($fingersCrossedHandler));
 
-        $bs = new ReflectionProperty($handler, 'bufferSize');
+        $bs = new ReflectionProperty($fingersCrossedHandler, 'bufferSize');
 
-        self::assertSame(42, $bs->getValue($handler));
+        self::assertSame(42, $bs->getValue($fingersCrossedHandler));
 
-        $b = new ReflectionProperty($handler, 'bubble');
+        $b = new ReflectionProperty($fingersCrossedHandler, 'bubble');
 
-        self::assertFalse($b->getValue($handler));
+        self::assertFalse($b->getValue($fingersCrossedHandler));
 
-        $sb = new ReflectionProperty($handler, 'stopBuffering');
+        $sb = new ReflectionProperty($fingersCrossedHandler, 'stopBuffering');
 
-        self::assertFalse($sb->getValue($handler));
+        self::assertFalse($sb->getValue($fingersCrossedHandler));
 
-        $ptl = new ReflectionProperty($handler, 'passthruLevel');
+        $ptl = new ReflectionProperty($fingersCrossedHandler, 'passthruLevel');
 
-        self::assertSame(Level::Warning, $ptl->getValue($handler));
+        self::assertSame(Level::Warning, $ptl->getValue($fingersCrossedHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($fingersCrossedHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($fingersCrossedHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);

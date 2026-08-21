@@ -47,7 +47,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -56,13 +56,13 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $telegramBotHandlerFactory($container, '');
     }
 
     /**
@@ -72,7 +72,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -81,13 +81,13 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No apiKey provided');
 
-        $factory($container, '', []);
+        $telegramBotHandlerFactory($container, '', []);
     }
 
     /**
@@ -97,7 +97,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig(): void
     {
         $apiKey = 'test-key';
@@ -108,13 +108,13 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No channel provided');
 
-        $factory($container, '', ['apiKey' => $apiKey]);
+        $telegramBotHandlerFactory($container, '', ['apiKey' => $apiKey]);
     }
 
     /**
@@ -125,7 +125,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig2(): void
     {
         $apiKey  = 'test-key';
@@ -137,40 +137,40 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
-        $handler = $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel]);
+        $telegramBotHandler = $telegramBotHandlerFactory($container, '', ['apiKey' => $apiKey, 'channel' => $channel]);
 
-        self::assertInstanceOf(TelegramBotHandler::class, $handler);
+        self::assertInstanceOf(TelegramBotHandler::class, $telegramBotHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $telegramBotHandler->getLevel());
+        self::assertTrue($telegramBotHandler->getBubble());
 
-        $ak = new ReflectionProperty($handler, 'apiKey');
+        $ak = new ReflectionProperty($telegramBotHandler, 'apiKey');
 
-        self::assertSame($apiKey, $ak->getValue($handler));
+        self::assertSame($apiKey, $ak->getValue($telegramBotHandler));
 
-        $ch = new ReflectionProperty($handler, 'channel');
+        $ch = new ReflectionProperty($telegramBotHandler, 'channel');
 
-        self::assertSame($channel, $ch->getValue($handler));
+        self::assertSame($channel, $ch->getValue($telegramBotHandler));
 
-        $pm = new ReflectionProperty($handler, 'parseMode');
+        $pm = new ReflectionProperty($telegramBotHandler, 'parseMode');
 
-        self::assertNull($pm->getValue($handler));
+        self::assertNull($pm->getValue($telegramBotHandler));
 
-        $dwpp = new ReflectionProperty($handler, 'disableWebPagePreview');
+        $dwpp = new ReflectionProperty($telegramBotHandler, 'disableWebPagePreview');
 
-        self::assertNull($dwpp->getValue($handler));
+        self::assertNull($dwpp->getValue($telegramBotHandler));
 
-        $dn = new ReflectionProperty($handler, 'disableNotification');
+        $dn = new ReflectionProperty($telegramBotHandler, 'disableNotification');
 
-        self::assertNull($dn->getValue($handler));
+        self::assertNull($dn->getValue($telegramBotHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $telegramBotHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($telegramBotHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($telegramBotHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -184,7 +184,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig3(): void
     {
         $apiKey    = 'test-key';
@@ -197,40 +197,40 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
-        $handler = $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'parseMode' => $parseMode, 'disableWebPagePreview' => true, 'disableNotification' => false]);
+        $telegramBotHandler = $telegramBotHandlerFactory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'parseMode' => $parseMode, 'disableWebPagePreview' => true, 'disableNotification' => false]);
 
-        self::assertInstanceOf(TelegramBotHandler::class, $handler);
+        self::assertInstanceOf(TelegramBotHandler::class, $telegramBotHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $telegramBotHandler->getLevel());
+        self::assertFalse($telegramBotHandler->getBubble());
 
-        $ak = new ReflectionProperty($handler, 'apiKey');
+        $ak = new ReflectionProperty($telegramBotHandler, 'apiKey');
 
-        self::assertSame($apiKey, $ak->getValue($handler));
+        self::assertSame($apiKey, $ak->getValue($telegramBotHandler));
 
-        $ch = new ReflectionProperty($handler, 'channel');
+        $ch = new ReflectionProperty($telegramBotHandler, 'channel');
 
-        self::assertSame($channel, $ch->getValue($handler));
+        self::assertSame($channel, $ch->getValue($telegramBotHandler));
 
-        $pm = new ReflectionProperty($handler, 'parseMode');
+        $pm = new ReflectionProperty($telegramBotHandler, 'parseMode');
 
-        self::assertSame($parseMode, $pm->getValue($handler));
+        self::assertSame($parseMode, $pm->getValue($telegramBotHandler));
 
-        $dwpp = new ReflectionProperty($handler, 'disableWebPagePreview');
+        $dwpp = new ReflectionProperty($telegramBotHandler, 'disableWebPagePreview');
 
-        self::assertTrue($dwpp->getValue($handler));
+        self::assertTrue($dwpp->getValue($telegramBotHandler));
 
-        $dn = new ReflectionProperty($handler, 'disableNotification');
+        $dn = new ReflectionProperty($telegramBotHandler, 'disableNotification');
 
-        self::assertFalse($dn->getValue($handler));
+        self::assertFalse($dn->getValue($telegramBotHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $telegramBotHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($telegramBotHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($telegramBotHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -243,7 +243,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $apiKey    = 'test-key';
@@ -256,7 +256,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -264,7 +264,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $telegramBotHandlerFactory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -274,12 +274,12 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $apiKey    = 'test-key';
         $channel   = 'test-channel';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -289,7 +289,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -297,7 +297,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $telegramBotHandlerFactory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -308,13 +308,13 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $apiKey    = 'test-key';
         $channel   = 'test-channel';
         $parseMode = 'MarkdownV2';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -332,40 +332,40 @@ final class TelegramBotHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
-        $handler = $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'parseMode' => $parseMode, 'disableWebPagePreview' => true, 'disableNotification' => false, 'formatter' => $formatter]);
+        $telegramBotHandler = $telegramBotHandlerFactory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'parseMode' => $parseMode, 'disableWebPagePreview' => true, 'disableNotification' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(TelegramBotHandler::class, $handler);
+        self::assertInstanceOf(TelegramBotHandler::class, $telegramBotHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $telegramBotHandler->getLevel());
+        self::assertFalse($telegramBotHandler->getBubble());
 
-        $ak = new ReflectionProperty($handler, 'apiKey');
+        $ak = new ReflectionProperty($telegramBotHandler, 'apiKey');
 
-        self::assertSame($apiKey, $ak->getValue($handler));
+        self::assertSame($apiKey, $ak->getValue($telegramBotHandler));
 
-        $ch = new ReflectionProperty($handler, 'channel');
+        $ch = new ReflectionProperty($telegramBotHandler, 'channel');
 
-        self::assertSame($channel, $ch->getValue($handler));
+        self::assertSame($channel, $ch->getValue($telegramBotHandler));
 
-        $pm = new ReflectionProperty($handler, 'parseMode');
+        $pm = new ReflectionProperty($telegramBotHandler, 'parseMode');
 
-        self::assertSame($parseMode, $pm->getValue($handler));
+        self::assertSame($parseMode, $pm->getValue($telegramBotHandler));
 
-        $dwpp = new ReflectionProperty($handler, 'disableWebPagePreview');
+        $dwpp = new ReflectionProperty($telegramBotHandler, 'disableWebPagePreview');
 
-        self::assertTrue($dwpp->getValue($handler));
+        self::assertTrue($dwpp->getValue($telegramBotHandler));
 
-        $dn = new ReflectionProperty($handler, 'disableNotification');
+        $dn = new ReflectionProperty($telegramBotHandler, 'disableNotification');
 
-        self::assertFalse($dn->getValue($handler));
+        self::assertFalse($dn->getValue($telegramBotHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $telegramBotHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($telegramBotHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($telegramBotHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -378,13 +378,13 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $apiKey    = 'test-key';
         $channel   = 'test-channel';
         $parseMode = 'MarkdownV2';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -392,9 +392,9 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -402,7 +402,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'parseMode' => $parseMode, 'disableWebPagePreview' => true, 'disableNotification' => false, 'formatter' => $formatter]);
+        $telegramBotHandlerFactory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'parseMode' => $parseMode, 'disableWebPagePreview' => true, 'disableNotification' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -412,7 +412,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $apiKey     = 'test-key';
@@ -425,13 +425,13 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $telegramBotHandlerFactory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -441,7 +441,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $apiKey     = 'test-key';
@@ -478,13 +478,13 @@ final class TelegramBotHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $telegramBotHandlerFactory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -495,7 +495,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $apiKey     = 'test-key';
@@ -515,9 +515,9 @@ final class TelegramBotHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -541,34 +541,34 @@ final class TelegramBotHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
-        $handler = $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $telegramBotHandler = $telegramBotHandlerFactory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(TelegramBotHandler::class, $handler);
+        self::assertInstanceOf(TelegramBotHandler::class, $telegramBotHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $telegramBotHandler->getLevel());
+        self::assertFalse($telegramBotHandler->getBubble());
 
-        $ak = new ReflectionProperty($handler, 'apiKey');
+        $ak = new ReflectionProperty($telegramBotHandler, 'apiKey');
 
-        self::assertSame($apiKey, $ak->getValue($handler));
+        self::assertSame($apiKey, $ak->getValue($telegramBotHandler));
 
-        $ch = new ReflectionProperty($handler, 'channel');
+        $ch = new ReflectionProperty($telegramBotHandler, 'channel');
 
-        self::assertSame($channel, $ch->getValue($handler));
+        self::assertSame($channel, $ch->getValue($telegramBotHandler));
 
-        $dwpp = new ReflectionProperty($handler, 'disableWebPagePreview');
+        $dwpp = new ReflectionProperty($telegramBotHandler, 'disableWebPagePreview');
 
-        self::assertNull($dwpp->getValue($handler));
+        self::assertNull($dwpp->getValue($telegramBotHandler));
 
-        $dn = new ReflectionProperty($handler, 'disableNotification');
+        $dn = new ReflectionProperty($telegramBotHandler, 'disableNotification');
 
-        self::assertNull($dn->getValue($handler));
+        self::assertNull($dn->getValue($telegramBotHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($telegramBotHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($telegramBotHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -584,7 +584,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $apiKey     = 'test-key';
@@ -612,7 +612,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -620,7 +620,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $telegramBotHandlerFactory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -630,7 +630,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $apiKey     = 'test-key';
@@ -656,9 +656,9 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -666,7 +666,7 @@ final class TelegramBotHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $telegramBotHandlerFactory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -691,12 +691,12 @@ final class TelegramBotHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new TelegramBotHandlerFactory();
+        $telegramBotHandlerFactory = new TelegramBotHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', TelegramBotHandler::class));
 
-        $factory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $telegramBotHandlerFactory($container, '', ['apiKey' => $apiKey, 'channel' => $channel, 'level' => LogLevel::ALERT, 'bubble' => false]);
     }
 }

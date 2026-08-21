@@ -60,13 +60,13 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $mongoDBHandlerFactory($container, '');
     }
 
     /**
@@ -84,13 +84,13 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required service class');
 
-        $factory($container, '', []);
+        $mongoDBHandlerFactory($container, '', []);
     }
 
     /**
@@ -110,13 +110,13 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No database provided');
 
-        $factory($container, '', ['client' => $client]);
+        $mongoDBHandlerFactory($container, '', ['client' => $client]);
     }
 
     /**
@@ -137,13 +137,13 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No collection provided');
 
-        $factory($container, '', ['client' => $client, 'database' => $database]);
+        $mongoDBHandlerFactory($container, '', ['client' => $client, 'database' => $database]);
     }
 
     /**
@@ -165,13 +165,13 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required service class');
 
-        $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
+        $mongoDBHandlerFactory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
     }
 
     /**
@@ -195,7 +195,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
             ->with($client)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -203,7 +203,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
             sprintf('Could not load client class for %s class', MongoDBHandler::class),
         );
 
-        $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
+        $mongoDBHandlerFactory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
     }
 
     /**
@@ -224,7 +224,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $mongoCollection = $this->createMock(Collection::class);
+        $mongoCollection = $this->createStub(Collection::class);
 
         $clientClass = $this->createMock(Client::class);
         $clientClass->expects(self::never())
@@ -240,20 +240,20 @@ final class MongoDBHandlerFactoryTest extends TestCase
             ->with($client)
             ->willReturn($clientClass);
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
+        $mongoDBHandler = $mongoDBHandlerFactory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
 
-        self::assertInstanceOf(MongoDBHandler::class, $handler);
+        self::assertInstanceOf(MongoDBHandler::class, $mongoDBHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $mongoDBHandler->getLevel());
+        self::assertTrue($mongoDBHandler->getBubble());
 
-        self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(MongoDBFormatter::class, $mongoDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($mongoDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($mongoDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -276,7 +276,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $mongoCollection = $this->createMock(Collection::class);
+        $mongoCollection = $this->createStub(Collection::class);
 
         $client = $this->createMock(Client::class);
         $client->expects(self::never())
@@ -290,20 +290,20 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
+        $mongoDBHandler = $mongoDBHandlerFactory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
 
-        self::assertInstanceOf(MongoDBHandler::class, $handler);
+        self::assertInstanceOf(MongoDBHandler::class, $mongoDBHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $mongoDBHandler->getLevel());
+        self::assertTrue($mongoDBHandler->getBubble());
 
-        self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(MongoDBFormatter::class, $mongoDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($mongoDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($mongoDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -325,10 +325,10 @@ final class MongoDBHandlerFactoryTest extends TestCase
             self::markTestSkipped(sprintf('class %s is required for this test', Manager::class));
         }
 
-        $client      = 'test-client';
-        $clientClass = new Manager('mongodb://example.com:27017');
-        $database    = 'test-database';
-        $collection  = 'test-collection';
+        $client     = 'test-client';
+        $manager    = new Manager('mongodb://example.com:27017');
+        $database   = 'test-database';
+        $collection = 'test-collection';
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -336,22 +336,22 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with($client)
-            ->willReturn($clientClass);
+            ->willReturn($manager);
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
+        $mongoDBHandler = $mongoDBHandlerFactory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
 
-        self::assertInstanceOf(MongoDBHandler::class, $handler);
+        self::assertInstanceOf(MongoDBHandler::class, $mongoDBHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $mongoDBHandler->getLevel());
+        self::assertTrue($mongoDBHandler->getBubble());
 
-        self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(MongoDBFormatter::class, $mongoDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($mongoDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($mongoDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -373,7 +373,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
             self::markTestSkipped(sprintf('class %s is required for this test', Manager::class));
         }
 
-        $client     = new Manager('mongodb://example.com:27017');
+        $manager    = new Manager('mongodb://example.com:27017');
         $database   = 'test-database';
         $collection = 'test-collection';
 
@@ -383,20 +383,20 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
+        $mongoDBHandler = $mongoDBHandlerFactory($container, '', ['client' => $manager, 'database' => $database, 'collection' => $collection]);
 
-        self::assertInstanceOf(MongoDBHandler::class, $handler);
+        self::assertInstanceOf(MongoDBHandler::class, $mongoDBHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $mongoDBHandler->getLevel());
+        self::assertTrue($mongoDBHandler->getBubble());
 
-        self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(MongoDBFormatter::class, $mongoDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($mongoDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($mongoDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -423,7 +423,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $mongoCollection = $this->createMock(Collection::class);
+        $mongoCollection = $this->createStub(Collection::class);
 
         $clientClass = $this->createMock(Client::class);
         $clientClass->expects(self::never())
@@ -439,20 +439,20 @@ final class MongoDBHandlerFactoryTest extends TestCase
             ->with($client)
             ->willReturn($clientClass);
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble]);
+        $mongoDBHandler = $mongoDBHandlerFactory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble]);
 
-        self::assertInstanceOf(MongoDBHandler::class, $handler);
+        self::assertInstanceOf(MongoDBHandler::class, $mongoDBHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $mongoDBHandler->getLevel());
+        self::assertFalse($mongoDBHandler->getBubble());
 
-        self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(MongoDBFormatter::class, $mongoDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($mongoDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($mongoDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -477,7 +477,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $mongoCollection = $this->createMock(Collection::class);
+        $mongoCollection = $this->createStub(Collection::class);
 
         $client = $this->createMock(Client::class);
         $client->expects(self::never())
@@ -491,20 +491,20 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble]);
+        $mongoDBHandler = $mongoDBHandlerFactory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble]);
 
-        self::assertInstanceOf(MongoDBHandler::class, $handler);
+        self::assertInstanceOf(MongoDBHandler::class, $mongoDBHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $mongoDBHandler->getLevel());
+        self::assertFalse($mongoDBHandler->getBubble());
 
-        self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(MongoDBFormatter::class, $mongoDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($mongoDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($mongoDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -529,10 +529,10 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $level  = LogLevel::ALERT;
         $bubble = false;
 
-        $client      = 'test-client';
-        $clientClass = new Manager('mongodb://example.com:27017');
-        $database    = 'test-database';
-        $collection  = 'test-collection';
+        $client     = 'test-client';
+        $manager    = new Manager('mongodb://example.com:27017');
+        $database   = 'test-database';
+        $collection = 'test-collection';
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -540,22 +540,22 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with($client)
-            ->willReturn($clientClass);
+            ->willReturn($manager);
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble]);
+        $mongoDBHandler = $mongoDBHandlerFactory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble]);
 
-        self::assertInstanceOf(MongoDBHandler::class, $handler);
+        self::assertInstanceOf(MongoDBHandler::class, $mongoDBHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $mongoDBHandler->getLevel());
+        self::assertFalse($mongoDBHandler->getBubble());
 
-        self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(MongoDBFormatter::class, $mongoDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($mongoDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($mongoDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -580,7 +580,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $level  = LogLevel::ALERT;
         $bubble = false;
 
-        $client     = new Manager('mongodb://example.com:27017');
+        $manager    = new Manager('mongodb://example.com:27017');
         $database   = 'test-database';
         $collection = 'test-collection';
 
@@ -590,20 +590,20 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble]);
+        $mongoDBHandler = $mongoDBHandlerFactory($container, '', ['client' => $manager, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble]);
 
-        self::assertInstanceOf(MongoDBHandler::class, $handler);
+        self::assertInstanceOf(MongoDBHandler::class, $mongoDBHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $mongoDBHandler->getLevel());
+        self::assertFalse($mongoDBHandler->getBubble());
 
-        self::assertInstanceOf(MongoDBFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(MongoDBFormatter::class, $mongoDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($mongoDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($mongoDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -628,15 +628,15 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with($client)
-            ->willReturn(true);
+            ->willReturn(value: true);
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', MongoDBHandler::class));
 
-        $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
+        $mongoDBHandlerFactory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection]);
     }
 
     /**
@@ -658,7 +658,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $bubble    = false;
         $formatter = true;
 
-        $client     = new Manager('mongodb://example.com:27017');
+        $manager    = new Manager('mongodb://example.com:27017');
         $database   = 'test-database';
         $collection = 'test-collection';
 
@@ -668,7 +668,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -676,7 +676,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
+        $mongoDBHandlerFactory($container, '', ['client' => $manager, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
     }
 
     /**
@@ -696,9 +696,9 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
         $level     = LogLevel::ALERT;
         $bubble    = false;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
-        $client     = new Manager('mongodb://example.com:27017');
+        $manager    = new Manager('mongodb://example.com:27017');
         $database   = 'test-database';
         $collection = 'test-collection';
 
@@ -710,7 +710,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -718,7 +718,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
+        $mongoDBHandlerFactory($container, '', ['client' => $manager, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
     }
 
     /**
@@ -739,9 +739,9 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
         $level     = LogLevel::ALERT;
         $bubble    = false;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
-        $client     = new Manager('mongodb://example.com:27017');
+        $manager    = new Manager('mongodb://example.com:27017');
         $database   = 'test-database';
         $collection = 'test-collection';
 
@@ -761,20 +761,20 @@ final class MongoDBHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
+        $mongoDBHandler = $mongoDBHandlerFactory($container, '', ['client' => $manager, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(MongoDBHandler::class, $handler);
+        self::assertInstanceOf(MongoDBHandler::class, $mongoDBHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $mongoDBHandler->getLevel());
+        self::assertFalse($mongoDBHandler->getBubble());
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $mongoDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($mongoDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($mongoDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -797,9 +797,9 @@ final class MongoDBHandlerFactoryTest extends TestCase
 
         $level     = LogLevel::ALERT;
         $bubble    = false;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
-        $client     = new Manager('mongodb://example.com:27017');
+        $manager    = new Manager('mongodb://example.com:27017');
         $database   = 'test-database';
         $collection = 'test-collection';
 
@@ -809,9 +809,9 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -819,7 +819,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
+        $mongoDBHandlerFactory($container, '', ['client' => $manager, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
     }
 
     /**
@@ -841,7 +841,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $bubble     = false;
         $processors = true;
 
-        $client     = new Manager('mongodb://example.com:27017');
+        $manager    = new Manager('mongodb://example.com:27017');
         $database   = 'test-database';
         $collection = 'test-collection';
 
@@ -851,13 +851,13 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $mongoDBHandlerFactory($container, '', ['client' => $manager, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }
 
     /**
@@ -891,7 +891,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
             static fn (array $record): array => $record,
         ];
 
-        $client     = new Manager('mongodb://example.com:27017');
+        $manager    = new Manager('mongodb://example.com:27017');
         $database   = 'test-database';
         $collection = 'test-collection';
 
@@ -913,13 +913,13 @@ final class MongoDBHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $mongoDBHandlerFactory($container, '', ['client' => $manager, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }
 
     /**
@@ -955,13 +955,13 @@ final class MongoDBHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $client     = new Manager('mongodb://example.com:27017');
+        $manager    = new Manager('mongodb://example.com:27017');
         $database   = 'test-database';
         $collection = 'test-collection';
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -985,18 +985,18 @@ final class MongoDBHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $mongoDBHandler = $mongoDBHandlerFactory($container, '', ['client' => $manager, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
 
-        self::assertInstanceOf(MongoDBHandler::class, $handler);
+        self::assertInstanceOf(MongoDBHandler::class, $mongoDBHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $mongoDBHandler->getLevel());
+        self::assertFalse($mongoDBHandler->getBubble());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($mongoDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($mongoDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -1037,7 +1037,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $client     = new Manager('mongodb://example.com:27017');
+        $manager    = new Manager('mongodb://example.com:27017');
         $database   = 'test-database';
         $collection = 'test-collection';
 
@@ -1049,7 +1049,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -1057,7 +1057,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $mongoDBHandlerFactory($container, '', ['client' => $manager, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }
 
     /**
@@ -1092,7 +1092,7 @@ final class MongoDBHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $client     = new Manager('mongodb://example.com:27017');
+        $manager    = new Manager('mongodb://example.com:27017');
         $database   = 'test-database';
         $collection = 'test-collection';
 
@@ -1102,9 +1102,9 @@ final class MongoDBHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new MongoDBHandlerFactory();
+        $mongoDBHandlerFactory = new MongoDBHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -1112,6 +1112,6 @@ final class MongoDBHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $mongoDBHandlerFactory($container, '', ['client' => $manager, 'database' => $database, 'collection' => $collection, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }
 }

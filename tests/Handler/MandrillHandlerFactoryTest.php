@@ -56,13 +56,13 @@ final class MandrillHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $mandrillHandlerFactory($container, '');
     }
 
     /**
@@ -80,13 +80,13 @@ final class MandrillHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No apiKey provided');
 
-        $factory($container, '', []);
+        $mandrillHandlerFactory($container, '', []);
     }
 
     /**
@@ -106,13 +106,13 @@ final class MandrillHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No message service name or callback provided');
 
-        $factory($container, '', ['apiKey' => $apiKey]);
+        $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey]);
     }
 
     /**
@@ -131,17 +131,17 @@ final class MandrillHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($message)
-            ->willReturn(false);
+            ->willReturn(value: false);
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Message service found');
 
-        $factory($container, '', ['apiKey' => $apiKey, 'message' => $message]);
+        $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message]);
     }
 
     /**
@@ -160,19 +160,19 @@ final class MandrillHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($message)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::once())
             ->method('get')
             ->with($message)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not load service %s', $message));
 
-        $factory($container, '', ['apiKey' => $apiKey, 'message' => $message]);
+        $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message]);
     }
 
     /**
@@ -191,40 +191,40 @@ final class MandrillHandlerFactoryTest extends TestCase
 
         $apiKey      = 'test-key';
         $messageName = 'test-message';
-        $message     = $this->createMock(Swift_Message::class);
+        $message     = $this->createStub(Swift_Message::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::once())
             ->method('has')
             ->with($messageName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::once())
             ->method('get')
             ->with($messageName)
             ->willReturn($message);
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
-        $handler = $factory($container, '', ['apiKey' => $apiKey, 'message' => $messageName]);
+        $mandrillHandler = $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $messageName]);
 
-        self::assertInstanceOf(MandrillHandler::class, $handler);
+        self::assertInstanceOf(MandrillHandler::class, $mandrillHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $mandrillHandler->getLevel());
+        self::assertTrue($mandrillHandler->getBubble());
 
-        $messageP = new ReflectionProperty($handler, 'message');
+        $messageP = new ReflectionProperty($mandrillHandler, 'message');
 
-        self::assertSame($message, $messageP->getValue($handler));
+        self::assertSame($message, $messageP->getValue($mandrillHandler));
 
-        $ak = new ReflectionProperty($handler, 'apiKey');
+        $ak = new ReflectionProperty($mandrillHandler, 'apiKey');
 
-        self::assertSame($apiKey, $ak->getValue($handler));
+        self::assertSame($apiKey, $ak->getValue($mandrillHandler));
 
-        self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(HtmlFormatter::class, $mandrillHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($mandrillHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($mandrillHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -246,40 +246,40 @@ final class MandrillHandlerFactoryTest extends TestCase
 
         $apiKey      = 'test-key';
         $messageName = 'test-message';
-        $message     = $this->createMock(Swift_Message::class);
+        $message     = $this->createStub(Swift_Message::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::once())
             ->method('has')
             ->with($messageName)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::once())
             ->method('get')
             ->with($messageName)
             ->willReturn($message);
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
-        $handler = $factory($container, '', ['apiKey' => $apiKey, 'message' => $messageName, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $mandrillHandler = $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $messageName, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(MandrillHandler::class, $handler);
+        self::assertInstanceOf(MandrillHandler::class, $mandrillHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $mandrillHandler->getLevel());
+        self::assertFalse($mandrillHandler->getBubble());
 
-        $messageP = new ReflectionProperty($handler, 'message');
+        $messageP = new ReflectionProperty($mandrillHandler, 'message');
 
-        self::assertSame($message, $messageP->getValue($handler));
+        self::assertSame($message, $messageP->getValue($mandrillHandler));
 
-        $ak = new ReflectionProperty($handler, 'apiKey');
+        $ak = new ReflectionProperty($mandrillHandler, 'apiKey');
 
-        self::assertSame($apiKey, $ak->getValue($handler));
+        self::assertSame($apiKey, $ak->getValue($mandrillHandler));
 
-        self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(HtmlFormatter::class, $mandrillHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($mandrillHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($mandrillHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -300,7 +300,7 @@ final class MandrillHandlerFactoryTest extends TestCase
         }
 
         $apiKey  = 'test-key';
-        $message = $this->createMock(Swift_Message::class);
+        $message = $this->createStub(Swift_Message::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -308,28 +308,28 @@ final class MandrillHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
-        $handler = $factory($container, '', ['apiKey' => $apiKey, 'message' => $message]);
+        $mandrillHandler = $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message]);
 
-        self::assertInstanceOf(MandrillHandler::class, $handler);
+        self::assertInstanceOf(MandrillHandler::class, $mandrillHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $mandrillHandler->getLevel());
+        self::assertTrue($mandrillHandler->getBubble());
 
-        $messageP = new ReflectionProperty($handler, 'message');
+        $messageP = new ReflectionProperty($mandrillHandler, 'message');
 
-        self::assertSame($message, $messageP->getValue($handler));
+        self::assertSame($message, $messageP->getValue($mandrillHandler));
 
-        $ak = new ReflectionProperty($handler, 'apiKey');
+        $ak = new ReflectionProperty($mandrillHandler, 'apiKey');
 
-        self::assertSame($apiKey, $ak->getValue($handler));
+        self::assertSame($apiKey, $ak->getValue($mandrillHandler));
 
-        self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(HtmlFormatter::class, $mandrillHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($mandrillHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($mandrillHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -350,7 +350,7 @@ final class MandrillHandlerFactoryTest extends TestCase
         }
 
         $apiKey  = 'test-key';
-        $message = $this->createMock(Swift_Message::class);
+        $message = $this->createStub(Swift_Message::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -358,28 +358,28 @@ final class MandrillHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
-        $handler = $factory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $mandrillHandler = $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(MandrillHandler::class, $handler);
+        self::assertInstanceOf(MandrillHandler::class, $mandrillHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $mandrillHandler->getLevel());
+        self::assertFalse($mandrillHandler->getBubble());
 
-        $messageP = new ReflectionProperty($handler, 'message');
+        $messageP = new ReflectionProperty($mandrillHandler, 'message');
 
-        self::assertSame($message, $messageP->getValue($handler));
+        self::assertSame($message, $messageP->getValue($mandrillHandler));
 
-        $ak = new ReflectionProperty($handler, 'apiKey');
+        $ak = new ReflectionProperty($mandrillHandler, 'apiKey');
 
-        self::assertSame($apiKey, $ak->getValue($handler));
+        self::assertSame($apiKey, $ak->getValue($mandrillHandler));
 
-        self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(HtmlFormatter::class, $mandrillHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($mandrillHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($mandrillHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -400,7 +400,7 @@ final class MandrillHandlerFactoryTest extends TestCase
         }
 
         $apiKey       = 'test-key';
-        $messageClass = $this->createMock(Swift_Message::class);
+        $messageClass = $this->createStub(Swift_Message::class);
         $message      = static fn (): Swift_Message => $messageClass;
 
         $container = $this->createMock(ContainerInterface::class);
@@ -409,28 +409,28 @@ final class MandrillHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
-        $handler = $factory($container, '', ['apiKey' => $apiKey, 'message' => $message]);
+        $mandrillHandler = $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message]);
 
-        self::assertInstanceOf(MandrillHandler::class, $handler);
+        self::assertInstanceOf(MandrillHandler::class, $mandrillHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $mandrillHandler->getLevel());
+        self::assertTrue($mandrillHandler->getBubble());
 
-        $messageP = new ReflectionProperty($handler, 'message');
+        $messageP = new ReflectionProperty($mandrillHandler, 'message');
 
-        self::assertSame($messageClass, $messageP->getValue($handler));
+        self::assertSame($messageClass, $messageP->getValue($mandrillHandler));
 
-        $ak = new ReflectionProperty($handler, 'apiKey');
+        $ak = new ReflectionProperty($mandrillHandler, 'apiKey');
 
-        self::assertSame($apiKey, $ak->getValue($handler));
+        self::assertSame($apiKey, $ak->getValue($mandrillHandler));
 
-        self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(HtmlFormatter::class, $mandrillHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($mandrillHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($mandrillHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -451,7 +451,7 @@ final class MandrillHandlerFactoryTest extends TestCase
         }
 
         $apiKey       = 'test-key';
-        $messageClass = $this->createMock(Swift_Message::class);
+        $messageClass = $this->createStub(Swift_Message::class);
         $message      = static fn (): Swift_Message => $messageClass;
 
         $container = $this->createMock(ContainerInterface::class);
@@ -460,28 +460,28 @@ final class MandrillHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
-        $handler = $factory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $mandrillHandler = $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(MandrillHandler::class, $handler);
+        self::assertInstanceOf(MandrillHandler::class, $mandrillHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $mandrillHandler->getLevel());
+        self::assertFalse($mandrillHandler->getBubble());
 
-        $messageP = new ReflectionProperty($handler, 'message');
+        $messageP = new ReflectionProperty($mandrillHandler, 'message');
 
-        self::assertSame($messageClass, $messageP->getValue($handler));
+        self::assertSame($messageClass, $messageP->getValue($mandrillHandler));
 
-        $ak = new ReflectionProperty($handler, 'apiKey');
+        $ak = new ReflectionProperty($mandrillHandler, 'apiKey');
 
-        self::assertSame($apiKey, $ak->getValue($handler));
+        self::assertSame($apiKey, $ak->getValue($mandrillHandler));
 
-        self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(HtmlFormatter::class, $mandrillHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($mandrillHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($mandrillHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -497,7 +497,7 @@ final class MandrillHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig11(): void
     {
         $apiKey  = 'test-key';
-        $message = static fn () => null;
+        $message = static fn (): null => null;
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -505,7 +505,7 @@ final class MandrillHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -513,7 +513,7 @@ final class MandrillHandlerFactoryTest extends TestCase
             sprintf('Could not create %s', MandrillHandler::class),
         );
 
-        $factory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false]);
     }
 
     /**
@@ -530,7 +530,7 @@ final class MandrillHandlerFactoryTest extends TestCase
         }
 
         $apiKey       = 'test-key';
-        $messageClass = $this->createMock(Swift_Message::class);
+        $messageClass = $this->createStub(Swift_Message::class);
         $message      = static fn (): Swift_Message => $messageClass;
         $formatter    = true;
 
@@ -540,7 +540,7 @@ final class MandrillHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -548,7 +548,7 @@ final class MandrillHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -565,9 +565,9 @@ final class MandrillHandlerFactoryTest extends TestCase
         }
 
         $apiKey       = 'test-key';
-        $messageClass = $this->createMock(Swift_Message::class);
+        $messageClass = $this->createStub(Swift_Message::class);
         $message      = static fn (): Swift_Message => $messageClass;
-        $formatter    = $this->createMock(LineFormatter::class);
+        $formatter    = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -577,7 +577,7 @@ final class MandrillHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -585,7 +585,7 @@ final class MandrillHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -603,9 +603,9 @@ final class MandrillHandlerFactoryTest extends TestCase
         }
 
         $apiKey       = 'test-key';
-        $messageClass = $this->createMock(Swift_Message::class);
+        $messageClass = $this->createStub(Swift_Message::class);
         $message      = static fn (): Swift_Message => $messageClass;
-        $formatter    = $this->createMock(LineFormatter::class);
+        $formatter    = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -623,28 +623,28 @@ final class MandrillHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
-        $handler = $factory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $mandrillHandler = $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(MandrillHandler::class, $handler);
+        self::assertInstanceOf(MandrillHandler::class, $mandrillHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $mandrillHandler->getLevel());
+        self::assertFalse($mandrillHandler->getBubble());
 
-        $messageP = new ReflectionProperty($handler, 'message');
+        $messageP = new ReflectionProperty($mandrillHandler, 'message');
 
-        self::assertSame($messageClass, $messageP->getValue($handler));
+        self::assertSame($messageClass, $messageP->getValue($mandrillHandler));
 
-        $ak = new ReflectionProperty($handler, 'apiKey');
+        $ak = new ReflectionProperty($mandrillHandler, 'apiKey');
 
-        self::assertSame($apiKey, $ak->getValue($handler));
+        self::assertSame($apiKey, $ak->getValue($mandrillHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $mandrillHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($mandrillHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($mandrillHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -664,9 +664,9 @@ final class MandrillHandlerFactoryTest extends TestCase
         }
 
         $apiKey       = 'test-key';
-        $messageClass = $this->createMock(Swift_Message::class);
+        $messageClass = $this->createStub(Swift_Message::class);
         $message      = static fn (): Swift_Message => $messageClass;
-        $formatter    = $this->createMock(LineFormatter::class);
+        $formatter    = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -674,9 +674,9 @@ final class MandrillHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -684,7 +684,7 @@ final class MandrillHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -701,7 +701,7 @@ final class MandrillHandlerFactoryTest extends TestCase
         }
 
         $apiKey       = 'test-key';
-        $messageClass = $this->createMock(Swift_Message::class);
+        $messageClass = $this->createStub(Swift_Message::class);
         $message      = static fn (): Swift_Message => $messageClass;
         $processors   = true;
 
@@ -711,13 +711,13 @@ final class MandrillHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -734,7 +734,7 @@ final class MandrillHandlerFactoryTest extends TestCase
         }
 
         $apiKey       = 'test-key';
-        $messageClass = $this->createMock(Swift_Message::class);
+        $messageClass = $this->createStub(Swift_Message::class);
         $message      = static fn (): Swift_Message => $messageClass;
         $processors   = [
             [
@@ -768,13 +768,13 @@ final class MandrillHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -792,7 +792,7 @@ final class MandrillHandlerFactoryTest extends TestCase
         }
 
         $apiKey       = 'test-key';
-        $messageClass = $this->createMock(Swift_Message::class);
+        $messageClass = $this->createStub(Swift_Message::class);
         $message      = static fn (): Swift_Message => $messageClass;
         $processor3   = static fn (array $record): array => $record;
         $processors   = [
@@ -809,9 +809,9 @@ final class MandrillHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -835,26 +835,26 @@ final class MandrillHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
-        $handler = $factory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $mandrillHandler = $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(MandrillHandler::class, $handler);
+        self::assertInstanceOf(MandrillHandler::class, $mandrillHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $mandrillHandler->getLevel());
+        self::assertFalse($mandrillHandler->getBubble());
 
-        $messageP = new ReflectionProperty($handler, 'message');
+        $messageP = new ReflectionProperty($mandrillHandler, 'message');
 
-        self::assertSame($messageClass, $messageP->getValue($handler));
+        self::assertSame($messageClass, $messageP->getValue($mandrillHandler));
 
-        $ak = new ReflectionProperty($handler, 'apiKey');
+        $ak = new ReflectionProperty($mandrillHandler, 'apiKey');
 
-        self::assertSame($apiKey, $ak->getValue($handler));
+        self::assertSame($apiKey, $ak->getValue($mandrillHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($mandrillHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($mandrillHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -877,7 +877,7 @@ final class MandrillHandlerFactoryTest extends TestCase
         }
 
         $apiKey       = 'test-key';
-        $messageClass = $this->createMock(Swift_Message::class);
+        $messageClass = $this->createStub(Swift_Message::class);
         $message      = static fn (): Swift_Message => $messageClass;
         $processor3   = static fn (array $record): array => $record;
         $processors   = [
@@ -902,7 +902,7 @@ final class MandrillHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -910,7 +910,7 @@ final class MandrillHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -927,7 +927,7 @@ final class MandrillHandlerFactoryTest extends TestCase
         }
 
         $apiKey       = 'test-key';
-        $messageClass = $this->createMock(Swift_Message::class);
+        $messageClass = $this->createStub(Swift_Message::class);
         $message      = static fn (): Swift_Message => $messageClass;
         $processor3   = static fn (array $record): array => $record;
         $processors   = [
@@ -950,9 +950,9 @@ final class MandrillHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new MandrillHandlerFactory();
+        $mandrillHandlerFactory = new MandrillHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -960,6 +960,6 @@ final class MandrillHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $mandrillHandlerFactory($container, '', ['apiKey' => $apiKey, 'message' => $message, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 }

@@ -66,22 +66,22 @@ final class LogglyFormatterFactory implements FactoryInterface
             }
         }
 
-        $formatter = new LogglyFormatter($batchMode, $appendNewline);
+        $logglyFormatter = new LogglyFormatter($batchMode, $appendNewline);
 
         if (is_array($options)) {
             if (array_key_exists('includeStacktraces', $options)) {
-                $formatter->includeStacktraces($options['includeStacktraces']);
+                $logglyFormatter->includeStacktraces($options['includeStacktraces']);
             }
 
             if (array_key_exists('dateFormat', $options)) {
-                $formatter->setDateFormat($options['dateFormat']);
+                $logglyFormatter->setDateFormat($options['dateFormat']);
             }
         }
 
-        $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
-        $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
-        $formatter->setJsonPrettyPrint($prettyPrint);
+        $logglyFormatter->setMaxNormalizeDepth($maxNormalizeDepth);
+        $logglyFormatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
+        $logglyFormatter->setJsonPrettyPrint($prettyPrint);
 
-        return $formatter;
+        return $logglyFormatter;
     }
 }

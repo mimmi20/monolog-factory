@@ -29,6 +29,7 @@ use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
@@ -55,13 +56,13 @@ final class ElasticaHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $elasticaHandlerFactory($container, '');
     }
 
     /**
@@ -79,13 +80,13 @@ final class ElasticaHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required service class');
 
-        $factory($container, '', []);
+        $elasticaHandlerFactory($container, '', []);
     }
 
     /**
@@ -103,13 +104,13 @@ final class ElasticaHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required service class');
 
-        $factory($container, '', ['client' => true]);
+        $elasticaHandlerFactory($container, '', ['client' => true]);
     }
 
     /**
@@ -131,7 +132,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
             ->with($client)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -139,7 +140,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
             sprintf('Could not load client class for %s class', ElasticaHandler::class),
         );
 
-        $factory($container, '', ['client' => $client]);
+        $elasticaHandlerFactory($container, '', ['client' => $client]);
     }
 
     /**
@@ -159,15 +160,15 @@ final class ElasticaHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with($client)
-            ->willReturn(true);
+            ->willReturn(value: true);
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', ElasticaHandler::class));
 
-        $factory($container, '', ['client' => $client]);
+        $elasticaHandlerFactory($container, '', ['client' => $client]);
     }
 
     /**
@@ -184,7 +185,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
             self::markTestSkipped(sprintf('class %s is required for this test', Client::class));
         }
 
-        $client = $this->createMock(Client::class);
+        $client = $this->createStub(Client::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -192,22 +193,22 @@ final class ElasticaHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client]);
+        $elasticaHandler = $elasticaHandlerFactory($container, '', ['client' => $client]);
 
-        self::assertInstanceOf(ElasticaHandler::class, $handler);
+        self::assertInstanceOf(ElasticaHandler::class, $elasticaHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $elasticaHandler->getLevel());
+        self::assertTrue($elasticaHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($elasticaHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($elasticaHandler));
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($elasticaHandler, 'options');
 
-        $optionsArray = $optionsP->getValue($handler);
+        $optionsArray = $optionsP->getValue($elasticaHandler);
 
         self::assertIsArray($optionsArray);
 
@@ -215,11 +216,11 @@ final class ElasticaHandlerFactoryTest extends TestCase
         self::assertSame('record', $optionsArray['type']);
         self::assertFalse($optionsArray['ignore_error']);
 
-        self::assertInstanceOf(ElasticaFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(ElasticaFormatter::class, $elasticaHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($elasticaHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($elasticaHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -240,7 +241,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->createMock(Client::class);
+        $clientClass = $this->createStub(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
 
@@ -252,22 +253,22 @@ final class ElasticaHandlerFactoryTest extends TestCase
             ->with($client)
             ->willReturn($clientClass);
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $elasticaHandler = $elasticaHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(ElasticaHandler::class, $handler);
+        self::assertInstanceOf(ElasticaHandler::class, $elasticaHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $elasticaHandler->getLevel());
+        self::assertFalse($elasticaHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($elasticaHandler, 'client');
 
-        self::assertSame($clientClass, $clientP->getValue($handler));
+        self::assertSame($clientClass, $clientP->getValue($elasticaHandler));
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($elasticaHandler, 'options');
 
-        $optionsArray = $optionsP->getValue($handler);
+        $optionsArray = $optionsP->getValue($elasticaHandler);
 
         self::assertIsArray($optionsArray);
 
@@ -275,11 +276,11 @@ final class ElasticaHandlerFactoryTest extends TestCase
         self::assertSame($type, $optionsArray['type']);
         self::assertTrue($optionsArray['ignore_error']);
 
-        self::assertInstanceOf(ElasticaFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(ElasticaFormatter::class, $elasticaHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($elasticaHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($elasticaHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -299,7 +300,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->createMock(Client::class);
+        $clientClass = $this->createStub(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $formatter   = true;
@@ -312,7 +313,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
             ->with($client)
             ->willReturn($clientClass);
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -320,7 +321,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $elasticaHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -337,20 +338,20 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->createMock(Client::class);
+        $clientClass = $this->createStub(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
-        $formatter   = $this->createMock(ElasticaFormatter::class);
+        $formatter   = $this->createStub(ElasticaFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $client, $clientClass): Client {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $client, $clientClass): Client {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame($client, $id, (string) $invocation),
@@ -368,7 +369,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
                 },
             );
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -376,7 +377,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $elasticaHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -394,10 +395,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->createMock(Client::class);
+        $clientClass = $this->createStub(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
-        $formatter   = $this->createMock(ElasticaFormatter::class);
+        $formatter   = $this->createStub(ElasticaFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -419,22 +420,22 @@ final class ElasticaHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $elasticaHandler = $elasticaHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(ElasticaHandler::class, $handler);
+        self::assertInstanceOf(ElasticaHandler::class, $elasticaHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $elasticaHandler->getLevel());
+        self::assertFalse($elasticaHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($elasticaHandler, 'client');
 
-        self::assertSame($clientClass, $clientP->getValue($handler));
+        self::assertSame($clientClass, $clientP->getValue($elasticaHandler));
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($elasticaHandler, 'options');
 
-        $optionsArray = $optionsP->getValue($handler);
+        $optionsArray = $optionsP->getValue($elasticaHandler);
 
         self::assertIsArray($optionsArray);
 
@@ -442,11 +443,11 @@ final class ElasticaHandlerFactoryTest extends TestCase
         self::assertSame($type, $optionsArray['type']);
         self::assertTrue($optionsArray['ignore_error']);
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $elasticaHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($elasticaHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($elasticaHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -466,10 +467,10 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->createMock(Client::class);
+        $clientClass = $this->createStub(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
-        $formatter   = $this->createMock(ElasticaFormatter::class);
+        $formatter   = $this->createStub(ElasticaFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -483,7 +484,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -491,7 +492,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $elasticaHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -508,7 +509,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->createMock(Client::class);
+        $clientClass = $this->createStub(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processors  = true;
@@ -521,13 +522,13 @@ final class ElasticaHandlerFactoryTest extends TestCase
             ->with($client)
             ->willReturn($clientClass);
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $elasticaHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -544,7 +545,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->createMock(Client::class);
+        $clientClass = $this->createStub(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processors  = [
@@ -583,13 +584,13 @@ final class ElasticaHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $elasticaHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -607,7 +608,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->createMock(Client::class);
+        $clientClass = $this->createStub(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processor3  = static fn (array $record): array => $record;
@@ -625,9 +626,9 @@ final class ElasticaHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -655,22 +656,22 @@ final class ElasticaHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $elasticaHandler = $elasticaHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(ElasticaHandler::class, $handler);
+        self::assertInstanceOf(ElasticaHandler::class, $elasticaHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $elasticaHandler->getLevel());
+        self::assertFalse($elasticaHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($elasticaHandler, 'client');
 
-        self::assertSame($clientClass, $clientP->getValue($handler));
+        self::assertSame($clientClass, $clientP->getValue($elasticaHandler));
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($elasticaHandler, 'options');
 
-        $optionsArray = $optionsP->getValue($handler);
+        $optionsArray = $optionsP->getValue($elasticaHandler);
 
         self::assertIsArray($optionsArray);
 
@@ -678,9 +679,9 @@ final class ElasticaHandlerFactoryTest extends TestCase
         self::assertSame($type, $optionsArray['type']);
         self::assertTrue($optionsArray['ignore_error']);
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($elasticaHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($elasticaHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -703,7 +704,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->createMock(Client::class);
+        $clientClass = $this->createStub(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processor3  = static fn (array $record): array => $record;
@@ -732,12 +733,12 @@ final class ElasticaHandlerFactoryTest extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $client, $clientClass) {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $client, $clientClass): Stub {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame($client, $id, (string) $invocation),
@@ -755,7 +756,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
                 },
             );
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -763,7 +764,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $elasticaHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -780,7 +781,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->createMock(Client::class);
+        $clientClass = $this->createStub(Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processor3  = static fn (array $record): array => $record;
@@ -810,7 +811,7 @@ final class ElasticaHandlerFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new ElasticaHandlerFactory();
+        $elasticaHandlerFactory = new ElasticaHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -818,6 +819,6 @@ final class ElasticaHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $elasticaHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 }

@@ -54,13 +54,13 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $redisPubSubHandlerFactory($container, '');
     }
 
     /**
@@ -78,13 +78,13 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required service class');
 
-        $factory($container, '', []);
+        $redisPubSubHandlerFactory($container, '', []);
     }
 
     /**
@@ -104,13 +104,13 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required service class');
 
-        $factory($container, '', ['client' => $client]);
+        $redisPubSubHandlerFactory($container, '', ['client' => $client]);
     }
 
     /**
@@ -130,15 +130,15 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with($client)
-            ->willReturn(true);
+            ->willReturn(value: true);
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', RedisPubSubHandler::class));
 
-        $factory($container, '', ['client' => $client]);
+        $redisPubSubHandlerFactory($container, '', ['client' => $client]);
     }
 
     /**
@@ -160,7 +160,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             ->with($client)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -168,7 +168,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             sprintf('Could not load client class for %s class', RedisPubSubHandler::class),
         );
 
-        $factory($container, '', ['client' => $client]);
+        $redisPubSubHandlerFactory($container, '', ['client' => $client]);
     }
 
     /**
@@ -182,7 +182,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
     public function testInvokeWithClient(): void
     {
         $clientName = 'abc';
-        $client     = $this->createMock(Client::class);
+        $client     = $this->createStub(Client::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -192,28 +192,28 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             ->with($clientName)
             ->willReturn($client);
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $clientName]);
+        $redisPubSubHandler = $redisPubSubHandlerFactory($container, '', ['client' => $clientName]);
 
-        self::assertInstanceOf(RedisPubSubHandler::class, $handler);
+        self::assertInstanceOf(RedisPubSubHandler::class, $redisPubSubHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $redisPubSubHandler->getLevel());
+        self::assertTrue($redisPubSubHandler->getBubble());
 
-        $rc = new ReflectionProperty($handler, 'redisClient');
+        $rc = new ReflectionProperty($redisPubSubHandler, 'redisClient');
 
-        self::assertSame($client, $rc->getValue($handler));
+        self::assertSame($client, $rc->getValue($redisPubSubHandler));
 
-        $ck = new ReflectionProperty($handler, 'channelKey');
+        $ck = new ReflectionProperty($redisPubSubHandler, 'channelKey');
 
-        self::assertSame('', $ck->getValue($handler));
+        self::assertSame('', $ck->getValue($redisPubSubHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $redisPubSubHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($redisPubSubHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($redisPubSubHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -230,7 +230,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
     public function testInvokeWithClient2(): void
     {
         $clientName = 'abc';
-        $client     = $this->createMock(Client::class);
+        $client     = $this->createStub(Client::class);
         $key        = 'test-key';
         $level      = LogLevel::ALERT;
         $bubble     = false;
@@ -243,28 +243,28 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             ->with($clientName)
             ->willReturn($client);
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $clientName, 'key' => $key, 'level' => $level, 'bubble' => $bubble]);
+        $redisPubSubHandler = $redisPubSubHandlerFactory($container, '', ['client' => $clientName, 'key' => $key, 'level' => $level, 'bubble' => $bubble]);
 
-        self::assertInstanceOf(RedisPubSubHandler::class, $handler);
+        self::assertInstanceOf(RedisPubSubHandler::class, $redisPubSubHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $redisPubSubHandler->getLevel());
+        self::assertFalse($redisPubSubHandler->getBubble());
 
-        $rc = new ReflectionProperty($handler, 'redisClient');
+        $rc = new ReflectionProperty($redisPubSubHandler, 'redisClient');
 
-        self::assertSame($client, $rc->getValue($handler));
+        self::assertSame($client, $rc->getValue($redisPubSubHandler));
 
-        $ck = new ReflectionProperty($handler, 'channelKey');
+        $ck = new ReflectionProperty($redisPubSubHandler, 'channelKey');
 
-        self::assertSame($key, $ck->getValue($handler));
+        self::assertSame($key, $ck->getValue($redisPubSubHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $redisPubSubHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($redisPubSubHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($redisPubSubHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -280,7 +280,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithClient3(): void
     {
-        $client = $this->createMock(Client::class);
+        $client = $this->createStub(Client::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -288,28 +288,28 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client]);
+        $redisPubSubHandler = $redisPubSubHandlerFactory($container, '', ['client' => $client]);
 
-        self::assertInstanceOf(RedisPubSubHandler::class, $handler);
+        self::assertInstanceOf(RedisPubSubHandler::class, $redisPubSubHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $redisPubSubHandler->getLevel());
+        self::assertTrue($redisPubSubHandler->getBubble());
 
-        $rc = new ReflectionProperty($handler, 'redisClient');
+        $rc = new ReflectionProperty($redisPubSubHandler, 'redisClient');
 
-        self::assertSame($client, $rc->getValue($handler));
+        self::assertSame($client, $rc->getValue($redisPubSubHandler));
 
-        $ck = new ReflectionProperty($handler, 'channelKey');
+        $ck = new ReflectionProperty($redisPubSubHandler, 'channelKey');
 
-        self::assertSame('', $ck->getValue($handler));
+        self::assertSame('', $ck->getValue($redisPubSubHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $redisPubSubHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($redisPubSubHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($redisPubSubHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -325,7 +325,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithClient4(): void
     {
-        $client = $this->createMock(Client::class);
+        $client = $this->createStub(Client::class);
         $key    = 'test-key';
         $level  = LogLevel::ALERT;
         $bubble = false;
@@ -336,28 +336,28 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble]);
+        $redisPubSubHandler = $redisPubSubHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble]);
 
-        self::assertInstanceOf(RedisPubSubHandler::class, $handler);
+        self::assertInstanceOf(RedisPubSubHandler::class, $redisPubSubHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $redisPubSubHandler->getLevel());
+        self::assertFalse($redisPubSubHandler->getBubble());
 
-        $rc = new ReflectionProperty($handler, 'redisClient');
+        $rc = new ReflectionProperty($redisPubSubHandler, 'redisClient');
 
-        self::assertSame($client, $rc->getValue($handler));
+        self::assertSame($client, $rc->getValue($redisPubSubHandler));
 
-        $ck = new ReflectionProperty($handler, 'channelKey');
+        $ck = new ReflectionProperty($redisPubSubHandler, 'channelKey');
 
-        self::assertSame($key, $ck->getValue($handler));
+        self::assertSame($key, $ck->getValue($redisPubSubHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $redisPubSubHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($redisPubSubHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($redisPubSubHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -383,15 +383,15 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with($clientName)
-            ->willReturn(true);
+            ->willReturn(value: true);
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', RedisPubSubHandler::class));
 
-        $factory($container, '', ['client' => $clientName, 'key' => $key, 'level' => $level, 'bubble' => $bubble]);
+        $redisPubSubHandlerFactory($container, '', ['client' => $clientName, 'key' => $key, 'level' => $level, 'bubble' => $bubble]);
     }
 
     /**
@@ -403,7 +403,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
-        $client    = $this->createMock(Client::class);
+        $client    = $this->createStub(Client::class);
         $key       = 'test-key';
         $level     = LogLevel::ALERT;
         $bubble    = false;
@@ -415,7 +415,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -423,7 +423,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
+        $redisPubSubHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
     }
 
     /**
@@ -435,11 +435,11 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
-        $client    = $this->createMock(Client::class);
+        $client    = $this->createStub(Client::class);
         $key       = 'test-key';
         $level     = LogLevel::ALERT;
         $bubble    = false;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -449,7 +449,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -457,7 +457,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
+        $redisPubSubHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
     }
 
     /**
@@ -470,11 +470,11 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
-        $client    = $this->createMock(Client::class);
+        $client    = $this->createStub(Client::class);
         $key       = 'test-key';
         $level     = LogLevel::ALERT;
         $bubble    = false;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -492,28 +492,28 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
+        $redisPubSubHandler = $redisPubSubHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(RedisPubSubHandler::class, $handler);
+        self::assertInstanceOf(RedisPubSubHandler::class, $redisPubSubHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $redisPubSubHandler->getLevel());
+        self::assertFalse($redisPubSubHandler->getBubble());
 
-        $rc = new ReflectionProperty($handler, 'redisClient');
+        $rc = new ReflectionProperty($redisPubSubHandler, 'redisClient');
 
-        self::assertSame($client, $rc->getValue($handler));
+        self::assertSame($client, $rc->getValue($redisPubSubHandler));
 
-        $ck = new ReflectionProperty($handler, 'channelKey');
+        $ck = new ReflectionProperty($redisPubSubHandler, 'channelKey');
 
-        self::assertSame($key, $ck->getValue($handler));
+        self::assertSame($key, $ck->getValue($redisPubSubHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $redisPubSubHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($redisPubSubHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($redisPubSubHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -528,11 +528,11 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
-        $client    = $this->createMock(Client::class);
+        $client    = $this->createStub(Client::class);
         $key       = 'test-key';
         $level     = LogLevel::ALERT;
         $bubble    = false;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -540,9 +540,9 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -550,7 +550,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
+        $redisPubSubHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
     }
 
     /**
@@ -562,7 +562,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
-        $client     = $this->createMock(Client::class);
+        $client     = $this->createStub(Client::class);
         $key        = 'test-key';
         $level      = LogLevel::ALERT;
         $bubble     = false;
@@ -574,13 +574,13 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $redisPubSubHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }
 
     /**
@@ -592,7 +592,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
-        $client     = $this->createMock(Client::class);
+        $client     = $this->createStub(Client::class);
         $key        = 'test-key';
         $level      = LogLevel::ALERT;
         $bubble     = false;
@@ -628,13 +628,13 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $redisPubSubHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }
 
     /**
@@ -647,7 +647,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
-        $client     = $this->createMock(Client::class);
+        $client     = $this->createStub(Client::class);
         $key        = 'test-key';
         $level      = LogLevel::ALERT;
         $bubble     = false;
@@ -666,9 +666,9 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -692,26 +692,26 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $redisPubSubHandler = $redisPubSubHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
 
-        self::assertInstanceOf(RedisPubSubHandler::class, $handler);
+        self::assertInstanceOf(RedisPubSubHandler::class, $redisPubSubHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $redisPubSubHandler->getLevel());
+        self::assertFalse($redisPubSubHandler->getBubble());
 
-        $rc = new ReflectionProperty($handler, 'redisClient');
+        $rc = new ReflectionProperty($redisPubSubHandler, 'redisClient');
 
-        self::assertSame($client, $rc->getValue($handler));
+        self::assertSame($client, $rc->getValue($redisPubSubHandler));
 
-        $ck = new ReflectionProperty($handler, 'channelKey');
+        $ck = new ReflectionProperty($redisPubSubHandler, 'channelKey');
 
-        self::assertSame($key, $ck->getValue($handler));
+        self::assertSame($key, $ck->getValue($redisPubSubHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($redisPubSubHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($redisPubSubHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -729,7 +729,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
-        $client     = $this->createMock(Client::class);
+        $client     = $this->createStub(Client::class);
         $key        = 'test-key';
         $level      = LogLevel::ALERT;
         $bubble     = false;
@@ -756,7 +756,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -764,7 +764,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $redisPubSubHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }
 
     /**
@@ -776,7 +776,7 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
-        $client     = $this->createMock(Client::class);
+        $client     = $this->createStub(Client::class);
         $key        = 'test-key';
         $level      = LogLevel::ALERT;
         $bubble     = false;
@@ -801,9 +801,9 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new RedisPubSubHandlerFactory();
+        $redisPubSubHandlerFactory = new RedisPubSubHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -811,6 +811,6 @@ final class RedisPubSubHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $redisPubSubHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }
 }

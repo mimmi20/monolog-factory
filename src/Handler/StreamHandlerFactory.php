@@ -83,7 +83,7 @@ final class StreamHandlerFactory implements FactoryInterface
         }
 
         try {
-            $handler = new StreamHandler($stream, $level, $bubble, $filePermission, $useLocking);
+            $streamHandler = new StreamHandler($stream, $level, $bubble, $filePermission, $useLocking);
         } catch (InvalidArgumentException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', StreamHandler::class),
@@ -92,10 +92,10 @@ final class StreamHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $streamHandler, $options);
+        $this->addProcessor($container, $streamHandler, $options);
 
-        return $handler;
+        return $streamHandler;
     }
 
     /**

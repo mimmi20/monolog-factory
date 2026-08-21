@@ -55,13 +55,13 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $dynamoDbHandlerFactory($container, '');
     }
 
     /**
@@ -79,13 +79,13 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required service class');
 
-        $factory($container, '', []);
+        $dynamoDbHandlerFactory($container, '', []);
     }
 
     /**
@@ -105,13 +105,13 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required service class');
 
-        $factory($container, '', ['client' => $clientName]);
+        $dynamoDbHandlerFactory($container, '', ['client' => $clientName]);
     }
 
     /**
@@ -133,7 +133,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             ->with($clientName)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -141,7 +141,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             sprintf('Could not load client class for %s class', DynamoDbHandler::class),
         );
 
-        $factory($container, '', ['client' => $clientName]);
+        $dynamoDbHandlerFactory($container, '', ['client' => $clientName]);
     }
 
     /**
@@ -155,7 +155,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig3(): void
     {
         $clientName = 'test-client';
-        $client     = $this->createMock(DynamoDbClient::class);
+        $client     = $this->createStub(DynamoDbClient::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -165,28 +165,28 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             ->with($clientName)
             ->willReturn($client);
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $clientName]);
+        $dynamoDbHandler = $dynamoDbHandlerFactory($container, '', ['client' => $clientName]);
 
-        self::assertInstanceOf(DynamoDbHandler::class, $handler);
+        self::assertInstanceOf(DynamoDbHandler::class, $dynamoDbHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $dynamoDbHandler->getLevel());
+        self::assertTrue($dynamoDbHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($dynamoDbHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($dynamoDbHandler));
 
-        $tableP = new ReflectionProperty($handler, 'table');
+        $tableP = new ReflectionProperty($dynamoDbHandler, 'table');
 
-        self::assertSame('', $tableP->getValue($handler));
+        self::assertSame('', $tableP->getValue($dynamoDbHandler));
 
-        self::assertInstanceOf(ScalarFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(ScalarFormatter::class, $dynamoDbHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($dynamoDbHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($dynamoDbHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -203,7 +203,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig4(): void
     {
         $clientName = 'test-client';
-        $client     = $this->createMock(DynamoDbClient::class);
+        $client     = $this->createStub(DynamoDbClient::class);
         $table      = 'test-table';
 
         $container = $this->createMock(ContainerInterface::class);
@@ -214,28 +214,28 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             ->with($clientName)
             ->willReturn($client);
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $clientName, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $dynamoDbHandler = $dynamoDbHandlerFactory($container, '', ['client' => $clientName, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(DynamoDbHandler::class, $handler);
+        self::assertInstanceOf(DynamoDbHandler::class, $dynamoDbHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $dynamoDbHandler->getLevel());
+        self::assertFalse($dynamoDbHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($dynamoDbHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($dynamoDbHandler));
 
-        $tableP = new ReflectionProperty($handler, 'table');
+        $tableP = new ReflectionProperty($dynamoDbHandler, 'table');
 
-        self::assertSame($table, $tableP->getValue($handler));
+        self::assertSame($table, $tableP->getValue($dynamoDbHandler));
 
-        self::assertInstanceOf(ScalarFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(ScalarFormatter::class, $dynamoDbHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($dynamoDbHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($dynamoDbHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -251,7 +251,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfig5(): void
     {
-        $client = $this->createMock(DynamoDbClient::class);
+        $client = $this->createStub(DynamoDbClient::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -259,28 +259,28 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client]);
+        $dynamoDbHandler = $dynamoDbHandlerFactory($container, '', ['client' => $client]);
 
-        self::assertInstanceOf(DynamoDbHandler::class, $handler);
+        self::assertInstanceOf(DynamoDbHandler::class, $dynamoDbHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $dynamoDbHandler->getLevel());
+        self::assertTrue($dynamoDbHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($dynamoDbHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($dynamoDbHandler));
 
-        $tableP = new ReflectionProperty($handler, 'table');
+        $tableP = new ReflectionProperty($dynamoDbHandler, 'table');
 
-        self::assertSame('', $tableP->getValue($handler));
+        self::assertSame('', $tableP->getValue($dynamoDbHandler));
 
-        self::assertInstanceOf(ScalarFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(ScalarFormatter::class, $dynamoDbHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($dynamoDbHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($dynamoDbHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -296,7 +296,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfig6(): void
     {
-        $client = $this->createMock(DynamoDbClient::class);
+        $client = $this->createStub(DynamoDbClient::class);
         $table  = 'test-table';
 
         $container = $this->createMock(ContainerInterface::class);
@@ -305,28 +305,28 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $dynamoDbHandler = $dynamoDbHandlerFactory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(DynamoDbHandler::class, $handler);
+        self::assertInstanceOf(DynamoDbHandler::class, $dynamoDbHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $dynamoDbHandler->getLevel());
+        self::assertFalse($dynamoDbHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($dynamoDbHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($dynamoDbHandler));
 
-        $tableP = new ReflectionProperty($handler, 'table');
+        $tableP = new ReflectionProperty($dynamoDbHandler, 'table');
 
-        self::assertSame($table, $tableP->getValue($handler));
+        self::assertSame($table, $tableP->getValue($dynamoDbHandler));
 
-        self::assertInstanceOf(ScalarFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(ScalarFormatter::class, $dynamoDbHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($dynamoDbHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($dynamoDbHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -349,15 +349,15 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with($clientName)
-            ->willReturn(true);
+            ->willReturn(value: true);
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', DynamoDbHandler::class));
 
-        $factory($container, '', ['client' => $clientName]);
+        $dynamoDbHandlerFactory($container, '', ['client' => $clientName]);
     }
 
     /**
@@ -369,7 +369,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
-        $client    = $this->createMock(DynamoDbClient::class);
+        $client    = $this->createStub(DynamoDbClient::class);
         $table     = 'test-table';
         $formatter = true;
 
@@ -379,7 +379,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -387,7 +387,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $dynamoDbHandlerFactory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -399,9 +399,9 @@ final class DynamoDbHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
-        $client    = $this->createMock(DynamoDbClient::class);
+        $client    = $this->createStub(DynamoDbClient::class);
         $table     = 'test-table';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -411,7 +411,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -419,7 +419,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $dynamoDbHandlerFactory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -432,9 +432,9 @@ final class DynamoDbHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
-        $client    = $this->createMock(DynamoDbClient::class);
+        $client    = $this->createStub(DynamoDbClient::class);
         $table     = 'test-table';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -452,28 +452,28 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $dynamoDbHandler = $dynamoDbHandlerFactory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(DynamoDbHandler::class, $handler);
+        self::assertInstanceOf(DynamoDbHandler::class, $dynamoDbHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $dynamoDbHandler->getLevel());
+        self::assertFalse($dynamoDbHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($dynamoDbHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($dynamoDbHandler));
 
-        $tableP = new ReflectionProperty($handler, 'table');
+        $tableP = new ReflectionProperty($dynamoDbHandler, 'table');
 
-        self::assertSame($table, $tableP->getValue($handler));
+        self::assertSame($table, $tableP->getValue($dynamoDbHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $dynamoDbHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($dynamoDbHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($dynamoDbHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -488,9 +488,9 @@ final class DynamoDbHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
-        $client    = $this->createMock(DynamoDbClient::class);
+        $client    = $this->createStub(DynamoDbClient::class);
         $table     = 'test-table';
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -498,9 +498,9 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -508,7 +508,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $dynamoDbHandlerFactory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -520,7 +520,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
-        $client     = $this->createMock(DynamoDbClient::class);
+        $client     = $this->createStub(DynamoDbClient::class);
         $table      = 'test-table';
         $processors = true;
 
@@ -530,13 +530,13 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $dynamoDbHandlerFactory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -548,7 +548,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
-        $client     = $this->createMock(DynamoDbClient::class);
+        $client     = $this->createStub(DynamoDbClient::class);
         $table      = 'test-table';
         $processors = [
             [
@@ -582,13 +582,13 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $dynamoDbHandlerFactory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -601,7 +601,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
-        $client     = $this->createMock(DynamoDbClient::class);
+        $client     = $this->createStub(DynamoDbClient::class);
         $table      = 'test-table';
         $processor3 = static fn (array $record): array => $record;
         $processors = [
@@ -618,9 +618,9 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -644,26 +644,26 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $dynamoDbHandler = $dynamoDbHandlerFactory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(DynamoDbHandler::class, $handler);
+        self::assertInstanceOf(DynamoDbHandler::class, $dynamoDbHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $dynamoDbHandler->getLevel());
+        self::assertFalse($dynamoDbHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($dynamoDbHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($dynamoDbHandler));
 
-        $tableP = new ReflectionProperty($handler, 'table');
+        $tableP = new ReflectionProperty($dynamoDbHandler, 'table');
 
-        self::assertSame($table, $tableP->getValue($handler));
+        self::assertSame($table, $tableP->getValue($dynamoDbHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($dynamoDbHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($dynamoDbHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -681,7 +681,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
-        $client     = $this->createMock(DynamoDbClient::class);
+        $client     = $this->createStub(DynamoDbClient::class);
         $table      = 'test-table';
         $processor3 = static fn (array $record): array => $record;
         $processors = [
@@ -706,7 +706,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -714,7 +714,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $dynamoDbHandlerFactory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -726,7 +726,7 @@ final class DynamoDbHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
-        $client     = $this->createMock(DynamoDbClient::class);
+        $client     = $this->createStub(DynamoDbClient::class);
         $table      = 'test-table';
         $processor3 = static fn (array $record): array => $record;
         $processors = [
@@ -749,9 +749,9 @@ final class DynamoDbHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new DynamoDbHandlerFactory();
+        $dynamoDbHandlerFactory = new DynamoDbHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -759,6 +759,6 @@ final class DynamoDbHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $dynamoDbHandlerFactory($container, '', ['client' => $client, 'table' => $table, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 }

@@ -48,7 +48,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -57,13 +57,13 @@ final class FlowdockHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $flowdockHandlerFactory($container, '');
     }
 
     /**
@@ -73,7 +73,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -82,13 +82,13 @@ final class FlowdockHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No apiToken provided');
 
-        $factory($container, '', []);
+        $flowdockHandlerFactory($container, '', []);
     }
 
     /**
@@ -99,7 +99,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfig(): void
     {
         $apiToken = 'test-token';
@@ -110,28 +110,28 @@ final class FlowdockHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
-        $handler = $factory($container, '', ['apiToken' => $apiToken]);
+        $flowdockHandler = $flowdockHandlerFactory($container, '', ['apiToken' => $apiToken]);
 
-        self::assertInstanceOf(FlowdockHandler::class, $handler);
+        self::assertInstanceOf(FlowdockHandler::class, $flowdockHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
-        self::assertSame('ssl://api.flowdock.com:443', $handler->getConnectionString());
-        self::assertSame(0.0, $handler->getTimeout());
-        self::assertSame(10.0, $handler->getWritingTimeout());
-        self::assertSame(60.0, $handler->getConnectionTimeout());
+        self::assertSame(Level::Debug, $flowdockHandler->getLevel());
+        self::assertTrue($flowdockHandler->getBubble());
+        self::assertSame('ssl://api.flowdock.com:443', $flowdockHandler->getConnectionString());
+        self::assertSame(0.0, $flowdockHandler->getTimeout());
+        self::assertSame(10.0, $flowdockHandler->getWritingTimeout());
+        self::assertSame(60.0, $flowdockHandler->getConnectionTimeout());
         // self::assertSame(0, $handler->getChunkSize());
-        self::assertFalse($handler->isPersistent());
+        self::assertFalse($flowdockHandler->isPersistent());
 
-        $at = new ReflectionProperty($handler, 'apiToken');
+        $at = new ReflectionProperty($flowdockHandler, 'apiToken');
 
-        self::assertSame($apiToken, $at->getValue($handler));
+        self::assertSame($apiToken, $at->getValue($flowdockHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($flowdockHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($flowdockHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -145,7 +145,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfig2(): void
     {
         $apiToken     = 'test-token';
@@ -162,28 +162,28 @@ final class FlowdockHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
-        $handler = $factory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
+        $flowdockHandler = $flowdockHandlerFactory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
 
-        self::assertInstanceOf(FlowdockHandler::class, $handler);
+        self::assertInstanceOf(FlowdockHandler::class, $flowdockHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('ssl://api.flowdock.com:443', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame(60.0, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $flowdockHandler->getLevel());
+        self::assertFalse($flowdockHandler->getBubble());
+        self::assertSame('ssl://api.flowdock.com:443', $flowdockHandler->getConnectionString());
+        self::assertSame($timeout, $flowdockHandler->getTimeout());
+        self::assertSame($writeTimeout, $flowdockHandler->getWritingTimeout());
+        self::assertSame(60.0, $flowdockHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $flowdockHandler->getChunkSize());
+        self::assertTrue($flowdockHandler->isPersistent());
 
-        $at = new ReflectionProperty($handler, 'apiToken');
+        $at = new ReflectionProperty($flowdockHandler, 'apiToken');
 
-        self::assertSame($apiToken, $at->getValue($handler));
+        self::assertSame($apiToken, $at->getValue($flowdockHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($flowdockHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($flowdockHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -196,7 +196,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $apiToken     = 'test-token';
@@ -214,7 +214,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -222,7 +222,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $flowdockHandlerFactory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -232,7 +232,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $apiToken     = 'test-token';
@@ -242,7 +242,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
         $bubble       = false;
         $persistent   = true;
         $chunkSize    = 100;
-        $formatter    = $this->createMock(LineFormatter::class);
+        $formatter    = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -252,7 +252,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -260,7 +260,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $flowdockHandlerFactory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -271,7 +271,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $apiToken          = 'test-token';
@@ -282,7 +282,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
         $bubble            = false;
         $persistent        = true;
         $chunkSize         = 100;
-        $formatter         = $this->createMock(FlowdockFormatter::class);
+        $formatter         = $this->createStub(FlowdockFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -300,30 +300,30 @@ final class FlowdockHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
-        $handler = $factory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $flowdockHandler = $flowdockHandlerFactory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(FlowdockHandler::class, $handler);
+        self::assertInstanceOf(FlowdockHandler::class, $flowdockHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('ssl://api.flowdock.com:443', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $flowdockHandler->getLevel());
+        self::assertFalse($flowdockHandler->getBubble());
+        self::assertSame('ssl://api.flowdock.com:443', $flowdockHandler->getConnectionString());
+        self::assertSame($timeout, $flowdockHandler->getTimeout());
+        self::assertSame($writeTimeout, $flowdockHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $flowdockHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $flowdockHandler->getChunkSize());
+        self::assertTrue($flowdockHandler->isPersistent());
 
-        $at = new ReflectionProperty($handler, 'apiToken');
+        $at = new ReflectionProperty($flowdockHandler, 'apiToken');
 
-        self::assertSame($apiToken, $at->getValue($handler));
+        self::assertSame($apiToken, $at->getValue($flowdockHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $flowdockHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($flowdockHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($flowdockHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -337,7 +337,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $apiToken          = 'test-token';
@@ -348,7 +348,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
         $bubble            = false;
         $persistent        = true;
         $chunkSize         = 100;
-        $formatter         = $this->createMock(FlowdockFormatter::class);
+        $formatter         = $this->createStub(FlowdockFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -366,30 +366,30 @@ final class FlowdockHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
-        $handler = $factory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $flowdockHandler = $flowdockHandlerFactory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(FlowdockHandler::class, $handler);
+        self::assertInstanceOf(FlowdockHandler::class, $flowdockHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('ssl://api.flowdock.com:443', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $flowdockHandler->getLevel());
+        self::assertFalse($flowdockHandler->getBubble());
+        self::assertSame('ssl://api.flowdock.com:443', $flowdockHandler->getConnectionString());
+        self::assertSame($timeout, $flowdockHandler->getTimeout());
+        self::assertSame($writeTimeout, $flowdockHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $flowdockHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $flowdockHandler->getChunkSize());
+        self::assertTrue($flowdockHandler->isPersistent());
 
-        $at = new ReflectionProperty($handler, 'apiToken');
+        $at = new ReflectionProperty($flowdockHandler, 'apiToken');
 
-        self::assertSame($apiToken, $at->getValue($handler));
+        self::assertSame($apiToken, $at->getValue($flowdockHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $flowdockHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($flowdockHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($flowdockHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -402,7 +402,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndFormatter4(): void
     {
         $apiToken          = 'test-token';
@@ -413,7 +413,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
         $bubble            = false;
         $persistent        = true;
         $chunkSize         = 100;
-        $formatter         = $this->createMock(FlowdockFormatter::class);
+        $formatter         = $this->createStub(FlowdockFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -421,9 +421,9 @@ final class FlowdockHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -431,7 +431,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $flowdockHandlerFactory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -441,7 +441,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $apiToken     = 'test-token';
@@ -459,13 +459,13 @@ final class FlowdockHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $flowdockHandlerFactory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -475,7 +475,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $apiToken     = 'test-token';
@@ -517,13 +517,13 @@ final class FlowdockHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $flowdockHandlerFactory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -534,7 +534,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $apiToken          = 'test-token';
@@ -560,9 +560,9 @@ final class FlowdockHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -586,28 +586,28 @@ final class FlowdockHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
-        $handler = $factory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $flowdockHandler = $flowdockHandlerFactory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
 
-        self::assertInstanceOf(FlowdockHandler::class, $handler);
+        self::assertInstanceOf(FlowdockHandler::class, $flowdockHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('ssl://api.flowdock.com:443', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $flowdockHandler->getLevel());
+        self::assertFalse($flowdockHandler->getBubble());
+        self::assertSame('ssl://api.flowdock.com:443', $flowdockHandler->getConnectionString());
+        self::assertSame($timeout, $flowdockHandler->getTimeout());
+        self::assertSame($writeTimeout, $flowdockHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $flowdockHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $flowdockHandler->getChunkSize());
+        self::assertTrue($flowdockHandler->isPersistent());
 
-        $at = new ReflectionProperty($handler, 'apiToken');
+        $at = new ReflectionProperty($flowdockHandler, 'apiToken');
 
-        self::assertSame($apiToken, $at->getValue($handler));
+        self::assertSame($apiToken, $at->getValue($flowdockHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($flowdockHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($flowdockHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -623,7 +623,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $apiToken     = 'test-token';
@@ -656,7 +656,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -664,7 +664,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $flowdockHandlerFactory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -674,7 +674,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $apiToken     = 'test-token';
@@ -705,9 +705,9 @@ final class FlowdockHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -715,7 +715,7 @@ final class FlowdockHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $flowdockHandlerFactory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -745,12 +745,12 @@ final class FlowdockHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FlowdockHandlerFactory();
+        $flowdockHandlerFactory = new FlowdockHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', FlowdockHandler::class));
 
-        $factory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
+        $flowdockHandlerFactory($container, '', ['apiToken' => $apiToken, 'level' => $level, 'bubble' => $bubble, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
     }
 }

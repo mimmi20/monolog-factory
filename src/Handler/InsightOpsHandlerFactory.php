@@ -68,7 +68,7 @@ final class InsightOpsHandlerFactory implements FactoryInterface
         $chunkSize         = $options['chunkSize'] ?? null;
 
         try {
-            $handler = new InsightOpsHandler(
+            $insightOpsHandler = new InsightOpsHandler(
                 $options['token'],
                 $region,
                 $useSSL,
@@ -88,9 +88,9 @@ final class InsightOpsHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $insightOpsHandler, $options);
+        $this->addProcessor($container, $insightOpsHandler, $options);
 
-        return $handler;
+        return $insightOpsHandler;
     }
 }

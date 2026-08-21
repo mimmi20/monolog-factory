@@ -51,36 +51,36 @@ final class GelfMessageFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new GelfMessageFormatterFactory();
+        $gelfMessageFormatterFactory = new GelfMessageFormatterFactory();
 
-        $formatter = $factory($container, '');
+        $gelfMessageFormatter = $gelfMessageFormatterFactory($container, '');
 
-        self::assertInstanceOf(GelfMessageFormatter::class, $formatter);
-        self::assertSame('U.u', $formatter->getDateFormat());
+        self::assertInstanceOf(GelfMessageFormatter::class, $gelfMessageFormatter);
+        self::assertSame('U.u', $gelfMessageFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $gelfMessageFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $gelfMessageFormatter->getMaxNormalizeItemCount(),
         );
 
-        $s = new ReflectionProperty($formatter, 'systemName');
+        $s = new ReflectionProperty($gelfMessageFormatter, 'systemName');
 
-        self::assertSame((string) gethostname(), $s->getValue($formatter));
+        self::assertSame((string) gethostname(), $s->getValue($gelfMessageFormatter));
 
-        $ep = new ReflectionProperty($formatter, 'extraPrefix');
+        $ep = new ReflectionProperty($gelfMessageFormatter, 'extraPrefix');
 
-        self::assertSame('', $ep->getValue($formatter));
+        self::assertSame('', $ep->getValue($gelfMessageFormatter));
 
-        $cp = new ReflectionProperty($formatter, 'contextPrefix');
+        $cp = new ReflectionProperty($gelfMessageFormatter, 'contextPrefix');
 
-        self::assertSame('ctxt_', $cp->getValue($formatter));
+        self::assertSame('ctxt_', $cp->getValue($gelfMessageFormatter));
 
-        $ml = new ReflectionProperty($formatter, 'maxLength');
+        $ml = new ReflectionProperty($gelfMessageFormatter, 'maxLength');
 
-        self::assertSame(32766, $ml->getValue($formatter));
+        self::assertSame(32766, $ml->getValue($gelfMessageFormatter));
     }
 
     /**
@@ -104,36 +104,36 @@ final class GelfMessageFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new GelfMessageFormatterFactory();
+        $gelfMessageFormatterFactory = new GelfMessageFormatterFactory();
 
-        $formatter = $factory($container, '', []);
+        $gelfMessageFormatter = $gelfMessageFormatterFactory($container, '', []);
 
-        self::assertInstanceOf(GelfMessageFormatter::class, $formatter);
-        self::assertSame('U.u', $formatter->getDateFormat());
+        self::assertInstanceOf(GelfMessageFormatter::class, $gelfMessageFormatter);
+        self::assertSame('U.u', $gelfMessageFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $gelfMessageFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $gelfMessageFormatter->getMaxNormalizeItemCount(),
         );
 
-        $s = new ReflectionProperty($formatter, 'systemName');
+        $s = new ReflectionProperty($gelfMessageFormatter, 'systemName');
 
-        self::assertSame((string) gethostname(), $s->getValue($formatter));
+        self::assertSame((string) gethostname(), $s->getValue($gelfMessageFormatter));
 
-        $ep = new ReflectionProperty($formatter, 'extraPrefix');
+        $ep = new ReflectionProperty($gelfMessageFormatter, 'extraPrefix');
 
-        self::assertSame('', $ep->getValue($formatter));
+        self::assertSame('', $ep->getValue($gelfMessageFormatter));
 
-        $cp = new ReflectionProperty($formatter, 'contextPrefix');
+        $cp = new ReflectionProperty($gelfMessageFormatter, 'contextPrefix');
 
-        self::assertSame('ctxt_', $cp->getValue($formatter));
+        self::assertSame('ctxt_', $cp->getValue($gelfMessageFormatter));
 
-        $ml = new ReflectionProperty($formatter, 'maxLength');
+        $ml = new ReflectionProperty($gelfMessageFormatter, 'maxLength');
 
-        self::assertSame(32766, $ml->getValue($formatter));
+        self::assertSame(32766, $ml->getValue($gelfMessageFormatter));
     }
 
     /**
@@ -164,29 +164,29 @@ final class GelfMessageFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new GelfMessageFormatterFactory();
+        $gelfMessageFormatterFactory = new GelfMessageFormatterFactory();
 
-        $formatter = $factory($container, '', ['systemName' => $systemName, 'extraPrefix' => $extraPrefix, 'contextPrefix' => $contextPrefix, 'maxLength' => $maxLength, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
+        $gelfMessageFormatter = $gelfMessageFormatterFactory($container, '', ['systemName' => $systemName, 'extraPrefix' => $extraPrefix, 'contextPrefix' => $contextPrefix, 'maxLength' => $maxLength, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
 
-        self::assertInstanceOf(GelfMessageFormatter::class, $formatter);
-        self::assertSame('U.u', $formatter->getDateFormat());
-        self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
-        self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
+        self::assertInstanceOf(GelfMessageFormatter::class, $gelfMessageFormatter);
+        self::assertSame('U.u', $gelfMessageFormatter->getDateFormat());
+        self::assertSame($maxNormalizeDepth, $gelfMessageFormatter->getMaxNormalizeDepth());
+        self::assertSame($maxNormalizeItemCount, $gelfMessageFormatter->getMaxNormalizeItemCount());
 
-        $s = new ReflectionProperty($formatter, 'systemName');
+        $s = new ReflectionProperty($gelfMessageFormatter, 'systemName');
 
-        self::assertSame($systemName, $s->getValue($formatter));
+        self::assertSame($systemName, $s->getValue($gelfMessageFormatter));
 
-        $ep = new ReflectionProperty($formatter, 'extraPrefix');
+        $ep = new ReflectionProperty($gelfMessageFormatter, 'extraPrefix');
 
-        self::assertSame($extraPrefix, $ep->getValue($formatter));
+        self::assertSame($extraPrefix, $ep->getValue($gelfMessageFormatter));
 
-        $cp = new ReflectionProperty($formatter, 'contextPrefix');
+        $cp = new ReflectionProperty($gelfMessageFormatter, 'contextPrefix');
 
-        self::assertSame($contextPrefix, $cp->getValue($formatter));
+        self::assertSame($contextPrefix, $cp->getValue($gelfMessageFormatter));
 
-        $ml = new ReflectionProperty($formatter, 'maxLength');
+        $ml = new ReflectionProperty($gelfMessageFormatter, 'maxLength');
 
-        self::assertSame($maxLength, $ml->getValue($formatter));
+        self::assertSame($maxLength, $ml->getValue($gelfMessageFormatter));
     }
 }

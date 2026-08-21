@@ -56,13 +56,13 @@ final class RedisHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $redisHandlerFactory($container, '');
     }
 
     /**
@@ -80,13 +80,13 @@ final class RedisHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required service class');
 
-        $factory($container, '', []);
+        $redisHandlerFactory($container, '', []);
     }
 
     /**
@@ -106,13 +106,13 @@ final class RedisHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required service class');
 
-        $factory($container, '', ['client' => $client]);
+        $redisHandlerFactory($container, '', ['client' => $client]);
     }
 
     /**
@@ -134,7 +134,7 @@ final class RedisHandlerFactoryTest extends TestCase
             ->with($client)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -142,7 +142,7 @@ final class RedisHandlerFactoryTest extends TestCase
             sprintf('Could not load client class for %s class', RedisHandler::class),
         );
 
-        $factory($container, '', ['client' => $client]);
+        $redisHandlerFactory($container, '', ['client' => $client]);
     }
 
     /**
@@ -162,15 +162,15 @@ final class RedisHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with($client)
-            ->willReturn(true);
+            ->willReturn(value: true);
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', RedisHandler::class));
 
-        $factory($container, '', ['client' => $client]);
+        $redisHandlerFactory($container, '', ['client' => $client]);
     }
 
     /**
@@ -184,7 +184,7 @@ final class RedisHandlerFactoryTest extends TestCase
     public function testInvokeWithClient(): void
     {
         $clientName = 'abc';
-        $client     = $this->createMock(Client::class);
+        $client     = $this->createStub(Client::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -194,32 +194,32 @@ final class RedisHandlerFactoryTest extends TestCase
             ->with($clientName)
             ->willReturn($client);
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $clientName]);
+        $redisHandler = $redisHandlerFactory($container, '', ['client' => $clientName]);
 
-        self::assertInstanceOf(RedisHandler::class, $handler);
+        self::assertInstanceOf(RedisHandler::class, $redisHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $redisHandler->getLevel());
+        self::assertTrue($redisHandler->getBubble());
 
-        $rc = new ReflectionProperty($handler, 'redisClient');
+        $rc = new ReflectionProperty($redisHandler, 'redisClient');
 
-        self::assertSame($client, $rc->getValue($handler));
+        self::assertSame($client, $rc->getValue($redisHandler));
 
-        $ck = new ReflectionProperty($handler, 'redisKey');
+        $ck = new ReflectionProperty($redisHandler, 'redisKey');
 
-        self::assertSame('', $ck->getValue($handler));
+        self::assertSame('', $ck->getValue($redisHandler));
 
-        $cs = new ReflectionProperty($handler, 'capSize');
+        $cs = new ReflectionProperty($redisHandler, 'capSize');
 
-        self::assertSame(0, $cs->getValue($handler));
+        self::assertSame(0, $cs->getValue($redisHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $redisHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($redisHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($redisHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -236,7 +236,7 @@ final class RedisHandlerFactoryTest extends TestCase
     public function testInvokeWithClient2(): void
     {
         $clientName = 'abc';
-        $client     = $this->createMock(Client::class);
+        $client     = $this->createStub(Client::class);
         $key        = 'test-key';
         $level      = LogLevel::ALERT;
         $bubble     = false;
@@ -250,32 +250,32 @@ final class RedisHandlerFactoryTest extends TestCase
             ->with($clientName)
             ->willReturn($client);
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $clientName, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize]);
+        $redisHandler = $redisHandlerFactory($container, '', ['client' => $clientName, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize]);
 
-        self::assertInstanceOf(RedisHandler::class, $handler);
+        self::assertInstanceOf(RedisHandler::class, $redisHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $redisHandler->getLevel());
+        self::assertFalse($redisHandler->getBubble());
 
-        $rc = new ReflectionProperty($handler, 'redisClient');
+        $rc = new ReflectionProperty($redisHandler, 'redisClient');
 
-        self::assertSame($client, $rc->getValue($handler));
+        self::assertSame($client, $rc->getValue($redisHandler));
 
-        $ck = new ReflectionProperty($handler, 'redisKey');
+        $ck = new ReflectionProperty($redisHandler, 'redisKey');
 
-        self::assertSame($key, $ck->getValue($handler));
+        self::assertSame($key, $ck->getValue($redisHandler));
 
-        $cs = new ReflectionProperty($handler, 'capSize');
+        $cs = new ReflectionProperty($redisHandler, 'capSize');
 
-        self::assertSame($capSize, $cs->getValue($handler));
+        self::assertSame($capSize, $cs->getValue($redisHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $redisHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($redisHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($redisHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -291,7 +291,7 @@ final class RedisHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithClient3(): void
     {
-        $client = $this->createMock(Client::class);
+        $client = $this->createStub(Client::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -299,32 +299,32 @@ final class RedisHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client]);
+        $redisHandler = $redisHandlerFactory($container, '', ['client' => $client]);
 
-        self::assertInstanceOf(RedisHandler::class, $handler);
+        self::assertInstanceOf(RedisHandler::class, $redisHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $redisHandler->getLevel());
+        self::assertTrue($redisHandler->getBubble());
 
-        $rc = new ReflectionProperty($handler, 'redisClient');
+        $rc = new ReflectionProperty($redisHandler, 'redisClient');
 
-        self::assertSame($client, $rc->getValue($handler));
+        self::assertSame($client, $rc->getValue($redisHandler));
 
-        $ck = new ReflectionProperty($handler, 'redisKey');
+        $ck = new ReflectionProperty($redisHandler, 'redisKey');
 
-        self::assertSame('', $ck->getValue($handler));
+        self::assertSame('', $ck->getValue($redisHandler));
 
-        $cs = new ReflectionProperty($handler, 'capSize');
+        $cs = new ReflectionProperty($redisHandler, 'capSize');
 
-        self::assertSame(0, $cs->getValue($handler));
+        self::assertSame(0, $cs->getValue($redisHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $redisHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($redisHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($redisHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -340,7 +340,7 @@ final class RedisHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithClient4(): void
     {
-        $client  = $this->createMock(Client::class);
+        $client  = $this->createStub(Client::class);
         $key     = 'test-key';
         $level   = LogLevel::ALERT;
         $bubble  = false;
@@ -352,32 +352,32 @@ final class RedisHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize]);
+        $redisHandler = $redisHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize]);
 
-        self::assertInstanceOf(RedisHandler::class, $handler);
+        self::assertInstanceOf(RedisHandler::class, $redisHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $redisHandler->getLevel());
+        self::assertFalse($redisHandler->getBubble());
 
-        $rc = new ReflectionProperty($handler, 'redisClient');
+        $rc = new ReflectionProperty($redisHandler, 'redisClient');
 
-        self::assertSame($client, $rc->getValue($handler));
+        self::assertSame($client, $rc->getValue($redisHandler));
 
-        $ck = new ReflectionProperty($handler, 'redisKey');
+        $ck = new ReflectionProperty($redisHandler, 'redisKey');
 
-        self::assertSame($key, $ck->getValue($handler));
+        self::assertSame($key, $ck->getValue($redisHandler));
 
-        $cs = new ReflectionProperty($handler, 'capSize');
+        $cs = new ReflectionProperty($redisHandler, 'capSize');
 
-        self::assertSame($capSize, $cs->getValue($handler));
+        self::assertSame($capSize, $cs->getValue($redisHandler));
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $redisHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($redisHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($redisHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -400,15 +400,15 @@ final class RedisHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with($clientName)
-            ->willReturn(true);
+            ->willReturn(value: true);
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', RedisHandler::class));
 
-        $factory($container, '', ['client' => $clientName]);
+        $redisHandlerFactory($container, '', ['client' => $clientName]);
     }
 
     /**
@@ -420,7 +420,7 @@ final class RedisHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
-        $client    = $this->createMock(Client::class);
+        $client    = $this->createStub(Client::class);
         $key       = 'test-key';
         $level     = LogLevel::ALERT;
         $bubble    = false;
@@ -433,7 +433,7 @@ final class RedisHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -441,7 +441,7 @@ final class RedisHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'formatter' => $formatter]);
+        $redisHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -453,12 +453,12 @@ final class RedisHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
-        $client    = $this->createMock(Client::class);
+        $client    = $this->createStub(Client::class);
         $key       = 'test-key';
         $level     = LogLevel::ALERT;
         $bubble    = false;
         $capSize   = 42;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -468,7 +468,7 @@ final class RedisHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -476,7 +476,7 @@ final class RedisHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'formatter' => $formatter]);
+        $redisHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -489,12 +489,12 @@ final class RedisHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
-        $client    = $this->createMock(Client::class);
+        $client    = $this->createStub(Client::class);
         $key       = 'test-key';
         $level     = LogLevel::ALERT;
         $bubble    = false;
         $capSize   = 42;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -512,32 +512,32 @@ final class RedisHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'formatter' => $formatter]);
+        $redisHandler = $redisHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(RedisHandler::class, $handler);
+        self::assertInstanceOf(RedisHandler::class, $redisHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $redisHandler->getLevel());
+        self::assertFalse($redisHandler->getBubble());
 
-        $rc = new ReflectionProperty($handler, 'redisClient');
+        $rc = new ReflectionProperty($redisHandler, 'redisClient');
 
-        self::assertSame($client, $rc->getValue($handler));
+        self::assertSame($client, $rc->getValue($redisHandler));
 
-        $ck = new ReflectionProperty($handler, 'redisKey');
+        $ck = new ReflectionProperty($redisHandler, 'redisKey');
 
-        self::assertSame($key, $ck->getValue($handler));
+        self::assertSame($key, $ck->getValue($redisHandler));
 
-        $cs = new ReflectionProperty($handler, 'capSize');
+        $cs = new ReflectionProperty($redisHandler, 'capSize');
 
-        self::assertSame($capSize, $cs->getValue($handler));
+        self::assertSame($capSize, $cs->getValue($redisHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $redisHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($redisHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($redisHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -552,12 +552,12 @@ final class RedisHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
-        $client    = $this->createMock(Client::class);
+        $client    = $this->createStub(Client::class);
         $key       = 'test-key';
         $level     = LogLevel::ALERT;
         $bubble    = false;
         $capSize   = 42;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -565,9 +565,9 @@ final class RedisHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -575,7 +575,7 @@ final class RedisHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'formatter' => $formatter]);
+        $redisHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -587,7 +587,7 @@ final class RedisHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
-        $client     = $this->createMock(Client::class);
+        $client     = $this->createStub(Client::class);
         $key        = 'test-key';
         $level      = LogLevel::ALERT;
         $bubble     = false;
@@ -600,13 +600,13 @@ final class RedisHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'processors' => $processors]);
+        $redisHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'processors' => $processors]);
     }
 
     /**
@@ -618,7 +618,7 @@ final class RedisHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
-        $client     = $this->createMock(Client::class);
+        $client     = $this->createStub(Client::class);
         $key        = 'test-key';
         $level      = LogLevel::ALERT;
         $bubble     = false;
@@ -655,13 +655,13 @@ final class RedisHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'processors' => $processors]);
+        $redisHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'processors' => $processors]);
     }
 
     /**
@@ -674,7 +674,7 @@ final class RedisHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
-        $client     = $this->createMock(Client::class);
+        $client     = $this->createStub(Client::class);
         $key        = 'test-key';
         $level      = LogLevel::ALERT;
         $bubble     = false;
@@ -694,9 +694,9 @@ final class RedisHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -720,30 +720,30 @@ final class RedisHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'processors' => $processors]);
+        $redisHandler = $redisHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'processors' => $processors]);
 
-        self::assertInstanceOf(RedisHandler::class, $handler);
+        self::assertInstanceOf(RedisHandler::class, $redisHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $redisHandler->getLevel());
+        self::assertFalse($redisHandler->getBubble());
 
-        $rc = new ReflectionProperty($handler, 'redisClient');
+        $rc = new ReflectionProperty($redisHandler, 'redisClient');
 
-        self::assertSame($client, $rc->getValue($handler));
+        self::assertSame($client, $rc->getValue($redisHandler));
 
-        $ck = new ReflectionProperty($handler, 'redisKey');
+        $ck = new ReflectionProperty($redisHandler, 'redisKey');
 
-        self::assertSame($key, $ck->getValue($handler));
+        self::assertSame($key, $ck->getValue($redisHandler));
 
-        $cs = new ReflectionProperty($handler, 'capSize');
+        $cs = new ReflectionProperty($redisHandler, 'capSize');
 
-        self::assertSame($capSize, $cs->getValue($handler));
+        self::assertSame($capSize, $cs->getValue($redisHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($redisHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($redisHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -761,7 +761,7 @@ final class RedisHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
-        $client     = $this->createMock(Client::class);
+        $client     = $this->createStub(Client::class);
         $key        = 'test-key';
         $level      = LogLevel::ALERT;
         $bubble     = false;
@@ -789,7 +789,7 @@ final class RedisHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -797,7 +797,7 @@ final class RedisHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'processors' => $processors]);
+        $redisHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'processors' => $processors]);
     }
 
     /**
@@ -809,7 +809,7 @@ final class RedisHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
-        $client     = $this->createMock(Client::class);
+        $client     = $this->createStub(Client::class);
         $key        = 'test-key';
         $level      = LogLevel::ALERT;
         $bubble     = false;
@@ -835,9 +835,9 @@ final class RedisHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new RedisHandlerFactory();
+        $redisHandlerFactory = new RedisHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -845,6 +845,6 @@ final class RedisHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'processors' => $processors]);
+        $redisHandlerFactory($container, '', ['client' => $client, 'key' => $key, 'level' => $level, 'bubble' => $bubble, 'capSize' => $capSize, 'processors' => $processors]);
     }
 }

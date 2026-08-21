@@ -36,11 +36,11 @@ final class UidProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new UidProcessorFactory();
+        $uidProcessorFactory = new UidProcessorFactory();
 
-        $processor = $factory($container, '');
+        $uidProcessor = $uidProcessorFactory($container, '');
 
-        self::assertInstanceOf(UidProcessor::class, $processor);
+        self::assertInstanceOf(UidProcessor::class, $uidProcessor);
     }
 
     /**
@@ -56,11 +56,11 @@ final class UidProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new UidProcessorFactory();
+        $uidProcessorFactory = new UidProcessorFactory();
 
-        $processor = $factory($container, '', []);
+        $uidProcessor = $uidProcessorFactory($container, '', []);
 
-        self::assertInstanceOf(UidProcessor::class, $processor);
+        self::assertInstanceOf(UidProcessor::class, $uidProcessor);
     }
 
     /**
@@ -76,11 +76,11 @@ final class UidProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new UidProcessorFactory();
+        $uidProcessorFactory = new UidProcessorFactory();
 
-        $processor = $factory($container, '', ['length' => 22]);
+        $uidProcessor = $uidProcessorFactory($container, '', ['length' => 22]);
 
-        self::assertInstanceOf(UidProcessor::class, $processor);
+        self::assertInstanceOf(UidProcessor::class, $uidProcessor);
     }
 
     /**
@@ -96,13 +96,13 @@ final class UidProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new UidProcessorFactory();
+        $uidProcessorFactory = new UidProcessorFactory();
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('The uid length must be an integer between 1 and 32');
 
-        $factory($container, '', ['length' => 0]);
+        $uidProcessorFactory($container, '', ['length' => 0]);
     }
 
     /**
@@ -118,12 +118,12 @@ final class UidProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new UidProcessorFactory();
+        $uidProcessorFactory = new UidProcessorFactory();
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('The uid length must be an integer between 1 and 32');
 
-        $factory($container, '', ['length' => 33]);
+        $uidProcessorFactory($container, '', ['length' => 33]);
     }
 }

@@ -85,7 +85,7 @@ final class CouchDBHandlerFactory implements FactoryInterface
             }
         }
 
-        $handler = new CouchDBHandler(
+        $couchDBHandler = new CouchDBHandler(
             [
                 'dbname' => $dbname,
                 'host' => $host,
@@ -97,9 +97,9 @@ final class CouchDBHandlerFactory implements FactoryInterface
             $bubble,
         );
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $couchDBHandler, $options);
+        $this->addProcessor($container, $couchDBHandler, $options);
 
-        return $handler;
+        return $couchDBHandler;
     }
 }

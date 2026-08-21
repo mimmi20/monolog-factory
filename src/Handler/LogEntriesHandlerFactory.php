@@ -68,7 +68,7 @@ final class LogEntriesHandlerFactory implements FactoryInterface
         $chunkSize         = $options['chunkSize'] ?? null;
 
         try {
-            $handler = new LogEntriesHandler(
+            $logEntriesHandler = new LogEntriesHandler(
                 $options['token'],
                 $useSSL,
                 $level,
@@ -88,9 +88,9 @@ final class LogEntriesHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $logEntriesHandler, $options);
+        $this->addProcessor($container, $logEntriesHandler, $options);
 
-        return $handler;
+        return $logEntriesHandler;
     }
 }

@@ -41,15 +41,18 @@ final class LoadAverageProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LoadAverageProcessorFactory();
+        $loadAverageProcessorFactory = new LoadAverageProcessorFactory();
 
-        $processor = $factory($container, '');
+        $loadAverageProcessor = $loadAverageProcessorFactory($container, '');
 
-        self::assertInstanceOf(LoadAverageProcessor::class, $processor);
+        self::assertInstanceOf(LoadAverageProcessor::class, $loadAverageProcessor);
 
-        $asl = new ReflectionProperty($processor, 'avgSystemLoad');
+        $reflectionProperty = new ReflectionProperty($loadAverageProcessor, 'avgSystemLoad');
 
-        self::assertSame(LoadAverageProcessor::LOAD_1_MINUTE, $asl->getValue($processor));
+        self::assertSame(
+            LoadAverageProcessor::LOAD_1_MINUTE,
+            $reflectionProperty->getValue($loadAverageProcessor),
+        );
     }
 
     /**
@@ -66,15 +69,18 @@ final class LoadAverageProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LoadAverageProcessorFactory();
+        $loadAverageProcessorFactory = new LoadAverageProcessorFactory();
 
-        $processor = $factory($container, '', []);
+        $loadAverageProcessor = $loadAverageProcessorFactory($container, '', []);
 
-        self::assertInstanceOf(LoadAverageProcessor::class, $processor);
+        self::assertInstanceOf(LoadAverageProcessor::class, $loadAverageProcessor);
 
-        $asl = new ReflectionProperty($processor, 'avgSystemLoad');
+        $reflectionProperty = new ReflectionProperty($loadAverageProcessor, 'avgSystemLoad');
 
-        self::assertSame(LoadAverageProcessor::LOAD_1_MINUTE, $asl->getValue($processor));
+        self::assertSame(
+            LoadAverageProcessor::LOAD_1_MINUTE,
+            $reflectionProperty->getValue($loadAverageProcessor),
+        );
     }
 
     /**
@@ -93,15 +99,15 @@ final class LoadAverageProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LoadAverageProcessorFactory();
+        $loadAverageProcessorFactory = new LoadAverageProcessorFactory();
 
-        $processor = $factory($container, '', ['load' => $load]);
+        $loadAverageProcessor = $loadAverageProcessorFactory($container, '', ['load' => $load]);
 
-        self::assertInstanceOf(LoadAverageProcessor::class, $processor);
+        self::assertInstanceOf(LoadAverageProcessor::class, $loadAverageProcessor);
 
-        $asl = new ReflectionProperty($processor, 'avgSystemLoad');
+        $reflectionProperty = new ReflectionProperty($loadAverageProcessor, 'avgSystemLoad');
 
-        self::assertSame($load, $asl->getValue($processor));
+        self::assertSame($load, $reflectionProperty->getValue($loadAverageProcessor));
     }
 
     /**
@@ -119,7 +125,7 @@ final class LoadAverageProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LoadAverageProcessorFactory();
+        $loadAverageProcessorFactory = new LoadAverageProcessorFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -127,6 +133,6 @@ final class LoadAverageProcessorFactoryTest extends TestCase
             sprintf('Could not create service %s', LoadAverageProcessor::class),
         );
 
-        $factory($container, '', ['load' => $load]);
+        $loadAverageProcessorFactory($container, '', ['load' => $load]);
     }
 }

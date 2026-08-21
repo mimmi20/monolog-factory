@@ -80,12 +80,12 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
             ->method('has');
         $monologHandlerPluginManager->expects(self::never())
             ->method('get');
-        $matcher = self::exactly(3);
-        $monologHandlerPluginManager->expects($matcher)
+        $invokedCount = self::exactly(3);
+        $monologHandlerPluginManager->expects($invokedCount)
             ->method('build')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $handler1, $handler2): HandlerInterface {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $handler1, $handler2): HandlerInterface {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame(FirePHPHandler::class, $id, (string) $invocation),
@@ -109,28 +109,28 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new WhatFailureGroupHandlerFactory();
+        $whatFailureGroupHandlerFactory = new WhatFailureGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers]);
+        $whatFailureGroupHandler = $whatFailureGroupHandlerFactory($container, '', ['handlers' => $handlers]);
 
-        self::assertInstanceOf(WhatFailureGroupHandler::class, $handler);
+        self::assertInstanceOf(WhatFailureGroupHandler::class, $whatFailureGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($whatFailureGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(2, $handlerClasses);
         self::assertSame($handler1, $handlerClasses[0]);
         self::assertSame($handler2, $handlerClasses[1]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($whatFailureGroupHandler, 'bubble');
 
-        self::assertTrue($bubble->getValue($handler));
+        self::assertTrue($bubble->getValue($whatFailureGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($whatFailureGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -191,12 +191,12 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(3);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(3);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager): AbstractPluginManager {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager): AbstractPluginManager {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     self::assertSame(MonologHandlerPluginManager::class, $id, (string) $invocation);
 
@@ -207,28 +207,28 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
                 },
             );
 
-        $factory = new WhatFailureGroupHandlerFactory();
+        $whatFailureGroupHandlerFactory = new WhatFailureGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers]);
+        $whatFailureGroupHandler = $whatFailureGroupHandlerFactory($container, '', ['handlers' => $handlers]);
 
-        self::assertInstanceOf(WhatFailureGroupHandler::class, $handler);
+        self::assertInstanceOf(WhatFailureGroupHandler::class, $whatFailureGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($whatFailureGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(2, $handlerClasses);
         self::assertSame($handler1, $handlerClasses[0]);
         self::assertSame($handler2, $handlerClasses[1]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($whatFailureGroupHandler, 'bubble');
 
-        self::assertTrue($bubble->getValue($handler));
+        self::assertTrue($bubble->getValue($whatFailureGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($whatFailureGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -301,15 +301,15 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new WhatFailureGroupHandlerFactory();
+        $whatFailureGroupHandlerFactory = new WhatFailureGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers]);
+        $whatFailureGroupHandler = $whatFailureGroupHandlerFactory($container, '', ['handlers' => $handlers]);
 
-        self::assertInstanceOf(WhatFailureGroupHandler::class, $handler);
+        self::assertInstanceOf(WhatFailureGroupHandler::class, $whatFailureGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($whatFailureGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(3, $handlerClasses);
@@ -317,13 +317,13 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
         self::assertSame($handler2, $handlerClasses[1]);
         self::assertSame($handler3, $handlerClasses[2]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($whatFailureGroupHandler, 'bubble');
 
-        self::assertTrue($bubble->getValue($handler));
+        self::assertTrue($bubble->getValue($whatFailureGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($whatFailureGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -396,15 +396,15 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new WhatFailureGroupHandlerFactory();
+        $whatFailureGroupHandlerFactory = new WhatFailureGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false]);
+        $whatFailureGroupHandler = $whatFailureGroupHandlerFactory($container, '', ['handlers' => $handlers, 'bubble' => false]);
 
-        self::assertInstanceOf(WhatFailureGroupHandler::class, $handler);
+        self::assertInstanceOf(WhatFailureGroupHandler::class, $whatFailureGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($whatFailureGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(3, $handlerClasses);
@@ -412,13 +412,13 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
         self::assertSame($handler2, $handlerClasses[1]);
         self::assertSame($handler3, $handlerClasses[2]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($whatFailureGroupHandler, 'bubble');
 
-        self::assertFalse($bubble->getValue($handler));
+        self::assertFalse($bubble->getValue($whatFailureGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($whatFailureGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -492,15 +492,15 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new WhatFailureGroupHandlerFactory();
+        $whatFailureGroupHandlerFactory = new WhatFailureGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'formatter' => $formatter]);
+        $whatFailureGroupHandler = $whatFailureGroupHandlerFactory($container, '', ['handlers' => $handlers, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(WhatFailureGroupHandler::class, $handler);
+        self::assertInstanceOf(WhatFailureGroupHandler::class, $whatFailureGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($whatFailureGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(3, $handlerClasses);
@@ -508,13 +508,13 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
         self::assertSame($handler2, $handlerClasses[1]);
         self::assertSame($handler3, $handlerClasses[2]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($whatFailureGroupHandler, 'bubble');
 
-        self::assertFalse($bubble->getValue($handler));
+        self::assertFalse($bubble->getValue($whatFailureGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($whatFailureGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -529,7 +529,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
         $handlers  = [
             [
                 'enabled' => false,
@@ -588,15 +588,15 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new WhatFailureGroupHandlerFactory();
+        $whatFailureGroupHandlerFactory = new WhatFailureGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'formatter' => $formatter]);
+        $whatFailureGroupHandler = $whatFailureGroupHandlerFactory($container, '', ['handlers' => $handlers, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(WhatFailureGroupHandler::class, $handler);
+        self::assertInstanceOf(WhatFailureGroupHandler::class, $whatFailureGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($whatFailureGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(3, $handlerClasses);
@@ -604,13 +604,13 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
         self::assertSame($handler2, $handlerClasses[1]);
         self::assertSame($handler3, $handlerClasses[2]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($whatFailureGroupHandler, 'bubble');
 
-        self::assertFalse($bubble->getValue($handler));
+        self::assertFalse($bubble->getValue($whatFailureGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($whatFailureGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -625,7 +625,7 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
         $handlers  = [
             [
                 'enabled' => false,
@@ -684,15 +684,15 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new WhatFailureGroupHandlerFactory();
+        $whatFailureGroupHandlerFactory = new WhatFailureGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'formatter' => $formatter]);
+        $whatFailureGroupHandler = $whatFailureGroupHandlerFactory($container, '', ['handlers' => $handlers, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(WhatFailureGroupHandler::class, $handler);
+        self::assertInstanceOf(WhatFailureGroupHandler::class, $whatFailureGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($whatFailureGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(3, $handlerClasses);
@@ -700,13 +700,13 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
         self::assertSame($handler2, $handlerClasses[1]);
         self::assertSame($handler3, $handlerClasses[2]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($whatFailureGroupHandler, 'bubble');
 
-        self::assertFalse($bubble->getValue($handler));
+        self::assertFalse($bubble->getValue($whatFailureGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($whatFailureGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -753,9 +753,9 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -816,15 +816,15 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
                 ],
             );
 
-        $factory = new WhatFailureGroupHandlerFactory();
+        $whatFailureGroupHandlerFactory = new WhatFailureGroupHandlerFactory();
 
-        $handler = $factory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
+        $whatFailureGroupHandler = $whatFailureGroupHandlerFactory($container, '', ['handlers' => $handlers, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(WhatFailureGroupHandler::class, $handler);
+        self::assertInstanceOf(WhatFailureGroupHandler::class, $whatFailureGroupHandler);
 
-        $fp = new ReflectionProperty($handler, 'handlers');
+        $fp = new ReflectionProperty($whatFailureGroupHandler, 'handlers');
 
-        $handlerClasses = $fp->getValue($handler);
+        $handlerClasses = $fp->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($handlerClasses);
         self::assertCount(3, $handlerClasses);
@@ -832,13 +832,13 @@ final class WhatFailureGroupHandlerFactory1Test extends TestCase
         self::assertSame($handler2, $handlerClasses[1]);
         self::assertSame($handler3, $handlerClasses[2]);
 
-        $bubble = new ReflectionProperty($handler, 'bubble');
+        $bubble = new ReflectionProperty($whatFailureGroupHandler, 'bubble');
 
-        self::assertFalse($bubble->getValue($handler));
+        self::assertFalse($bubble->getValue($whatFailureGroupHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($whatFailureGroupHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($whatFailureGroupHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);

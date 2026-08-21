@@ -51,13 +51,13 @@ final class PsrHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PsrHandlerFactory();
+        $psrHandlerFactory = new PsrHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $psrHandlerFactory($container, '');
     }
 
     /**
@@ -75,13 +75,13 @@ final class PsrHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PsrHandlerFactory();
+        $psrHandlerFactory = new PsrHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required logger class');
 
-        $factory($container, '', []);
+        $psrHandlerFactory($container, '', []);
     }
 
     /**
@@ -101,13 +101,13 @@ final class PsrHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PsrHandlerFactory();
+        $psrHandlerFactory = new PsrHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required logger class');
 
-        $factory($container, '', ['logger' => $loggerName]);
+        $psrHandlerFactory($container, '', ['logger' => $loggerName]);
     }
 
     /**
@@ -129,13 +129,13 @@ final class PsrHandlerFactoryTest extends TestCase
             ->with($loggerName)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new PsrHandlerFactory();
+        $psrHandlerFactory = new PsrHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Could not load logger class');
 
-        $factory($container, '', ['logger' => $loggerName]);
+        $psrHandlerFactory($container, '', ['logger' => $loggerName]);
     }
 
     /**
@@ -149,7 +149,7 @@ final class PsrHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig3(): void
     {
         $loggerName = 'test-logger';
-        $logger     = $this->createMock(LoggerInterface::class);
+        $logger     = $this->createStub(LoggerInterface::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -159,18 +159,18 @@ final class PsrHandlerFactoryTest extends TestCase
             ->with($loggerName)
             ->willReturn($logger);
 
-        $factory = new PsrHandlerFactory();
+        $psrHandlerFactory = new PsrHandlerFactory();
 
-        $handler = $factory($container, '', ['logger' => $loggerName]);
+        $psrHandler = $psrHandlerFactory($container, '', ['logger' => $loggerName]);
 
-        self::assertInstanceOf(PsrHandler::class, $handler);
+        self::assertInstanceOf(PsrHandler::class, $psrHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $psrHandler->getLevel());
+        self::assertTrue($psrHandler->getBubble());
 
-        $loggerP = new ReflectionProperty($handler, 'logger');
+        $reflectionProperty = new ReflectionProperty($psrHandler, 'logger');
 
-        self::assertSame($logger, $loggerP->getValue($handler));
+        self::assertSame($logger, $reflectionProperty->getValue($psrHandler));
     }
 
     /**
@@ -184,7 +184,7 @@ final class PsrHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig4(): void
     {
         $loggerName = 'test-logger';
-        $logger     = $this->createMock(LoggerInterface::class);
+        $logger     = $this->createStub(LoggerInterface::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -194,18 +194,18 @@ final class PsrHandlerFactoryTest extends TestCase
             ->with($loggerName)
             ->willReturn($logger);
 
-        $factory = new PsrHandlerFactory();
+        $psrHandlerFactory = new PsrHandlerFactory();
 
-        $handler = $factory($container, '', ['logger' => $loggerName, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $psrHandler = $psrHandlerFactory($container, '', ['logger' => $loggerName, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(PsrHandler::class, $handler);
+        self::assertInstanceOf(PsrHandler::class, $psrHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $psrHandler->getLevel());
+        self::assertFalse($psrHandler->getBubble());
 
-        $loggerP = new ReflectionProperty($handler, 'logger');
+        $reflectionProperty = new ReflectionProperty($psrHandler, 'logger');
 
-        self::assertSame($logger, $loggerP->getValue($handler));
+        self::assertSame($logger, $reflectionProperty->getValue($psrHandler));
     }
 
     /**
@@ -218,7 +218,7 @@ final class PsrHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfig5(): void
     {
-        $logger = $this->createMock(LoggerInterface::class);
+        $logger = $this->createStub(LoggerInterface::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -226,18 +226,18 @@ final class PsrHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PsrHandlerFactory();
+        $psrHandlerFactory = new PsrHandlerFactory();
 
-        $handler = $factory($container, '', ['logger' => $logger]);
+        $psrHandler = $psrHandlerFactory($container, '', ['logger' => $logger]);
 
-        self::assertInstanceOf(PsrHandler::class, $handler);
+        self::assertInstanceOf(PsrHandler::class, $psrHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $psrHandler->getLevel());
+        self::assertTrue($psrHandler->getBubble());
 
-        $loggerP = new ReflectionProperty($handler, 'logger');
+        $reflectionProperty = new ReflectionProperty($psrHandler, 'logger');
 
-        self::assertSame($logger, $loggerP->getValue($handler));
+        self::assertSame($logger, $reflectionProperty->getValue($psrHandler));
     }
 
     /**
@@ -250,7 +250,7 @@ final class PsrHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfig6(): void
     {
-        $logger = $this->createMock(LoggerInterface::class);
+        $logger = $this->createStub(LoggerInterface::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -258,18 +258,18 @@ final class PsrHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PsrHandlerFactory();
+        $psrHandlerFactory = new PsrHandlerFactory();
 
-        $handler = $factory($container, '', ['logger' => $logger, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $psrHandler = $psrHandlerFactory($container, '', ['logger' => $logger, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(PsrHandler::class, $handler);
+        self::assertInstanceOf(PsrHandler::class, $psrHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $psrHandler->getLevel());
+        self::assertFalse($psrHandler->getBubble());
 
-        $loggerP = new ReflectionProperty($handler, 'logger');
+        $reflectionProperty = new ReflectionProperty($psrHandler, 'logger');
 
-        self::assertSame($logger, $loggerP->getValue($handler));
+        self::assertSame($logger, $reflectionProperty->getValue($psrHandler));
     }
 
     /**
@@ -289,15 +289,15 @@ final class PsrHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with($loggerName)
-            ->willReturn(true);
+            ->willReturn(value: true);
 
-        $factory = new PsrHandlerFactory();
+        $psrHandlerFactory = new PsrHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', PsrHandler::class));
 
-        $factory($container, '', ['logger' => $loggerName]);
+        $psrHandlerFactory($container, '', ['logger' => $loggerName]);
     }
 
     /**
@@ -309,7 +309,7 @@ final class PsrHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
-        $logger    = $this->createMock(LoggerInterface::class);
+        $logger    = $this->createStub(LoggerInterface::class);
         $formatter = true;
 
         $container = $this->createMock(ContainerInterface::class);
@@ -318,7 +318,7 @@ final class PsrHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PsrHandlerFactory();
+        $psrHandlerFactory = new PsrHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -326,7 +326,7 @@ final class PsrHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['logger' => $logger, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $psrHandlerFactory($container, '', ['logger' => $logger, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -338,8 +338,8 @@ final class PsrHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
-        $logger    = $this->createMock(LoggerInterface::class);
-        $formatter = $this->createMock(LineFormatter::class);
+        $logger    = $this->createStub(LoggerInterface::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -349,7 +349,7 @@ final class PsrHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new PsrHandlerFactory();
+        $psrHandlerFactory = new PsrHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -357,7 +357,7 @@ final class PsrHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['logger' => $logger, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $psrHandlerFactory($container, '', ['logger' => $logger, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -370,8 +370,8 @@ final class PsrHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
-        $logger    = $this->createMock(LoggerInterface::class);
-        $formatter = $this->createMock(LineFormatter::class);
+        $logger    = $this->createStub(LoggerInterface::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -389,20 +389,20 @@ final class PsrHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new PsrHandlerFactory();
+        $psrHandlerFactory = new PsrHandlerFactory();
 
-        $handler = $factory($container, '', ['logger' => $logger, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $psrHandler = $psrHandlerFactory($container, '', ['logger' => $logger, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(PsrHandler::class, $handler);
+        self::assertInstanceOf(PsrHandler::class, $psrHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $psrHandler->getLevel());
+        self::assertFalse($psrHandler->getBubble());
 
-        $loggerP = new ReflectionProperty($handler, 'logger');
+        $reflectionProperty = new ReflectionProperty($psrHandler, 'logger');
 
-        self::assertSame($logger, $loggerP->getValue($handler));
+        self::assertSame($logger, $reflectionProperty->getValue($psrHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $psrHandler->getFormatter());
     }
 
     /**
@@ -414,8 +414,8 @@ final class PsrHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
-        $logger    = $this->createMock(LoggerInterface::class);
-        $formatter = $this->createMock(LineFormatter::class);
+        $logger    = $this->createStub(LoggerInterface::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -423,9 +423,9 @@ final class PsrHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new PsrHandlerFactory();
+        $psrHandlerFactory = new PsrHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -433,7 +433,7 @@ final class PsrHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['logger' => $logger, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $psrHandlerFactory($container, '', ['logger' => $logger, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -446,7 +446,7 @@ final class PsrHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
-        $logger     = $this->createMock(LoggerInterface::class);
+        $logger     = $this->createStub(LoggerInterface::class);
         $processors = true;
 
         $container = $this->createMock(ContainerInterface::class);
@@ -455,17 +455,17 @@ final class PsrHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new PsrHandlerFactory();
+        $psrHandlerFactory = new PsrHandlerFactory();
 
-        $handler = $factory($container, '', ['logger' => $logger, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $psrHandler = $psrHandlerFactory($container, '', ['logger' => $logger, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(PsrHandler::class, $handler);
+        self::assertInstanceOf(PsrHandler::class, $psrHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $psrHandler->getLevel());
+        self::assertFalse($psrHandler->getBubble());
 
-        $loggerP = new ReflectionProperty($handler, 'logger');
+        $reflectionProperty = new ReflectionProperty($psrHandler, 'logger');
 
-        self::assertSame($logger, $loggerP->getValue($handler));
+        self::assertSame($logger, $reflectionProperty->getValue($psrHandler));
     }
 }

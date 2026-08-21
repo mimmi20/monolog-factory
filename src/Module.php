@@ -34,15 +34,15 @@ final class Module implements ConfigProviderInterface, InitProviderInterface
     #[Override]
     public function getConfig(): array
     {
-        $provider = new ConfigProvider();
+        $configProvider = new ConfigProvider();
 
         return [
-            'monolog' => $provider->getMonologConfig(),
-            'monolog_formatters' => $provider->getMonologFormatterConfig(),
-            'monolog_handlers' => $provider->getMonologHandlerConfig(),
-            'monolog_processors' => $provider->getMonologProcessorConfig(),
-            'monolog_service_clients' => $provider->getMonologClientConfig(),
-            'service_manager' => $provider->getDependencyConfig(),
+            'monolog' => $configProvider->getMonologConfig(),
+            'monolog_formatters' => $configProvider->getMonologFormatterConfig(),
+            'monolog_handlers' => $configProvider->getMonologHandlerConfig(),
+            'monolog_processors' => $configProvider->getMonologProcessorConfig(),
+            'monolog_service_clients' => $configProvider->getMonologClientConfig(),
+            'service_manager' => $configProvider->getDependencyConfig(),
         ];
     }
 

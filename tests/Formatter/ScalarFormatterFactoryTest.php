@@ -37,19 +37,19 @@ final class ScalarFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ScalarFormatterFactory();
+        $scalarFormatterFactory = new ScalarFormatterFactory();
 
-        $formatter = $factory($container, '');
+        $scalarFormatter = $scalarFormatterFactory($container, '');
 
-        self::assertInstanceOf(ScalarFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(ScalarFormatter::class, $scalarFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $scalarFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $scalarFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $scalarFormatter->getMaxNormalizeItemCount(),
         );
     }
 
@@ -66,19 +66,19 @@ final class ScalarFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ScalarFormatterFactory();
+        $scalarFormatterFactory = new ScalarFormatterFactory();
 
-        $formatter = $factory($container, '', []);
+        $scalarFormatter = $scalarFormatterFactory($container, '', []);
 
-        self::assertInstanceOf(ScalarFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(ScalarFormatter::class, $scalarFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $scalarFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $scalarFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $scalarFormatter->getMaxNormalizeItemCount(),
         );
     }
 
@@ -99,13 +99,13 @@ final class ScalarFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ScalarFormatterFactory();
+        $scalarFormatterFactory = new ScalarFormatterFactory();
 
-        $formatter = $factory($container, '', ['dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
+        $scalarFormatter = $scalarFormatterFactory($container, '', ['dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
 
-        self::assertInstanceOf(NormalizerFormatter::class, $formatter);
-        self::assertSame($dateFormat, $formatter->getDateFormat());
-        self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
-        self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
+        self::assertInstanceOf(NormalizerFormatter::class, $scalarFormatter);
+        self::assertSame($dateFormat, $scalarFormatter->getDateFormat());
+        self::assertSame($maxNormalizeDepth, $scalarFormatter->getMaxNormalizeDepth());
+        self::assertSame($maxNormalizeItemCount, $scalarFormatter->getMaxNormalizeItemCount());
     }
 }

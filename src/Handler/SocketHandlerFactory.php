@@ -66,7 +66,7 @@ final class SocketHandlerFactory implements FactoryInterface
         $chunkSize         = $options['chunkSize'] ?? null;
 
         try {
-            $handler = new SocketHandler(
+            $socketHandler = new SocketHandler(
                 $options['connectionString'],
                 $level,
                 $bubble,
@@ -84,9 +84,9 @@ final class SocketHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $socketHandler, $options);
+        $this->addProcessor($container, $socketHandler, $options);
 
-        return $handler;
+        return $socketHandler;
     }
 }

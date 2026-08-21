@@ -47,7 +47,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -56,13 +56,13 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $insightOpsHandlerFactory($container, '');
     }
 
     /**
@@ -72,7 +72,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -81,13 +81,13 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No token provided');
 
-        $factory($container, '', []);
+        $insightOpsHandlerFactory($container, '', []);
     }
 
     /**
@@ -98,7 +98,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfig(): void
     {
         $token = 'test-token';
@@ -109,26 +109,29 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token]);
+        $insightOpsHandler = $insightOpsHandlerFactory($container, '', ['token' => $token]);
 
-        self::assertInstanceOf(InsightOpsHandler::class, $handler);
+        self::assertInstanceOf(InsightOpsHandler::class, $insightOpsHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
-        self::assertSame('ssl://us.data.logs.insight.rapid7.com:443', $handler->getConnectionString());
-        self::assertSame(0.0, $handler->getTimeout());
-        self::assertSame(10.0, $handler->getWritingTimeout());
-        self::assertSame(60.0, $handler->getConnectionTimeout());
+        self::assertSame(Level::Debug, $insightOpsHandler->getLevel());
+        self::assertTrue($insightOpsHandler->getBubble());
+        self::assertSame(
+            'ssl://us.data.logs.insight.rapid7.com:443',
+            $insightOpsHandler->getConnectionString(),
+        );
+        self::assertSame(0.0, $insightOpsHandler->getTimeout());
+        self::assertSame(10.0, $insightOpsHandler->getWritingTimeout());
+        self::assertSame(60.0, $insightOpsHandler->getConnectionTimeout());
         // self::assertSame(0, $handler->getChunkSize());
-        self::assertFalse($handler->isPersistent());
+        self::assertFalse($insightOpsHandler->isPersistent());
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $insightOpsHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($insightOpsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($insightOpsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -142,7 +145,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfig2(): void
     {
         $token        = 'test-token';
@@ -160,26 +163,29 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'region' => $region, 'useSSL' => false]);
+        $insightOpsHandler = $insightOpsHandlerFactory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'region' => $region, 'useSSL' => false]);
 
-        self::assertInstanceOf(InsightOpsHandler::class, $handler);
+        self::assertInstanceOf(InsightOpsHandler::class, $insightOpsHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('eu.data.logs.insight.rapid7.com:80', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame(60.0, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $insightOpsHandler->getLevel());
+        self::assertFalse($insightOpsHandler->getBubble());
+        self::assertSame(
+            'eu.data.logs.insight.rapid7.com:80',
+            $insightOpsHandler->getConnectionString(),
+        );
+        self::assertSame($timeout, $insightOpsHandler->getTimeout());
+        self::assertSame($writeTimeout, $insightOpsHandler->getWritingTimeout());
+        self::assertSame(60.0, $insightOpsHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $insightOpsHandler->getChunkSize());
+        self::assertTrue($insightOpsHandler->isPersistent());
 
-        self::assertInstanceOf(LineFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LineFormatter::class, $insightOpsHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($insightOpsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($insightOpsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -213,7 +219,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -221,7 +227,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
             sprintf('Could not create %s', InsightOpsHandler::class),
         );
 
-        $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'region' => $region]);
+        $insightOpsHandlerFactory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'region' => $region]);
     }
 
     /**
@@ -231,7 +237,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $token        = 'test-token';
@@ -249,7 +255,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -257,7 +263,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $insightOpsHandlerFactory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -267,7 +273,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $token        = 'test-token';
@@ -277,7 +283,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $bubble       = false;
         $persistent   = true;
         $chunkSize    = 100;
-        $formatter    = $this->createMock(LineFormatter::class);
+        $formatter    = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -287,7 +293,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -295,7 +301,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $insightOpsHandlerFactory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -306,7 +312,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $token             = 'test-token';
@@ -317,7 +323,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $bubble            = false;
         $persistent        = true;
         $chunkSize         = 100;
-        $formatter         = $this->createMock(LineFormatter::class);
+        $formatter         = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -335,26 +341,29 @@ final class InsightOpsHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $insightOpsHandler = $insightOpsHandlerFactory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(InsightOpsHandler::class, $handler);
+        self::assertInstanceOf(InsightOpsHandler::class, $insightOpsHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('ssl://us.data.logs.insight.rapid7.com:443', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $insightOpsHandler->getLevel());
+        self::assertFalse($insightOpsHandler->getBubble());
+        self::assertSame(
+            'ssl://us.data.logs.insight.rapid7.com:443',
+            $insightOpsHandler->getConnectionString(),
+        );
+        self::assertSame($timeout, $insightOpsHandler->getTimeout());
+        self::assertSame($writeTimeout, $insightOpsHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $insightOpsHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $insightOpsHandler->getChunkSize());
+        self::assertTrue($insightOpsHandler->isPersistent());
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $insightOpsHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($insightOpsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($insightOpsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -368,7 +377,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $token             = 'test-token';
@@ -379,7 +388,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $bubble            = false;
         $persistent        = true;
         $chunkSize         = 100;
-        $formatter         = $this->createMock(LineFormatter::class);
+        $formatter         = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -397,26 +406,29 @@ final class InsightOpsHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $insightOpsHandler = $insightOpsHandlerFactory($container, '', ['token' => $token, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(InsightOpsHandler::class, $handler);
+        self::assertInstanceOf(InsightOpsHandler::class, $insightOpsHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('ssl://us.data.logs.insight.rapid7.com:443', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $insightOpsHandler->getLevel());
+        self::assertFalse($insightOpsHandler->getBubble());
+        self::assertSame(
+            'ssl://us.data.logs.insight.rapid7.com:443',
+            $insightOpsHandler->getConnectionString(),
+        );
+        self::assertSame($timeout, $insightOpsHandler->getTimeout());
+        self::assertSame($writeTimeout, $insightOpsHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $insightOpsHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $insightOpsHandler->getChunkSize());
+        self::assertTrue($insightOpsHandler->isPersistent());
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $insightOpsHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($insightOpsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($insightOpsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -429,7 +441,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndFormatter4(): void
     {
         $token             = 'test-token';
@@ -440,7 +452,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $bubble            = false;
         $persistent        = true;
         $chunkSize         = 100;
-        $formatter         = $this->createMock(LineFormatter::class);
+        $formatter         = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -448,9 +460,9 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -458,7 +470,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $insightOpsHandlerFactory($container, '', ['token' => $token, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -468,7 +480,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $token        = 'test-token';
@@ -486,13 +498,13 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $insightOpsHandlerFactory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -502,7 +514,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $token        = 'test-token';
@@ -544,13 +556,13 @@ final class InsightOpsHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $insightOpsHandlerFactory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -561,7 +573,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $token             = 'test-token';
@@ -587,9 +599,9 @@ final class InsightOpsHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -613,24 +625,27 @@ final class InsightOpsHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $insightOpsHandler = $insightOpsHandlerFactory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
 
-        self::assertInstanceOf(InsightOpsHandler::class, $handler);
+        self::assertInstanceOf(InsightOpsHandler::class, $insightOpsHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('ssl://us.data.logs.insight.rapid7.com:443', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $insightOpsHandler->getLevel());
+        self::assertFalse($insightOpsHandler->getBubble());
+        self::assertSame(
+            'ssl://us.data.logs.insight.rapid7.com:443',
+            $insightOpsHandler->getConnectionString(),
+        );
+        self::assertSame($timeout, $insightOpsHandler->getTimeout());
+        self::assertSame($writeTimeout, $insightOpsHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $insightOpsHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $insightOpsHandler->getChunkSize());
+        self::assertTrue($insightOpsHandler->isPersistent());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($insightOpsHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($insightOpsHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -646,7 +661,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $token        = 'test-token';
@@ -679,7 +694,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -687,7 +702,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $insightOpsHandlerFactory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -697,7 +712,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $token        = 'test-token';
@@ -728,9 +743,9 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -738,7 +753,7 @@ final class InsightOpsHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $insightOpsHandlerFactory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -768,12 +783,12 @@ final class InsightOpsHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new InsightOpsHandlerFactory();
+        $insightOpsHandlerFactory = new InsightOpsHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', InsightOpsHandler::class));
 
-        $factory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
+        $insightOpsHandlerFactory($container, '', ['token' => $token, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'level' => $level, 'bubble' => $bubble, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
     }
 }

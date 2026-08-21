@@ -40,15 +40,15 @@ final class NullHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NullHandlerFactory();
+        $nullHandlerFactory = new NullHandlerFactory();
 
-        $handler = $factory($container, '');
+        $nullHandler = $nullHandlerFactory($container, '');
 
-        self::assertInstanceOf(NullHandler::class, $handler);
+        self::assertInstanceOf(NullHandler::class, $nullHandler);
 
-        $lvl = new ReflectionProperty($handler, 'level');
+        $reflectionProperty = new ReflectionProperty($nullHandler, 'level');
 
-        self::assertSame(Level::Debug, $lvl->getValue($handler));
+        self::assertSame(Level::Debug, $reflectionProperty->getValue($nullHandler));
     }
 
     /**
@@ -65,15 +65,15 @@ final class NullHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NullHandlerFactory();
+        $nullHandlerFactory = new NullHandlerFactory();
 
-        $handler = $factory($container, '', []);
+        $nullHandler = $nullHandlerFactory($container, '', []);
 
-        self::assertInstanceOf(NullHandler::class, $handler);
+        self::assertInstanceOf(NullHandler::class, $nullHandler);
 
-        $lvl = new ReflectionProperty($handler, 'level');
+        $reflectionProperty = new ReflectionProperty($nullHandler, 'level');
 
-        self::assertSame(Level::Debug, $lvl->getValue($handler));
+        self::assertSame(Level::Debug, $reflectionProperty->getValue($nullHandler));
     }
 
     /**
@@ -90,14 +90,14 @@ final class NullHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new NullHandlerFactory();
+        $nullHandlerFactory = new NullHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => LogLevel::ALERT]);
+        $nullHandler = $nullHandlerFactory($container, '', ['level' => LogLevel::ALERT]);
 
-        self::assertInstanceOf(NullHandler::class, $handler);
+        self::assertInstanceOf(NullHandler::class, $nullHandler);
 
-        $lvl = new ReflectionProperty($handler, 'level');
+        $reflectionProperty = new ReflectionProperty($nullHandler, 'level');
 
-        self::assertSame(Level::Alert, $lvl->getValue($handler));
+        self::assertSame(Level::Alert, $reflectionProperty->getValue($nullHandler));
     }
 }

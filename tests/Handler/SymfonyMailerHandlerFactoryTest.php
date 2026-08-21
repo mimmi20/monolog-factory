@@ -56,13 +56,13 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $symfonyMailerHandlerFactory($container, '');
     }
 
     /**
@@ -80,13 +80,13 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required mailer class');
 
-        $factory($container, '', []);
+        $symfonyMailerHandlerFactory($container, '', []);
     }
 
     /**
@@ -106,13 +106,13 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required mailer class');
 
-        $factory($container, '', ['mailer' => $mailer]);
+        $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailer]);
     }
 
     /**
@@ -134,13 +134,13 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             ->with($mailer)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Could not load mailer class');
 
-        $factory($container, '', ['mailer' => $mailer]);
+        $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailer]);
     }
 
     /**
@@ -153,7 +153,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig3(): void
     {
         $mailerName = 'test-mailer';
-        $mailer     = $this->createMock(MailerInterface::class);
+        $mailer     = $this->createStub(MailerInterface::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -163,13 +163,13 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             ->with($mailerName)
             ->willReturn($mailer);
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Email template provided');
 
-        $factory($container, '', ['mailer' => $mailerName]);
+        $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailerName]);
     }
 
     /**
@@ -182,7 +182,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig4(): void
     {
         $mailerName = 'test-mailer';
-        $mailer     = $this->createMock(MailerInterface::class);
+        $mailer     = $this->createStub(MailerInterface::class);
         $message    = 'test-message';
 
         $container = $this->createMock(ContainerInterface::class);
@@ -193,13 +193,13 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             ->with($mailerName)
             ->willReturn($mailer);
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Email template provided');
 
-        $factory($container, '', ['mailer' => $mailerName, 'email-template' => $message]);
+        $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailerName, 'email-template' => $message]);
     }
 
     /**
@@ -213,8 +213,8 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig5(): void
     {
         $mailerName    = 'test-mailer';
-        $mailer        = $this->createMock(MailerInterface::class);
-        $emailTemplate = $this->createMock(Email::class);
+        $mailer        = $this->createStub(MailerInterface::class);
+        $emailTemplate = $this->createStub(Email::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -224,24 +224,24 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             ->with($mailerName)
             ->willReturn($mailer);
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
-        $handler = $factory($container, '', ['mailer' => $mailerName, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $symfonyMailerHandler = $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailerName, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(SymfonyMailerHandler::class, $handler);
+        self::assertInstanceOf(SymfonyMailerHandler::class, $symfonyMailerHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $symfonyMailerHandler->getLevel());
+        self::assertFalse($symfonyMailerHandler->getBubble());
 
-        $mailerP = new ReflectionProperty($handler, 'mailer');
+        $mailerP = new ReflectionProperty($symfonyMailerHandler, 'mailer');
 
-        self::assertSame($mailer, $mailerP->getValue($handler));
+        self::assertSame($mailer, $mailerP->getValue($symfonyMailerHandler));
 
-        self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(HtmlFormatter::class, $symfonyMailerHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($symfonyMailerHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($symfonyMailerHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -264,15 +264,15 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with($mailer)
-            ->willReturn(true);
+            ->willReturn(value: true);
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', SymfonyMailerHandler::class));
 
-        $factory($container, '', ['mailer' => $mailer]);
+        $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailer]);
     }
 
     /**
@@ -284,9 +284,9 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
-        $mailer        = $this->createMock(MailerInterface::class);
+        $mailer        = $this->createStub(MailerInterface::class);
         $formatter     = true;
-        $emailTemplate = $this->createMock(Email::class);
+        $emailTemplate = $this->createStub(Email::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -294,7 +294,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -302,7 +302,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -314,9 +314,9 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
-        $mailer        = $this->createMock(MailerInterface::class);
-        $emailTemplate = $this->createMock(Email::class);
-        $formatter     = $this->createMock(LineFormatter::class);
+        $mailer        = $this->createStub(MailerInterface::class);
+        $emailTemplate = $this->createStub(Email::class);
+        $formatter     = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -326,7 +326,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -334,7 +334,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -347,9 +347,9 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
-        $mailer        = $this->createMock(MailerInterface::class);
-        $emailTemplate = $this->createMock(Email::class);
-        $formatter     = $this->createMock(LineFormatter::class);
+        $mailer        = $this->createStub(MailerInterface::class);
+        $emailTemplate = $this->createStub(Email::class);
+        $formatter     = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -367,28 +367,28 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
-        $handler = $factory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $symfonyMailerHandler = $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(SymfonyMailerHandler::class, $handler);
+        self::assertInstanceOf(SymfonyMailerHandler::class, $symfonyMailerHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $symfonyMailerHandler->getLevel());
+        self::assertFalse($symfonyMailerHandler->getBubble());
 
-        $mailerP = new ReflectionProperty($handler, 'mailer');
+        $mailerP = new ReflectionProperty($symfonyMailerHandler, 'mailer');
 
-        self::assertSame($mailer, $mailerP->getValue($handler));
+        self::assertSame($mailer, $mailerP->getValue($symfonyMailerHandler));
 
-        $mt = new ReflectionProperty($handler, 'emailTemplate');
+        $mt = new ReflectionProperty($symfonyMailerHandler, 'emailTemplate');
 
-        self::assertSame($emailTemplate, $mt->getValue($handler));
+        self::assertSame($emailTemplate, $mt->getValue($symfonyMailerHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $symfonyMailerHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($symfonyMailerHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($symfonyMailerHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -403,9 +403,9 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
-        $mailer        = $this->createMock(MailerInterface::class);
-        $emailTemplate = $this->createMock(Email::class);
-        $formatter     = $this->createMock(LineFormatter::class);
+        $mailer        = $this->createStub(MailerInterface::class);
+        $emailTemplate = $this->createStub(Email::class);
+        $formatter     = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -413,9 +413,9 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -423,7 +423,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -435,8 +435,8 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
-        $mailer        = $this->createMock(MailerInterface::class);
-        $emailTemplate = $this->createMock(Email::class);
+        $mailer        = $this->createStub(MailerInterface::class);
+        $emailTemplate = $this->createStub(Email::class);
         $processors    = true;
 
         $container = $this->createMock(ContainerInterface::class);
@@ -445,13 +445,13 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -463,8 +463,8 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
-        $mailer        = $this->createMock(MailerInterface::class);
-        $emailTemplate = $this->createMock(Email::class);
+        $mailer        = $this->createStub(MailerInterface::class);
+        $emailTemplate = $this->createStub(Email::class);
 
         $processors = [
             [
@@ -498,13 +498,13 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -517,8 +517,8 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
-        $mailer        = $this->createMock(MailerInterface::class);
-        $emailTemplate = $this->createMock(Email::class);
+        $mailer        = $this->createStub(MailerInterface::class);
+        $emailTemplate = $this->createStub(Email::class);
 
         $processor3 = static fn (array $record): array => $record;
         $processors = [
@@ -535,9 +535,9 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -561,26 +561,26 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
-        $handler = $factory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $symfonyMailerHandler = $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(SymfonyMailerHandler::class, $handler);
+        self::assertInstanceOf(SymfonyMailerHandler::class, $symfonyMailerHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $symfonyMailerHandler->getLevel());
+        self::assertFalse($symfonyMailerHandler->getBubble());
 
-        $mailerP = new ReflectionProperty($handler, 'mailer');
+        $mailerP = new ReflectionProperty($symfonyMailerHandler, 'mailer');
 
-        self::assertSame($mailer, $mailerP->getValue($handler));
+        self::assertSame($mailer, $mailerP->getValue($symfonyMailerHandler));
 
-        $mt = new ReflectionProperty($handler, 'emailTemplate');
+        $mt = new ReflectionProperty($symfonyMailerHandler, 'emailTemplate');
 
-        self::assertSame($emailTemplate, $mt->getValue($handler));
+        self::assertSame($emailTemplate, $mt->getValue($symfonyMailerHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($symfonyMailerHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($symfonyMailerHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -598,8 +598,8 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
-        $mailer        = $this->createMock(MailerInterface::class);
-        $emailTemplate = $this->createMock(Email::class);
+        $mailer        = $this->createStub(MailerInterface::class);
+        $emailTemplate = $this->createStub(Email::class);
         $processor3    = static fn (array $record): array => $record;
         $processors    = [
             [
@@ -623,7 +623,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -631,7 +631,7 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -643,8 +643,8 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
-        $mailer        = $this->createMock(MailerInterface::class);
-        $emailTemplate = $this->createMock(Email::class);
+        $mailer        = $this->createStub(MailerInterface::class);
+        $emailTemplate = $this->createStub(Email::class);
 
         $processor3 = static fn (array $record): array => $record;
         $processors = [
@@ -667,9 +667,9 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new SymfonyMailerHandlerFactory();
+        $symfonyMailerHandlerFactory = new SymfonyMailerHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -677,6 +677,6 @@ final class SymfonyMailerHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $symfonyMailerHandlerFactory($container, '', ['mailer' => $mailer, 'email-template' => $emailTemplate, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 }

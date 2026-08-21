@@ -87,7 +87,7 @@ final class RotatingFileHandlerFactory implements FactoryInterface
         }
 
         try {
-            $handler = new RotatingFileHandler(
+            $rotatingFileHandler = new RotatingFileHandler(
                 $filename,
                 $maxFiles,
                 $level,
@@ -112,12 +112,12 @@ final class RotatingFileHandlerFactory implements FactoryInterface
                 $dateFormat = $options['dateFormat'];
             }
 
-            $handler->setFilenameFormat($filenameFormat, $dateFormat);
+            $rotatingFileHandler->setFilenameFormat($filenameFormat, $dateFormat);
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $rotatingFileHandler, $options);
+        $this->addProcessor($container, $rotatingFileHandler, $options);
 
-        return $handler;
+        return $rotatingFileHandler;
     }
 }

@@ -81,18 +81,18 @@ final class JsonFormatterFactory implements FactoryInterface
             }
         }
 
-        $formatter = new JsonFormatter(
+        $jsonFormatter = new JsonFormatter(
             $batchMode,
             $appendNewline,
             $ignoreEmptyContextAndExtra,
             $includeStacktraces,
         );
 
-        $formatter->setDateFormat($dateFormat);
-        $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
-        $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
-        $formatter->setJsonPrettyPrint($prettyPrint);
+        $jsonFormatter->setDateFormat($dateFormat);
+        $jsonFormatter->setMaxNormalizeDepth($maxNormalizeDepth);
+        $jsonFormatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
+        $jsonFormatter->setJsonPrettyPrint($prettyPrint);
 
-        return $formatter;
+        return $jsonFormatter;
     }
 }

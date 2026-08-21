@@ -35,12 +35,12 @@ final class FluentdFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FluentdFormatterFactory();
+        $fluentdFormatterFactory = new FluentdFormatterFactory();
 
-        $formatter = $factory($container, '');
+        $fluentdFormatter = $fluentdFormatterFactory($container, '');
 
-        self::assertInstanceOf(FluentdFormatter::class, $formatter);
-        self::assertFalse($formatter->isUsingLevelsInTag());
+        self::assertInstanceOf(FluentdFormatter::class, $fluentdFormatter);
+        self::assertFalse($fluentdFormatter->isUsingLevelsInTag());
     }
 
     /**
@@ -56,12 +56,12 @@ final class FluentdFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FluentdFormatterFactory();
+        $fluentdFormatterFactory = new FluentdFormatterFactory();
 
-        $formatter = $factory($container, '', []);
+        $fluentdFormatter = $fluentdFormatterFactory($container, '', []);
 
-        self::assertInstanceOf(FluentdFormatter::class, $formatter);
-        self::assertFalse($formatter->isUsingLevelsInTag());
+        self::assertInstanceOf(FluentdFormatter::class, $fluentdFormatter);
+        self::assertFalse($fluentdFormatter->isUsingLevelsInTag());
     }
 
     /**
@@ -77,11 +77,11 @@ final class FluentdFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FluentdFormatterFactory();
+        $fluentdFormatterFactory = new FluentdFormatterFactory();
 
-        $formatter = $factory($container, '', ['levelTag' => true]);
+        $fluentdFormatter = $fluentdFormatterFactory($container, '', ['levelTag' => true]);
 
-        self::assertInstanceOf(FluentdFormatter::class, $formatter);
-        self::assertTrue($formatter->isUsingLevelsInTag());
+        self::assertInstanceOf(FluentdFormatter::class, $fluentdFormatter);
+        self::assertTrue($fluentdFormatter->isUsingLevelsInTag());
     }
 }

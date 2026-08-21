@@ -66,7 +66,7 @@ final class FleepHookHandlerFactory implements FactoryInterface
         $chunkSize         = $options['chunkSize'] ?? null;
 
         try {
-            $handler = new FleepHookHandler(
+            $fleepHookHandler = new FleepHookHandler(
                 $options['token'],
                 $level,
                 $bubble,
@@ -84,9 +84,9 @@ final class FleepHookHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $fleepHookHandler, $options);
+        $this->addProcessor($container, $fleepHookHandler, $options);
 
-        return $handler;
+        return $fleepHookHandler;
     }
 }

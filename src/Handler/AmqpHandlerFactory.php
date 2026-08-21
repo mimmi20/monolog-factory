@@ -105,11 +105,11 @@ final class AmqpHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new AmqpHandler($exchange, $exchangeName, $level, $bubble);
+        $amqpHandler = new AmqpHandler($exchange, $exchangeName, $level, $bubble);
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $amqpHandler, $options);
+        $this->addProcessor($container, $amqpHandler, $options);
 
-        return $handler;
+        return $amqpHandler;
     }
 }

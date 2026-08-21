@@ -56,7 +56,7 @@ final class ElasticsearchFormatterFactory implements FactoryInterface
             $type = $options['type'];
         }
 
-        $formatter = new ElasticsearchFormatter($index, $type);
+        $elasticsearchFormatter = new ElasticsearchFormatter($index, $type);
 
         if (array_key_exists('maxNormalizeDepth', $options)) {
             $maxNormalizeDepth = $options['maxNormalizeDepth'];
@@ -70,10 +70,10 @@ final class ElasticsearchFormatterFactory implements FactoryInterface
             $prettyPrint = $options['prettyPrint'];
         }
 
-        $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
-        $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
-        $formatter->setJsonPrettyPrint($prettyPrint);
+        $elasticsearchFormatter->setMaxNormalizeDepth($maxNormalizeDepth);
+        $elasticsearchFormatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
+        $elasticsearchFormatter->setJsonPrettyPrint($prettyPrint);
 
-        return $formatter;
+        return $elasticsearchFormatter;
     }
 }

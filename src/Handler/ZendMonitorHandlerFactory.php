@@ -63,7 +63,7 @@ final class ZendMonitorHandlerFactory implements FactoryInterface
         }
 
         try {
-            $handler = new ZendMonitorHandler($level, $bubble);
+            $zendMonitorHandler = new ZendMonitorHandler($level, $bubble);
         } catch (MissingExtensionException $e) {
             throw new ServiceNotCreatedException(
                 sprintf('Could not create %s', ZendMonitorHandler::class),
@@ -72,9 +72,9 @@ final class ZendMonitorHandlerFactory implements FactoryInterface
             );
         }
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $zendMonitorHandler, $options);
+        $this->addProcessor($container, $zendMonitorHandler, $options);
 
-        return $handler;
+        return $zendMonitorHandler;
     }
 }

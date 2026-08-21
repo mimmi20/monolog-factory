@@ -55,20 +55,20 @@ final class FirePHPHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FirePHPHandlerFactory();
+        $firePHPHandlerFactory = new FirePHPHandlerFactory();
 
-        $handler = $factory($container, '');
+        $firePHPHandler = $firePHPHandlerFactory($container, '');
 
-        self::assertInstanceOf(FirePHPHandler::class, $handler);
+        self::assertInstanceOf(FirePHPHandler::class, $firePHPHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $firePHPHandler->getLevel());
+        self::assertTrue($firePHPHandler->getBubble());
 
-        self::assertInstanceOf(WildfireFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(WildfireFormatter::class, $firePHPHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($firePHPHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($firePHPHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -90,20 +90,20 @@ final class FirePHPHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FirePHPHandlerFactory();
+        $firePHPHandlerFactory = new FirePHPHandlerFactory();
 
-        $handler = $factory($container, '', []);
+        $firePHPHandler = $firePHPHandlerFactory($container, '', []);
 
-        self::assertInstanceOf(FirePHPHandler::class, $handler);
+        self::assertInstanceOf(FirePHPHandler::class, $firePHPHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $firePHPHandler->getLevel());
+        self::assertTrue($firePHPHandler->getBubble());
 
-        self::assertInstanceOf(WildfireFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(WildfireFormatter::class, $firePHPHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($firePHPHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($firePHPHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -125,20 +125,20 @@ final class FirePHPHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FirePHPHandlerFactory();
+        $firePHPHandlerFactory = new FirePHPHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false]);
+        $firePHPHandler = $firePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(FirePHPHandler::class, $handler);
+        self::assertInstanceOf(FirePHPHandler::class, $firePHPHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $firePHPHandler->getLevel());
+        self::assertFalse($firePHPHandler->getBubble());
 
-        self::assertInstanceOf(WildfireFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(WildfireFormatter::class, $firePHPHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($firePHPHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($firePHPHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -161,7 +161,7 @@ final class FirePHPHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FirePHPHandlerFactory();
+        $firePHPHandlerFactory = new FirePHPHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -169,7 +169,7 @@ final class FirePHPHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $firePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -181,7 +181,7 @@ final class FirePHPHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -191,7 +191,7 @@ final class FirePHPHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new FirePHPHandlerFactory();
+        $firePHPHandlerFactory = new FirePHPHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -199,7 +199,7 @@ final class FirePHPHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $firePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -212,7 +212,7 @@ final class FirePHPHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -230,20 +230,20 @@ final class FirePHPHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new FirePHPHandlerFactory();
+        $firePHPHandlerFactory = new FirePHPHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $firePHPHandler = $firePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(FirePHPHandler::class, $handler);
+        self::assertInstanceOf(FirePHPHandler::class, $firePHPHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $firePHPHandler->getLevel());
+        self::assertFalse($firePHPHandler->getBubble());
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $firePHPHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($firePHPHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($firePHPHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -258,7 +258,7 @@ final class FirePHPHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -266,9 +266,9 @@ final class FirePHPHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new FirePHPHandlerFactory();
+        $firePHPHandlerFactory = new FirePHPHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -276,7 +276,7 @@ final class FirePHPHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $firePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -296,13 +296,13 @@ final class FirePHPHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new FirePHPHandlerFactory();
+        $firePHPHandlerFactory = new FirePHPHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $firePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -346,13 +346,13 @@ final class FirePHPHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new FirePHPHandlerFactory();
+        $firePHPHandlerFactory = new FirePHPHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $firePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -380,9 +380,9 @@ final class FirePHPHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -406,18 +406,18 @@ final class FirePHPHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new FirePHPHandlerFactory();
+        $firePHPHandlerFactory = new FirePHPHandlerFactory();
 
-        $handler = $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $firePHPHandler = $firePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(FirePHPHandler::class, $handler);
+        self::assertInstanceOf(FirePHPHandler::class, $firePHPHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $firePHPHandler->getLevel());
+        self::assertFalse($firePHPHandler->getBubble());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $reflectionProperty = new ReflectionProperty($firePHPHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $reflectionProperty->getValue($firePHPHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -458,7 +458,7 @@ final class FirePHPHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new FirePHPHandlerFactory();
+        $firePHPHandlerFactory = new FirePHPHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -466,7 +466,7 @@ final class FirePHPHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $firePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -499,9 +499,9 @@ final class FirePHPHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new FirePHPHandlerFactory();
+        $firePHPHandlerFactory = new FirePHPHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -509,6 +509,6 @@ final class FirePHPHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $firePHPHandlerFactory($container, '', ['level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 }

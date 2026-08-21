@@ -37,8 +37,8 @@ final class LoggerAbstractFactoryTest extends TestCase
      */
     public function testInvokeWithConfigException(): void
     {
-        $requestedName = Logger::class;
-        $exception     = new ServiceNotFoundException();
+        $requestedName            = Logger::class;
+        $serviceNotFoundException = new ServiceNotFoundException();
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -46,18 +46,18 @@ final class LoggerAbstractFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with('config')
-            ->willThrowException($exception);
+            ->willThrowException($serviceNotFoundException);
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
         try {
-            $factory($container, $requestedName);
+            $loggerAbstractFactory($container, $requestedName);
 
             self::fail('ServiceNotFoundException expected');
         } catch (ServiceNotFoundException $e) {
             self::assertSame(sprintf('Could not find service %s', 'config'), $e->getMessage());
             self::assertSame(0, $e->getCode());
-            self::assertSame($exception, $e->getPrevious());
+            self::assertSame($serviceNotFoundException, $e->getPrevious());
         }
     }
 
@@ -85,7 +85,7 @@ final class LoggerAbstractFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionMessage(
@@ -93,7 +93,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         );
         $this->expectExceptionCode(1);
 
-        $factory($container, $requestedName);
+        $loggerAbstractFactory($container, $requestedName);
     }
 
     /**
@@ -104,19 +104,19 @@ final class LoggerAbstractFactoryTest extends TestCase
      */
     public function testInvokeWithManagerException(): void
     {
-        $requestedName = Logger::class;
-        $config        = [];
-        $exception     = new ServiceNotFoundException();
+        $requestedName            = Logger::class;
+        $config                   = [];
+        $serviceNotFoundException = new ServiceNotFoundException();
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $config, $exception): array {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $config, $serviceNotFoundException): array {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame('config', $id, (string) $invocation),
@@ -129,15 +129,15 @@ final class LoggerAbstractFactoryTest extends TestCase
 
                     return match ($invocation) {
                         1 => $config,
-                        default => throw $exception,
+                        default => throw $serviceNotFoundException,
                     };
                 },
             );
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
         try {
-            $factory($container, $requestedName);
+            $loggerAbstractFactory($container, $requestedName);
 
             self::fail('ServiceNotCreatedException expected');
         } catch (ServiceNotCreatedException $e) {
@@ -146,7 +146,7 @@ final class LoggerAbstractFactoryTest extends TestCase
                 $e->getMessage(),
             );
             self::assertSame(0, $e->getCode());
-            self::assertSame($exception, $e->getPrevious());
+            self::assertSame($serviceNotFoundException, $e->getPrevious());
         }
     }
 
@@ -158,10 +158,10 @@ final class LoggerAbstractFactoryTest extends TestCase
      */
     public function testInvokeWithLoggerException(): void
     {
-        $requestedName = Logger::class;
-        $config        = [];
-        $logConfig     = [];
-        $exception     = new ServiceNotFoundException();
+        $requestedName            = Logger::class;
+        $config                   = [];
+        $logConfig                = [];
+        $serviceNotFoundException = new ServiceNotFoundException();
 
         $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
@@ -171,7 +171,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         $pluginManager->expects(self::once())
             ->method('build')
             ->with(Logger::class, $logConfig)
-            ->willThrowException($exception);
+            ->willThrowException($serviceNotFoundException);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -185,16 +185,16 @@ final class LoggerAbstractFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
         try {
-            $factory($container, $requestedName);
+            $loggerAbstractFactory($container, $requestedName);
 
             self::fail('ServiceNotCreatedException expected');
         } catch (ServiceNotCreatedException $e) {
             self::assertSame(sprintf('Could not find service %s', Logger::class), $e->getMessage());
             self::assertSame(0, $e->getCode());
-            self::assertSame($exception, $e->getPrevious());
+            self::assertSame($serviceNotFoundException, $e->getPrevious());
         }
     }
 
@@ -211,7 +211,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         $config        = null;
         $logConfig     = [];
 
-        $logger = $this->createMock(Logger::class);
+        $logger = $this->createStub(Logger::class);
 
         $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
@@ -235,9 +235,9 @@ final class LoggerAbstractFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
-        self::assertSame($logger, $factory($container, $requestedName));
+        self::assertSame($logger, $loggerAbstractFactory($container, $requestedName));
     }
 
     /**
@@ -253,7 +253,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         $config        = [];
         $logConfig     = [];
 
-        $logger = $this->createMock(Logger::class);
+        $logger = $this->createStub(Logger::class);
 
         $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
@@ -277,9 +277,9 @@ final class LoggerAbstractFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
-        self::assertSame($logger, $factory($container, $requestedName));
+        self::assertSame($logger, $loggerAbstractFactory($container, $requestedName));
     }
 
     /**
@@ -295,7 +295,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         $config        = ['log' => null];
         $logConfig     = [];
 
-        $logger = $this->createMock(Logger::class);
+        $logger = $this->createStub(Logger::class);
 
         $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
@@ -319,9 +319,9 @@ final class LoggerAbstractFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
-        self::assertSame($logger, $factory($container, $requestedName));
+        self::assertSame($logger, $loggerAbstractFactory($container, $requestedName));
     }
 
     /**
@@ -337,7 +337,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         $config        = ['log' => []];
         $logConfig     = [];
 
-        $logger = $this->createMock(Logger::class);
+        $logger = $this->createStub(Logger::class);
 
         $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
@@ -361,9 +361,9 @@ final class LoggerAbstractFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
-        self::assertSame($logger, $factory($container, $requestedName));
+        self::assertSame($logger, $loggerAbstractFactory($container, $requestedName));
     }
 
     /**
@@ -379,7 +379,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         $config        = ['log' => [$requestedName => null]];
         $logConfig     = [];
 
-        $logger = $this->createMock(Logger::class);
+        $logger = $this->createStub(Logger::class);
 
         $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
@@ -403,9 +403,9 @@ final class LoggerAbstractFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
-        self::assertSame($logger, $factory($container, $requestedName));
+        self::assertSame($logger, $loggerAbstractFactory($container, $requestedName));
     }
 
     /**
@@ -421,7 +421,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         $logConfig     = [];
         $config        = ['log' => [$requestedName => $logConfig]];
 
-        $logger = $this->createMock(Logger::class);
+        $logger = $this->createStub(Logger::class);
 
         $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
@@ -445,9 +445,9 @@ final class LoggerAbstractFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
-        self::assertSame($logger, $factory($container, $requestedName));
+        self::assertSame($logger, $loggerAbstractFactory($container, $requestedName));
     }
 
     /**
@@ -463,7 +463,7 @@ final class LoggerAbstractFactoryTest extends TestCase
         $logConfig     = ['abc' => 'xyz'];
         $config        = ['log' => [$requestedName => $logConfig]];
 
-        $logger = $this->createMock(Logger::class);
+        $logger = $this->createStub(Logger::class);
 
         $pluginManager = $this->createMock(AbstractPluginManager::class);
         $pluginManager->expects(self::never())
@@ -487,9 +487,9 @@ final class LoggerAbstractFactoryTest extends TestCase
                 ],
             );
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
-        self::assertSame($logger, $factory($container, $requestedName));
+        self::assertSame($logger, $loggerAbstractFactory($container, $requestedName));
     }
 
     /**
@@ -509,9 +509,9 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with('config')
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
-        $cando = $factory->canCreate($container, $requestedName);
+        $cando = $loggerAbstractFactory->canCreate($container, $requestedName);
 
         self::assertFalse($cando);
     }
@@ -534,9 +534,9 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with('config')
             ->willReturn($config);
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
-        $cando = $factory->canCreate($container, $requestedName);
+        $cando = $loggerAbstractFactory->canCreate($container, $requestedName);
 
         self::assertFalse($cando);
     }
@@ -559,9 +559,9 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with('config')
             ->willReturn($config);
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
-        $cando = $factory->canCreate($container, $requestedName);
+        $cando = $loggerAbstractFactory->canCreate($container, $requestedName);
 
         self::assertFalse($cando);
     }
@@ -584,9 +584,9 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with('config')
             ->willReturn($config);
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
-        $cando = $factory->canCreate($container, $requestedName);
+        $cando = $loggerAbstractFactory->canCreate($container, $requestedName);
 
         self::assertFalse($cando);
     }
@@ -611,9 +611,9 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with('config')
             ->willReturn($config);
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
-        $cando = $factory->canCreate($container, $requestedName);
+        $cando = $loggerAbstractFactory->canCreate($container, $requestedName);
 
         self::assertFalse($cando);
     }
@@ -638,9 +638,9 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with('config')
             ->willReturn($config);
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
-        $cando = $factory->canCreate($container, $requestedName);
+        $cando = $loggerAbstractFactory->canCreate($container, $requestedName);
 
         self::assertFalse($cando);
     }
@@ -667,9 +667,9 @@ final class LoggerAbstractFactoryTest extends TestCase
             ->with('config')
             ->willReturn($config);
 
-        $factory = new LoggerAbstractFactory();
+        $loggerAbstractFactory = new LoggerAbstractFactory();
 
-        $cando = $factory->canCreate($container, $requestedName);
+        $cando = $loggerAbstractFactory->canCreate($container, $requestedName);
 
         self::assertTrue($cando);
     }

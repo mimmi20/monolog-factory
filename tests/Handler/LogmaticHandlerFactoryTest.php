@@ -48,7 +48,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -57,13 +57,13 @@ final class LogmaticHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $logmaticHandlerFactory($container, '');
     }
 
     /**
@@ -73,7 +73,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -82,13 +82,13 @@ final class LogmaticHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No token provided');
 
-        $factory($container, '', []);
+        $logmaticHandlerFactory($container, '', []);
     }
 
     /**
@@ -99,7 +99,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfig(): void
     {
         $token = 'token';
@@ -110,38 +110,38 @@ final class LogmaticHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token]);
+        $logmaticHandler = $logmaticHandlerFactory($container, '', ['token' => $token]);
 
-        self::assertInstanceOf(LogmaticHandler::class, $handler);
+        self::assertInstanceOf(LogmaticHandler::class, $logmaticHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
-        self::assertSame('ssl://api.logmatic.io:10515/v1/', $handler->getConnectionString());
-        self::assertSame(0.0, $handler->getTimeout());
-        self::assertSame(10.0, $handler->getWritingTimeout());
-        self::assertSame(60.0, $handler->getConnectionTimeout());
+        self::assertSame(Level::Debug, $logmaticHandler->getLevel());
+        self::assertTrue($logmaticHandler->getBubble());
+        self::assertSame('ssl://api.logmatic.io:10515/v1/', $logmaticHandler->getConnectionString());
+        self::assertSame(0.0, $logmaticHandler->getTimeout());
+        self::assertSame(10.0, $logmaticHandler->getWritingTimeout());
+        self::assertSame(60.0, $logmaticHandler->getConnectionTimeout());
         // self::assertSame(0, $handler->getChunkSize());
-        self::assertFalse($handler->isPersistent());
+        self::assertFalse($logmaticHandler->isPersistent());
 
-        $lt = new ReflectionProperty($handler, 'logToken');
+        $lt = new ReflectionProperty($logmaticHandler, 'logToken');
 
-        self::assertSame($token, $lt->getValue($handler));
+        self::assertSame($token, $lt->getValue($logmaticHandler));
 
-        $hn = new ReflectionProperty($handler, 'hostname');
+        $hn = new ReflectionProperty($logmaticHandler, 'hostname');
 
-        self::assertSame('', $hn->getValue($handler));
+        self::assertSame('', $hn->getValue($logmaticHandler));
 
-        $an = new ReflectionProperty($handler, 'appName');
+        $an = new ReflectionProperty($logmaticHandler, 'appName');
 
-        self::assertSame('', $an->getValue($handler));
+        self::assertSame('', $an->getValue($logmaticHandler));
 
-        self::assertInstanceOf(LogmaticFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LogmaticFormatter::class, $logmaticHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($logmaticHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($logmaticHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -155,7 +155,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfig2(): void
     {
         $token        = 'token';
@@ -172,38 +172,38 @@ final class LogmaticHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
+        $logmaticHandler = $logmaticHandlerFactory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
 
-        self::assertInstanceOf(LogmaticHandler::class, $handler);
+        self::assertInstanceOf(LogmaticHandler::class, $logmaticHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('api.logmatic.io:10514/v1/', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame(60.0, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $logmaticHandler->getLevel());
+        self::assertFalse($logmaticHandler->getBubble());
+        self::assertSame('api.logmatic.io:10514/v1/', $logmaticHandler->getConnectionString());
+        self::assertSame($timeout, $logmaticHandler->getTimeout());
+        self::assertSame($writeTimeout, $logmaticHandler->getWritingTimeout());
+        self::assertSame(60.0, $logmaticHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $logmaticHandler->getChunkSize());
+        self::assertTrue($logmaticHandler->isPersistent());
 
-        $lt = new ReflectionProperty($handler, 'logToken');
+        $lt = new ReflectionProperty($logmaticHandler, 'logToken');
 
-        self::assertSame($token, $lt->getValue($handler));
+        self::assertSame($token, $lt->getValue($logmaticHandler));
 
-        $hn = new ReflectionProperty($handler, 'hostname');
+        $hn = new ReflectionProperty($logmaticHandler, 'hostname');
 
-        self::assertSame($hostname, $hn->getValue($handler));
+        self::assertSame($hostname, $hn->getValue($logmaticHandler));
 
-        $an = new ReflectionProperty($handler, 'appName');
+        $an = new ReflectionProperty($logmaticHandler, 'appName');
 
-        self::assertSame($appname, $an->getValue($handler));
+        self::assertSame($appname, $an->getValue($logmaticHandler));
 
-        self::assertInstanceOf(LogmaticFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(LogmaticFormatter::class, $logmaticHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($logmaticHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($logmaticHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -236,7 +236,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -244,7 +244,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
             sprintf('Could not create %s', LogmaticHandler::class),
         );
 
-        $factory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
+        $logmaticHandlerFactory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
     }
 
     /**
@@ -254,7 +254,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $token        = 'token';
@@ -272,7 +272,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -280,7 +280,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $logmaticHandlerFactory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -290,7 +290,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $token        = 'token';
@@ -300,7 +300,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
         $writeTimeout = 120.0;
         $persistent   = true;
         $chunkSize    = 100;
-        $formatter    = $this->createMock(LineFormatter::class);
+        $formatter    = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -310,7 +310,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -318,7 +318,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $logmaticHandlerFactory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -329,7 +329,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $token             = 'token';
@@ -340,7 +340,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
         $connectionTimeout = 51.0;
         $persistent        = true;
         $chunkSize         = 100;
-        $formatter         = $this->createMock(LineFormatter::class);
+        $formatter         = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -358,38 +358,38 @@ final class LogmaticHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $logmaticHandler = $logmaticHandlerFactory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(LogmaticHandler::class, $handler);
+        self::assertInstanceOf(LogmaticHandler::class, $logmaticHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('api.logmatic.io:10514/v1/', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $logmaticHandler->getLevel());
+        self::assertFalse($logmaticHandler->getBubble());
+        self::assertSame('api.logmatic.io:10514/v1/', $logmaticHandler->getConnectionString());
+        self::assertSame($timeout, $logmaticHandler->getTimeout());
+        self::assertSame($writeTimeout, $logmaticHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $logmaticHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $logmaticHandler->getChunkSize());
+        self::assertTrue($logmaticHandler->isPersistent());
 
-        $lt = new ReflectionProperty($handler, 'logToken');
+        $lt = new ReflectionProperty($logmaticHandler, 'logToken');
 
-        self::assertSame($token, $lt->getValue($handler));
+        self::assertSame($token, $lt->getValue($logmaticHandler));
 
-        $hn = new ReflectionProperty($handler, 'hostname');
+        $hn = new ReflectionProperty($logmaticHandler, 'hostname');
 
-        self::assertSame($hostname, $hn->getValue($handler));
+        self::assertSame($hostname, $hn->getValue($logmaticHandler));
 
-        $an = new ReflectionProperty($handler, 'appName');
+        $an = new ReflectionProperty($logmaticHandler, 'appName');
 
-        self::assertSame($appname, $an->getValue($handler));
+        self::assertSame($appname, $an->getValue($logmaticHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $logmaticHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($logmaticHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($logmaticHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -403,7 +403,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $token             = 'token';
@@ -414,7 +414,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
         $connectionTimeout = 51.0;
         $persistent        = true;
         $chunkSize         = 100;
-        $formatter         = $this->createMock(LineFormatter::class);
+        $formatter         = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -432,38 +432,38 @@ final class LogmaticHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $logmaticHandler = $logmaticHandlerFactory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(LogmaticHandler::class, $handler);
+        self::assertInstanceOf(LogmaticHandler::class, $logmaticHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('api.logmatic.io:10514/v1/', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $logmaticHandler->getLevel());
+        self::assertFalse($logmaticHandler->getBubble());
+        self::assertSame('api.logmatic.io:10514/v1/', $logmaticHandler->getConnectionString());
+        self::assertSame($timeout, $logmaticHandler->getTimeout());
+        self::assertSame($writeTimeout, $logmaticHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $logmaticHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $logmaticHandler->getChunkSize());
+        self::assertTrue($logmaticHandler->isPersistent());
 
-        $lt = new ReflectionProperty($handler, 'logToken');
+        $lt = new ReflectionProperty($logmaticHandler, 'logToken');
 
-        self::assertSame($token, $lt->getValue($handler));
+        self::assertSame($token, $lt->getValue($logmaticHandler));
 
-        $hn = new ReflectionProperty($handler, 'hostname');
+        $hn = new ReflectionProperty($logmaticHandler, 'hostname');
 
-        self::assertSame($hostname, $hn->getValue($handler));
+        self::assertSame($hostname, $hn->getValue($logmaticHandler));
 
-        $an = new ReflectionProperty($handler, 'appName');
+        $an = new ReflectionProperty($logmaticHandler, 'appName');
 
-        self::assertSame($appname, $an->getValue($handler));
+        self::assertSame($appname, $an->getValue($logmaticHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $logmaticHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($logmaticHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($logmaticHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -476,7 +476,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndFormatter4(): void
     {
         $token             = 'token';
@@ -487,7 +487,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
         $connectionTimeout = 51.0;
         $persistent        = true;
         $chunkSize         = 100;
-        $formatter         = $this->createMock(LineFormatter::class);
+        $formatter         = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -495,9 +495,9 @@ final class LogmaticHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -505,7 +505,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
+        $logmaticHandlerFactory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writingTimeout' => $writeTimeout, 'connectionTimeout' => $connectionTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'formatter' => $formatter]);
     }
 
     /**
@@ -515,7 +515,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $token        = 'token';
@@ -533,13 +533,13 @@ final class LogmaticHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $logmaticHandlerFactory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -549,7 +549,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $token        = 'token';
@@ -591,13 +591,13 @@ final class LogmaticHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $logmaticHandlerFactory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -608,7 +608,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $token             = 'token';
@@ -634,9 +634,9 @@ final class LogmaticHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -660,36 +660,36 @@ final class LogmaticHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
-        $handler = $factory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $logmaticHandler = $logmaticHandlerFactory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
 
-        self::assertInstanceOf(LogmaticHandler::class, $handler);
+        self::assertInstanceOf(LogmaticHandler::class, $logmaticHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
-        self::assertSame('api.logmatic.io:10514/v1/', $handler->getConnectionString());
-        self::assertSame($timeout, $handler->getTimeout());
-        self::assertSame($writeTimeout, $handler->getWritingTimeout());
-        self::assertSame($connectionTimeout, $handler->getConnectionTimeout());
-        self::assertSame($chunkSize, $handler->getChunkSize());
-        self::assertTrue($handler->isPersistent());
+        self::assertSame(Level::Alert, $logmaticHandler->getLevel());
+        self::assertFalse($logmaticHandler->getBubble());
+        self::assertSame('api.logmatic.io:10514/v1/', $logmaticHandler->getConnectionString());
+        self::assertSame($timeout, $logmaticHandler->getTimeout());
+        self::assertSame($writeTimeout, $logmaticHandler->getWritingTimeout());
+        self::assertSame($connectionTimeout, $logmaticHandler->getConnectionTimeout());
+        self::assertSame($chunkSize, $logmaticHandler->getChunkSize());
+        self::assertTrue($logmaticHandler->isPersistent());
 
-        $lt = new ReflectionProperty($handler, 'logToken');
+        $lt = new ReflectionProperty($logmaticHandler, 'logToken');
 
-        self::assertSame($token, $lt->getValue($handler));
+        self::assertSame($token, $lt->getValue($logmaticHandler));
 
-        $hn = new ReflectionProperty($handler, 'hostname');
+        $hn = new ReflectionProperty($logmaticHandler, 'hostname');
 
-        self::assertSame($hostname, $hn->getValue($handler));
+        self::assertSame($hostname, $hn->getValue($logmaticHandler));
 
-        $an = new ReflectionProperty($handler, 'appName');
+        $an = new ReflectionProperty($logmaticHandler, 'appName');
 
-        self::assertSame($appname, $an->getValue($handler));
+        self::assertSame($appname, $an->getValue($logmaticHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($logmaticHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($logmaticHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -705,7 +705,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $token        = 'token';
@@ -738,7 +738,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -746,7 +746,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $logmaticHandlerFactory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -756,7 +756,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('openssl')]
+    #[RequiresPhpExtension(extension: 'openssl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $token        = 'token';
@@ -787,9 +787,9 @@ final class LogmaticHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -797,7 +797,7 @@ final class LogmaticHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
+        $logmaticHandlerFactory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize, 'processors' => $processors]);
     }
 
     /**
@@ -827,12 +827,12 @@ final class LogmaticHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogmaticHandlerFactory();
+        $logmaticHandlerFactory = new LogmaticHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', LogmaticHandler::class));
 
-        $factory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
+        $logmaticHandlerFactory($container, '', ['token' => $token, 'hostname' => $hostname, 'appname' => $appname, 'useSSL' => false, 'level' => LogLevel::ALERT, 'bubble' => false, 'timeout' => $timeout, 'writeTimeout' => $writeTimeout, 'persistent' => $persistent, 'chunkSize' => $chunkSize]);
     }
 }

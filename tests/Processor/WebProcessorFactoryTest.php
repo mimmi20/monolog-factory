@@ -63,17 +63,17 @@ final class WebProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new WebProcessorFactory();
+        $webProcessorFactory = new WebProcessorFactory();
 
-        $processor = $factory($container, '');
+        $webProcessor = $webProcessorFactory($container, '');
 
-        self::assertInstanceOf(WebProcessor::class, $processor);
+        self::assertInstanceOf(WebProcessor::class, $webProcessor);
 
-        $sd = new ReflectionProperty($processor, 'serverData');
+        $sd = new ReflectionProperty($webProcessor, 'serverData');
 
-        self::assertSame($_SERVER, $sd->getValue($processor));
+        self::assertSame($_SERVER, $sd->getValue($webProcessor));
 
-        $xf = new ReflectionProperty($processor, 'extraFields');
+        $xf = new ReflectionProperty($webProcessor, 'extraFields');
 
         self::assertEquals(
             [
@@ -83,7 +83,7 @@ final class WebProcessorFactoryTest extends TestCase
                 'server' => 'SERVER_NAME',
                 'url' => 'REQUEST_URI',
             ],
-            $xf->getValue($processor),
+            $xf->getValue($webProcessor),
         );
     }
 
@@ -105,17 +105,17 @@ final class WebProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new WebProcessorFactory();
+        $webProcessorFactory = new WebProcessorFactory();
 
-        $processor = $factory($container, '', []);
+        $webProcessor = $webProcessorFactory($container, '', []);
 
-        self::assertInstanceOf(WebProcessor::class, $processor);
+        self::assertInstanceOf(WebProcessor::class, $webProcessor);
 
-        $sd = new ReflectionProperty($processor, 'serverData');
+        $sd = new ReflectionProperty($webProcessor, 'serverData');
 
-        self::assertSame($_SERVER, $sd->getValue($processor));
+        self::assertSame($_SERVER, $sd->getValue($webProcessor));
 
-        $xf = new ReflectionProperty($processor, 'extraFields');
+        $xf = new ReflectionProperty($webProcessor, 'extraFields');
 
         self::assertEquals(
             [
@@ -125,7 +125,7 @@ final class WebProcessorFactoryTest extends TestCase
                 'server' => 'SERVER_NAME',
                 'url' => 'REQUEST_URI',
             ],
-            $xf->getValue($processor),
+            $xf->getValue($webProcessor),
         );
     }
 
@@ -147,17 +147,17 @@ final class WebProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new WebProcessorFactory();
+        $webProcessorFactory = new WebProcessorFactory();
 
-        $processor = $factory($container, '', ['serverData' => []]);
+        $webProcessor = $webProcessorFactory($container, '', ['serverData' => []]);
 
-        self::assertInstanceOf(WebProcessor::class, $processor);
+        self::assertInstanceOf(WebProcessor::class, $webProcessor);
 
-        $sd = new ReflectionProperty($processor, 'serverData');
+        $sd = new ReflectionProperty($webProcessor, 'serverData');
 
-        self::assertSame($_SERVER, $sd->getValue($processor));
+        self::assertSame($_SERVER, $sd->getValue($webProcessor));
 
-        $xf = new ReflectionProperty($processor, 'extraFields');
+        $xf = new ReflectionProperty($webProcessor, 'extraFields');
 
         self::assertEquals(
             [
@@ -167,7 +167,7 @@ final class WebProcessorFactoryTest extends TestCase
                 'server' => 'SERVER_NAME',
                 'url' => 'REQUEST_URI',
             ],
-            $xf->getValue($processor),
+            $xf->getValue($webProcessor),
         );
     }
 
@@ -189,17 +189,17 @@ final class WebProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new WebProcessorFactory();
+        $webProcessorFactory = new WebProcessorFactory();
 
-        $processor = $factory($container, '', ['serverData' => $serverData]);
+        $webProcessor = $webProcessorFactory($container, '', ['serverData' => $serverData]);
 
-        self::assertInstanceOf(WebProcessor::class, $processor);
+        self::assertInstanceOf(WebProcessor::class, $webProcessor);
 
-        $sd = new ReflectionProperty($processor, 'serverData');
+        $sd = new ReflectionProperty($webProcessor, 'serverData');
 
-        self::assertSame($serverData, $sd->getValue($processor));
+        self::assertSame($serverData, $sd->getValue($webProcessor));
 
-        $xf = new ReflectionProperty($processor, 'extraFields');
+        $xf = new ReflectionProperty($webProcessor, 'extraFields');
 
         self::assertEquals(
             [
@@ -209,7 +209,7 @@ final class WebProcessorFactoryTest extends TestCase
                 'server' => 'SERVER_NAME',
                 'url' => 'REQUEST_URI',
             ],
-            $xf->getValue($processor),
+            $xf->getValue($webProcessor),
         );
     }
 
@@ -223,7 +223,7 @@ final class WebProcessorFactoryTest extends TestCase
      */
     public function testInvokeWithServerdataArrayaccess(): void
     {
-        $serverData = new ArrayObject(['xyz' => 'abc']);
+        $arrayObject = new ArrayObject(['xyz' => 'abc']);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -231,17 +231,17 @@ final class WebProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new WebProcessorFactory();
+        $webProcessorFactory = new WebProcessorFactory();
 
-        $processor = $factory($container, '', ['serverData' => $serverData]);
+        $webProcessor = $webProcessorFactory($container, '', ['serverData' => $arrayObject]);
 
-        self::assertInstanceOf(WebProcessor::class, $processor);
+        self::assertInstanceOf(WebProcessor::class, $webProcessor);
 
-        $sd = new ReflectionProperty($processor, 'serverData');
+        $sd = new ReflectionProperty($webProcessor, 'serverData');
 
-        self::assertSame($serverData, $sd->getValue($processor));
+        self::assertSame($arrayObject, $sd->getValue($webProcessor));
 
-        $xf = new ReflectionProperty($processor, 'extraFields');
+        $xf = new ReflectionProperty($webProcessor, 'extraFields');
 
         self::assertEquals(
             [
@@ -251,7 +251,7 @@ final class WebProcessorFactoryTest extends TestCase
                 'server' => 'SERVER_NAME',
                 'url' => 'REQUEST_URI',
             ],
-            $xf->getValue($processor),
+            $xf->getValue($webProcessor),
         );
     }
 
@@ -272,13 +272,13 @@ final class WebProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new WebProcessorFactory();
+        $webProcessorFactory = new WebProcessorFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No serverData service found');
 
-        $factory($container, '', ['serverData' => $serverData]);
+        $webProcessorFactory($container, '', ['serverData' => $serverData]);
     }
 
     /**
@@ -296,17 +296,17 @@ final class WebProcessorFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($serverData)
-            ->willReturn(false);
+            ->willReturn(value: false);
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new WebProcessorFactory();
+        $webProcessorFactory = new WebProcessorFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No serverData service found');
 
-        $factory($container, '', ['serverData' => $serverData]);
+        $webProcessorFactory($container, '', ['serverData' => $serverData]);
     }
 
     /**
@@ -319,30 +319,30 @@ final class WebProcessorFactoryTest extends TestCase
      */
     public function testInvokeWithServerdataString2(): void
     {
-        $serverData       = 'xyz';
-        $serverDataObject = new ArrayObject(['xyz' => 'abc']);
+        $serverData  = 'xyz';
+        $arrayObject = new ArrayObject(['xyz' => 'abc']);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::once())
             ->method('has')
             ->with($serverData)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::once())
             ->method('get')
             ->with($serverData)
-            ->willReturn($serverDataObject);
+            ->willReturn($arrayObject);
 
-        $factory = new WebProcessorFactory();
+        $webProcessorFactory = new WebProcessorFactory();
 
-        $processor = $factory($container, '', ['serverData' => $serverData]);
+        $webProcessor = $webProcessorFactory($container, '', ['serverData' => $serverData]);
 
-        self::assertInstanceOf(WebProcessor::class, $processor);
+        self::assertInstanceOf(WebProcessor::class, $webProcessor);
 
-        $sd = new ReflectionProperty($processor, 'serverData');
+        $sd = new ReflectionProperty($webProcessor, 'serverData');
 
-        self::assertSame($serverDataObject, $sd->getValue($processor));
+        self::assertSame($arrayObject, $sd->getValue($webProcessor));
 
-        $xf = new ReflectionProperty($processor, 'extraFields');
+        $xf = new ReflectionProperty($webProcessor, 'extraFields');
 
         self::assertEquals(
             [
@@ -352,7 +352,7 @@ final class WebProcessorFactoryTest extends TestCase
                 'server' => 'SERVER_NAME',
                 'url' => 'REQUEST_URI',
             ],
-            $xf->getValue($processor),
+            $xf->getValue($webProcessor),
         );
     }
 
@@ -371,19 +371,19 @@ final class WebProcessorFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('has')
             ->with($serverData)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::once())
             ->method('get')
             ->with($serverData)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new WebProcessorFactory();
+        $webProcessorFactory = new WebProcessorFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Could not load ServerData');
 
-        $factory($container, '', ['serverData' => $serverData]);
+        $webProcessorFactory($container, '', ['serverData' => $serverData]);
     }
 
     /**
@@ -396,35 +396,35 @@ final class WebProcessorFactoryTest extends TestCase
      */
     public function testInvokeWithServerdataString4(): void
     {
-        $serverData       = 'xyz';
-        $serverDataObject = new ArrayObject(['xyz' => 'abc']);
-        $extraFields      = ['abc' => 'def'];
+        $serverData  = 'xyz';
+        $arrayObject = new ArrayObject(['xyz' => 'abc']);
+        $extraFields = ['abc' => 'def'];
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::once())
             ->method('has')
             ->with($serverData)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::once())
             ->method('get')
             ->with($serverData)
-            ->willReturn($serverDataObject);
+            ->willReturn($arrayObject);
 
-        $factory = new WebProcessorFactory();
+        $webProcessorFactory = new WebProcessorFactory();
 
-        $processor = $factory($container, '', ['serverData' => $serverData, 'extraFields' => $extraFields]);
+        $webProcessor = $webProcessorFactory($container, '', ['serverData' => $serverData, 'extraFields' => $extraFields]);
 
-        self::assertInstanceOf(WebProcessor::class, $processor);
+        self::assertInstanceOf(WebProcessor::class, $webProcessor);
 
-        $sd = new ReflectionProperty($processor, 'serverData');
+        $sd = new ReflectionProperty($webProcessor, 'serverData');
 
-        self::assertSame($serverDataObject, $sd->getValue($processor));
+        self::assertSame($arrayObject, $sd->getValue($webProcessor));
 
-        $xf = new ReflectionProperty($processor, 'extraFields');
+        $xf = new ReflectionProperty($webProcessor, 'extraFields');
 
         self::assertSame(
             $extraFields,
-            $xf->getValue($processor),
+            $xf->getValue($webProcessor),
         );
     }
 
@@ -438,35 +438,35 @@ final class WebProcessorFactoryTest extends TestCase
      */
     public function testInvokeWithServerdataString5(): void
     {
-        $serverData       = 'xyz';
-        $serverDataObject = new ArrayObject(['xyz']);
-        $extraFields      = 'url';
+        $serverData  = 'xyz';
+        $arrayObject = new ArrayObject(['xyz']);
+        $extraFields = 'url';
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::once())
             ->method('has')
             ->with($serverData)
-            ->willReturn(true);
+            ->willReturn(value: true);
         $container->expects(self::once())
             ->method('get')
             ->with($serverData)
-            ->willReturn($serverDataObject);
+            ->willReturn($arrayObject);
 
-        $factory = new WebProcessorFactory();
+        $webProcessorFactory = new WebProcessorFactory();
 
-        $processor = $factory($container, '', ['serverData' => $serverData, 'extraFields' => $extraFields]);
+        $webProcessor = $webProcessorFactory($container, '', ['serverData' => $serverData, 'extraFields' => $extraFields]);
 
-        self::assertInstanceOf(WebProcessor::class, $processor);
+        self::assertInstanceOf(WebProcessor::class, $webProcessor);
 
-        $sd = new ReflectionProperty($processor, 'serverData');
+        $sd = new ReflectionProperty($webProcessor, 'serverData');
 
-        self::assertSame($serverDataObject, $sd->getValue($processor));
+        self::assertSame($arrayObject, $sd->getValue($webProcessor));
 
-        $xf = new ReflectionProperty($processor, 'extraFields');
+        $xf = new ReflectionProperty($webProcessor, 'extraFields');
 
         self::assertSame(
             ['url' => 'REQUEST_URI'],
-            $xf->getValue($processor),
+            $xf->getValue($webProcessor),
         );
     }
 
@@ -485,8 +485,8 @@ final class WebProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new WebProcessorFactory();
+        $webProcessorFactory = new WebProcessorFactory();
 
-        self::assertNull($factory->getServerDataService($container, ''));
+        self::assertNull($webProcessorFactory->getServerDataService($container, ''));
     }
 }

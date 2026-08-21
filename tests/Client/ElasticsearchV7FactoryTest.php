@@ -44,13 +44,13 @@ final class ElasticsearchV7FactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticsearchV7Factory();
+        $elasticsearchV7Factory = new ElasticsearchV7Factory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $elasticsearchV7Factory($container, '');
     }
 
     /**
@@ -68,13 +68,13 @@ final class ElasticsearchV7FactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticsearchV7Factory();
+        $elasticsearchV7Factory = new ElasticsearchV7Factory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Hosts provided');
 
-        $factory($container, '', []);
+        $elasticsearchV7Factory($container, '', []);
     }
 
     /**
@@ -84,7 +84,7 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigWithWrongHostConfig(): void
     {
         if (!class_exists(V7Client::class)) {
@@ -97,13 +97,13 @@ final class ElasticsearchV7FactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticsearchV7Factory();
+        $elasticsearchV7Factory = new ElasticsearchV7Factory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Host data provided');
 
-        $factory($container, '', ['hosts' => true]);
+        $elasticsearchV7Factory($container, '', ['hosts' => true]);
     }
 
     /**
@@ -113,7 +113,7 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigWithConfig(): void
     {
         if (!class_exists(V7Client::class)) {
@@ -126,9 +126,9 @@ final class ElasticsearchV7FactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticsearchV7Factory();
+        $elasticsearchV7Factory = new ElasticsearchV7Factory();
 
-        $client = $factory($container, '', ['hosts' => ['localhost', ['host' => 42], ['host' => 'localhost.test']], 'api-id' => 'test-id', 'api-key' => 'api-key']);
+        $client = $elasticsearchV7Factory($container, '', ['hosts' => ['localhost', ['host' => 42], ['host' => 'localhost.test']], 'api-id' => 'test-id', 'api-key' => 'api-key']);
 
         self::assertInstanceOf(V7Client::class, $client);
     }
@@ -140,7 +140,7 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigWithConfig2(): void
     {
         if (!class_exists(V7Client::class)) {
@@ -153,9 +153,9 @@ final class ElasticsearchV7FactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticsearchV7Factory();
+        $elasticsearchV7Factory = new ElasticsearchV7Factory();
 
-        $client = $factory($container, '', ['hosts' => ['localhost', ['host' => 42], ['port' => '4711'], ['host' => 'localhost.test']], 'retries' => 2, 'username' => 'user', 'password' => 'pass', 'metadata' => false]);
+        $client = $elasticsearchV7Factory($container, '', ['hosts' => ['localhost', ['host' => 42], ['port' => '4711'], ['host' => 'localhost.test']], 'retries' => 2, 'username' => 'user', 'password' => 'pass', 'metadata' => false]);
 
         self::assertInstanceOf(V7Client::class, $client);
     }
@@ -167,7 +167,7 @@ final class ElasticsearchV7FactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigWithConfig3(): void
     {
         if (!class_exists(V7Client::class)) {
@@ -180,9 +180,9 @@ final class ElasticsearchV7FactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticsearchV7Factory();
+        $elasticsearchV7Factory = new ElasticsearchV7Factory();
 
-        $client = $factory($container, '', ['hosts' => ['localhost', ['host' => 42], ['port' => '4711'], ['host' => 'localhost.test']], 'retries' => 2, 'api-id' => 'test-id', 'api-key' => 'api-key', 'metadata' => false]);
+        $client = $elasticsearchV7Factory($container, '', ['hosts' => ['localhost', ['host' => 42], ['port' => '4711'], ['host' => 'localhost.test']], 'retries' => 2, 'api-id' => 'test-id', 'api-key' => 'api-key', 'metadata' => false]);
 
         self::assertInstanceOf(V7Client::class, $client);
     }

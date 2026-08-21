@@ -123,11 +123,11 @@ final class RollbarHandlerFactory implements FactoryInterface
             );
         }
 
-        $handler = new RollbarHandler($rollbarLogger, $level, $bubble);
+        $rollbarHandler = new RollbarHandler($rollbarLogger, $level, $bubble);
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $rollbarHandler, $options);
+        $this->addProcessor($container, $rollbarHandler, $options);
 
-        return $handler;
+        return $rollbarHandler;
     }
 }

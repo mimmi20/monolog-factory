@@ -83,11 +83,11 @@ final class FilterHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new FilterHandler($childHandler, $minLevelOrList, $maxLevel, $bubble);
+        $filterHandler = new FilterHandler($childHandler, $minLevelOrList, $maxLevel, $bubble);
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $filterHandler, $options);
+        $this->addProcessor($container, $filterHandler, $options);
 
-        return $handler;
+        return $filterHandler;
     }
 }

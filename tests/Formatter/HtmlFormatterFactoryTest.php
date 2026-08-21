@@ -37,19 +37,19 @@ final class HtmlFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new HtmlFormatterFactory();
+        $htmlFormatterFactory = new HtmlFormatterFactory();
 
-        $formatter = $factory($container, '');
+        $htmlFormatter = $htmlFormatterFactory($container, '');
 
-        self::assertInstanceOf(HtmlFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(HtmlFormatter::class, $htmlFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $htmlFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $htmlFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $htmlFormatter->getMaxNormalizeItemCount(),
         );
     }
 
@@ -66,19 +66,19 @@ final class HtmlFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new HtmlFormatterFactory();
+        $htmlFormatterFactory = new HtmlFormatterFactory();
 
-        $formatter = $factory($container, '', []);
+        $htmlFormatter = $htmlFormatterFactory($container, '', []);
 
-        self::assertInstanceOf(HtmlFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(HtmlFormatter::class, $htmlFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $htmlFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $htmlFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $htmlFormatter->getMaxNormalizeItemCount(),
         );
     }
 
@@ -99,13 +99,13 @@ final class HtmlFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new HtmlFormatterFactory();
+        $htmlFormatterFactory = new HtmlFormatterFactory();
 
-        $formatter = $factory($container, '', ['dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
+        $htmlFormatter = $htmlFormatterFactory($container, '', ['dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
 
-        self::assertInstanceOf(HtmlFormatter::class, $formatter);
-        self::assertSame($dateFormat, $formatter->getDateFormat());
-        self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
-        self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
+        self::assertInstanceOf(HtmlFormatter::class, $htmlFormatter);
+        self::assertSame($dateFormat, $htmlFormatter->getDateFormat());
+        self::assertSame($maxNormalizeDepth, $htmlFormatter->getMaxNormalizeDepth());
+        self::assertSame($maxNormalizeItemCount, $htmlFormatter->getMaxNormalizeItemCount());
     }
 }

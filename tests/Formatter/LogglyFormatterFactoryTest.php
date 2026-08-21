@@ -41,30 +41,30 @@ final class LogglyFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogglyFormatterFactory();
+        $logglyFormatterFactory = new LogglyFormatterFactory();
 
-        $formatter = $factory($container, '');
+        $logglyFormatter = $logglyFormatterFactory($container, '');
 
-        self::assertInstanceOf(LogglyFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(LogglyFormatter::class, $logglyFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $logglyFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $logglyFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $logglyFormatter->getMaxNormalizeItemCount(),
         );
-        self::assertSame(JsonFormatter::BATCH_MODE_NEWLINES, $formatter->getBatchMode());
-        self::assertTrue($formatter->isAppendingNewlines());
+        self::assertSame(JsonFormatter::BATCH_MODE_NEWLINES, $logglyFormatter->getBatchMode());
+        self::assertTrue($logglyFormatter->isAppendingNewlines());
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($logglyFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertFalse($ig->getValue($formatter));
+        self::assertFalse($ig->getValue($logglyFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($logglyFormatter, 'includeStacktraces');
 
-        self::assertFalse($st->getValue($formatter));
+        self::assertFalse($st->getValue($logglyFormatter));
     }
 
     /**
@@ -81,30 +81,30 @@ final class LogglyFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogglyFormatterFactory();
+        $logglyFormatterFactory = new LogglyFormatterFactory();
 
-        $formatter = $factory($container, '', []);
+        $logglyFormatter = $logglyFormatterFactory($container, '', []);
 
-        self::assertInstanceOf(LogglyFormatter::class, $formatter);
-        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $formatter->getDateFormat());
+        self::assertInstanceOf(LogglyFormatter::class, $logglyFormatter);
+        self::assertSame(NormalizerFormatter::SIMPLE_DATE, $logglyFormatter->getDateFormat());
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_DEPTH,
-            $formatter->getMaxNormalizeDepth(),
+            $logglyFormatter->getMaxNormalizeDepth(),
         );
         self::assertSame(
             NormalizerFormatterFactory::DEFAULT_NORMALIZER_ITEM_COUNT,
-            $formatter->getMaxNormalizeItemCount(),
+            $logglyFormatter->getMaxNormalizeItemCount(),
         );
-        self::assertSame(JsonFormatter::BATCH_MODE_NEWLINES, $formatter->getBatchMode());
-        self::assertTrue($formatter->isAppendingNewlines());
+        self::assertSame(JsonFormatter::BATCH_MODE_NEWLINES, $logglyFormatter->getBatchMode());
+        self::assertTrue($logglyFormatter->isAppendingNewlines());
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($logglyFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertFalse($ig->getValue($formatter));
+        self::assertFalse($ig->getValue($logglyFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($logglyFormatter, 'includeStacktraces');
 
-        self::assertFalse($st->getValue($formatter));
+        self::assertFalse($st->getValue($logglyFormatter));
     }
 
     /**
@@ -128,24 +128,24 @@ final class LogglyFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogglyFormatterFactory();
+        $logglyFormatterFactory = new LogglyFormatterFactory();
 
-        $formatter = $factory($container, '', ['batchMode' => $batchMode, 'appendNewline' => $appendNewline, 'includeStacktraces' => $include, 'dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
+        $logglyFormatter = $logglyFormatterFactory($container, '', ['batchMode' => $batchMode, 'appendNewline' => $appendNewline, 'includeStacktraces' => $include, 'dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
 
-        self::assertInstanceOf(LogglyFormatter::class, $formatter);
-        self::assertSame($dateFormat, $formatter->getDateFormat());
-        self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
-        self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
-        self::assertSame($batchMode, $formatter->getBatchMode());
-        self::assertFalse($formatter->isAppendingNewlines());
+        self::assertInstanceOf(LogglyFormatter::class, $logglyFormatter);
+        self::assertSame($dateFormat, $logglyFormatter->getDateFormat());
+        self::assertSame($maxNormalizeDepth, $logglyFormatter->getMaxNormalizeDepth());
+        self::assertSame($maxNormalizeItemCount, $logglyFormatter->getMaxNormalizeItemCount());
+        self::assertSame($batchMode, $logglyFormatter->getBatchMode());
+        self::assertFalse($logglyFormatter->isAppendingNewlines());
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($logglyFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertFalse($ig->getValue($formatter));
+        self::assertFalse($ig->getValue($logglyFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($logglyFormatter, 'includeStacktraces');
 
-        self::assertTrue($st->getValue($formatter));
+        self::assertTrue($st->getValue($logglyFormatter));
     }
 
     /**
@@ -169,23 +169,23 @@ final class LogglyFormatterFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new LogglyFormatterFactory();
+        $logglyFormatterFactory = new LogglyFormatterFactory();
 
-        $formatter = $factory($container, '', ['batchMode' => $batchMode, 'appendNewline' => $appendNewline, 'includeStacktraces' => $include, 'dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
+        $logglyFormatter = $logglyFormatterFactory($container, '', ['batchMode' => $batchMode, 'appendNewline' => $appendNewline, 'includeStacktraces' => $include, 'dateFormat' => $dateFormat, 'maxNormalizeDepth' => $maxNormalizeDepth, 'maxNormalizeItemCount' => $maxNormalizeItemCount, 'prettyPrint' => true]);
 
-        self::assertInstanceOf(LogglyFormatter::class, $formatter);
-        self::assertSame($dateFormat, $formatter->getDateFormat());
-        self::assertSame($maxNormalizeDepth, $formatter->getMaxNormalizeDepth());
-        self::assertSame($maxNormalizeItemCount, $formatter->getMaxNormalizeItemCount());
-        self::assertSame($batchMode, $formatter->getBatchMode());
-        self::assertFalse($formatter->isAppendingNewlines());
+        self::assertInstanceOf(LogglyFormatter::class, $logglyFormatter);
+        self::assertSame($dateFormat, $logglyFormatter->getDateFormat());
+        self::assertSame($maxNormalizeDepth, $logglyFormatter->getMaxNormalizeDepth());
+        self::assertSame($maxNormalizeItemCount, $logglyFormatter->getMaxNormalizeItemCount());
+        self::assertSame($batchMode, $logglyFormatter->getBatchMode());
+        self::assertFalse($logglyFormatter->isAppendingNewlines());
 
-        $ig = new ReflectionProperty($formatter, 'ignoreEmptyContextAndExtra');
+        $ig = new ReflectionProperty($logglyFormatter, 'ignoreEmptyContextAndExtra');
 
-        self::assertFalse($ig->getValue($formatter));
+        self::assertFalse($ig->getValue($logglyFormatter));
 
-        $st = new ReflectionProperty($formatter, 'includeStacktraces');
+        $st = new ReflectionProperty($logglyFormatter, 'includeStacktraces');
 
-        self::assertTrue($st->getValue($formatter));
+        self::assertTrue($st->getValue($logglyFormatter));
     }
 }

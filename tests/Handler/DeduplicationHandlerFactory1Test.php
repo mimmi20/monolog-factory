@@ -53,13 +53,13 @@ final class DeduplicationHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $deduplicationHandlerFactory($container, '');
     }
 
     /**
@@ -77,13 +77,13 @@ final class DeduplicationHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No handler provided');
 
-        $factory($container, '', []);
+        $deduplicationHandlerFactory($container, '', []);
     }
 
     /**
@@ -101,13 +101,13 @@ final class DeduplicationHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('HandlerConfig must be an Array');
 
-        $factory($container, '', ['handler' => true]);
+        $deduplicationHandlerFactory($container, '', ['handler' => true]);
     }
 
     /**
@@ -125,13 +125,13 @@ final class DeduplicationHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must contain a type for the handler');
 
-        $factory($container, '', ['handler' => []]);
+        $deduplicationHandlerFactory($container, '', ['handler' => []]);
     }
 
     /**
@@ -151,13 +151,13 @@ final class DeduplicationHandlerFactory1Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No active handler specified');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => false]]);
+        $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => false]]);
     }
 
     /**
@@ -179,13 +179,13 @@ final class DeduplicationHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willThrowException(new ServiceNotCreatedException());
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not load handler class %s', $type));
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
+        $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
     }
 
     /**
@@ -217,13 +217,13 @@ final class DeduplicationHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not load handler class %s', $type));
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
+        $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
     }
 
     /**
@@ -237,7 +237,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
     public function testInvokeWithHandlerConfig(): void
     {
         $type           = 'abc';
-        $formatterClass = $this->createMock(LineFormatter::class);
+        $formatterClass = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -264,44 +264,44 @@ final class DeduplicationHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
+        $deduplicationHandler = $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true]]);
 
-        self::assertInstanceOf(DeduplicationHandler::class, $handler);
+        self::assertInstanceOf(DeduplicationHandler::class, $deduplicationHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $deduplicationHandler->getLevel());
+        self::assertTrue($deduplicationHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($deduplicationHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($deduplicationHandler));
 
-        $bl = new ReflectionProperty($handler, 'bufferLimit');
+        $bl = new ReflectionProperty($deduplicationHandler, 'bufferLimit');
 
-        self::assertSame(0, $bl->getValue($handler));
+        self::assertSame(0, $bl->getValue($deduplicationHandler));
 
-        $fof = new ReflectionProperty($handler, 'flushOnOverflow');
+        $fof = new ReflectionProperty($deduplicationHandler, 'flushOnOverflow');
 
-        self::assertFalse($fof->getValue($handler));
+        self::assertFalse($fof->getValue($deduplicationHandler));
 
-        $dds = new ReflectionProperty($handler, 'deduplicationStore');
+        $dds = new ReflectionProperty($deduplicationHandler, 'deduplicationStore');
 
-        self::assertIsString($dds->getValue($handler));
+        self::assertIsString($dds->getValue($deduplicationHandler));
 
-        $ddl = new ReflectionProperty($handler, 'deduplicationLevel');
+        $ddl = new ReflectionProperty($deduplicationHandler, 'deduplicationLevel');
 
-        self::assertSame(Level::Error, $ddl->getValue($handler));
+        self::assertSame(Level::Error, $ddl->getValue($deduplicationHandler));
 
-        $timeP = new ReflectionProperty($handler, 'time');
+        $timeP = new ReflectionProperty($deduplicationHandler, 'time');
 
-        self::assertSame(60, $timeP->getValue($handler));
+        self::assertSame(60, $timeP->getValue($deduplicationHandler));
 
-        self::assertSame($formatterClass, $handler->getFormatter());
+        self::assertSame($formatterClass, $deduplicationHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($deduplicationHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($deduplicationHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -320,7 +320,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
         $type               = 'abc';
         $deduplicationStore = 'test-link';
         $time               = 42;
-        $formatterClass     = $this->createMock(LineFormatter::class);
+        $formatterClass     = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -347,44 +347,44 @@ final class DeduplicationHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
+        $deduplicationHandler = $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
 
-        self::assertInstanceOf(DeduplicationHandler::class, $handler);
+        self::assertInstanceOf(DeduplicationHandler::class, $deduplicationHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Debug, $deduplicationHandler->getLevel());
+        self::assertFalse($deduplicationHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($deduplicationHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($deduplicationHandler));
 
-        $bl = new ReflectionProperty($handler, 'bufferLimit');
+        $bl = new ReflectionProperty($deduplicationHandler, 'bufferLimit');
 
-        self::assertSame(0, $bl->getValue($handler));
+        self::assertSame(0, $bl->getValue($deduplicationHandler));
 
-        $fof = new ReflectionProperty($handler, 'flushOnOverflow');
+        $fof = new ReflectionProperty($deduplicationHandler, 'flushOnOverflow');
 
-        self::assertFalse($fof->getValue($handler));
+        self::assertFalse($fof->getValue($deduplicationHandler));
 
-        $dds = new ReflectionProperty($handler, 'deduplicationStore');
+        $dds = new ReflectionProperty($deduplicationHandler, 'deduplicationStore');
 
-        self::assertSame($deduplicationStore, $dds->getValue($handler));
+        self::assertSame($deduplicationStore, $dds->getValue($deduplicationHandler));
 
-        $ddl = new ReflectionProperty($handler, 'deduplicationLevel');
+        $ddl = new ReflectionProperty($deduplicationHandler, 'deduplicationLevel');
 
-        self::assertSame(Level::Alert, $ddl->getValue($handler));
+        self::assertSame(Level::Alert, $ddl->getValue($deduplicationHandler));
 
-        $timeP = new ReflectionProperty($handler, 'time');
+        $timeP = new ReflectionProperty($deduplicationHandler, 'time');
 
-        self::assertSame($time, $timeP->getValue($handler));
+        self::assertSame($time, $timeP->getValue($deduplicationHandler));
 
-        self::assertSame($formatterClass, $handler->getFormatter());
+        self::assertSame($formatterClass, $deduplicationHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($deduplicationHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($deduplicationHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -428,7 +428,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -436,7 +436,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false, 'formatter' => $formatter]);
+        $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -477,7 +477,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -485,7 +485,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
+        $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
     }
 
     /**
@@ -500,7 +500,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
         $type               = 'abc';
         $deduplicationStore = 'test-link';
         $time               = 42;
-        $formatter          = $this->createMock(LineFormatter::class);
+        $formatter          = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -521,12 +521,12 @@ final class DeduplicationHandlerFactory1Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager): AbstractPluginManager {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager): AbstractPluginManager {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame(
@@ -548,7 +548,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
                 },
             );
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -556,7 +556,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false, 'formatter' => $formatter]);
+        $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -572,7 +572,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
         $type               = 'abc';
         $deduplicationStore = 'test-link';
         $time               = 42;
-        $formatter          = $this->createMock(LineFormatter::class);
+        $formatter          = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::once())
@@ -612,44 +612,44 @@ final class DeduplicationHandlerFactory1Test extends TestCase
                 ],
             );
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false, 'formatter' => $formatter]);
+        $deduplicationHandler = $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(DeduplicationHandler::class, $handler);
+        self::assertInstanceOf(DeduplicationHandler::class, $deduplicationHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Debug, $deduplicationHandler->getLevel());
+        self::assertFalse($deduplicationHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($deduplicationHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($deduplicationHandler));
 
-        $bl = new ReflectionProperty($handler, 'bufferLimit');
+        $bl = new ReflectionProperty($deduplicationHandler, 'bufferLimit');
 
-        self::assertSame(0, $bl->getValue($handler));
+        self::assertSame(0, $bl->getValue($deduplicationHandler));
 
-        $fof = new ReflectionProperty($handler, 'flushOnOverflow');
+        $fof = new ReflectionProperty($deduplicationHandler, 'flushOnOverflow');
 
-        self::assertFalse($fof->getValue($handler));
+        self::assertFalse($fof->getValue($deduplicationHandler));
 
-        $dds = new ReflectionProperty($handler, 'deduplicationStore');
+        $dds = new ReflectionProperty($deduplicationHandler, 'deduplicationStore');
 
-        self::assertSame($deduplicationStore, $dds->getValue($handler));
+        self::assertSame($deduplicationStore, $dds->getValue($deduplicationHandler));
 
-        $ddl = new ReflectionProperty($handler, 'deduplicationLevel');
+        $ddl = new ReflectionProperty($deduplicationHandler, 'deduplicationLevel');
 
-        self::assertSame(Level::Alert, $ddl->getValue($handler));
+        self::assertSame(Level::Alert, $ddl->getValue($deduplicationHandler));
 
-        $timeP = new ReflectionProperty($handler, 'time');
+        $timeP = new ReflectionProperty($deduplicationHandler, 'time');
 
-        self::assertSame($time, $timeP->getValue($handler));
+        self::assertSame($time, $timeP->getValue($deduplicationHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $deduplicationHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($deduplicationHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($deduplicationHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -667,7 +667,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
         $type               = 'abc';
         $deduplicationStore = 'test-link';
         $time               = 42;
-        $formatter          = $this->createMock(LineFormatter::class);
+        $formatter          = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -688,12 +688,12 @@ final class DeduplicationHandlerFactory1Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager): AbstractPluginManager {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager): AbstractPluginManager {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame(
@@ -715,7 +715,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
                 },
             );
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -723,7 +723,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
+        $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
     }
 
     /**
@@ -739,7 +739,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
         $type               = 'abc';
         $deduplicationStore = 'test-link';
         $time               = 42;
-        $formatter          = $this->createMock(LineFormatter::class);
+        $formatter          = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::once())
@@ -779,44 +779,44 @@ final class DeduplicationHandlerFactory1Test extends TestCase
                 ],
             );
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
+        $deduplicationHandler = $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
 
-        self::assertInstanceOf(DeduplicationHandler::class, $handler);
+        self::assertInstanceOf(DeduplicationHandler::class, $deduplicationHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Debug, $deduplicationHandler->getLevel());
+        self::assertFalse($deduplicationHandler->getBubble());
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($deduplicationHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($deduplicationHandler));
 
-        $bl = new ReflectionProperty($handler, 'bufferLimit');
+        $bl = new ReflectionProperty($deduplicationHandler, 'bufferLimit');
 
-        self::assertSame(0, $bl->getValue($handler));
+        self::assertSame(0, $bl->getValue($deduplicationHandler));
 
-        $fof = new ReflectionProperty($handler, 'flushOnOverflow');
+        $fof = new ReflectionProperty($deduplicationHandler, 'flushOnOverflow');
 
-        self::assertFalse($fof->getValue($handler));
+        self::assertFalse($fof->getValue($deduplicationHandler));
 
-        $dds = new ReflectionProperty($handler, 'deduplicationStore');
+        $dds = new ReflectionProperty($deduplicationHandler, 'deduplicationStore');
 
-        self::assertSame($deduplicationStore, $dds->getValue($handler));
+        self::assertSame($deduplicationStore, $dds->getValue($deduplicationHandler));
 
-        $ddl = new ReflectionProperty($handler, 'deduplicationLevel');
+        $ddl = new ReflectionProperty($deduplicationHandler, 'deduplicationLevel');
 
-        self::assertSame(Level::Alert, $ddl->getValue($handler));
+        self::assertSame(Level::Alert, $ddl->getValue($deduplicationHandler));
 
-        $timeP = new ReflectionProperty($handler, 'time');
+        $timeP = new ReflectionProperty($deduplicationHandler, 'time');
 
-        self::assertSame($time, $timeP->getValue($handler));
+        self::assertSame($time, $timeP->getValue($deduplicationHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $deduplicationHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($deduplicationHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($deduplicationHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -834,7 +834,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
         $type               = 'abc';
         $deduplicationStore = 'test-link';
         $time               = 42;
-        $formatter          = $this->createMock(LineFormatter::class);
+        $formatter          = $this->createStub(LineFormatter::class);
 
         $handler2 = $this->createMock(ChromePHPHandler::class);
         $handler2->expects(self::never())
@@ -864,7 +864,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
                 ],
             );
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -872,7 +872,7 @@ final class DeduplicationHandlerFactory1Test extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
+        $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['formatter' => $formatter]], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
     }
 
     /**
@@ -913,13 +913,13 @@ final class DeduplicationHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false, 'processors' => $processors]);
+        $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -960,13 +960,13 @@ final class DeduplicationHandlerFactory1Test extends TestCase
             ->with(MonologHandlerPluginManager::class)
             ->willReturn($monologHandlerPluginManager);
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
+        $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
     }
 
     /**
@@ -1033,12 +1033,12 @@ final class DeduplicationHandlerFactory1Test extends TestCase
                 ],
             );
 
-        $factory = new DeduplicationHandlerFactory();
+        $deduplicationHandlerFactory = new DeduplicationHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
+        $deduplicationHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'deduplicationStore' => $deduplicationStore, 'deduplicationLevel' => LogLevel::ALERT, 'time' => $time, 'bubble' => false]);
     }
 }

@@ -49,13 +49,13 @@ final class AmqpHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new AmqpHandlerFactory();
+        $amqpHandlerFactory = new AmqpHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $amqpHandlerFactory($container, '');
     }
 
     /**
@@ -73,13 +73,13 @@ final class AmqpHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new AmqpHandlerFactory();
+        $amqpHandlerFactory = new AmqpHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required exchange class');
 
-        $factory($container, '', []);
+        $amqpHandlerFactory($container, '', []);
     }
 
     /**
@@ -99,13 +99,13 @@ final class AmqpHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new AmqpHandlerFactory();
+        $amqpHandlerFactory = new AmqpHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required exchange class');
 
-        $factory($container, '', ['exchange' => $exchange]);
+        $amqpHandlerFactory($container, '', ['exchange' => $exchange]);
     }
 
     /**
@@ -127,13 +127,13 @@ final class AmqpHandlerFactoryTest extends TestCase
             ->with($exchange)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new AmqpHandlerFactory();
+        $amqpHandlerFactory = new AmqpHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Could not load exchange class');
 
-        $factory($container, '', ['exchange' => $exchange]);
+        $amqpHandlerFactory($container, '', ['exchange' => $exchange]);
     }
 
     /**
@@ -151,7 +151,7 @@ final class AmqpHandlerFactoryTest extends TestCase
         }
 
         $exchange      = 'test';
-        $exchangeClass = $this->createMock(AMQPExchange::class);
+        $exchangeClass = $this->createStub(AMQPExchange::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -161,24 +161,24 @@ final class AmqpHandlerFactoryTest extends TestCase
             ->with($exchange)
             ->willReturn($exchangeClass);
 
-        $factory = new AmqpHandlerFactory();
+        $amqpHandlerFactory = new AmqpHandlerFactory();
 
-        $handler = $factory($container, '', ['exchange' => $exchange]);
+        $amqpHandler = $amqpHandlerFactory($container, '', ['exchange' => $exchange]);
 
-        self::assertInstanceOf(AmqpHandler::class, $handler);
+        self::assertInstanceOf(AmqpHandler::class, $amqpHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $amqpHandler->getLevel());
+        self::assertTrue($amqpHandler->getBubble());
 
-        $ec = new ReflectionProperty($handler, 'exchange');
+        $ec = new ReflectionProperty($amqpHandler, 'exchange');
 
-        self::assertSame($exchangeClass, $ec->getValue($handler));
+        self::assertSame($exchangeClass, $ec->getValue($amqpHandler));
 
-        self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(JsonFormatter::class, $amqpHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($amqpHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($amqpHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -199,7 +199,7 @@ final class AmqpHandlerFactoryTest extends TestCase
         }
 
         $exchange      = 'test';
-        $exchangeClass = $this->createMock(AMQPExchange::class);
+        $exchangeClass = $this->createStub(AMQPExchange::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -209,24 +209,24 @@ final class AmqpHandlerFactoryTest extends TestCase
             ->with($exchange)
             ->willReturn($exchangeClass);
 
-        $factory = new AmqpHandlerFactory();
+        $amqpHandlerFactory = new AmqpHandlerFactory();
 
-        $handler = $factory($container, '', ['exchange' => $exchange, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $amqpHandler = $amqpHandlerFactory($container, '', ['exchange' => $exchange, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(AmqpHandler::class, $handler);
+        self::assertInstanceOf(AmqpHandler::class, $amqpHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $amqpHandler->getLevel());
+        self::assertFalse($amqpHandler->getBubble());
 
-        $ec = new ReflectionProperty($handler, 'exchange');
+        $ec = new ReflectionProperty($amqpHandler, 'exchange');
 
-        self::assertSame($exchangeClass, $ec->getValue($handler));
+        self::assertSame($exchangeClass, $ec->getValue($amqpHandler));
 
-        self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(JsonFormatter::class, $amqpHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($amqpHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($amqpHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -246,7 +246,7 @@ final class AmqpHandlerFactoryTest extends TestCase
             self::markTestSkipped(sprintf('class %s is required for this test', AMQPExchange::class));
         }
 
-        $exchangeClass = $this->createMock(AMQPExchange::class);
+        $exchangeClass = $this->createStub(AMQPExchange::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -254,24 +254,24 @@ final class AmqpHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new AmqpHandlerFactory();
+        $amqpHandlerFactory = new AmqpHandlerFactory();
 
-        $handler = $factory($container, '', ['exchange' => $exchangeClass]);
+        $amqpHandler = $amqpHandlerFactory($container, '', ['exchange' => $exchangeClass]);
 
-        self::assertInstanceOf(AmqpHandler::class, $handler);
+        self::assertInstanceOf(AmqpHandler::class, $amqpHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $amqpHandler->getLevel());
+        self::assertTrue($amqpHandler->getBubble());
 
-        $ec = new ReflectionProperty($handler, 'exchange');
+        $ec = new ReflectionProperty($amqpHandler, 'exchange');
 
-        self::assertSame($exchangeClass, $ec->getValue($handler));
+        self::assertSame($exchangeClass, $ec->getValue($amqpHandler));
 
-        self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(JsonFormatter::class, $amqpHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($amqpHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($amqpHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -291,7 +291,7 @@ final class AmqpHandlerFactoryTest extends TestCase
             self::markTestSkipped(sprintf('class %s is required for this test', AMQPExchange::class));
         }
 
-        $exchangeClass = $this->createMock(AMQPExchange::class);
+        $exchangeClass = $this->createStub(AMQPExchange::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -299,24 +299,24 @@ final class AmqpHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new AmqpHandlerFactory();
+        $amqpHandlerFactory = new AmqpHandlerFactory();
 
-        $handler = $factory($container, '', ['exchange' => $exchangeClass, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $amqpHandler = $amqpHandlerFactory($container, '', ['exchange' => $exchangeClass, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(AmqpHandler::class, $handler);
+        self::assertInstanceOf(AmqpHandler::class, $amqpHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $amqpHandler->getLevel());
+        self::assertFalse($amqpHandler->getBubble());
 
-        $ec = new ReflectionProperty($handler, 'exchange');
+        $ec = new ReflectionProperty($amqpHandler, 'exchange');
 
-        self::assertSame($exchangeClass, $ec->getValue($handler));
+        self::assertSame($exchangeClass, $ec->getValue($amqpHandler));
 
-        self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(JsonFormatter::class, $amqpHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($amqpHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($amqpHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -337,7 +337,7 @@ final class AmqpHandlerFactoryTest extends TestCase
         }
 
         $exchange      = 'test';
-        $exchangeClass = $this->createMock(AMQPChannel::class);
+        $exchangeClass = $this->createStub(AMQPChannel::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -347,28 +347,28 @@ final class AmqpHandlerFactoryTest extends TestCase
             ->with($exchange)
             ->willReturn($exchangeClass);
 
-        $factory = new AmqpHandlerFactory();
+        $amqpHandlerFactory = new AmqpHandlerFactory();
 
-        $handler = $factory($container, '', ['exchange' => $exchange]);
+        $amqpHandler = $amqpHandlerFactory($container, '', ['exchange' => $exchange]);
 
-        self::assertInstanceOf(AmqpHandler::class, $handler);
+        self::assertInstanceOf(AmqpHandler::class, $amqpHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $amqpHandler->getLevel());
+        self::assertTrue($amqpHandler->getBubble());
 
-        $ec = new ReflectionProperty($handler, 'exchange');
+        $ec = new ReflectionProperty($amqpHandler, 'exchange');
 
-        self::assertSame($exchangeClass, $ec->getValue($handler));
+        self::assertSame($exchangeClass, $ec->getValue($amqpHandler));
 
-        $ecn = new ReflectionProperty($handler, 'exchangeName');
+        $ecn = new ReflectionProperty($amqpHandler, 'exchangeName');
 
-        self::assertSame('log', $ecn->getValue($handler));
+        self::assertSame('log', $ecn->getValue($amqpHandler));
 
-        self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(JsonFormatter::class, $amqpHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($amqpHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($amqpHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -390,7 +390,7 @@ final class AmqpHandlerFactoryTest extends TestCase
 
         $exchange      = 'test';
         $exchangeName  = 'exchange-name-test';
-        $exchangeClass = $this->createMock(AMQPChannel::class);
+        $exchangeClass = $this->createStub(AMQPChannel::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -400,28 +400,28 @@ final class AmqpHandlerFactoryTest extends TestCase
             ->with($exchange)
             ->willReturn($exchangeClass);
 
-        $factory = new AmqpHandlerFactory();
+        $amqpHandlerFactory = new AmqpHandlerFactory();
 
-        $handler = $factory($container, '', ['exchange' => $exchange, 'exchangeName' => $exchangeName, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $amqpHandler = $amqpHandlerFactory($container, '', ['exchange' => $exchange, 'exchangeName' => $exchangeName, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(AmqpHandler::class, $handler);
+        self::assertInstanceOf(AmqpHandler::class, $amqpHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $amqpHandler->getLevel());
+        self::assertFalse($amqpHandler->getBubble());
 
-        $ec = new ReflectionProperty($handler, 'exchange');
+        $ec = new ReflectionProperty($amqpHandler, 'exchange');
 
-        self::assertSame($exchangeClass, $ec->getValue($handler));
+        self::assertSame($exchangeClass, $ec->getValue($amqpHandler));
 
-        $ecn = new ReflectionProperty($handler, 'exchangeName');
+        $ecn = new ReflectionProperty($amqpHandler, 'exchangeName');
 
-        self::assertSame($exchangeName, $ecn->getValue($handler));
+        self::assertSame($exchangeName, $ecn->getValue($amqpHandler));
 
-        self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(JsonFormatter::class, $amqpHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($amqpHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($amqpHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -441,7 +441,7 @@ final class AmqpHandlerFactoryTest extends TestCase
             self::markTestSkipped(sprintf('class %s is required for this test', AMQPChannel::class));
         }
 
-        $exchangeClass = $this->createMock(AMQPChannel::class);
+        $exchangeClass = $this->createStub(AMQPChannel::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -449,28 +449,28 @@ final class AmqpHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new AmqpHandlerFactory();
+        $amqpHandlerFactory = new AmqpHandlerFactory();
 
-        $handler = $factory($container, '', ['exchange' => $exchangeClass]);
+        $amqpHandler = $amqpHandlerFactory($container, '', ['exchange' => $exchangeClass]);
 
-        self::assertInstanceOf(AmqpHandler::class, $handler);
+        self::assertInstanceOf(AmqpHandler::class, $amqpHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $amqpHandler->getLevel());
+        self::assertTrue($amqpHandler->getBubble());
 
-        $ec = new ReflectionProperty($handler, 'exchange');
+        $ec = new ReflectionProperty($amqpHandler, 'exchange');
 
-        self::assertSame($exchangeClass, $ec->getValue($handler));
+        self::assertSame($exchangeClass, $ec->getValue($amqpHandler));
 
-        $ecn = new ReflectionProperty($handler, 'exchangeName');
+        $ecn = new ReflectionProperty($amqpHandler, 'exchangeName');
 
-        self::assertSame('log', $ecn->getValue($handler));
+        self::assertSame('log', $ecn->getValue($amqpHandler));
 
-        self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(JsonFormatter::class, $amqpHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($amqpHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($amqpHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -491,7 +491,7 @@ final class AmqpHandlerFactoryTest extends TestCase
         }
 
         $exchangeName  = 'exchange-name-test';
-        $exchangeClass = $this->createMock(AMQPChannel::class);
+        $exchangeClass = $this->createStub(AMQPChannel::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -499,28 +499,28 @@ final class AmqpHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new AmqpHandlerFactory();
+        $amqpHandlerFactory = new AmqpHandlerFactory();
 
-        $handler = $factory($container, '', ['exchange' => $exchangeClass, 'exchangeName' => $exchangeName, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $amqpHandler = $amqpHandlerFactory($container, '', ['exchange' => $exchangeClass, 'exchangeName' => $exchangeName, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(AmqpHandler::class, $handler);
+        self::assertInstanceOf(AmqpHandler::class, $amqpHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $amqpHandler->getLevel());
+        self::assertFalse($amqpHandler->getBubble());
 
-        $ec = new ReflectionProperty($handler, 'exchange');
+        $ec = new ReflectionProperty($amqpHandler, 'exchange');
 
-        self::assertSame($exchangeClass, $ec->getValue($handler));
+        self::assertSame($exchangeClass, $ec->getValue($amqpHandler));
 
-        $ecn = new ReflectionProperty($handler, 'exchangeName');
+        $ecn = new ReflectionProperty($amqpHandler, 'exchangeName');
 
-        self::assertSame($exchangeName, $ecn->getValue($handler));
+        self::assertSame($exchangeName, $ecn->getValue($amqpHandler));
 
-        self::assertInstanceOf(JsonFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(JsonFormatter::class, $amqpHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($amqpHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($amqpHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -543,14 +543,14 @@ final class AmqpHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with($exchange)
-            ->willReturn(true);
+            ->willReturn(value: true);
 
-        $factory = new AmqpHandlerFactory();
+        $amqpHandlerFactory = new AmqpHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', AmqpHandler::class));
 
-        $factory($container, '', ['exchange' => $exchange, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $amqpHandlerFactory($container, '', ['exchange' => $exchange, 'level' => LogLevel::ALERT, 'bubble' => false]);
     }
 }

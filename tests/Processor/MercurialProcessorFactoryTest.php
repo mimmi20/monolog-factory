@@ -40,15 +40,15 @@ final class MercurialProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MercurialProcessorFactory();
+        $mercurialProcessorFactory = new MercurialProcessorFactory();
 
-        $processor = $factory($container, '');
+        $mercurialProcessor = $mercurialProcessorFactory($container, '');
 
-        self::assertInstanceOf(MercurialProcessor::class, $processor);
+        self::assertInstanceOf(MercurialProcessor::class, $mercurialProcessor);
 
-        $lvl = new ReflectionProperty($processor, 'level');
+        $reflectionProperty = new ReflectionProperty($mercurialProcessor, 'level');
 
-        self::assertSame(Level::Debug, $lvl->getValue($processor));
+        self::assertSame(Level::Debug, $reflectionProperty->getValue($mercurialProcessor));
     }
 
     /**
@@ -65,15 +65,15 @@ final class MercurialProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MercurialProcessorFactory();
+        $mercurialProcessorFactory = new MercurialProcessorFactory();
 
-        $processor = $factory($container, '', []);
+        $mercurialProcessor = $mercurialProcessorFactory($container, '', []);
 
-        self::assertInstanceOf(MercurialProcessor::class, $processor);
+        self::assertInstanceOf(MercurialProcessor::class, $mercurialProcessor);
 
-        $lvl = new ReflectionProperty($processor, 'level');
+        $reflectionProperty = new ReflectionProperty($mercurialProcessor, 'level');
 
-        self::assertSame(Level::Debug, $lvl->getValue($processor));
+        self::assertSame(Level::Debug, $reflectionProperty->getValue($mercurialProcessor));
     }
 
     /**
@@ -92,14 +92,14 @@ final class MercurialProcessorFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new MercurialProcessorFactory();
+        $mercurialProcessorFactory = new MercurialProcessorFactory();
 
-        $processor = $factory($container, '', ['level' => $level]);
+        $mercurialProcessor = $mercurialProcessorFactory($container, '', ['level' => $level]);
 
-        self::assertInstanceOf(MercurialProcessor::class, $processor);
+        self::assertInstanceOf(MercurialProcessor::class, $mercurialProcessor);
 
-        $lvl = new ReflectionProperty($processor, 'level');
+        $reflectionProperty = new ReflectionProperty($mercurialProcessor, 'level');
 
-        self::assertSame(Level::Alert, $lvl->getValue($processor));
+        self::assertSame(Level::Alert, $reflectionProperty->getValue($mercurialProcessor));
     }
 }

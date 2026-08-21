@@ -57,13 +57,13 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $doctrineCouchDBHandlerFactory($container, '');
     }
 
     /**
@@ -81,13 +81,13 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required client class');
 
-        $factory($container, '', []);
+        $doctrineCouchDBHandlerFactory($container, '', []);
     }
 
     /**
@@ -107,13 +107,13 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('No Service name provided for the required client class');
 
-        $factory($container, '', ['client' => $clientName]);
+        $doctrineCouchDBHandlerFactory($container, '', ['client' => $clientName]);
     }
 
     /**
@@ -135,7 +135,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             ->with($clientName)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -143,7 +143,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             sprintf('Could not load client class for %s class', DoctrineCouchDBHandler::class),
         );
 
-        $factory($container, '', ['client' => $clientName]);
+        $doctrineCouchDBHandlerFactory($container, '', ['client' => $clientName]);
     }
 
     /**
@@ -157,7 +157,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig3(): void
     {
         $clientName = 'test-client';
-        $client     = $this->createMock(CouchDBClient::class);
+        $client     = $this->createStub(CouchDBClient::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -167,24 +167,24 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             ->with($clientName)
             ->willReturn($client);
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $clientName]);
+        $doctrineCouchDBHandler = $doctrineCouchDBHandlerFactory($container, '', ['client' => $clientName]);
 
-        self::assertInstanceOf(DoctrineCouchDBHandler::class, $handler);
+        self::assertInstanceOf(DoctrineCouchDBHandler::class, $doctrineCouchDBHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $doctrineCouchDBHandler->getLevel());
+        self::assertTrue($doctrineCouchDBHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($doctrineCouchDBHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($doctrineCouchDBHandler));
 
-        self::assertInstanceOf(NormalizerFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(NormalizerFormatter::class, $doctrineCouchDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($doctrineCouchDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($doctrineCouchDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -201,7 +201,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
     public function testInvokeWithConfig4(): void
     {
         $clientName = 'test-client';
-        $client     = $this->createMock(CouchDBClient::class);
+        $client     = $this->createStub(CouchDBClient::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -211,24 +211,24 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             ->with($clientName)
             ->willReturn($client);
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $clientName, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $doctrineCouchDBHandler = $doctrineCouchDBHandlerFactory($container, '', ['client' => $clientName, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(DoctrineCouchDBHandler::class, $handler);
+        self::assertInstanceOf(DoctrineCouchDBHandler::class, $doctrineCouchDBHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $doctrineCouchDBHandler->getLevel());
+        self::assertFalse($doctrineCouchDBHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($doctrineCouchDBHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($doctrineCouchDBHandler));
 
-        self::assertInstanceOf(NormalizerFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(NormalizerFormatter::class, $doctrineCouchDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($doctrineCouchDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($doctrineCouchDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -244,7 +244,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfig5(): void
     {
-        $client = $this->createMock(CouchDBClient::class);
+        $client = $this->createStub(CouchDBClient::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -252,24 +252,24 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client]);
+        $doctrineCouchDBHandler = $doctrineCouchDBHandlerFactory($container, '', ['client' => $client]);
 
-        self::assertInstanceOf(DoctrineCouchDBHandler::class, $handler);
+        self::assertInstanceOf(DoctrineCouchDBHandler::class, $doctrineCouchDBHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $doctrineCouchDBHandler->getLevel());
+        self::assertTrue($doctrineCouchDBHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($doctrineCouchDBHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($doctrineCouchDBHandler));
 
-        self::assertInstanceOf(NormalizerFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(NormalizerFormatter::class, $doctrineCouchDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($doctrineCouchDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($doctrineCouchDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -285,7 +285,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfig6(): void
     {
-        $client = $this->createMock(CouchDBClient::class);
+        $client = $this->createStub(CouchDBClient::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -293,24 +293,24 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $doctrineCouchDBHandler = $doctrineCouchDBHandlerFactory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(DoctrineCouchDBHandler::class, $handler);
+        self::assertInstanceOf(DoctrineCouchDBHandler::class, $doctrineCouchDBHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $doctrineCouchDBHandler->getLevel());
+        self::assertFalse($doctrineCouchDBHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($doctrineCouchDBHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($doctrineCouchDBHandler));
 
-        self::assertInstanceOf(NormalizerFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(NormalizerFormatter::class, $doctrineCouchDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($doctrineCouchDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($doctrineCouchDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -333,15 +333,15 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with($clientName)
-            ->willReturn(true);
+            ->willReturn(value: true);
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', DoctrineCouchDBHandler::class));
 
-        $factory($container, '', ['client' => $clientName]);
+        $doctrineCouchDBHandlerFactory($container, '', ['client' => $clientName]);
     }
 
     /**
@@ -353,7 +353,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
-        $client    = $this->createMock(CouchDBClient::class);
+        $client    = $this->createStub(CouchDBClient::class);
         $formatter = true;
 
         $container = $this->createMock(ContainerInterface::class);
@@ -362,7 +362,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -370,7 +370,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $doctrineCouchDBHandlerFactory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -382,8 +382,8 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter(): void
     {
-        $client    = $this->createMock(CouchDBClient::class);
-        $formatter = $this->createMock(LineFormatter::class);
+        $client    = $this->createStub(CouchDBClient::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -393,7 +393,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -401,7 +401,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $doctrineCouchDBHandlerFactory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -414,8 +414,8 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter2(): void
     {
-        $client    = $this->createMock(CouchDBClient::class);
-        $formatter = $this->createMock(LineFormatter::class);
+        $client    = $this->createStub(CouchDBClient::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -433,24 +433,24 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $doctrineCouchDBHandler = $doctrineCouchDBHandlerFactory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(DoctrineCouchDBHandler::class, $handler);
+        self::assertInstanceOf(DoctrineCouchDBHandler::class, $doctrineCouchDBHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $doctrineCouchDBHandler->getLevel());
+        self::assertFalse($doctrineCouchDBHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($doctrineCouchDBHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($doctrineCouchDBHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $doctrineCouchDBHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($doctrineCouchDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($doctrineCouchDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -465,8 +465,8 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndFormatter3(): void
     {
-        $client    = $this->createMock(CouchDBClient::class);
-        $formatter = $this->createMock(LineFormatter::class);
+        $client    = $this->createStub(CouchDBClient::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -474,9 +474,9 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -484,7 +484,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $doctrineCouchDBHandlerFactory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -496,7 +496,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
-        $client     = $this->createMock(CouchDBClient::class);
+        $client     = $this->createStub(CouchDBClient::class);
         $processors = true;
 
         $container = $this->createMock(ContainerInterface::class);
@@ -505,13 +505,13 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $doctrineCouchDBHandlerFactory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -523,7 +523,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors2(): void
     {
-        $client     = $this->createMock(CouchDBClient::class);
+        $client     = $this->createStub(CouchDBClient::class);
         $processors = [
             [
                 'enabled' => true,
@@ -556,13 +556,13 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $doctrineCouchDBHandlerFactory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -575,7 +575,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors3(): void
     {
-        $client     = $this->createMock(CouchDBClient::class);
+        $client     = $this->createStub(CouchDBClient::class);
         $processor3 = static fn (array $record): array => $record;
         $processors = [
             [
@@ -591,9 +591,9 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -617,22 +617,22 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $doctrineCouchDBHandler = $doctrineCouchDBHandlerFactory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(DoctrineCouchDBHandler::class, $handler);
+        self::assertInstanceOf(DoctrineCouchDBHandler::class, $doctrineCouchDBHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $doctrineCouchDBHandler->getLevel());
+        self::assertFalse($doctrineCouchDBHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($doctrineCouchDBHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($doctrineCouchDBHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($doctrineCouchDBHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($doctrineCouchDBHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -650,7 +650,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors4(): void
     {
-        $client     = $this->createMock(CouchDBClient::class);
+        $client     = $this->createStub(CouchDBClient::class);
         $processor3 = static fn (array $record): array => $record;
         $processors = [
             [
@@ -682,7 +682,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -690,7 +690,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $doctrineCouchDBHandlerFactory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -702,7 +702,7 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
      */
     public function testInvokeWithConfigAndProcessors5(): void
     {
-        $client     = $this->createMock(CouchDBClient::class);
+        $client     = $this->createStub(CouchDBClient::class);
         $processor3 = static fn (array $record): array => $record;
         $processors = [
             [
@@ -724,9 +724,9 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new DoctrineCouchDBHandlerFactory();
+        $doctrineCouchDBHandlerFactory = new DoctrineCouchDBHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -734,6 +734,6 @@ final class DoctrineCouchDBHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $doctrineCouchDBHandlerFactory($container, '', ['client' => $client, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 }

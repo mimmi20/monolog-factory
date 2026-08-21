@@ -92,10 +92,10 @@ final class PsrHandlerFactory implements FactoryInterface
             $bubble = $options['bubble'];
         }
 
-        $handler = new PsrHandler($logger, $level, $bubble);
+        $psrHandler = new PsrHandler($logger, $level, $bubble);
 
-        $this->addFormatter($container, $handler, $options);
+        $this->addFormatter($container, $psrHandler, $options);
 
-        return $handler;
+        return $psrHandler;
     }
 }

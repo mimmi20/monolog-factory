@@ -35,10 +35,13 @@ final class ActivationStrategyPluginManagerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ActivationStrategyPluginManagerFactory();
+        $activationStrategyPluginManagerFactory = new ActivationStrategyPluginManagerFactory();
 
-        $pluginManager = $factory($container, '');
+        $activationStrategyPluginManager = $activationStrategyPluginManagerFactory($container, '');
 
-        self::assertInstanceOf(ActivationStrategyPluginManager::class, $pluginManager);
+        self::assertInstanceOf(
+            ActivationStrategyPluginManager::class,
+            $activationStrategyPluginManager,
+        );
     }
 }

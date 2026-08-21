@@ -48,7 +48,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithoutConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -57,13 +57,13 @@ final class SendGridHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Options must be an Array');
 
-        $factory($container, '');
+        $sendGridHandlerFactory($container, '');
     }
 
     /**
@@ -73,7 +73,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithEmptyConfig(): void
     {
         $container = $this->createMock(ContainerInterface::class);
@@ -82,13 +82,13 @@ final class SendGridHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('The required apiUser is missing');
 
-        $factory($container, '', []);
+        $sendGridHandlerFactory($container, '', []);
     }
 
     /**
@@ -98,7 +98,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig(): void
     {
         $apiUser = 'test-api-user';
@@ -109,13 +109,13 @@ final class SendGridHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('The required apiKey is missing');
 
-        $factory($container, '', ['apiUser' => $apiUser]);
+        $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser]);
     }
 
     /**
@@ -125,7 +125,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig2(): void
     {
         $apiUser = 'test-api-user';
@@ -137,13 +137,13 @@ final class SendGridHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('The required from is missing');
 
-        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey]);
+        $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey]);
     }
 
     /**
@@ -153,7 +153,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig3(): void
     {
         $apiUser = 'test-api-user';
@@ -166,13 +166,13 @@ final class SendGridHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('The required to is missing');
 
-        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from]);
+        $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from]);
     }
 
     /**
@@ -182,7 +182,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig4(): void
     {
         $apiUser = 'test-api-user';
@@ -196,13 +196,13 @@ final class SendGridHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('The required subject is missing');
 
-        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to]);
+        $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to]);
     }
 
     /**
@@ -213,7 +213,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig5(): void
     {
         $apiUser = 'test-api-user';
@@ -228,40 +228,40 @@ final class SendGridHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
-        $handler = $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject]);
+        $sendGridHandler = $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject]);
 
-        self::assertInstanceOf(SendGridHandler::class, $handler);
+        self::assertInstanceOf(SendGridHandler::class, $sendGridHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $sendGridHandler->getLevel());
+        self::assertTrue($sendGridHandler->getBubble());
 
-        $apiUserP = new ReflectionProperty($handler, 'apiUser');
+        $apiUserP = new ReflectionProperty($sendGridHandler, 'apiUser');
 
-        self::assertSame($apiUser, $apiUserP->getValue($handler));
+        self::assertSame($apiUser, $apiUserP->getValue($sendGridHandler));
 
-        $apiKeyP = new ReflectionProperty($handler, 'apiKey');
+        $apiKeyP = new ReflectionProperty($sendGridHandler, 'apiKey');
 
-        self::assertSame($apiKey, $apiKeyP->getValue($handler));
+        self::assertSame($apiKey, $apiKeyP->getValue($sendGridHandler));
 
-        $fromP = new ReflectionProperty($handler, 'from');
+        $fromP = new ReflectionProperty($sendGridHandler, 'from');
 
-        self::assertSame($from, $fromP->getValue($handler));
+        self::assertSame($from, $fromP->getValue($sendGridHandler));
 
-        $toP = new ReflectionProperty($handler, 'to');
+        $toP = new ReflectionProperty($sendGridHandler, 'to');
 
-        self::assertSame((array) $to, $toP->getValue($handler));
+        self::assertSame((array) $to, $toP->getValue($sendGridHandler));
 
-        $subjectP = new ReflectionProperty($handler, 'subject');
+        $subjectP = new ReflectionProperty($sendGridHandler, 'subject');
 
-        self::assertSame($subject, $subjectP->getValue($handler));
+        self::assertSame($subject, $subjectP->getValue($sendGridHandler));
 
-        self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(HtmlFormatter::class, $sendGridHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($sendGridHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($sendGridHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -275,7 +275,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfig6(): void
     {
         $apiUser = 'test-api-user';
@@ -292,40 +292,40 @@ final class SendGridHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
-        $handler = $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble]);
+        $sendGridHandler = $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble]);
 
-        self::assertInstanceOf(SendGridHandler::class, $handler);
+        self::assertInstanceOf(SendGridHandler::class, $sendGridHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $sendGridHandler->getLevel());
+        self::assertFalse($sendGridHandler->getBubble());
 
-        $apiUserP = new ReflectionProperty($handler, 'apiUser');
+        $apiUserP = new ReflectionProperty($sendGridHandler, 'apiUser');
 
-        self::assertSame($apiUser, $apiUserP->getValue($handler));
+        self::assertSame($apiUser, $apiUserP->getValue($sendGridHandler));
 
-        $apiKeyP = new ReflectionProperty($handler, 'apiKey');
+        $apiKeyP = new ReflectionProperty($sendGridHandler, 'apiKey');
 
-        self::assertSame($apiKey, $apiKeyP->getValue($handler));
+        self::assertSame($apiKey, $apiKeyP->getValue($sendGridHandler));
 
-        $fromP = new ReflectionProperty($handler, 'from');
+        $fromP = new ReflectionProperty($sendGridHandler, 'from');
 
-        self::assertSame($from, $fromP->getValue($handler));
+        self::assertSame($from, $fromP->getValue($sendGridHandler));
 
-        $toP = new ReflectionProperty($handler, 'to');
+        $toP = new ReflectionProperty($sendGridHandler, 'to');
 
-        self::assertSame((array) $to, $toP->getValue($handler));
+        self::assertSame((array) $to, $toP->getValue($sendGridHandler));
 
-        $subjectP = new ReflectionProperty($handler, 'subject');
+        $subjectP = new ReflectionProperty($sendGridHandler, 'subject');
 
-        self::assertSame($subject, $subjectP->getValue($handler));
+        self::assertSame($subject, $subjectP->getValue($sendGridHandler));
 
-        self::assertInstanceOf(HtmlFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(HtmlFormatter::class, $sendGridHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($sendGridHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($sendGridHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -356,7 +356,7 @@ final class SendGridHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -364,7 +364,7 @@ final class SendGridHandlerFactoryTest extends TestCase
             sprintf('Could not create %s', SendGridHandler::class),
         );
 
-        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject]);
+        $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject]);
     }
 
     /**
@@ -374,7 +374,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndBoolFormatter(): void
     {
         $apiUser   = 'test-api-user';
@@ -392,7 +392,7 @@ final class SendGridHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -400,7 +400,7 @@ final class SendGridHandlerFactoryTest extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
+        $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
     }
 
     /**
@@ -410,7 +410,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter(): void
     {
         $apiUser   = 'test-api-user';
@@ -420,7 +420,7 @@ final class SendGridHandlerFactoryTest extends TestCase
         $subject   = 'test-subject';
         $level     = LogLevel::ALERT;
         $bubble    = false;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -430,7 +430,7 @@ final class SendGridHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -438,7 +438,7 @@ final class SendGridHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
+        $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
     }
 
     /**
@@ -449,7 +449,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter2(): void
     {
         $apiUser   = 'test-api-user';
@@ -459,7 +459,7 @@ final class SendGridHandlerFactoryTest extends TestCase
         $subject   = 'test-subject';
         $level     = LogLevel::ALERT;
         $bubble    = false;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -477,40 +477,40 @@ final class SendGridHandlerFactoryTest extends TestCase
             ->with(MonologFormatterPluginManager::class)
             ->willReturn($monologFormatterPluginManager);
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
-        $handler = $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
+        $sendGridHandler = $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(SendGridHandler::class, $handler);
+        self::assertInstanceOf(SendGridHandler::class, $sendGridHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $sendGridHandler->getLevel());
+        self::assertFalse($sendGridHandler->getBubble());
 
-        $apiUserP = new ReflectionProperty($handler, 'apiUser');
+        $apiUserP = new ReflectionProperty($sendGridHandler, 'apiUser');
 
-        self::assertSame($apiUser, $apiUserP->getValue($handler));
+        self::assertSame($apiUser, $apiUserP->getValue($sendGridHandler));
 
-        $apiKeyP = new ReflectionProperty($handler, 'apiKey');
+        $apiKeyP = new ReflectionProperty($sendGridHandler, 'apiKey');
 
-        self::assertSame($apiKey, $apiKeyP->getValue($handler));
+        self::assertSame($apiKey, $apiKeyP->getValue($sendGridHandler));
 
-        $fromP = new ReflectionProperty($handler, 'from');
+        $fromP = new ReflectionProperty($sendGridHandler, 'from');
 
-        self::assertSame($from, $fromP->getValue($handler));
+        self::assertSame($from, $fromP->getValue($sendGridHandler));
 
-        $toP = new ReflectionProperty($handler, 'to');
+        $toP = new ReflectionProperty($sendGridHandler, 'to');
 
-        self::assertSame((array) $to, $toP->getValue($handler));
+        self::assertSame((array) $to, $toP->getValue($sendGridHandler));
 
-        $subjectP = new ReflectionProperty($handler, 'subject');
+        $subjectP = new ReflectionProperty($sendGridHandler, 'subject');
 
-        self::assertSame($subject, $subjectP->getValue($handler));
+        self::assertSame($subject, $subjectP->getValue($sendGridHandler));
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $sendGridHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($sendGridHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($sendGridHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -523,7 +523,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndFormatter3(): void
     {
         $apiUser   = 'test-api-user';
@@ -533,7 +533,7 @@ final class SendGridHandlerFactoryTest extends TestCase
         $subject   = 'test-subject';
         $level     = LogLevel::ALERT;
         $bubble    = false;
-        $formatter = $this->createMock(LineFormatter::class);
+        $formatter = $this->createStub(LineFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -541,9 +541,9 @@ final class SendGridHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologFormatterPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -551,7 +551,7 @@ final class SendGridHandlerFactoryTest extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
+        $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'formatter' => $formatter]);
     }
 
     /**
@@ -561,7 +561,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndBoolProcessors(): void
     {
         $apiUser    = 'test-api-user';
@@ -579,13 +579,13 @@ final class SendGridHandlerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }
 
     /**
@@ -595,7 +595,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors2(): void
     {
         $apiUser    = 'test-api-user';
@@ -637,13 +637,13 @@ final class SendGridHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }
 
     /**
@@ -654,7 +654,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors3(): void
     {
         $apiUser    = 'test-api-user';
@@ -679,9 +679,9 @@ final class SendGridHandlerFactoryTest extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -705,38 +705,38 @@ final class SendGridHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willReturn($monologProcessorPluginManager);
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
-        $handler = $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $sendGridHandler = $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
 
-        self::assertInstanceOf(SendGridHandler::class, $handler);
+        self::assertInstanceOf(SendGridHandler::class, $sendGridHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $sendGridHandler->getLevel());
+        self::assertFalse($sendGridHandler->getBubble());
 
-        $apiUserP = new ReflectionProperty($handler, 'apiUser');
+        $apiUserP = new ReflectionProperty($sendGridHandler, 'apiUser');
 
-        self::assertSame($apiUser, $apiUserP->getValue($handler));
+        self::assertSame($apiUser, $apiUserP->getValue($sendGridHandler));
 
-        $apiKeyP = new ReflectionProperty($handler, 'apiKey');
+        $apiKeyP = new ReflectionProperty($sendGridHandler, 'apiKey');
 
-        self::assertSame($apiKey, $apiKeyP->getValue($handler));
+        self::assertSame($apiKey, $apiKeyP->getValue($sendGridHandler));
 
-        $fromP = new ReflectionProperty($handler, 'from');
+        $fromP = new ReflectionProperty($sendGridHandler, 'from');
 
-        self::assertSame($from, $fromP->getValue($handler));
+        self::assertSame($from, $fromP->getValue($sendGridHandler));
 
-        $toP = new ReflectionProperty($handler, 'to');
+        $toP = new ReflectionProperty($sendGridHandler, 'to');
 
-        self::assertSame((array) $to, $toP->getValue($handler));
+        self::assertSame((array) $to, $toP->getValue($sendGridHandler));
 
-        $subjectP = new ReflectionProperty($handler, 'subject');
+        $subjectP = new ReflectionProperty($sendGridHandler, 'subject');
 
-        self::assertSame($subject, $subjectP->getValue($handler));
+        self::assertSame($subject, $subjectP->getValue($sendGridHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($sendGridHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($sendGridHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -752,7 +752,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors4(): void
     {
         $apiUser    = 'test-api-user';
@@ -785,7 +785,7 @@ final class SendGridHandlerFactoryTest extends TestCase
             ->with(MonologProcessorPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -793,7 +793,7 @@ final class SendGridHandlerFactoryTest extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }
 
     /**
@@ -803,7 +803,7 @@ final class SendGridHandlerFactoryTest extends TestCase
      * @throws \PHPUnit\Framework\MockObject\Exception
      * @throws NoPreviousThrowableException
      */
-    #[RequiresPhpExtension('curl')]
+    #[RequiresPhpExtension(extension: 'curl')]
     public function testInvokeWithConfigAndProcessors5(): void
     {
         $apiUser    = 'test-api-user';
@@ -834,9 +834,9 @@ final class SendGridHandlerFactoryTest extends TestCase
         $container->expects(self::once())
             ->method('get')
             ->with(MonologProcessorPluginManager::class)
-            ->willReturn(null);
+            ->willReturn(value: null);
 
-        $factory = new SendGridHandlerFactory();
+        $sendGridHandlerFactory = new SendGridHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -844,6 +844,6 @@ final class SendGridHandlerFactoryTest extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
+        $sendGridHandlerFactory($container, '', ['apiUser' => $apiUser, 'apiKey' => $apiKey, 'from' => $from, 'to' => $to, 'subject' => $subject, 'level' => $level, 'bubble' => $bubble, 'processors' => $processors]);
     }
 }

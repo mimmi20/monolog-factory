@@ -29,6 +29,7 @@ use Monolog\Processor\GitProcessor;
 use Monolog\Processor\HostnameProcessor;
 use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LogLevel;
@@ -93,12 +94,12 @@ final class FingersCrossedHandlerFactory3Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $monologHandlerPluginManager) {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $monologHandlerPluginManager): MockObject {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame(
@@ -120,7 +121,7 @@ final class FingersCrossedHandlerFactory3Test extends TestCase
                 },
             );
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -128,7 +129,7 @@ final class FingersCrossedHandlerFactory3Test extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
+        $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
     /**
@@ -194,7 +195,7 @@ final class FingersCrossedHandlerFactory3Test extends TestCase
                 ],
             );
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -202,7 +203,7 @@ final class FingersCrossedHandlerFactory3Test extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
+        $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true, 'options' => ['processors' => $processors]], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING]);
     }
 
     /**
@@ -218,7 +219,7 @@ final class FingersCrossedHandlerFactory3Test extends TestCase
         $type            = 'abc';
         $strategyName    = 'xyz';
         $strategyOptions = ['level' => 123];
-        $strategyClass   = $this->createMock(ChannelLevelActivationStrategy::class);
+        $strategyClass   = $this->createStub(ChannelLevelActivationStrategy::class);
         $processor3      = static fn (array $record): array => $record;
         $processors      = [
             [
@@ -234,9 +235,9 @@ final class FingersCrossedHandlerFactory3Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -291,39 +292,39 @@ final class FingersCrossedHandlerFactory3Test extends TestCase
                 ],
             );
 
-        $factory = new FingersCrossedHandlerFactory();
+        $fingersCrossedHandlerFactory = new FingersCrossedHandlerFactory();
 
-        $handler = $factory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING, 'processors' => $processors]);
+        $fingersCrossedHandler = $fingersCrossedHandlerFactory($container, '', ['handler' => ['type' => $type, 'enabled' => true], 'activationStrategy' => ['type' => $strategyName, 'options' => $strategyOptions], 'bufferSize' => 42, 'bubble' => false, 'stopBuffering' => false, 'passthruLevel' => LogLevel::WARNING, 'processors' => $processors]);
 
-        self::assertInstanceOf(FingersCrossedHandler::class, $handler);
+        self::assertInstanceOf(FingersCrossedHandler::class, $fingersCrossedHandler);
 
-        $handlerP = new ReflectionProperty($handler, 'handler');
+        $handlerP = new ReflectionProperty($fingersCrossedHandler, 'handler');
 
-        self::assertSame($handler2, $handlerP->getValue($handler));
+        self::assertSame($handler2, $handlerP->getValue($fingersCrossedHandler));
 
-        $as = new ReflectionProperty($handler, 'activationStrategy');
+        $as = new ReflectionProperty($fingersCrossedHandler, 'activationStrategy');
 
-        self::assertSame($strategyClass, $as->getValue($handler));
+        self::assertSame($strategyClass, $as->getValue($fingersCrossedHandler));
 
-        $bs = new ReflectionProperty($handler, 'bufferSize');
+        $bs = new ReflectionProperty($fingersCrossedHandler, 'bufferSize');
 
-        self::assertSame(42, $bs->getValue($handler));
+        self::assertSame(42, $bs->getValue($fingersCrossedHandler));
 
-        $b = new ReflectionProperty($handler, 'bubble');
+        $b = new ReflectionProperty($fingersCrossedHandler, 'bubble');
 
-        self::assertFalse($b->getValue($handler));
+        self::assertFalse($b->getValue($fingersCrossedHandler));
 
-        $sb = new ReflectionProperty($handler, 'stopBuffering');
+        $sb = new ReflectionProperty($fingersCrossedHandler, 'stopBuffering');
 
-        self::assertFalse($sb->getValue($handler));
+        self::assertFalse($sb->getValue($fingersCrossedHandler));
 
-        $ptl = new ReflectionProperty($handler, 'passthruLevel');
+        $ptl = new ReflectionProperty($fingersCrossedHandler, 'passthruLevel');
 
-        self::assertSame(Level::Warning, $ptl->getValue($handler));
+        self::assertSame(Level::Warning, $ptl->getValue($fingersCrossedHandler));
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($fingersCrossedHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($fingersCrossedHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);

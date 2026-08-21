@@ -40,15 +40,15 @@ final class ErrorLevelActivationStrategyFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ErrorLevelActivationStrategyFactory();
+        $errorLevelActivationStrategyFactory = new ErrorLevelActivationStrategyFactory();
 
-        $strategy = $factory($container, '');
+        $errorLevelActivationStrategy = $errorLevelActivationStrategyFactory($container, '');
 
-        self::assertInstanceOf(ErrorLevelActivationStrategy::class, $strategy);
+        self::assertInstanceOf(ErrorLevelActivationStrategy::class, $errorLevelActivationStrategy);
 
-        $al = new ReflectionProperty($strategy, 'actionLevel');
+        $reflectionProperty = new ReflectionProperty($errorLevelActivationStrategy, 'actionLevel');
 
-        self::assertSame(Level::Debug, $al->getValue($strategy));
+        self::assertSame(Level::Debug, $reflectionProperty->getValue($errorLevelActivationStrategy));
     }
 
     /**
@@ -65,15 +65,15 @@ final class ErrorLevelActivationStrategyFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ErrorLevelActivationStrategyFactory();
+        $errorLevelActivationStrategyFactory = new ErrorLevelActivationStrategyFactory();
 
-        $strategy = $factory($container, '', []);
+        $errorLevelActivationStrategy = $errorLevelActivationStrategyFactory($container, '', []);
 
-        self::assertInstanceOf(ErrorLevelActivationStrategy::class, $strategy);
+        self::assertInstanceOf(ErrorLevelActivationStrategy::class, $errorLevelActivationStrategy);
 
-        $al = new ReflectionProperty($strategy, 'actionLevel');
+        $reflectionProperty = new ReflectionProperty($errorLevelActivationStrategy, 'actionLevel');
 
-        self::assertSame(Level::Debug, $al->getValue($strategy));
+        self::assertSame(Level::Debug, $reflectionProperty->getValue($errorLevelActivationStrategy));
     }
 
     /**
@@ -90,14 +90,14 @@ final class ErrorLevelActivationStrategyFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ErrorLevelActivationStrategyFactory();
+        $errorLevelActivationStrategyFactory = new ErrorLevelActivationStrategyFactory();
 
-        $strategy = $factory($container, '', ['actionLevel' => LogLevel::ALERT]);
+        $errorLevelActivationStrategy = $errorLevelActivationStrategyFactory($container, '', ['actionLevel' => LogLevel::ALERT]);
 
-        self::assertInstanceOf(ErrorLevelActivationStrategy::class, $strategy);
+        self::assertInstanceOf(ErrorLevelActivationStrategy::class, $errorLevelActivationStrategy);
 
-        $al = new ReflectionProperty($strategy, 'actionLevel');
+        $reflectionProperty = new ReflectionProperty($errorLevelActivationStrategy, 'actionLevel');
 
-        self::assertSame(Level::Alert, $al->getValue($strategy));
+        self::assertSame(Level::Alert, $reflectionProperty->getValue($errorLevelActivationStrategy));
     }
 }

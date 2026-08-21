@@ -75,11 +75,17 @@ final class NewRelicHandlerFactory implements FactoryInterface
             }
         }
 
-        $handler = new NewRelicHandler($level, $bubble, $appName, $explodeArrays, $transactionName);
+        $newRelicHandler = new NewRelicHandler(
+            $level,
+            $bubble,
+            $appName,
+            $explodeArrays,
+            $transactionName,
+        );
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $newRelicHandler, $options);
+        $this->addProcessor($container, $newRelicHandler, $options);
 
-        return $handler;
+        return $newRelicHandler;
     }
 }

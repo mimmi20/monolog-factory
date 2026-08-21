@@ -59,7 +59,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
         }
 
         $client      = 'xyz';
-        $clientClass = $this->createMock(V7Client::class);
+        $clientClass = $this->createStub(V7Client::class);
         $index       = 'test-index';
         $type        = 'test-type';
         $processor3  = static fn (array $record): array => $record;
@@ -97,7 +97,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -105,7 +105,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $elasticsearchHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -131,13 +131,13 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             ->with(ClientPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', ClientPluginManager::class));
 
-        $factory($container, '', ['client' => $client]);
+        $elasticsearchHandlerFactory($container, '', ['client' => $client]);
     }
 
     /**
@@ -173,13 +173,13 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             ->with(ClientPluginManager::class)
             ->willReturn($monologClientPluginManager);
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', V7Client::class));
 
-        $factory($container, '', ['client' => $clientConfig]);
+        $elasticsearchHandlerFactory($container, '', ['client' => $clientConfig]);
     }
 
     /**
@@ -217,26 +217,26 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             ->with(ClientPluginManager::class)
             ->willReturn($monologClientPluginManager);
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', V7Client::class));
 
-        $handler = $factory($container, '', ['client' => $clientConfig]);
+        $elasticsearchHandler = $elasticsearchHandlerFactory($container, '', ['client' => $clientConfig]);
 
-        self::assertInstanceOf(ElasticsearchHandler::class, $handler);
+        self::assertInstanceOf(ElasticsearchHandler::class, $elasticsearchHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $elasticsearchHandler->getLevel());
+        self::assertTrue($elasticsearchHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($elasticsearchHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($elasticsearchHandler));
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($elasticsearchHandler, 'options');
 
-        $optionsArray = $optionsP->getValue($handler);
+        $optionsArray = $optionsP->getValue($elasticsearchHandler);
 
         self::assertIsArray($optionsArray);
 
@@ -244,11 +244,11 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
         self::assertSame('_doc', $optionsArray['type']);
         self::assertFalse($optionsArray['ignore_error']);
 
-        self::assertInstanceOf(ElasticsearchFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(ElasticsearchFormatter::class, $elasticsearchHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($elasticsearchHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($elasticsearchHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -269,7 +269,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
         }
 
         $clientConfig = [];
-        $client       = $this->createMock(V7Client::class);
+        $client       = $this->createStub(V7Client::class);
 
         $monologClientPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologClientPluginManager->expects(self::never())
@@ -289,22 +289,22 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             ->with(ClientPluginManager::class)
             ->willReturn($monologClientPluginManager);
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $clientConfig]);
+        $elasticsearchHandler = $elasticsearchHandlerFactory($container, '', ['client' => $clientConfig]);
 
-        self::assertInstanceOf(ElasticsearchHandler::class, $handler);
+        self::assertInstanceOf(ElasticsearchHandler::class, $elasticsearchHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $elasticsearchHandler->getLevel());
+        self::assertTrue($elasticsearchHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($elasticsearchHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($elasticsearchHandler));
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($elasticsearchHandler, 'options');
 
-        $optionsArray = $optionsP->getValue($handler);
+        $optionsArray = $optionsP->getValue($elasticsearchHandler);
 
         self::assertIsArray($optionsArray);
 
@@ -312,11 +312,11 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
         self::assertSame('_doc', $optionsArray['type']);
         self::assertFalse($optionsArray['ignore_error']);
 
-        self::assertInstanceOf(ElasticsearchFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(ElasticsearchFormatter::class, $elasticsearchHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($elasticsearchHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($elasticsearchHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -345,22 +345,22 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
         $container->expects(self::never())
             ->method('get');
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client]);
+        $elasticsearchHandler = $elasticsearchHandlerFactory($container, '', ['client' => $client]);
 
-        self::assertInstanceOf(ElasticsearchHandler::class, $handler);
+        self::assertInstanceOf(ElasticsearchHandler::class, $elasticsearchHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $elasticsearchHandler->getLevel());
+        self::assertTrue($elasticsearchHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($elasticsearchHandler, 'client');
 
-        self::assertSame($client, $clientP->getValue($handler));
+        self::assertSame($client, $clientP->getValue($elasticsearchHandler));
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($elasticsearchHandler, 'options');
 
-        $optionsArray = $optionsP->getValue($handler);
+        $optionsArray = $optionsP->getValue($elasticsearchHandler);
 
         self::assertIsArray($optionsArray);
 
@@ -368,11 +368,11 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
         self::assertSame('_doc', $optionsArray['type']);
         self::assertFalse($optionsArray['ignore_error']);
 
-        self::assertInstanceOf(ElasticsearchFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(ElasticsearchFormatter::class, $elasticsearchHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($elasticsearchHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($elasticsearchHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -406,22 +406,22 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             ->with($client)
             ->willReturn($clientClass);
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false]);
+        $elasticsearchHandler = $elasticsearchHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false]);
 
-        self::assertInstanceOf(ElasticsearchHandler::class, $handler);
+        self::assertInstanceOf(ElasticsearchHandler::class, $elasticsearchHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $elasticsearchHandler->getLevel());
+        self::assertFalse($elasticsearchHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($elasticsearchHandler, 'client');
 
-        self::assertSame($clientClass, $clientP->getValue($handler));
+        self::assertSame($clientClass, $clientP->getValue($elasticsearchHandler));
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($elasticsearchHandler, 'options');
 
-        $optionsArray = $optionsP->getValue($handler);
+        $optionsArray = $optionsP->getValue($elasticsearchHandler);
 
         self::assertIsArray($optionsArray);
 
@@ -429,11 +429,11 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
         self::assertSame('_doc', $optionsArray['type']);
         self::assertTrue($optionsArray['ignore_error']);
 
-        self::assertInstanceOf(ElasticsearchFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(ElasticsearchFormatter::class, $elasticsearchHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($elasticsearchHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($elasticsearchHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -467,7 +467,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             ->with($client)
             ->willReturn($clientClass);
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
@@ -475,7 +475,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             sprintf('Formatter must be an Array or an Instance of %s', FormatterInterface::class),
         );
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $elasticsearchHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -496,17 +496,17 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
         $clientClass   = $clientBuilder->build();
         $index         = 'test-index';
         $type          = 'test-type';
-        $formatter     = $this->createMock(ElasticsearchFormatter::class);
+        $formatter     = $this->createStub(ElasticsearchFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $client, $clientClass): V8Client {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $client, $clientClass): V8Client {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame($client, $id, (string) $invocation),
@@ -524,7 +524,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
                 },
             );
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -532,7 +532,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             sprintf('Could not find service %s', MonologFormatterPluginManager::class),
         );
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $elasticsearchHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -554,7 +554,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
         $clientClass   = $clientBuilder->build();
         $index         = 'test-index';
         $type          = 'test-type';
-        $formatter     = $this->createMock(ElasticsearchFormatter::class);
+        $formatter     = $this->createStub(ElasticsearchFormatter::class);
 
         $monologFormatterPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologFormatterPluginManager->expects(self::never())
@@ -576,22 +576,22 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $elasticsearchHandler = $elasticsearchHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
 
-        self::assertInstanceOf(ElasticsearchHandler::class, $handler);
+        self::assertInstanceOf(ElasticsearchHandler::class, $elasticsearchHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $elasticsearchHandler->getLevel());
+        self::assertFalse($elasticsearchHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($elasticsearchHandler, 'client');
 
-        self::assertSame($clientClass, $clientP->getValue($handler));
+        self::assertSame($clientClass, $clientP->getValue($elasticsearchHandler));
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($elasticsearchHandler, 'options');
 
-        $optionsArray = $optionsP->getValue($handler);
+        $optionsArray = $optionsP->getValue($elasticsearchHandler);
 
         self::assertIsArray($optionsArray);
 
@@ -599,11 +599,11 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
         self::assertSame('_doc', $optionsArray['type']);
         self::assertTrue($optionsArray['ignore_error']);
 
-        self::assertSame($formatter, $handler->getFormatter());
+        self::assertSame($formatter, $elasticsearchHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($elasticsearchHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($elasticsearchHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);
@@ -627,7 +627,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
         $clientClass   = $clientBuilder->build();
         $index         = 'test-index';
         $type          = 'test-type';
-        $formatter     = $this->createMock(ElasticsearchFormatter::class);
+        $formatter     = $this->createStub(ElasticsearchFormatter::class);
 
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
@@ -641,7 +641,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -649,7 +649,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             '$monologFormatterPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
+        $elasticsearchHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'formatter' => $formatter]);
     }
 
     /**
@@ -680,13 +680,13 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             ->with($client)
             ->willReturn($clientClass);
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Processors must be an Array');
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $elasticsearchHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -743,13 +743,13 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', 'abc'));
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $elasticsearchHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -786,9 +786,9 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             $processor3,
         ];
 
-        $processor1 = $this->createMock(GitProcessor::class);
+        $processor1 = $this->createStub(GitProcessor::class);
 
-        $processor2 = $this->createMock(HostnameProcessor::class);
+        $processor2 = $this->createStub(HostnameProcessor::class);
 
         $monologProcessorPluginManager = $this->createMock(AbstractPluginManager::class);
         $monologProcessorPluginManager->expects(self::never())
@@ -816,22 +816,22 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $elasticsearchHandler = $elasticsearchHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
 
-        self::assertInstanceOf(ElasticsearchHandler::class, $handler);
+        self::assertInstanceOf(ElasticsearchHandler::class, $elasticsearchHandler);
 
-        self::assertSame(Level::Alert, $handler->getLevel());
-        self::assertFalse($handler->getBubble());
+        self::assertSame(Level::Alert, $elasticsearchHandler->getLevel());
+        self::assertFalse($elasticsearchHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($elasticsearchHandler, 'client');
 
-        self::assertSame($clientClass, $clientP->getValue($handler));
+        self::assertSame($clientClass, $clientP->getValue($elasticsearchHandler));
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($elasticsearchHandler, 'options');
 
-        $optionsArray = $optionsP->getValue($handler);
+        $optionsArray = $optionsP->getValue($elasticsearchHandler);
 
         self::assertIsArray($optionsArray);
 
@@ -839,9 +839,9 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
         self::assertSame('_doc', $optionsArray['type']);
         self::assertTrue($optionsArray['ignore_error']);
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($elasticsearchHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($elasticsearchHandler);
 
         self::assertIsArray($processors);
         self::assertCount(3, $processors);
@@ -894,12 +894,12 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects(self::never())
             ->method('has');
-        $matcher = self::exactly(2);
-        $container->expects($matcher)
+        $invokedCount = self::exactly(2);
+        $container->expects($invokedCount)
             ->method('get')
             ->willReturnCallback(
-                static function (string $id) use ($matcher, $client, $clientClass) {
-                    $invocation = $matcher->numberOfInvocations();
+                static function (string $id) use ($invokedCount, $client, $clientClass): V8Client {
+                    $invocation = $invokedCount->numberOfInvocations();
 
                     match ($invocation) {
                         1 => self::assertSame($client, $id, (string) $invocation),
@@ -917,7 +917,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
                 },
             );
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
@@ -925,7 +925,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             sprintf('Could not find service %s', MonologProcessorPluginManager::class),
         );
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $elasticsearchHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -981,7 +981,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
                 ],
             );
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
         $this->expectException(AssertionError::class);
         $this->expectExceptionCode(1);
@@ -989,7 +989,7 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             '$monologProcessorPluginManager should be an Instance of Laminas\ServiceManager\AbstractPluginManager, but was null',
         );
 
-        $factory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
+        $elasticsearchHandlerFactory($container, '', ['client' => $client, 'index' => $index, 'type' => $type, 'ignoreError' => true, 'level' => LogLevel::ALERT, 'bubble' => false, 'processors' => $processors]);
     }
 
     /**
@@ -1015,13 +1015,13 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             ->with(ClientPluginManager::class)
             ->willThrowException(new ServiceNotFoundException());
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', ClientPluginManager::class));
 
-        $factory($container, '', ['client' => $client]);
+        $elasticsearchHandlerFactory($container, '', ['client' => $client]);
     }
 
     /**
@@ -1057,13 +1057,13 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             ->with(ClientPluginManager::class)
             ->willReturn($monologClientPluginManager);
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not find service %s', V8Client::class));
 
-        $factory($container, '', ['client' => $clientConfig]);
+        $elasticsearchHandlerFactory($container, '', ['client' => $clientConfig]);
     }
 
     /**
@@ -1100,13 +1100,13 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             ->with(ClientPluginManager::class)
             ->willReturn($monologClientPluginManager);
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
         $this->expectException(ServiceNotCreatedException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage(sprintf('Could not create %s', V8Client::class));
 
-        $factory($container, '', ['client' => $clientConfig]);
+        $elasticsearchHandlerFactory($container, '', ['client' => $clientConfig]);
     }
 
     /**
@@ -1145,22 +1145,22 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
             ->with(ClientPluginManager::class)
             ->willReturn($monologClientPluginManager);
 
-        $factory = new ElasticsearchHandlerFactory();
+        $elasticsearchHandlerFactory = new ElasticsearchHandlerFactory();
 
-        $handler = $factory($container, '', ['client' => $clientConfig]);
+        $elasticsearchHandler = $elasticsearchHandlerFactory($container, '', ['client' => $clientConfig]);
 
-        self::assertInstanceOf(ElasticsearchHandler::class, $handler);
+        self::assertInstanceOf(ElasticsearchHandler::class, $elasticsearchHandler);
 
-        self::assertSame(Level::Debug, $handler->getLevel());
-        self::assertTrue($handler->getBubble());
+        self::assertSame(Level::Debug, $elasticsearchHandler->getLevel());
+        self::assertTrue($elasticsearchHandler->getBubble());
 
-        $clientP = new ReflectionProperty($handler, 'client');
+        $clientP = new ReflectionProperty($elasticsearchHandler, 'client');
 
-        self::assertSame($clientClass, $clientP->getValue($handler));
+        self::assertSame($clientClass, $clientP->getValue($elasticsearchHandler));
 
-        $optionsP = new ReflectionProperty($handler, 'options');
+        $optionsP = new ReflectionProperty($elasticsearchHandler, 'options');
 
-        $optionsArray = $optionsP->getValue($handler);
+        $optionsArray = $optionsP->getValue($elasticsearchHandler);
 
         self::assertIsArray($optionsArray);
 
@@ -1168,11 +1168,11 @@ final class ElasticsearchHandlerFactory2Test extends TestCase
         self::assertSame('_doc', $optionsArray['type']);
         self::assertFalse($optionsArray['ignore_error']);
 
-        self::assertInstanceOf(ElasticsearchFormatter::class, $handler->getFormatter());
+        self::assertInstanceOf(ElasticsearchFormatter::class, $elasticsearchHandler->getFormatter());
 
-        $proc = new ReflectionProperty($handler, 'processors');
+        $proc = new ReflectionProperty($elasticsearchHandler, 'processors');
 
-        $processors = $proc->getValue($handler);
+        $processors = $proc->getValue($elasticsearchHandler);
 
         self::assertIsArray($processors);
         self::assertCount(0, $processors);

@@ -107,11 +107,11 @@ final class RedisHandlerFactory implements FactoryInterface
             $capSize = $options['capSize'];
         }
 
-        $handler = new RedisHandler($client, $key, $level, $bubble, $capSize);
+        $redisHandler = new RedisHandler($client, $key, $level, $bubble, $capSize);
 
-        $this->addFormatter($container, $handler, $options);
-        $this->addProcessor($container, $handler, $options);
+        $this->addFormatter($container, $redisHandler, $options);
+        $this->addProcessor($container, $redisHandler, $options);
 
-        return $handler;
+        return $redisHandler;
     }
 }

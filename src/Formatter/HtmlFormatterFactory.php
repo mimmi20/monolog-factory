@@ -60,12 +60,12 @@ final class HtmlFormatterFactory implements FactoryInterface
             }
         }
 
-        $formatter = new HtmlFormatter($dateFormat);
+        $htmlFormatter = new HtmlFormatter($dateFormat);
 
-        $formatter->setMaxNormalizeDepth($maxNormalizeDepth);
-        $formatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
-        $formatter->setJsonPrettyPrint($prettyPrint);
+        $htmlFormatter->setMaxNormalizeDepth($maxNormalizeDepth);
+        $htmlFormatter->setMaxNormalizeItemCount($maxNormalizeItemCount);
+        $htmlFormatter->setJsonPrettyPrint($prettyPrint);
 
-        return $formatter;
+        return $htmlFormatter;
     }
 }
